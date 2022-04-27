@@ -47,6 +47,7 @@ luac.out
 # Libraries
 **/Libraries/Packages
 **/Libraries/ServerPackages
+.vscode
 
 # Files
 *.rbxl
