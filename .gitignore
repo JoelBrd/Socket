@@ -1,3 +1,6 @@
+# Created by https://www.gitignore.io/api/lua
+
+### Lua ###
 # Compiled Lua sources
 luac.out
 
@@ -39,3 +42,16 @@ luac.out
 *.x86_64
 *.hex
 
+# End of https://www.gitignore.io/api/lua
+
+# Libraries
+**/Libraries/Packages
+**/Libraries/ServerPackages
+
+# Files
+*.rbxl
+
+# Temp
+Documents/**
+oldsrc/**
+srcCopy/**

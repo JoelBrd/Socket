@@ -1,0 +1,32 @@
+{
+  "name": "Socket",
+  "tree": {
+    "$className": "DataModel",
+
+    "ServerScriptService": {
+      "$className": "ServerScriptService",
+      "SocketPlugin": {
+        "$path": "src/LoaderScript",
+        "PluginFramework": {
+          "$path": "src/PluginFramework",
+          "Shared": {
+            "$path": "src/Shared"
+          },
+          "Plugin": {
+            "$path": "src/Plugin"
+          },
+          "Plugs": {
+            "$path": "src/Plugs"
+          },
+          "Studio": {
+            "$path": "src/Studio"
+          },
+          "Socket": {
+            "$path": "src/Socket"
+          }
+        }
+      }
+    }
+
+  }
+}
