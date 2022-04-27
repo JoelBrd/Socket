@@ -1,0 +1,105 @@
+SOCKET RESEARCH
+
+===================
+Macro X
+
+Features
+ - Allow macro scripts to interact with the plugin e.g., ask for input, run other macros, display messages
+ - Add a new macro (by selecting a script)
+ - Delete/Run a macro by selecting it in widget
+ - View source of macros
+ - Add template macros
+ 
+Pros
+ - very easy to add a new macro; very simple syntax
+ - Easy to delete a macro
+ - A macro is held and managed in a script object
+ - Can prompt for input
+ - 1 button for each macro
+ 
+Cons
+ - Can't customise the name
+ - No dark theme
+ - Simple/Basic UI
+ - No centralised system on where to store scripts
+ 
+User Feedback
+ - better ui
+ - better solutions out there
+ 
+
+===================
+Macros
+
+Features
+ - Long macro names, with names on buttons
+ - Can define values (of different types) to run with the macro
+ - Centralised folder for managing the pluging e.g., adding new macros
+ - Item classes (for value types)
+ - Can define order that macros appear in
+ - Can refresh macros
+ 
+Pros
+ - Very nice features; centralised system, macros in scripts
+ - Can add/remove macros
+ - Dark mode
+ - Some very nice built-in macros
+ - buttons have a confirm state
+ 
+Cons
+ - Could do with more utility buttons on the widget e.g., add/remove macros, view macro source
+ - Not easy to add/remove macros; have to tick a bool value to refresh the macros
+ - UI taken up a lot by the value inputs fields
+ - project specific code
+ - define types using strings
+
+User Feedback
+ - have global macros accross different places
+ - bugs with scripts being cloned in team create
+ - wants compatability with rojo
+ 
+
+===================
+InCommand
+
+Features
+ - built in script editor
+ - type code in the script editor; run button to immediately run it
+ - can save via a save button, where you are prompted to give a name
+ - when saved, appears in the macro list with a delete and load button.
+ - can pop our the macro list from the script editor
+ - server/client
+ 
+Pros
+ - *Very* nice UI
+ - built in script editor with coloured stuff
+ - can run code on the server or client
+ - scripts save accross sessions
+ 
+Cons
+ - have to resave as "save as" instead of just "save"
+ - no feedback on clicking buttons
+ - script editor has no scroll, and takes up a lot of the screen
+ 
+User Feedback
+ - be able to undo changes
+ - script editor a nice idea, but roblox already offers a far superior solution
+ - issues with having multiple roblox studio instances running at once
+ - import button
+ - update saved scripts
+ - sometimes just lost scripts!
+ - be able to scale the UI for HiDPI screens/resolutions (e.g., text size)
+
+====================
+Socket design features
+
+ - undo/redo
+ 
+ 
+ 
+ 
+ ====================
+ Other research discoveries
+ https://sircfenner.github.io/StudioComponents/ roact studio components
+
+ 
