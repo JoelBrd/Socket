@@ -52,6 +52,7 @@ luac.out
 notes.txt
 .vscode
 *.rbxl
+*.rbxl.lock
 
 # Temp
 Documents/**
