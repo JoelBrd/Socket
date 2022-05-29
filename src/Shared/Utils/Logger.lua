@@ -99,7 +99,7 @@ end
 
 ---@param loggerLevel LoggerLevel
 local function writeSourceOutput(loggerLevel, ...)
-    return ("[🔌 %s] |%s| %s"):format(loggerLevel.Tag, getSourceName(), concatVars(...))
+    return ("🔌 %s |%s| %s"):format(loggerLevel.Tag, getSourceName(), concatVars(...))
 end
 
 ---
