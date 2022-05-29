@@ -1,5 +1,5 @@
 ---
----The main script for running Socket (when the player has "activated" the plugin + has the widget window open)
+---Socket Constants
 ---
 ---@class SocketConstants
 ---
@@ -20,6 +20,10 @@ SocketConstants.RoduxActionType = {
     UPDATE_PLUG = "UPDATE_PLUG",
     REMOVE_PLUG = "REMOVE_PLUG",
 } ---@type RoduxActionType[]
+
+SocketConstants.RoduxStoreKey = {
+    PLUGS = "PLUGS",
+}
 
 --------------------------------------------------
 -- Members

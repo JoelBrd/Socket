@@ -75,9 +75,12 @@
 --- ROACT-RODUX (v0.2.2, April 2022)
 --------------------------------------------------
 
+---@alias RoactRoduxMapStateToProps fun(state:RoduxState, props:table):table
+---@alias RoactRoduxMapDispatchToProps fun(dispatch:fun(action:RoduxAction)):table
+
 ---@class RoactRodux
----@field StoreProvider any todo
----@field connect fun() todo
+---@field StoreProvider string A Roact Component type
+---@field connect fun(mapStateToProps:RoactRoduxMapStateToProps, mapDispatchToProps:RoactRoduxMapDispatchToProps)
 
 --------------------------------------------------
 --- ROACT (v1.4.2, April 2022)
@@ -128,7 +131,7 @@
 ---@field getDerivedStateFromProps nil|fun(nextProps:table, lastState:table):table Used to recalculate any state that depends on being synchronized with props. Generally, you should use didUpdate to respond to props changing. If you find yourself copying props values to state as-is, consider using props or memoization instead. getDerivedStateFromProps should return a table that contains the part of the state that should be updated.
 
 ---@class RoactComponentType
----@field extend fun(name:string):RoactComponent
+---@field extend fun(self:RoactComponentType, name:string):RoactComponent
 
 ---@class RoactGlobalConfig
 ---@field typeChecks boolean

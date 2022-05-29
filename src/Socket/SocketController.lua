@@ -18,24 +18,17 @@ local Rodux ---@type Rodux
 local StudioHandler ---@type StudioHandler
 local SocketConstants ---@type SocketConstants
 local Logger ---@type Logger
+local SocketRoduxStoreController ---@type SocketRoduxStoreController
 
 --------------------------------------------------
 -- Constants
-local STORE_KEY_PLUGS = "PLUGS"
+-- ...
 
 --------------------------------------------------
 -- Members
+local roduxStore ---@type RoduxStore
 local runJanitor ---@type Janitor
-local isRunning = false
-
---- Plug files
-local plugModuleScripts = {} ---@type table<string, ModuleScript>
-
---- Rodux Store
-local roduxInitialState ---@type RoduxState
-local roduxReducer ---@type RoduxReducer
-local roduxMiddlewares ---@type RoduxMiddleware[]
-local roduxStore = {} ---@type RoduxStore
+local isRunning = false ---@type boolean
 
 ---
 ---Runs necessary routines when Socket gets activated
@@ -48,17 +41,17 @@ function SocketController:Run()
     isRunning = true
 
     -- Init store
-    roduxStore = Rodux.Store.new(roduxReducer, roduxInitialState, roduxMiddlewares)
+    roduxStore = SocketRoduxStoreController:GetRoduxStore()
 
-    -- Setup plugs
-    SocketController:SetupPlugManagement()
+    -- Setup plugs to populate store
+    SocketController:SetupPlugActions()
 end
 
 ---
 ---Runs the logic for manipulating our RoduxStore from the Plug files in studio.
 ---Called once per Run().
 ---
-function SocketController:SetupPlugManagement()
+function SocketController:SetupPlugActions()
     ---Will try require the current state of the passed moduleScript, by using a clone.
     ---@param moduleScript ModuleScript
     ---@return table|nil
@@ -160,8 +153,8 @@ function SocketController:SetupPlugManagement()
             local isPlugScript = cachedActiveScript:IsDescendantOf(plugsFolder)
             if isPlugScript then
                 -- Check if added; may not be added if newPlug() had a bad require call
-                print(roduxStore, roduxStore:getState())
-                local isAddedToStore = roduxStore:getState()[STORE_KEY_PLUGS][cachedActiveScript] and true or false
+                local storePlugs = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS]
+                local isAddedToStore = storePlugs[cachedActiveScript] and true or false
                 if isAddedToStore then
                     changedPlug(cachedActiveScript)
                 else
@@ -192,76 +185,6 @@ function SocketController:Stop()
     roduxStore = nil
 end
 
----
----Creates the global reducer to pass to our rodux store
----@return RoduxReducer
----
-function SocketController:CreateReducer()
-    local plugsReducer = Rodux.createReducer({}, {
-        -- Add; adds a new plug
-        [SocketConstants.RoduxActionType.ADD_PLUG] = function(state, action)
-            -- Rewrite current state (state is read only)
-            local newState = {}
-            for someModuleScript, somePlug in pairs(state) do
-                newState[someModuleScript] = somePlug
-            end
-
-            -- Get Data
-            local plug = action.data.plug ---@type PlugDefinition
-            local moduleScript = action.data.script ---@type ModuleScript
-
-            -- Write to state
-            newState[moduleScript] = plug
-
-            return newState
-        end,
-
-        -- Update; will overwrite the existing plug but preserves its .State
-        [SocketConstants.RoduxActionType.UPDATE_PLUG] = function(state, action)
-            -- Rewrite current state (state is read only)
-            local newState = {}
-            for someModuleScript, somePlug in pairs(state) do
-                newState[someModuleScript] = somePlug
-            end
-
-            -- Get Data
-            local plug = action.data.plug ---@type PlugDefinition
-            local moduleScript = action.data.script ---@type ModuleScript
-
-            -- Get state of current plug
-            local currentPlug = state[moduleScript] ---@type PlugDefinition
-            local currentPlugState = currentPlug.State
-
-            -- Update with new plug
-            plug.State = currentPlugState
-            newState[moduleScript] = plug
-
-            return newState
-        end,
-
-        -- Remove; gets rid of the plug!
-        [SocketConstants.RoduxActionType.REMOVE_PLUG] = function(state, action)
-            -- Rewrite current state (state is read only)
-            local newState = {}
-            for someModuleScript, somePlug in pairs(state) do
-                newState[someModuleScript] = somePlug
-            end
-
-            -- Get Data
-            local moduleScript = action.data.script ---@type ModuleScript
-
-            -- Remove from state
-            newState[moduleScript] = nil
-
-            return newState
-        end,
-    })
-
-    return Rodux.combineReducers({
-        [STORE_KEY_PLUGS] = plugsReducer,
-    })
-end
-
 ---@private
 function SocketController:FrameworkInit()
     Janitor = PluginFramework:Require("Janitor")
@@ -269,16 +192,12 @@ function SocketController:FrameworkInit()
     StudioHandler = PluginFramework:Require("StudioHandler")
     SocketConstants = PluginFramework:Require("SocketConstants")
     Logger = PluginFramework:Require("Logger")
+    SocketRoduxStoreController = PluginFramework:Require("SocketRoduxStoreController")
 end
 
 ---@private
 function SocketController:FrameworkStart()
     runJanitor = Janitor.new()
-
-    -- Rodux Store
-    roduxReducer = SocketController:CreateReducer()
-    roduxInitialState = nil
-    roduxMiddlewares = table.pack(Rodux.loggerMiddleware)
 end
 
 return SocketController

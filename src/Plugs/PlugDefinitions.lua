@@ -15,13 +15,19 @@ local PlugDefinitions = {}
 
 ---@class PlugDefinition
 ---@field Group string
+---@field GroupIcon string
 ---@field Name string
 ---@field Icon string
 ---@field Description string
----@field State table
+---@field State PlugState
 ---@field Keybind Enum.KeyCode[]
 ---@field Fields PlugField[]
 ---@field Function fun(self:PlugDefinition)
+
+---@class PlugState
+---@field FieldValues table<PlugField, string>
+---@field IsPlugOpen boolean
+---@field IsFieldsOpen boolean
 
 --------------------------------------------------
 -- Dependencies
@@ -61,6 +67,7 @@ function PlugDefinitions:FrameworkStart()
 
     plugDefinitionTemplate = {
         Group = "No Group",
+        GroupIcon = "❓",
         Name = "Plug",
         Description = "A Template Plug",
         Icon = ImageUtil.Images.Icon.Socket,

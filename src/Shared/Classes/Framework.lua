@@ -82,7 +82,12 @@ function Framework:LoadRecurse(directory)
     end
 
     -- RETURN: Ignore
-    if directory:FindFirstChild(FRAMEWORK_IGNORE_INSTANCE_NAME) then
+    local ignoreValueObject = directory:FindFirstChild(FRAMEWORK_IGNORE_INSTANCE_NAME) ---@type Insance
+    local ignoreValue = ignoreValueObject and ignoreValueObject:IsA("StringValue") and ignoreValueObject.Value
+    if ignoreValue and not (ignoreValue == "true" or ignoreValue == "false") then
+        Logger:Error(("Bad ignore value; must be a StringValue of `true` or `false` (%s)"):format(ignoreValueObject:GetFullName()))
+    end
+    if ignoreValue == "true" then
         return
     end
 
@@ -181,8 +186,8 @@ end
 ---
 function Framework:Require(moduleName)
     -- Wait until we're loaded
-    while not self:IsLoaded() do
-        wait()
+    if not self:IsLoaded() then
+        Logger:Error("Framework not loaded yet; is Require() called outside of Init()?")
     end
 
     -- ERROR: No module
