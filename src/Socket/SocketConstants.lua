@@ -15,15 +15,22 @@ local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---
 
 --------------------------------------------------
 -- Constants
-SocketConstants.RoduxActionType = {
-    ADD_PLUG = "ADD_PLUG",
-    UPDATE_PLUG = "UPDATE_PLUG",
-    REMOVE_PLUG = "REMOVE_PLUG",
-} ---@type RoduxActionType[]
 
 SocketConstants.RoduxStoreKey = {
-    PLUGS = "PLUGS",
-}
+    WIDGET = "WIDGET",
+} ---@type RoduxStoreKey[]
+
+SocketConstants.RoduxActionType = {
+    WIDGET = {
+        ADD_PLUG = "ADD_PLUG",
+        UPDATE_PLUG = "UPDATE_PLUG",
+        REMOVE_PLUG = "REMOVE_PLUG",
+        TOGGLE_GROUP = "TOGGLE_GROUP",
+        TOGGLE_PLUG = "TOGGLE_PLUG",
+        RUN_PLUG = "RUN_PLUG",
+        VIEW_PLUG_SOURCE = "VIEW_PLUG_SOURCE",
+    },
+} ---@type table<RoduxStoreKey, RoduxActionType[]>
 
 --------------------------------------------------
 -- Members

@@ -9,6 +9,7 @@
 ---@field data table
 
 ---@class RoduxActionType:string
+---@class RoduxStoreKey:string
 ---@class RoduxState
 ---@class RoduxNextDispatchResult
 

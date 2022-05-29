@@ -14,7 +14,7 @@ local SocketRoduxStoreController = {}
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local Rodux ---@type Rodux
 local SocketConstants ---@type SocketConstants
-local SocketRoduxStorePlugsReducer ---@type SocketRoduxStorePlugsReducer
+local SocketRoduxStoreWidgetReducer ---@type SocketRoduxStoreWidgetReducer
 
 --------------------------------------------------
 -- Constants
@@ -43,7 +43,7 @@ end
 ---
 function SocketRoduxStoreController:CreateGlobalReducer()
     return Rodux.combineReducers({
-        [SocketConstants.RoduxStoreKey.PLUGS] = SocketRoduxStorePlugsReducer:Get(),
+        [SocketConstants.RoduxStoreKey.WIDGET] = SocketRoduxStoreWidgetReducer:Get(),
     })
 end
 
@@ -51,7 +51,7 @@ end
 function SocketRoduxStoreController:FrameworkInit()
     Rodux = PluginFramework:Require("Rodux")
     SocketConstants = PluginFramework:Require("SocketConstants")
-    SocketRoduxStorePlugsReducer = PluginFramework:Require("SocketRoduxStorePlugsReducer")
+    SocketRoduxStoreWidgetReducer = PluginFramework:Require("SocketRoduxStoreWidgetReducer")
 end
 
 ---@private

@@ -80,7 +80,7 @@ function SocketController:SetupPlugActions()
             -- Update RoduxStore
             ---@type RoduxAction
             local action = {
-                type = SocketConstants.RoduxActionType.UPDATE_PLUG,
+                type = SocketConstants.RoduxActionType.WIDGET.UPDATE_PLUG,
                 data = {
                     plug = requiredClone,
                     script = moduleScript,
@@ -96,7 +96,7 @@ function SocketController:SetupPlugActions()
         -- Update RoduxStore
         ---@type RoduxAction
         local action = {
-            type = SocketConstants.RoduxActionType.REMOVE_PLUG,
+            type = SocketConstants.RoduxActionType.WIDGET.REMOVE_PLUG,
             data = {
                 script = moduleScript,
             },
@@ -112,7 +112,7 @@ function SocketController:SetupPlugActions()
             -- Update RoduxStore
             ---@type RoduxAction
             local action = {
-                type = SocketConstants.RoduxActionType.ADD_PLUG,
+                type = SocketConstants.RoduxActionType.WIDGET.ADD_PLUG,
                 data = {
                     plug = requiredClone,
                     script = moduleScript,
@@ -152,14 +152,19 @@ function SocketController:SetupPlugActions()
         if cachedActiveScript then
             local isPlugScript = cachedActiveScript:IsDescendantOf(plugsFolder)
             if isPlugScript then
-                -- Check if added; may not be added if newPlug() had a bad require call
-                local storePlugs = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS]
-                local isAddedToStore = storePlugs[cachedActiveScript] and true or false
-                if isAddedToStore then
-                    changedPlug(cachedActiveScript)
-                else
-                    newPlug(cachedActiveScript)
+                -- Search for plug
+                local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.WIDGET].Groups
+                for _, groupInfo in pairs(groups) do
+                    for plugScript, _ in pairs(groupInfo.Plugs) do
+                        if plugScript == cachedActiveScript then
+                            changedPlug(cachedActiveScript)
+                            return
+                        end
+                    end
                 end
+
+                -- Wasn't in memory
+                newPlug(cachedActiveScript)
             end
         end
 
