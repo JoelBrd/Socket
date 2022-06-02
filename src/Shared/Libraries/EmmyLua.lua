@@ -115,6 +115,7 @@
 ---@class RoactElement
 ---@class RoactFragment
 ---@class RoactRef
+---@class RoactTree
 
 ---@class RoactComponent
 ---@field defaultProps nil|table If defaultProps is defined on a stateful component, any props that arent specified when a component is created will be taken from there.
@@ -147,3 +148,18 @@
 ---@class RoactBinding
 ---@field getValue fun():any Returns the internal value of the binding. This is helpful when updating a binding relative to its current value.
 ---@field map fun(mappingFunction:fun(value:any):any):RoactBinding Returns a new binding that maps the existing bindings value to something else. For example, map can be used to transform an animation progress value like 0.4 into a property that can be consumed by a Roblox Instance like UDim2.new(0.4, 0, 1, 0).
+
+--------------------------------------------------
+--- PROMISE (v4.0.0, June 2022)
+--------------------------------------------------
+
+---@class PromiseStatus
+---@field Started PromiseStatus The Promise is executing, and not settled yet.
+---@field Resolved PromiseStatus The Promise finished successfully.
+---@field Rejected PromiseStatus The Promise was rejected.
+---@field Cancelled PromiseStatus The Promise was cancelled before it finished.
+
+--todo status
+
+---@class Promise
+---@field new fun(resolve:fun(...), reject:fun(...), onCancel:fun(abortHandler:fun()):boolean):Promise Construct a new Promise that will be resolved or rejected with the given callbacks.

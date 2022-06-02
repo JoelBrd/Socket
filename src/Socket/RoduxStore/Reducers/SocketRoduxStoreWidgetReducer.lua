@@ -30,7 +30,10 @@ function SocketRoduxStoreWidgetReducer:Get()
     return Rodux.createReducer({
         Groups = {},
     }, {
-        -- Add; adds a new plug
+
+        ---Add a plug to the widget
+        ---@param state RoduxState
+        ---@param action RoduxAction
         [SocketConstants.RoduxActionType.WIDGET.ADD_PLUG] = function(state, action)
             -- Read Action
             local plug = action.data.plug ---@type PlugDefinition
@@ -50,7 +53,7 @@ function SocketRoduxStoreWidgetReducer:Get()
                 or {
                     Plugs = {},
                     UIState = {
-                        IsOpen = false,
+                        IsOpen = true,
                     },
                 }
 
@@ -58,14 +61,16 @@ function SocketRoduxStoreWidgetReducer:Get()
             newState.Groups[plugGroup].Plugs[plugScript] = {
                 Plug = plug,
                 UIState = {
-                    IsOpen = false,
+                    IsOpen = true,
                 },
             }
 
             return newState
         end,
 
-        -- Update; will overwrite the existing plug but preserves its .State
+        ---Update a plug in the widget
+        ---@param state RoduxState
+        ---@param action RoduxAction
         [SocketConstants.RoduxActionType.WIDGET.UPDATE_PLUG] = function(state, action)
             -- Read Action
             local plug = action.data.plug ---@type PlugDefinition
@@ -120,7 +125,9 @@ function SocketRoduxStoreWidgetReducer:Get()
             return newState
         end,
 
-        -- Remove; gets rid of the plug!
+        ---Remove a plug from the widget
+        ---@param state RoduxState
+        ---@param action RoduxAction
         [SocketConstants.RoduxActionType.WIDGET.REMOVE_PLUG] = function(state, action)
             -- Read Action
             local plugScript = action.data.script

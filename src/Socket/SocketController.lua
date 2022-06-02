@@ -19,6 +19,7 @@ local StudioHandler ---@type StudioHandler
 local SocketConstants ---@type SocketConstants
 local Logger ---@type Logger
 local SocketRoduxStoreController ---@type SocketRoduxStoreController
+local WidgetHandler ---@type WidgetHandler
 
 --------------------------------------------------
 -- Constants
@@ -45,6 +46,16 @@ function SocketController:Run()
 
     -- Setup plugs to populate store
     SocketController:SetupPlugActions()
+
+    -- Tell the widget handler its go time
+    WidgetHandler:Run()
+end
+
+---
+---@return RoduxStore
+---
+function SocketController:GetStore()
+    return roduxStore
 end
 
 ---
@@ -188,6 +199,9 @@ function SocketController:Stop()
 
     -- Clear cache
     roduxStore = nil
+
+    -- Widget handler bye
+    WidgetHandler:Stop()
 end
 
 ---@private
@@ -198,6 +212,7 @@ function SocketController:FrameworkInit()
     SocketConstants = PluginFramework:Require("SocketConstants")
     Logger = PluginFramework:Require("Logger")
     SocketRoduxStoreController = PluginFramework:Require("SocketRoduxStoreController")
+    WidgetHandler = PluginFramework:Require("WidgetHandler")
 end
 
 ---@private

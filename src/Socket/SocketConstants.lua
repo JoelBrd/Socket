@@ -11,7 +11,7 @@ local SocketConstants = {}
 
 --------------------------------------------------
 -- Dependencies
-local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
+-- ...
 
 --------------------------------------------------
 -- Constants

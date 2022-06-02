@@ -46,8 +46,9 @@ function Framework:Constructor(...)
     self.directories = {} ---@type Instance[]
     self.moduleScriptsDict = {} ---@type table<string, ModuleScript>
     self.modulesDict = {} ---@type table<string, table>
-    self.modulesArray = {} ---@type table[]
+    self.customModulesDict = {} ---@type table<string, table>
     self.modulesPriorityStartOrder = {} ---@type table[] Priority list for calling Framework methods on modules
+    self.moduleNameByModule = {} ---@type table<table, string>
 end
 
 ---@private
@@ -67,7 +68,7 @@ function Framework:LoadModule(moduleScript)
 
     self.modulesDict[name] = requiredModule
     self.moduleScriptsDict[name] = moduleScript
-    table.insert(self.modulesArray, requiredModule)
+    self.moduleNameByModule[requiredModule] = name
 end
 
 ---@private
@@ -141,13 +142,16 @@ end
 ---
 ---Runs the FrameworkInit() functions on our loaded modules
 function Framework:RunInitFunctions()
-    for _, module in pairs(self.modulesArray) do
-        if module.FrameworkInit and not module._RanFrameworkInit then
-            module:FrameworkInit()
-        end
-        module._RanFrameworkInit = true
+    for moduleName, module in pairs(self.modulesDict) do
+        local isFrameworkModule = not self.customModulesDict[moduleName] and module._IsFrameworkModule
+        if isFrameworkModule then
+            if module.FrameworkInit and not module._RanFrameworkInit then
+                module:FrameworkInit()
+            end
+            module._RanFrameworkInit = true
 
-        table.insert(self.modulesPriorityStartOrder, module)
+            table.insert(self.modulesPriorityStartOrder, module)
+        end
     end
 end
 
@@ -156,10 +160,14 @@ end
 ---Runs the FrameworkStart() functions on our loaded modules
 function Framework:RunStartFunctions()
     for _, module in pairs(self.modulesPriorityStartOrder) do
-        if module.FrameworkStart and not module._RanFrameworkStart then
-            module:FrameworkStart()
+        local moduleName = self.moduleNameByModule[module]
+        local isFrameworkModule = not self.customModulesDict[moduleName] and module._IsFrameworkModule
+        if isFrameworkModule then
+            if module.FrameworkStart and not module._RanFrameworkStart then
+                module:FrameworkStart()
+            end
+            module._RanFrameworkStart = true
         end
-        module._RanFrameworkStart = true
     end
 end
 
@@ -176,7 +184,10 @@ function Framework:AddCustomModule(moduleName, moduleScript)
         Logger:Error(("Preexisting module cached under name %q"):format(moduleName))
     end
 
+    self.customModulesDict[moduleName] = module
     self.modulesDict[moduleName] = module
+    self.moduleScriptsDict[moduleName] = moduleScript
+    self.moduleNameByModule[module] = moduleName
 end
 
 ---
@@ -197,7 +208,8 @@ function Framework:Require(moduleName)
     end
 
     -- EDGE CASE: Start not run yet; prioritise!
-    if module._IsFrameworkModule and not module._RanFrameworkStart then
+    local isFrameworkModule = not self.customModulesDict[moduleName] and module._IsFrameworkModule
+    if isFrameworkModule and not module._RanFrameworkStart then
         local alreadyPrioritised = table.find(self.modulesPriorityStartOrder, module) and true or false
         if not alreadyPrioritised then
             table.insert(self.modulesPriorityStartOrder, module)
