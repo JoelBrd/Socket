@@ -1,5 +1,5 @@
 ---
---TODO description
+---Roact stuff for all the plugs
 ---
 ---@class RoactPlugContainer
 ---
@@ -7,13 +7,24 @@ local RoactPlugContainer = {}
 
 --------------------------------------------------
 -- Types
--- ...
+
+---@class RoactPlugContainerProps.GroupInfo
+---@field name string
+---@field plugs RoactPlugContainerProps.PlugInfo[]
+
+---@class RoactPlugContainerProps.PlugInfo
+---@field name string
+---@field plug PlugDefinition
+---@field moduleScript ModuleScript
 
 --------------------------------------------------
 -- Dependencies
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local Roact ---@type Roact
 local RoactRodux ---@type RoactRodux
+local SocketConstants ---@type SocketConstants
+local RoactPlugLines ---@type RoactPlugLines
+local WidgetConstants ---@type WidgetConstants
 
 --------------------------------------------------
 -- Constants
@@ -30,33 +41,32 @@ function RoactPlugContainer:Get()
     return Roact.createElement(PlugContainer)
 end
 
+---Creates all of the individual lines to populate the PlugContainer
+---@param props table
+---@return RoactFragment
+local function createLinesFragment(props)
+    -- Grab variables
+    local groups = props.groups ---@type RoactPlugContainerProps.GroupInfo[]
+    local elements = {}
+    local layoutOrderCount = 1
+
+    for _, group in pairs(groups) do
+        print(group)
+        -- Create group line
+        local elementName = ("%d_Group_%s"):format(layoutOrderCount, group.name)
+        elements[elementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
+            name = group.name,
+            --todo
+        })
+    end
+
+    return Roact.createFragment(elements)
+end
+
 ---
 ---@private
 ---
 function RoactPlugContainer:Create()
-    --------------------------------------------------
-    -- Create lines
-
-    ---@param props table
-    ---@return RoactFragment
-    local function getLinesFragment(props)
-        return Roact.createFragment({
-            Line1 = Roact.createElement("TextLabel", {
-                Text = "Line1",
-            }),
-        })
-    end
-
-    local function mapStateToProps(state, props)
-        return {}
-    end
-
-    local function mapDispatchToProps(dispatch)
-        return {}
-    end
-
-    getLinesFragment = RoactRodux.connect(mapStateToProps, mapDispatchToProps)(getLinesFragment)
-
     --------------------------------------------------
     -- Create PlugContainer
     PlugContainer = Roact.Component:extend("PlugContainer")
@@ -78,9 +88,66 @@ function RoactPlugContainer:Create()
                 FillDirection = Enum.FillDirection.Vertical,
                 SortOrder = Enum.SortOrder.LayoutOrder,
             }),
-            Lines = getLinesFragment(self.props),
+            Lines = createLinesFragment(self.props),
         })
     end
+
+    --------------------------------------------------
+    -- Connect RoactRodux
+
+    ---@param state RoduxState
+    ---@param props table
+    local function mapStateToProps(state, props)
+        -- Construct groups
+        local groups = {} ---@type RoactPlugContainerProps.GroupInfo[]
+        local stateGroups = state[SocketConstants.RoduxStoreKey.PLUGS].Groups
+        for groupName, groupChild in pairs(stateGroups) do
+            -- Create group info
+            local groupInfo = {
+                name = groupName,
+                plugs = {}, ---@type RoactPlugContainerProps.GroupInfo[]
+            } ---@type RoactPlugContainerProps.GroupInfo
+            table.insert(groups, groupInfo)
+
+            -- Construct plugs
+            for plugModuleScript, plugChild in pairs(groupChild.Plugs) do
+                -- Create plug info
+                local plug = plugChild.Plug ---@type PlugDefinition
+                local plugInfo = {
+                    name = plug.Name,
+                    plug = plug, ---@type PlugDefinition
+                    moduleScript = plugModuleScript,
+                } ---@type RoactPlugContainerProps.GroupInfo
+                table.insert(groupInfo.plugs, plugInfo)
+            end
+
+            -- Sort plugs
+            ---@param plugInfo0 RoactPlugContainerProps.PlugInfo
+            ---@param plugInfo1 RoactPlugContainerProps.PlugInfo
+            local function plugsSort(plugInfo0, plugInfo1)
+                return plugInfo0.name < plugInfo1.name
+            end
+            table.sort(groupInfo.plugs, plugsSort)
+        end
+
+        -- Sort groups
+        ---@param groupInfo0 RoactPlugContainerProps.GroupInfo
+        ---@param groupInfo1 RoactPlugContainerProps.GroupInfo
+        local function groupsSort(groupInfo0, groupInfo1)
+            return groupInfo0.name < groupInfo1.name
+        end
+        table.sort(groups, groupsSort)
+
+        -- Load on existing props
+        --todo
+
+        -- Return props
+        return {
+            groups = groups,
+        }
+    end
+
+    PlugContainer = RoactRodux.connect(mapStateToProps)(PlugContainer)
 end
 
 ---
@@ -91,6 +158,9 @@ end
 function RoactPlugContainer:FrameworkInit()
     Roact = PluginFramework:Require("Roact")
     RoactRodux = PluginFramework:Require("RoactRodux")
+    SocketConstants = PluginFramework:Require("SocketConstants")
+    RoactPlugLines = PluginFramework:Require("RoactPlugLines")
+    WidgetConstants = PluginFramework:Require("WidgetConstants")
 end
 
 ---

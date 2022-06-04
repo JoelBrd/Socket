@@ -17,11 +17,11 @@ local SocketConstants = {}
 -- Constants
 
 SocketConstants.RoduxStoreKey = {
-    WIDGET = "WIDGET",
+    PLUGS = "PLUGS",
 } ---@type RoduxStoreKey[]
 
 SocketConstants.RoduxActionType = {
-    WIDGET = {
+    PLUGS = {
         ADD_PLUG = "ADD_PLUG",
         UPDATE_PLUG = "UPDATE_PLUG",
         REMOVE_PLUG = "REMOVE_PLUG",

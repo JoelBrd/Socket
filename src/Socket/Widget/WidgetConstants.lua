@@ -33,8 +33,6 @@ WidgetConstants.RoactWidgetLine.Type = {
     Plug = "Plug",
     Keybind = "Keybind",
     Settings = "Settings",
-    Fields = "Fields",
-    Field = "Field",
 }
 
 WidgetConstants.RoactWidgetLine.Indent = {
@@ -42,8 +40,6 @@ WidgetConstants.RoactWidgetLine.Indent = {
     Plug = 1,
     Keybind = 2,
     Settings = 2,
-    Fields = 2,
-    Field = 3,
 }
 
 WidgetConstants.RoactWidgetLine.Pixel = {

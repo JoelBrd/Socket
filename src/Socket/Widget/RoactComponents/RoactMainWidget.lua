@@ -82,8 +82,6 @@ end
 ---
 ---Synchronously called, one after the other, with all other FrameworkStart()
 ---
-function RoactMainWidget:FrameworkStart()
-    RoactMainWidget:Create()
-end
+function RoactMainWidget:FrameworkStart() end
 
 return RoactMainWidget

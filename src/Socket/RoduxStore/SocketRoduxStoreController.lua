@@ -43,7 +43,7 @@ end
 ---
 function SocketRoduxStoreController:CreateGlobalReducer()
     return Rodux.combineReducers({
-        [SocketConstants.RoduxStoreKey.WIDGET] = SocketRoduxStoreWidgetReducer:Get(),
+        [SocketConstants.RoduxStoreKey.PLUGS] = SocketRoduxStoreWidgetReducer:Get(),
     })
 end
 

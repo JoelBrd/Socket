@@ -34,7 +34,7 @@ function SocketRoduxStoreWidgetReducer:Get()
         ---Add a plug to the widget
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.WIDGET.ADD_PLUG] = function(state, action)
+        [SocketConstants.RoduxActionType.PLUGS.ADD_PLUG] = function(state, action)
             -- Read Action
             local plug = action.data.plug ---@type PlugDefinition
             local plugScript = action.data.script
@@ -49,20 +49,13 @@ function SocketRoduxStoreWidgetReducer:Get()
 
             -- Ensure group for this plug exists
             local plugGroup = plug.Group
-            newState.Groups[plugGroup] = newState.Groups[plugGroup]
-                or {
-                    Plugs = {},
-                    UIState = {
-                        IsOpen = true,
-                    },
-                }
+            newState.Groups[plugGroup] = newState.Groups[plugGroup] or {
+                Plugs = {},
+            }
 
             -- Add plug to group
             newState.Groups[plugGroup].Plugs[plugScript] = {
                 Plug = plug,
-                UIState = {
-                    IsOpen = true,
-                },
             }
 
             return newState
@@ -71,7 +64,7 @@ function SocketRoduxStoreWidgetReducer:Get()
         ---Update a plug in the widget
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.WIDGET.UPDATE_PLUG] = function(state, action)
+        [SocketConstants.RoduxActionType.PLUGS.UPDATE_PLUG] = function(state, action)
             -- Read Action
             local plug = action.data.plug ---@type PlugDefinition
             local plugScript = action.data.script
@@ -86,12 +79,10 @@ function SocketRoduxStoreWidgetReducer:Get()
 
             -- Read stored version of this plug
             local storedPlug ---@type PlugDefinition
-            local storedUIState ---@type table
             for _, groupData in pairs(newState.Groups) do
                 for somePlugScript, somePlugInfo in pairs(groupData.Plugs) do
                     if somePlugScript == plugScript then
                         storedPlug = somePlugInfo.Plug
-                        storedUIState = somePlugInfo.UIState
                         groupData.Plugs[somePlugScript] = nil
                         break
                     end
@@ -107,14 +98,11 @@ function SocketRoduxStoreWidgetReducer:Get()
             local plugGroup = plug.Group
 
             -- Update plug in group
-            newState.Groups[plugGroup] = newState.Groups[plugGroup]
-                or {
-                    Plugs = {},
-                    State = {},
-                }
+            newState.Groups[plugGroup] = newState.Groups[plugGroup] or {
+                Plugs = {},
+            }
             newState.Groups[plugGroup].Plugs[plugScript] = {
                 Plug = plug,
-                UIState = storedUIState,
             }
 
             -- Clear old group if needed (.Group may have changed)
@@ -128,7 +116,7 @@ function SocketRoduxStoreWidgetReducer:Get()
         ---Remove a plug from the widget
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.WIDGET.REMOVE_PLUG] = function(state, action)
+        [SocketConstants.RoduxActionType.PLUGS.REMOVE_PLUG] = function(state, action)
             -- Read Action
             local plugScript = action.data.script
 

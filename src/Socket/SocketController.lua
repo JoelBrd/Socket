@@ -91,7 +91,7 @@ function SocketController:SetupPlugActions()
             -- Update RoduxStore
             ---@type RoduxAction
             local action = {
-                type = SocketConstants.RoduxActionType.WIDGET.UPDATE_PLUG,
+                type = SocketConstants.RoduxActionType.PLUGS.UPDATE_PLUG,
                 data = {
                     plug = requiredClone,
                     script = moduleScript,
@@ -107,7 +107,7 @@ function SocketController:SetupPlugActions()
         -- Update RoduxStore
         ---@type RoduxAction
         local action = {
-            type = SocketConstants.RoduxActionType.WIDGET.REMOVE_PLUG,
+            type = SocketConstants.RoduxActionType.PLUGS.REMOVE_PLUG,
             data = {
                 script = moduleScript,
             },
@@ -123,7 +123,7 @@ function SocketController:SetupPlugActions()
             -- Update RoduxStore
             ---@type RoduxAction
             local action = {
-                type = SocketConstants.RoduxActionType.WIDGET.ADD_PLUG,
+                type = SocketConstants.RoduxActionType.PLUGS.ADD_PLUG,
                 data = {
                     plug = requiredClone,
                     script = moduleScript,
@@ -164,7 +164,7 @@ function SocketController:SetupPlugActions()
             local isPlugScript = cachedActiveScript:IsDescendantOf(plugsFolder)
             if isPlugScript then
                 -- Search for plug
-                local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.WIDGET].Groups
+                local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
                 for _, groupInfo in pairs(groups) do
                     for plugScript, _ in pairs(groupInfo.Plugs) do
                         if plugScript == cachedActiveScript then
