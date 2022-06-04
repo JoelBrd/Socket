@@ -223,6 +223,13 @@ function PluginHandler:GetWidget()
 end
 
 ---
+---@return Plugin
+---
+function PluginHandler:GetPlugin()
+    return plugin
+end
+
+---
 ---@private
 ---
 ---Asynchronously called with all other FrameworkInit()

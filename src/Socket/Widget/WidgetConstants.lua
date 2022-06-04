@@ -20,6 +20,8 @@ WidgetConstants.Images = {
 
 WidgetConstants.Icons = {
     Unknown = "❓",
+    Keybind = "*️⃣",
+    Settings = "⚙️",
 }
 
 WidgetConstants.Font = {

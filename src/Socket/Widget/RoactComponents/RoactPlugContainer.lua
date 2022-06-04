@@ -76,6 +76,22 @@ local function createLinesFragment(props)
                 icon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown,
                 layoutOrder = layoutOrderCount,
             })
+
+            -- Create keybind line
+            layoutOrderCount = layoutOrderCount + 1
+            local keybindElementName = ("%d_Group_%s_Plug_%s_Keybind"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
+            elements[keybindElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
+                keybind = plugInfo.plug.Keybind or {},
+                layoutOrder = layoutOrderCount,
+            })
+
+            -- Create setting line
+            layoutOrderCount = layoutOrderCount + 1
+            local settingsElementName = ("%d_Group_%s_Plug_%s_Settings"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
+            elements[settingsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Settings, {
+                moduleScript = plugInfo.moduleScript,
+                layoutOrder = layoutOrderCount,
+            })
         end
     end
 

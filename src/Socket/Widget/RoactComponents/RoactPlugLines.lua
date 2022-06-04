@@ -17,6 +17,7 @@ local RoactRodux ---@type RoactRodux
 local SocketConstants ---@type SocketConstants
 local WidgetConstants ---@type WidgetConstants
 local Logger ---@type Logger
+local PluginHandler ---@type PluginHandler
 
 --------------------------------------------------
 -- Constants
@@ -42,6 +43,23 @@ local function createLine(props)
     local arrowContainerWidthPixel = WidgetConstants.RoactWidgetLine.Pixel.ArrowWidth - LINE_PADDING * 2
     local iconContainerWidthPixel = WidgetConstants.RoactWidgetLine.Pixel.IconWidth - LINE_PADDING * 2
     local detailsHolderWidthPixel = -(leftPaddingWidthPixel + arrowContainerWidthPixel + iconContainerWidthPixel)
+
+    -- Create children for arrow container
+    local arrowContainerChildren = {} ---@type RoactElement[]
+    if isOpen ~= nil then
+        table.insert(
+            arrowContainerChildren,
+            Roact.createElement("ImageButton", {
+                BackgroundTransparency = 1,
+                Size = UDim2.fromScale(1, 1),
+                ImageColor3 = Color3.fromRGB(0, 0, 0),
+                Image = WidgetConstants.Images.Arrow,
+                Rotation = isOpen and 90 or 0,
+
+                [Roact.Event.Activated] = onArrowClick,
+            })
+        )
+    end
 
     return Roact.createElement("Frame", {
         BackgroundTransparency = 1,
@@ -69,17 +87,7 @@ local function createLine(props)
             SizeConstraint = Enum.SizeConstraint.RelativeYY,
             Size = UDim2.new(1, 0, 0, arrowContainerWidthPixel),
             BackgroundTransparency = 1,
-        }, {
-            ImageButton = Roact.createElement("ImageButton", {
-                BackgroundTransparency = 1,
-                Size = UDim2.fromScale(1, 1),
-                ImageColor3 = Color3.fromRGB(0, 0, 0),
-                Image = WidgetConstants.Images.Arrow,
-                Rotation = isOpen and 90 or 0,
-
-                [Roact.Event.Activated] = onArrowClick,
-            }),
-        }),
+        }, arrowContainerChildren),
         IconContainer = Roact.createElement("Frame", {
             LayoutOrder = 3,
             SizeConstraint = Enum.SizeConstraint.RelativeYY,
@@ -200,6 +208,118 @@ local function getPlug(props)
     })
 end
 
+---@param props table
+---@return RoactElement
+local function getKeybind(props)
+    -- Read props
+    local keybind = props.keybind ---@type Enum.KeyCode[]
+    local layoutOrder = props.layoutOrder ---@type number
+
+    -- Create keybind string
+    local keybindString ---@type string
+    if #keybind > 0 then
+        keybindString = keybind[1].Name
+        for i = 2, #keybind do
+            keybindString = ("%s + %s"):format(keybindString, keybind[i].Name)
+        end
+    else
+        keybindString = "None"
+    end
+
+    -- Create Details
+    local detailsContainer = Roact.createElement("Frame", {
+        BackgroundTransparency = 1,
+        Size = UDim2.fromScale(1, 1),
+    }, {
+        UIPadding = Roact.createElement("UIPadding", {
+            PaddingLeft = UDim.new(0, 2),
+        }),
+        TitleLabel = Roact.createElement("TextLabel", {
+            LayoutOrder = 1,
+            BackgroundTransparency = 1,
+            TextScaled = true,
+            Font = WidgetConstants.Font,
+            Text = "Keybind",
+            Size = UDim2.fromScale(1, 1),
+            TextXAlignment = Enum.TextXAlignment.Left,
+        }),
+        KeybindLabel = Roact.createElement("TextLabel", {
+            LayoutOrder = 2,
+            BackgroundTransparency = 1,
+            TextScaled = true,
+            Font = WidgetConstants.Font,
+            Text = keybindString,
+            Size = UDim2.fromScale(1, 1),
+            TextXAlignment = Enum.TextXAlignment.Right,
+        }),
+    })
+
+    -- Return line
+    return createLine({
+        indent = WidgetConstants.RoactWidgetLine.Indent.Keybind,
+        icon = WidgetConstants.Icons.Keybind,
+        detailsContainer = detailsContainer,
+        layoutOrder = layoutOrder,
+    })
+end
+
+---@param props table
+---@return RoactElement
+local function getSettings(props)
+    -- Read props
+    local layoutOrder = props.layoutOrder ---@type number
+    local moduleScript = props.moduleScript ---@type ModuleScript
+
+    -- Create Details
+    local detailsContainer = Roact.createElement("Frame", {
+        BackgroundTransparency = 1,
+        Size = UDim2.fromScale(1, 1),
+    }, {
+        UIPadding = Roact.createElement("UIPadding", {
+            PaddingBottom = UDim.new(0, 1),
+            PaddingLeft = UDim.new(0, 4),
+            PaddingRight = UDim.new(0, 5),
+            PaddingTop = UDim.new(0, 1),
+        }),
+        UIListLayout = Roact.createElement("UIListLayout", {
+            FillDirection = Enum.FillDirection.Horizontal,
+            HorizontalAlignment = Enum.HorizontalAlignment.Left,
+            SortOrder = Enum.SortOrder.LayoutOrder,
+            Padding = UDim.new(0, 5),
+        }),
+        ViewSource = Roact.createElement("TextButton", {
+            LayoutOrder = 1,
+            TextScaled = true,
+            Font = WidgetConstants.Font,
+            Text = "View Source",
+            Size = UDim2.fromScale(0.7, 1),
+
+            [Roact.Event.Activated] = function()
+                PluginHandler:GetPlugin():OpenScript(moduleScript)
+            end,
+        }),
+        Delete = Roact.createElement("TextButton", {
+            LayoutOrder = 2,
+            TextScaled = true,
+            Font = WidgetConstants.Font,
+            Text = "Delete",
+            Size = UDim2.fromScale(0.3, 1),
+
+            [Roact.Event.Activated] = function()
+                print("Destroy", moduleScript)
+            end,
+        }),
+    })
+
+    -- Return line
+    return createLine({
+        indent = WidgetConstants.RoactWidgetLine.Indent.Settings,
+        icon = WidgetConstants.Icons.Settings,
+        detailsContainer = detailsContainer,
+        layoutOrder = layoutOrder,
+    })
+end
+
 ---
 ---@param lineType string WidgetConstants.RoactWidgetLine.Type
 ---@param props table
@@ -225,6 +345,7 @@ function RoactPlugLines:FrameworkInit()
     SocketConstants = PluginFramework:Require("SocketConstants")
     WidgetConstants = PluginFramework:Require("WidgetConstants")
     Logger = PluginFramework:Require("Logger")
+    PluginHandler = PluginFramework:Require("PluginHandler")
 end
 
 ---
@@ -235,6 +356,8 @@ end
 function RoactPlugLines:FrameworkStart()
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Group] = getGroup
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Plug] = getPlug
+    gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Keybind] = getKeybind
+    gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Settings] = getSettings
 end
 
 return RoactPlugLines
