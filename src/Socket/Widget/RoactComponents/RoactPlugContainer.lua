@@ -56,46 +56,64 @@ local function createLinesFragment(props)
     local layoutOrderCount = 0
 
     for _, groupInfo in pairs(groups) do
-        -- Create group line
-        layoutOrderCount = layoutOrderCount + 1
-        local groupElementName = ("%d_Group_%s"):format(layoutOrderCount, groupInfo.name)
-        elements[groupElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
-            name = groupInfo.name,
-            isOpen = groupInfo.isOpen,
-            totalPlugs = #groupInfo.plugs,
-            icon = groupInfo.icon or WidgetConstants.Icons.Unknown,
-            layoutOrder = layoutOrderCount,
-        })
-
-        -- Create plugs
-        for _, plugInfo in pairs(groupInfo.plugs) do
-            -- Create plug line
+        if groupInfo.isVisible then
+            -- Create group line
             layoutOrderCount = layoutOrderCount + 1
-            local plugElementName = ("%d_Group_%s_Plug_%s"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
-            elements[plugElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Plug, {
-                name = plugInfo.name,
-                isOpen = plugInfo.isOpen,
-                icon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown,
-                layoutOrder = layoutOrderCount,
-                plug = plugInfo.plug,
-            })
-
-            -- Create keybind line
-            layoutOrderCount = layoutOrderCount + 1
-            local keybindElementName = ("%d_Group_%s_Plug_%s_Keybind"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
-            elements[keybindElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
-                keybind = plugInfo.plug.Keybind or {},
+            local groupElementName = ("%d_Group_%s"):format(layoutOrderCount, groupInfo.name)
+            elements[groupElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
+                name = groupInfo.name,
+                isOpen = groupInfo.isOpen,
+                totalPlugs = #groupInfo.plugs,
+                icon = groupInfo.icon or WidgetConstants.Icons.Unknown,
                 layoutOrder = layoutOrderCount,
             })
 
-            -- Create setting line
-            layoutOrderCount = layoutOrderCount + 1
-            local settingsElementName = ("%d_Group_%s_Plug_%s_Settings"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
-            elements[settingsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Settings, {
-                moduleScript = plugInfo.moduleScript,
-                layoutOrder = layoutOrderCount,
-                plug = plugInfo.plug,
-            })
+            if groupInfo.isOpen then
+                -- Create plugs
+                for _, plugInfo in pairs(groupInfo.plugs) do
+                    if plugInfo.isVisible then
+                        -- Create plug line
+                        layoutOrderCount = layoutOrderCount + 1
+                        local plugElementName = ("%d_Group_%s_Plug_%s"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
+                        elements[plugElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Plug, {
+                            name = plugInfo.name,
+                            isOpen = plugInfo.isOpen,
+                            icon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown,
+                            layoutOrder = layoutOrderCount,
+                            plug = plugInfo.plug,
+                            plugScript = plugInfo.moduleScript,
+                        })
+
+                        -- Create child lines
+                        if plugInfo.isOpen then
+                            -- Create keybind line
+                            layoutOrderCount = layoutOrderCount + 1
+                            local keybindElementName = ("%d_Group_%s_Plug_%s_Keybind"):format(
+                                layoutOrderCount,
+                                groupInfo.name,
+                                plugInfo.name
+                            )
+                            elements[keybindElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
+                                keybind = plugInfo.plug.Keybind or {},
+                                layoutOrder = layoutOrderCount,
+                            })
+
+                            -- Create setting line
+                            layoutOrderCount = layoutOrderCount + 1
+                            local settingsElementName = ("%d_Group_%s_Plug_%s_Settings"):format(
+                                layoutOrderCount,
+                                groupInfo.name,
+                                plugInfo.name
+                            )
+                            elements[settingsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Settings, {
+                                moduleScript = plugInfo.moduleScript,
+                                layoutOrder = layoutOrderCount,
+                                plug = plugInfo.plug,
+                            })
+                        end
+                    end
+                end
+            end
         end
     end
 
@@ -137,15 +155,21 @@ function RoactPlugContainer:Create()
     ---@param state RoduxState
     ---@param props table
     local function mapStateToProps(state, props)
+        -- ODD FIX: Ignore duplicate call
+        if props.innerProps then
+            return
+        end
+
         -- Construct groups
         local groups = {} ---@type RoactPlugContainerProps.GroupInfo[]
-        local stateGroups = state[SocketConstants.RoduxStoreKey.PLUGS].Groups
+        local plugsState = state[SocketConstants.RoduxStoreKey.PLUGS]
+        local stateGroups = plugsState.Groups
         for groupName, groupChild in pairs(stateGroups) do
             -- Create group info
             local groupInfo = {
                 name = groupName,
                 icon = nil,
-                isOpen = true,
+                isOpen = groupChild.UIState.IsOpen,
                 isVisible = true,
                 plugs = {}, ---@type RoactPlugContainerProps.GroupInfo[]
             } ---@type RoactPlugContainerProps.GroupInfo
@@ -157,7 +181,7 @@ function RoactPlugContainer:Create()
                 local plug = plugChild.Plug ---@type PlugDefinition
                 local plugInfo = {
                     name = plug.Name,
-                    isOpen = true,
+                    isOpen = plugChild.UIState.IsOpen,
                     isVisible = true,
                     plug = plug, ---@type PlugDefinition
                     moduleScript = plugModuleScript,
@@ -187,8 +211,12 @@ function RoactPlugContainer:Create()
         end
         table.sort(groups, groupsSort)
 
-        -- Load on existing props
-        --todo
+        -- Filter visibility from searchText
+        local searchText = plugsState.SearchText ---@type string
+        if searchText:len() > 0 then
+            --todo
+            print("todo")
+        end
 
         -- Return props
         return {

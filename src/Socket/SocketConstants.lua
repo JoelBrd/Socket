@@ -25,10 +25,8 @@ SocketConstants.RoduxActionType = {
         ADD_PLUG = "ADD_PLUG",
         UPDATE_PLUG = "UPDATE_PLUG",
         REMOVE_PLUG = "REMOVE_PLUG",
-        TOGGLE_GROUP = "TOGGLE_GROUP",
-        TOGGLE_PLUG = "TOGGLE_PLUG",
-        RUN_PLUG = "RUN_PLUG",
-        VIEW_PLUG_SOURCE = "VIEW_PLUG_SOURCE",
+        TOGGLE_GROUP_VISIBILITY = "TOGGLE_GROUP_VISIBILITY",
+        TOGGLE_PLUG_VISIBILITY = "TOGGLE_PLUG_VISIBILITY",
     },
 } ---@type table<RoduxStoreKey, RoduxActionType[]>
 

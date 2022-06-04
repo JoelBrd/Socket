@@ -19,6 +19,7 @@ local WidgetConstants ---@type WidgetConstants
 local Logger ---@type Logger
 local PluginHandler ---@type PluginHandler
 local RoactButton ---@type RoactButton
+local SocketController ---@type SocketController
 
 --------------------------------------------------
 -- Constants
@@ -34,8 +35,8 @@ local function createLine(props)
     -- Read props
     local indent = props.indent ---@type number
     local isOpen = props.isOpen ---@type boolean
+    local onArrowClick = props.onArrowClick ---@type function optional (required when isOpen ~= nil)
     local icon = props.icon ---@type string
-    local onArrowClick = props.onArrowClick ---@type function
     local detailsContainer = props.detailsContainer ---@type RoactElement
     local layoutOrder = props.layoutOrder ---@type number
 
@@ -143,15 +144,29 @@ local function getGroup(props)
         }),
     })
 
+    -- Arrow callback
+    local function onArrowClick()
+        -- Get Store
+        local roduxStore = SocketController:GetStore()
+
+        -- Send action
+        ---@type RoduxAction
+        local action = {
+            type = SocketConstants.RoduxActionType.PLUGS.TOGGLE_GROUP_VISIBILITY,
+            data = {
+                group = name,
+            },
+        }
+        roduxStore:dispatch(action)
+    end
+
     -- Return line
     return createLine({
         indent = WidgetConstants.RoactWidgetLine.Indent.Group,
         isOpen = isOpen,
         icon = icon,
         detailsContainer = detailsContainer,
-        onArrowClick = function()
-            print("Toggle", name)
-        end,
+        onArrowClick = onArrowClick,
         layoutOrder = layoutOrder,
     })
 end
@@ -165,6 +180,7 @@ local function getPlug(props)
     local icon = props.icon ---@type string
     local layoutOrder = props.layoutOrder ---@type number
     local plug = props.plug ---@type PlugDefinition
+    local plugScript = props.plugScript ---@type ModuleScript
 
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
@@ -206,15 +222,29 @@ local function getPlug(props)
         }),
     })
 
+    -- Arrow callback
+    local function onArrowClick()
+        -- Get Store
+        local roduxStore = SocketController:GetStore()
+
+        -- Send action
+        ---@type RoduxAction
+        local action = {
+            type = SocketConstants.RoduxActionType.PLUGS.TOGGLE_PLUG_VISIBILITY,
+            data = {
+                script = plugScript,
+            },
+        }
+        roduxStore:dispatch(action)
+    end
+
     -- Return line
     return createLine({
         indent = WidgetConstants.RoactWidgetLine.Indent.Plug,
         isOpen = isOpen,
         icon = icon,
         detailsContainer = detailsContainer,
-        onArrowClick = function()
-            print("Toggle", name)
-        end,
+        onArrowClick = onArrowClick,
         layoutOrder = layoutOrder,
     })
 end
@@ -367,6 +397,7 @@ function RoactPlugLines:FrameworkInit()
     Logger = PluginFramework:Require("Logger")
     PluginHandler = PluginFramework:Require("PluginHandler")
     RoactButton = PluginFramework:Require("RoactButton")
+    SocketController = PluginFramework:Require("SocketController")
 end
 
 ---

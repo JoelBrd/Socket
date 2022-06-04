@@ -29,6 +29,7 @@ local TableUtil ---@type TableUtil
 function SocketRoduxStoreWidgetReducer:Get()
     return Rodux.createReducer({
         Groups = {},
+        SearchText = "",
     }, {
 
         ---Add a plug to the widget
@@ -42,6 +43,7 @@ function SocketRoduxStoreWidgetReducer:Get()
             -- Recreate state
             local newState = {
                 Groups = {},
+                SearchText = state.SearchText,
             }
             for groupName, groupData in pairs(state.Groups) do
                 newState.Groups[groupName] = groupData
@@ -49,13 +51,20 @@ function SocketRoduxStoreWidgetReducer:Get()
 
             -- Ensure group for this plug exists
             local plugGroup = plug.Group
-            newState.Groups[plugGroup] = newState.Groups[plugGroup] or {
-                Plugs = {},
-            }
+            newState.Groups[plugGroup] = newState.Groups[plugGroup]
+                or {
+                    Plugs = {},
+                    UIState = {
+                        IsOpen = true,
+                    },
+                }
 
             -- Add plug to group
             newState.Groups[plugGroup].Plugs[plugScript] = {
                 Plug = plug,
+                UIState = {
+                    IsOpen = false,
+                },
             }
 
             return newState
@@ -72,6 +81,7 @@ function SocketRoduxStoreWidgetReducer:Get()
             -- Recreate state
             local newState = {
                 Groups = {},
+                SearchText = state.SearchText,
             }
             for groupName, groupData in pairs(state.Groups) do
                 newState.Groups[groupName] = groupData
@@ -79,10 +89,12 @@ function SocketRoduxStoreWidgetReducer:Get()
 
             -- Read stored version of this plug
             local storedPlug ---@type PlugDefinition
+            local storedUIState ---@type table
             for _, groupData in pairs(newState.Groups) do
                 for somePlugScript, somePlugInfo in pairs(groupData.Plugs) do
                     if somePlugScript == plugScript then
                         storedPlug = somePlugInfo.Plug
+                        storedUIState = somePlugInfo.UIState
                         groupData.Plugs[somePlugScript] = nil
                         break
                     end
@@ -98,11 +110,16 @@ function SocketRoduxStoreWidgetReducer:Get()
             local plugGroup = plug.Group
 
             -- Update plug in group
-            newState.Groups[plugGroup] = newState.Groups[plugGroup] or {
-                Plugs = {},
-            }
+            newState.Groups[plugGroup] = newState.Groups[plugGroup]
+                or {
+                    Plugs = {},
+                    UIState = {
+                        IsOpen = true,
+                    },
+                }
             newState.Groups[plugGroup].Plugs[plugScript] = {
                 Plug = plug,
+                UIState = storedUIState,
             }
 
             -- Clear old group if needed (.Group may have changed)
@@ -123,6 +140,7 @@ function SocketRoduxStoreWidgetReducer:Get()
             -- Recreate state
             local newState = {
                 Groups = {},
+                SearchText = state.SearchText,
             }
             for groupName, groupData in pairs(state.Groups) do
                 newState.Groups[groupName] = groupData
@@ -148,6 +166,61 @@ function SocketRoduxStoreWidgetReducer:Get()
             local groupName = clearedPlug.Group
             if TableUtil:Size(newState.Groups[groupName].Plugs) == 0 then
                 newState.Groups[groupName] = nil
+            end
+
+            return newState
+        end,
+
+        ---Show/Hide group children from the widget
+        ---@param state RoduxState
+        ---@param action RoduxAction
+        [SocketConstants.RoduxActionType.PLUGS.TOGGLE_GROUP_VISIBILITY] = function(state, action)
+            -- Read Action
+            local group = action.data.group ---@type string
+
+            -- Recreate state
+            local newState = {
+                Groups = {},
+                SearchText = state.SearchText,
+            }
+            for groupName, groupData in pairs(state.Groups) do
+                newState.Groups[groupName] = groupData
+            end
+
+            -- Toggle visibility for specified group name
+            for groupName, groupData in pairs(newState.Groups) do
+                if groupName == group then
+                    groupData.UIState.IsOpen = not groupData.UIState.IsOpen
+                end
+            end
+
+            return newState
+        end,
+
+        ---Show/Hide plug children from the widget
+        ---@param state RoduxState
+        ---@param action RoduxAction
+        [SocketConstants.RoduxActionType.PLUGS.TOGGLE_PLUG_VISIBILITY] = function(state, action)
+            -- Read Action
+            local plugScript = action.data.script
+
+            -- Recreate state
+            local newState = {
+                Groups = {},
+                SearchText = state.SearchText,
+            }
+            for groupName, groupData in pairs(state.Groups) do
+                newState.Groups[groupName] = groupData
+            end
+
+            -- Toggle visibility for specified plug
+            for _, groupData in pairs(newState.Groups) do
+                for somePlugScript, somePlugInfo in pairs(groupData.Plugs) do
+                    if somePlugScript == plugScript then
+                        somePlugInfo.UIState.IsOpen = not somePlugInfo.UIState.IsOpen
+                        return newState
+                    end
+                end
             end
 
             return newState
