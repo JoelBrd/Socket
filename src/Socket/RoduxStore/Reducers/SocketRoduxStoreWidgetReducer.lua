@@ -225,6 +225,25 @@ function SocketRoduxStoreWidgetReducer:Get()
 
             return newState
         end,
+
+        ---Update search text
+        ---@param state RoduxState
+        ---@param action RoduxAction
+        [SocketConstants.RoduxActionType.PLUGS.SEARCH_TEXT] = function(state, action)
+            -- Read Action
+            local text = action.data.text
+
+            -- Recreate state
+            local newState = {
+                Groups = {},
+                SearchText = text,
+            }
+            for groupName, groupData in pairs(state.Groups) do
+                newState.Groups[groupName] = groupData
+            end
+
+            return newState
+        end,
     })
 end
 

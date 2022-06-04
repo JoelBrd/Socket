@@ -14,11 +14,12 @@ local RoactMainWidget = {}
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local Roact ---@type Roact
 local RoactPlugContainer ---@type RoactPlugContainer
+local RoactSearchBar ---@type RoactSearchBar
+local WidgetConstants ---@type WidgetConstants
 
 --------------------------------------------------
 -- Constants
 local MARGIN_PADDING = UDim.new(0, 2)
-local SEARCH_BAR_HEIGHT_PIXEL = 30
 
 --------------------------------------------------
 -- Members
@@ -49,17 +50,14 @@ function RoactMainWidget:Get()
             SearchHolder = Roact.createElement("Frame", {
                 BackgroundTransparency = 1,
                 LayoutOrder = 1,
-                Size = UDim2.new(1, 0, 0, SEARCH_BAR_HEIGHT_PIXEL),
+                Size = UDim2.new(1, 0, 0, WidgetConstants.SearchBar.Pixel.LineHeight),
             }, {
-                TextLabel = Roact.createElement("TextLabel", {
-                    Text = "SearchHolder",
-                    Size = UDim2.fromScale(1, 1),
-                }),
+                SearchContainer = RoactSearchBar:Get(),
             }),
             PlugHolder = Roact.createElement("Frame", {
                 BackgroundTransparency = 1,
                 LayoutOrder = 2,
-                Size = UDim2.new(1, 0, 1, -SEARCH_BAR_HEIGHT_PIXEL),
+                Size = UDim2.new(1, 0, 1, -WidgetConstants.SearchBar.Pixel.LineHeight),
             }, {
                 PlugContainer = RoactPlugContainer:Get(),
             }),
@@ -75,6 +73,8 @@ end
 function RoactMainWidget:FrameworkInit()
     Roact = PluginFramework:Require("Roact")
     RoactPlugContainer = PluginFramework:Require("RoactPlugContainer")
+    RoactSearchBar = PluginFramework:Require("RoactSearchBar")
+    WidgetConstants = PluginFramework:Require("WidgetConstants")
 end
 
 ---

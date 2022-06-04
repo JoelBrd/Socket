@@ -22,10 +22,7 @@ WidgetConstants.Icons = {
     Unknown = "❓",
     Keybind = "*️⃣",
     Settings = "⚙️",
-}
-
-WidgetConstants.Font = {
-    Default = Enum.Font.Highway,
+    Search = "🔍",
 }
 
 WidgetConstants.RoactWidgetLine = {}
@@ -53,6 +50,13 @@ WidgetConstants.RoactWidgetLine.Pixel = {
 }
 
 WidgetConstants.Font = Enum.Font.Highway
+
+WidgetConstants.SearchBar = {}
+
+WidgetConstants.SearchBar.Pixel = {
+    LineHeight = 26,
+    IconWidth = 20,
+}
 
 --------------------------------------------------
 -- Members

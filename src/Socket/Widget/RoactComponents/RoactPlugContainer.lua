@@ -213,9 +213,18 @@ function RoactPlugContainer:Create()
 
         -- Filter visibility from searchText
         local searchText = plugsState.SearchText ---@type string
+        local searchTextUpper = searchText:upper()
         if searchText:len() > 0 then
-            --todo
-            print("todo")
+            for _, groupInfo in pairs(groups) do
+                local groupHasGoodName = string.find(groupInfo.name:upper(), searchTextUpper) and true or false
+                local groupHasGoodPlug = false
+                for _, plugInfo in pairs(groupInfo.plugs) do
+                    local plugHasGoodName = string.find(plugInfo.name:upper(), searchTextUpper) and true or false
+                    plugInfo.isVisible = plugHasGoodName or groupHasGoodName
+                    groupHasGoodPlug = groupHasGoodPlug or plugHasGoodName
+                end
+                groupInfo.isVisible = groupHasGoodName or groupHasGoodPlug
+            end
         end
 
         -- Return props

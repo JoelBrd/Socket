@@ -27,6 +27,7 @@ SocketConstants.RoduxActionType = {
         REMOVE_PLUG = "REMOVE_PLUG",
         TOGGLE_GROUP_VISIBILITY = "TOGGLE_GROUP_VISIBILITY",
         TOGGLE_PLUG_VISIBILITY = "TOGGLE_PLUG_VISIBILITY",
+        SEARCH_TEXT = "SEARCH_TEXT",
     },
 } ---@type table<RoduxStoreKey, RoduxActionType[]>
 
