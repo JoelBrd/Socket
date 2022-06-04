@@ -55,7 +55,7 @@ function RoactSearchBar:Get()
             PaddingTop = UDim.new(0, 4),
         }),
         Background = Roact.createElement("Frame", {
-            BackgroundColor3 = Color3.fromRGB(255, 255, 255),
+            BackgroundColor3 = WidgetConstants.Color.SearchBar.Background[SocketController:GetTheme()],
             AnchorPoint = Vector2.new(0.5, 0.5),
             Position = UDim2.fromScale(0.5, 0.5),
             Size = UDim2.fromScale(0.95, 1),
@@ -70,10 +70,10 @@ function RoactSearchBar:Get()
             }),
             UIStroke = Roact.createElement("UIStroke", {
                 ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
-                Color = Color3.fromRGB(0, 0, 0),
+                Color = WidgetConstants.Color.SearchBar.Stroke[SocketController:GetTheme()],
                 LineJoinMode = Enum.LineJoinMode.Round,
                 Thickness = 2,
-                Transparency = 0.5,
+                Transparency = 0.2,
             }),
             UIPadding = Roact.createElement("UIPadding", {
                 PaddingLeft = UDim.new(0, 2),
@@ -102,7 +102,8 @@ function RoactSearchBar:Get()
                     Font = WidgetConstants.Font,
                     PlaceholderText = "Search",
                     Text = "",
-                    TextColor3 = Color3.fromRGB(70, 70, 70),
+                    PlaceholderColor3 = WidgetConstants.Color.SearchBar.PlaceholderText[SocketController:GetTheme()],
+                    TextColor3 = WidgetConstants.Color.SearchBar.Text[SocketController:GetTheme()],
                     TextScaled = true,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     AnchorPoint = Vector2.new(0, 0.5),

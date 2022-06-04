@@ -54,7 +54,7 @@ local function createLine(props)
             Roact.createElement("ImageButton", {
                 BackgroundTransparency = 1,
                 Size = UDim2.fromScale(1, 1),
-                ImageColor3 = Color3.fromRGB(0, 0, 0),
+                ImageColor3 = WidgetConstants.Color.PlugLines.Arrow[SocketController:GetTheme()],
                 Image = WidgetConstants.Images.Arrow,
                 Rotation = isOpen and 90 or 0,
 
@@ -139,6 +139,7 @@ local function getGroup(props)
             TextScaled = true,
             Font = WidgetConstants.Font,
             Text = ("%s (%d)"):format(name, totalPlugs),
+            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
         }),
@@ -204,6 +205,7 @@ local function getPlug(props)
             Text = name,
             Size = UDim2.new(1, -WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
             TextXAlignment = Enum.TextXAlignment.Left,
+            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
         }),
         RunButtonHolder = Roact.createElement("Frame", {
             LayoutOrder = 2,
@@ -283,6 +285,7 @@ local function getKeybind(props)
             Text = "Keybind",
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
+            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
         }),
         KeybindLabel = Roact.createElement("TextLabel", {
             LayoutOrder = 2,
@@ -292,6 +295,7 @@ local function getKeybind(props)
             Text = keybindString,
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Right,
+            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
         }),
     })
 

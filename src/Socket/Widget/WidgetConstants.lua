@@ -58,6 +58,41 @@ WidgetConstants.SearchBar.Pixel = {
     IconWidth = 20,
 }
 
+WidgetConstants.Color = {
+    Background = {
+        Dark = Color3.fromRGB(46, 46, 46),
+        Light = Color3.fromRGB(255, 255, 255),
+    },
+    SearchBar = {
+        Background = {
+            Dark = Color3.fromRGB(30, 30, 30),
+            Light = Color3.fromRGB(255, 255, 255),
+        },
+        Stroke = {
+            Dark = Color3.fromRGB(255, 255, 255),
+            Light = Color3.fromRGB(30, 30, 30),
+        },
+        PlaceholderText = {
+            Dark = Color3.fromRGB(180, 180, 180),
+            Light = Color3.fromRGB(178, 178, 178),
+        },
+        Text = {
+            Dark = Color3.fromRGB(240, 240, 240),
+            Light = Color3.fromRGB(70, 70, 70),
+        },
+    },
+    PlugLines = {
+        Arrow = {
+            Dark = Color3.fromRGB(180, 180, 180),
+            Light = Color3.fromRGB(30, 30, 30),
+        },
+        Text = {
+            Dark = Color3.fromRGB(240, 240, 240),
+            Light = Color3.fromRGB(30, 30, 30),
+        },
+    },
+}
+
 --------------------------------------------------
 -- Members
 -- ...

@@ -16,6 +16,7 @@ local Roact ---@type Roact
 local RoactPlugContainer ---@type RoactPlugContainer
 local RoactSearchBar ---@type RoactSearchBar
 local WidgetConstants ---@type WidgetConstants
+local SocketController ---@type SocketController
 
 --------------------------------------------------
 -- Constants
@@ -29,7 +30,7 @@ local MARGIN_PADDING = UDim.new(0, 2)
 ---
 function RoactMainWidget:Get()
     return Roact.createElement("Frame", {
-        BackgroundTransparency = 1,
+        BackgroundColor3 = WidgetConstants.Color.Background[SocketController:GetTheme()],
         Size = UDim2.fromScale(1, 1),
     }, {
         UIPadding = Roact.createElement("UIPadding", {
@@ -75,6 +76,7 @@ function RoactMainWidget:FrameworkInit()
     RoactPlugContainer = PluginFramework:Require("RoactPlugContainer")
     RoactSearchBar = PluginFramework:Require("RoactSearchBar")
     WidgetConstants = PluginFramework:Require("WidgetConstants")
+    SocketController = PluginFramework:Require("SocketController")
 end
 
 ---

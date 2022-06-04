@@ -63,6 +63,16 @@ function SocketController:GetStore()
 end
 
 ---
+---Returns the current theme of studio, and hence socket.
+---Either `Light` or `Dark`
+---@return string
+---
+function SocketController:GetTheme()
+    local themeName = settings().Studio.Theme.Name
+    return themeName == "Dark" and "Dark" or "Light"
+end
+
+---
 ---Runs the logic for manipulating our RoduxStore from the Plug files in studio.
 ---Called once per Run().
 ---
