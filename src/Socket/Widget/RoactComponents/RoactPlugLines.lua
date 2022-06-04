@@ -173,6 +173,7 @@ local function getPlug(props)
     }, {
         UIPadding = Roact.createElement("UIPadding", {
             PaddingLeft = UDim.new(0, 2),
+            PaddingTop = UDim.new(0, 1),
         }),
         UIListLayout = Roact.createElement("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
@@ -279,6 +280,7 @@ local function getSettings(props)
     -- Read props
     local layoutOrder = props.layoutOrder ---@type number
     local moduleScript = props.moduleScript ---@type ModuleScript
+    local plug = props.plug ---@type PlugDefinition
 
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
@@ -299,7 +301,7 @@ local function getSettings(props)
         }),
         ViewSourceHolder = Roact.createElement("Frame", {
             LayoutOrder = 1,
-            Size = UDim2.fromScale(0.7, 1),
+            Size = UDim2.fromScale(0.5, 1),
             BackgroundTransparency = 1,
         }, {
             RoactButton:Get({
@@ -310,16 +312,20 @@ local function getSettings(props)
                 end,
             }),
         }),
-        DeleteHolder = Roact.createElement("Frame", {
+        DescriptionHolder = Roact.createElement("Frame", {
             LayoutOrder = 2,
-            Size = UDim2.fromScale(0.3, 1),
+            Size = UDim2.fromScale(0.5, 1),
             BackgroundTransparency = 1,
         }, {
             RoactButton:Get({
-                text = "Delete",
-                color = Color3.fromRGB(255, 188, 188),
+                text = "Description",
+                color = Color3.fromRGB(111, 182, 230),
                 activatedCallback = function()
-                    print("Destroy", moduleScript)
+                    local descriptionHolderString = ("================ %s (%s) | DESCRIPTION ================"):format(
+                        plug.Name,
+                        plug.Group
+                    )
+                    print("\n", descriptionHolderString, "\n\n", plug.Description, "\n\n", descriptionHolderString)
                 end,
             }),
         }),

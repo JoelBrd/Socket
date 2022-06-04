@@ -12,6 +12,7 @@ local SocketController = {}
 --------------------------------------------------
 -- Dependencies
 local StudioService = game:GetService("StudioService") ---@type StudioService
+local UserInputService = game:GetService("UserInputService") ---@type UserInputService
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local Janitor ---@type Janitor
 local Rodux ---@type Rodux
@@ -49,6 +50,9 @@ function SocketController:Run()
 
     -- Tell the widget handler its go time
     WidgetHandler:Run()
+
+    -- Setup Keybind listener
+    SocketController:SetupKeybindHooks()
 end
 
 ---
@@ -182,6 +186,76 @@ function SocketController:SetupPlugActions()
         -- Update cache
         cachedActiveScript = activeScript
     end))
+end
+
+---
+---Listens to users input to detect whether to run plugs via keybind
+---
+function SocketController:SetupKeybindHooks()
+    -- Track keys being held down
+    local heldKeys = {} ---@type Enum.KeyCode
+
+    ---@param inputObject InputObject
+    ---@param gameProcessedEvent boolean
+    local function inputBegan(inputObject, gameProcessedEvent)
+        -- RETURN: Game processed
+        if gameProcessedEvent then
+            return
+        end
+
+        table.insert(heldKeys, inputObject.KeyCode)
+
+        -- Does this equate a keybind?
+        local state = roduxStore:getState()
+        local groups = state[SocketConstants.RoduxStoreKey.PLUGS].Groups
+        for _, groupInfo in pairs(groups) do
+            for _, plugInfo in pairs(groupInfo.Plugs) do
+                local plug = plugInfo.Plug ---@type PlugDefinition
+
+                -- See if we have all held keys in this plug
+                local totalKeyCodes = #plug.Keybind
+                local hasKeybind = totalKeyCodes and totalKeyCodes > 0
+                if hasKeybind then
+                    local matchingKeyCodes = 0
+                    for _, someKeyCode in pairs(plug.Keybind) do
+                        if table.find(heldKeys, someKeyCode) then
+                            matchingKeyCodes = matchingKeyCodes + 1
+                        end
+                    end
+
+                    -- Huzzah!
+                    if totalKeyCodes == matchingKeyCodes then
+                        -- Clear held keys
+                        heldKeys = {}
+
+                        -- Run Plug Function
+                        plug.Function()
+
+                        -- Stop
+                        return
+                    end
+                end
+            end
+        end
+    end
+
+    ---@param inputObject InputObject
+    ---@param gameProcessedEvent boolean
+    local function inputEnded(inputObject, gameProcessedEvent)
+        -- RETURN: Game processed
+        if gameProcessedEvent then
+            return
+        end
+
+        local index = table.find(heldKeys, inputObject.KeyCode)
+        if index then
+            table.remove(heldKeys, index)
+        end
+    end
+
+    runJanitor:Add(UserInputService.InputBegan:Connect(inputBegan))
+
+    runJanitor:Add(UserInputService.InputEnded:Connect(inputEnded))
 end
 
 ---

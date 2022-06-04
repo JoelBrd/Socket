@@ -94,6 +94,7 @@ local function createLinesFragment(props)
             elements[settingsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Settings, {
                 moduleScript = plugInfo.moduleScript,
                 layoutOrder = layoutOrderCount,
+                plug = plugInfo.plug,
             })
         end
     end
