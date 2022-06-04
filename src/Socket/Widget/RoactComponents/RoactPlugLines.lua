@@ -197,6 +197,7 @@ local function getPlug(props)
                 text = "Run",
                 color = Color3.fromRGB(250, 250, 250),
                 strokeThickness = 1.5,
+                activatedDiscColor = Color3.fromRGB(48, 207, 0),
                 activatedCallback = function()
                     plug.Function()
                 end,
@@ -296,27 +297,31 @@ local function getSettings(props)
             SortOrder = Enum.SortOrder.LayoutOrder,
             Padding = UDim.new(0, 5),
         }),
-        ViewSource = Roact.createElement("TextButton", {
+        ViewSourceHolder = Roact.createElement("Frame", {
             LayoutOrder = 1,
-            TextScaled = true,
-            Font = WidgetConstants.Font,
-            Text = "View Source",
             Size = UDim2.fromScale(0.7, 1),
-
-            [Roact.Event.Activated] = function()
-                PluginHandler:GetPlugin():OpenScript(moduleScript)
-            end,
+            BackgroundTransparency = 1,
+        }, {
+            RoactButton:Get({
+                text = "View Source",
+                color = Color3.fromRGB(255, 244, 160),
+                activatedCallback = function()
+                    PluginHandler:GetPlugin():OpenScript(moduleScript)
+                end,
+            }),
         }),
-        Delete = Roact.createElement("TextButton", {
+        DeleteHolder = Roact.createElement("Frame", {
             LayoutOrder = 2,
-            TextScaled = true,
-            Font = WidgetConstants.Font,
-            Text = "Delete",
             Size = UDim2.fromScale(0.3, 1),
-
-            [Roact.Event.Activated] = function()
-                print("Destroy", moduleScript)
-            end,
+            BackgroundTransparency = 1,
+        }, {
+            RoactButton:Get({
+                text = "Delete",
+                color = Color3.fromRGB(255, 188, 188),
+                activatedCallback = function()
+                    print("Destroy", moduleScript)
+                end,
+            }),
         }),
     })
 

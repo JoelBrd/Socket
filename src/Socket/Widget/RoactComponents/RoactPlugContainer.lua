@@ -12,11 +12,13 @@ local RoactPlugContainer = {}
 ---@field name string
 ---@field icon string
 ---@field isOpen boolean
+---@field isVisible boolean
 ---@field plugs RoactPlugContainerProps.PlugInfo[]
 
 ---@class RoactPlugContainerProps.PlugInfo
 ---@field name string
 ---@field isOpen boolean
+---@field isVisible boolean
 ---@field plug PlugDefinition
 ---@field moduleScript ModuleScript
 
@@ -143,6 +145,7 @@ function RoactPlugContainer:Create()
                 name = groupName,
                 icon = nil,
                 isOpen = true,
+                isVisible = true,
                 plugs = {}, ---@type RoactPlugContainerProps.GroupInfo[]
             } ---@type RoactPlugContainerProps.GroupInfo
             table.insert(groups, groupInfo)
@@ -154,6 +157,7 @@ function RoactPlugContainer:Create()
                 local plugInfo = {
                     name = plug.Name,
                     isOpen = true,
+                    isVisible = true,
                     plug = plug, ---@type PlugDefinition
                     moduleScript = plugModuleScript,
                 } ---@type RoactPlugContainerProps.GroupInfo
