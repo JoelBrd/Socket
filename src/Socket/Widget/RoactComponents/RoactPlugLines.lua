@@ -35,6 +35,7 @@ local function createLine(props)
     local icon = props.icon ---@type string
     local onArrowClick = props.onArrowClick ---@type function
     local detailsContainer = props.detailsContainer ---@type RoactElement
+    local layoutOrder = props.layoutOrder ---@type number
 
     -- Calculate sizing
     local leftPaddingWidthPixel = indent * WidgetConstants.RoactWidgetLine.Pixel.Indent
@@ -45,6 +46,7 @@ local function createLine(props)
     return Roact.createElement("Frame", {
         BackgroundTransparency = 1,
         Size = UDim2.new(1, 0, 0, WidgetConstants.RoactWidgetLine.Pixel.LineHeight),
+        LayoutOrder = layoutOrder,
     }, {
         UIListLayout = Roact.createElement("UIListLayout", {
             FillDirection = Enum.FillDirection.Horizontal,
@@ -91,7 +93,7 @@ local function createLine(props)
                 BackgroundTransparency = 1,
                 TextXAlignment = Enum.TextXAlignment.Center,
                 TextYAlignment = Enum.TextYAlignment.Center,
-                Font = Enum.Font.Highway,
+                Font = WidgetConstants.Font,
             }),
         }),
         DetailsHolder = Roact.createElement("Frame", {
@@ -108,7 +110,11 @@ end
 ---@return RoactElement
 local function getGroup(props)
     -- Read props
-    local name = props.name
+    local name = props.name ---@type string
+    local isOpen = props.isOpen ---@type boolean
+    local totalPlugs = props.totalPlugs ---@type number
+    local icon = props.icon ---@type string
+    local layoutOrder = props.layoutOrder ---@type number
 
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
@@ -121,8 +127,8 @@ local function getGroup(props)
         TextLabel = Roact.createElement("TextLabel", {
             BackgroundTransparency = 1,
             TextScaled = true,
-            Font = Enum.Font.Highway,
-            Text = name,
+            Font = WidgetConstants.Font,
+            Text = ("%s (%d)"):format(name, totalPlugs),
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
         }),
@@ -131,12 +137,66 @@ local function getGroup(props)
     -- Return line
     return createLine({
         indent = WidgetConstants.RoactWidgetLine.Indent.Group,
-        isOpen = false,
-        icon = "?",
+        isOpen = isOpen,
+        icon = icon,
         detailsContainer = detailsContainer,
         onArrowClick = function()
-            print("click", name)
+            print("Toggle", name)
         end,
+        layoutOrder = layoutOrder,
+    })
+end
+
+---@param props table
+---@return RoactElement
+local function getPlug(props)
+    -- Read props
+    local name = props.name ---@type string
+    local isOpen = props.isOpen ---@type boolean
+    local icon = props.icon ---@type string
+    local layoutOrder = props.layoutOrder ---@type number
+
+    -- Create Details
+    local detailsContainer = Roact.createElement("Frame", {
+        BackgroundTransparency = 1,
+        Size = UDim2.fromScale(1, 1),
+    }, {
+        UIPadding = Roact.createElement("UIPadding", {
+            PaddingLeft = UDim.new(0, 2),
+        }),
+        UIListLayout = Roact.createElement("UIListLayout", {
+            FillDirection = Enum.FillDirection.Horizontal,
+            HorizontalAlignment = Enum.HorizontalAlignment.Left,
+            SortOrder = Enum.SortOrder.LayoutOrder,
+        }),
+        TextLabel = Roact.createElement("TextLabel", {
+            LayoutOrder = 1,
+            BackgroundTransparency = 1,
+            TextScaled = true,
+            Font = WidgetConstants.Font,
+            Text = name,
+            Size = UDim2.new(1, -WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
+            TextXAlignment = Enum.TextXAlignment.Left,
+        }),
+        TextButton = Roact.createElement("TextButton", {
+            LayoutOrder = 2,
+            TextScaled = true,
+            Font = WidgetConstants.Font,
+            Text = "Run",
+            Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
+        }),
+    })
+
+    -- Return line
+    return createLine({
+        indent = WidgetConstants.RoactWidgetLine.Indent.Plug,
+        isOpen = isOpen,
+        icon = icon,
+        detailsContainer = detailsContainer,
+        onArrowClick = function()
+            print("Toggle", name)
+        end,
+        layoutOrder = layoutOrder,
     })
 end
 
@@ -174,6 +234,7 @@ end
 ---
 function RoactPlugLines:FrameworkStart()
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Group] = getGroup
+    gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Plug] = getPlug
 end
 
 return RoactPlugLines

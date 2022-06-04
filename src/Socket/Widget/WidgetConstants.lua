@@ -47,7 +47,10 @@ WidgetConstants.RoactWidgetLine.Pixel = {
     LineHeight = 20,
     IconWidth = 20,
     ArrowWidth = 20,
+    RunButtonWidth = 70,
 }
+
+WidgetConstants.Font = Enum.Font.Highway
 
 --------------------------------------------------
 -- Members

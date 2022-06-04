@@ -10,10 +10,13 @@ local RoactPlugContainer = {}
 
 ---@class RoactPlugContainerProps.GroupInfo
 ---@field name string
+---@field icon string
+---@field isOpen boolean
 ---@field plugs RoactPlugContainerProps.PlugInfo[]
 
 ---@class RoactPlugContainerProps.PlugInfo
 ---@field name string
+---@field isOpen boolean
 ---@field plug PlugDefinition
 ---@field moduleScript ModuleScript
 
@@ -48,16 +51,32 @@ local function createLinesFragment(props)
     -- Grab variables
     local groups = props.groups ---@type RoactPlugContainerProps.GroupInfo[]
     local elements = {}
-    local layoutOrderCount = 1
+    local layoutOrderCount = 0
 
-    for _, group in pairs(groups) do
-        print(group)
+    for _, groupInfo in pairs(groups) do
         -- Create group line
-        local elementName = ("%d_Group_%s"):format(layoutOrderCount, group.name)
-        elements[elementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
-            name = group.name,
-            --todo
+        layoutOrderCount = layoutOrderCount + 1
+        local groupElementName = ("%d_Group_%s"):format(layoutOrderCount, groupInfo.name)
+        elements[groupElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
+            name = groupInfo.name,
+            isOpen = groupInfo.isOpen,
+            totalPlugs = #groupInfo.plugs,
+            icon = groupInfo.icon or WidgetConstants.Icons.Unknown,
+            layoutOrder = layoutOrderCount,
         })
+
+        -- Create plugs
+        for _, plugInfo in pairs(groupInfo.plugs) do
+            -- Create plug line
+            layoutOrderCount = layoutOrderCount + 1
+            local plugElementName = ("%d_Group_%s_Plug_%s"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
+            elements[plugElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Plug, {
+                name = plugInfo.name,
+                isOpen = plugInfo.isOpen,
+                icon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown,
+                layoutOrder = layoutOrderCount,
+            })
+        end
     end
 
     return Roact.createFragment(elements)
@@ -105,6 +124,8 @@ function RoactPlugContainer:Create()
             -- Create group info
             local groupInfo = {
                 name = groupName,
+                icon = nil,
+                isOpen = true,
                 plugs = {}, ---@type RoactPlugContainerProps.GroupInfo[]
             } ---@type RoactPlugContainerProps.GroupInfo
             table.insert(groups, groupInfo)
@@ -115,10 +136,16 @@ function RoactPlugContainer:Create()
                 local plug = plugChild.Plug ---@type PlugDefinition
                 local plugInfo = {
                     name = plug.Name,
+                    isOpen = true,
                     plug = plug, ---@type PlugDefinition
                     moduleScript = plugModuleScript,
                 } ---@type RoactPlugContainerProps.GroupInfo
                 table.insert(groupInfo.plugs, plugInfo)
+
+                -- Try populate group icon
+                if plug.GroupIcon and not groupInfo.icon then
+                    groupInfo.icon = plug.GroupIcon
+                end
             end
 
             -- Sort plugs
