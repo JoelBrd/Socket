@@ -19,11 +19,6 @@ local Logger = require(Utils.Logger) ---@type Logger
 --------------------------------------------------
 -- Members
 
----@param self PlugDefinition
-local function plugFunction(self)
-    Logger:Plug(self, "Hello World!")
-end
-
 ---@type PlugDefinition
 local plugDefinition = {
     Group = "Core",
@@ -33,7 +28,11 @@ local plugDefinition = {
     State = {},
     Keybind = { Enum.KeyCode.H, Enum.KeyCode.W },
     Fields = {},
-    Function = plugFunction,
+    Function = nil,
 }
+
+plugDefinition.Function = function()
+    Logger:Plug(plugDefinition, "Hello World!")
+end
 
 return plugDefinition

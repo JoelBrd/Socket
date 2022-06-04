@@ -18,6 +18,7 @@ local SocketConstants ---@type SocketConstants
 local WidgetConstants ---@type WidgetConstants
 local Logger ---@type Logger
 local PluginHandler ---@type PluginHandler
+local RoactButton ---@type RoactButton
 
 --------------------------------------------------
 -- Constants
@@ -163,6 +164,7 @@ local function getPlug(props)
     local isOpen = props.isOpen ---@type boolean
     local icon = props.icon ---@type string
     local layoutOrder = props.layoutOrder ---@type number
+    local plug = props.plug ---@type PlugDefinition
 
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
@@ -186,12 +188,19 @@ local function getPlug(props)
             Size = UDim2.new(1, -WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
             TextXAlignment = Enum.TextXAlignment.Left,
         }),
-        TextButton = Roact.createElement("TextButton", {
+        RunButtonHolder = Roact.createElement("Frame", {
             LayoutOrder = 2,
-            TextScaled = true,
-            Font = WidgetConstants.Font,
-            Text = "Run",
             Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
+            BackgroundTransparency = 1,
+        }, {
+            RoactButton:Get({
+                text = "Run",
+                color = Color3.fromRGB(250, 250, 250),
+                strokeThickness = 1.5,
+                activatedCallback = function()
+                    plug.Function()
+                end,
+            }),
         }),
     })
 
@@ -346,6 +355,7 @@ function RoactPlugLines:FrameworkInit()
     WidgetConstants = PluginFramework:Require("WidgetConstants")
     Logger = PluginFramework:Require("Logger")
     PluginHandler = PluginFramework:Require("PluginHandler")
+    RoactButton = PluginFramework:Require("RoactButton")
 end
 
 ---

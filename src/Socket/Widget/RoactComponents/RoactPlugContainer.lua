@@ -75,6 +75,7 @@ local function createLinesFragment(props)
                 isOpen = plugInfo.isOpen,
                 icon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown,
                 layoutOrder = layoutOrderCount,
+                plug = plugInfo.plug,
             })
 
             -- Create keybind line
