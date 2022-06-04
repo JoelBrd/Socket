@@ -55,7 +55,7 @@ function SocketRoduxStoreWidgetReducer:Get()
                 or {
                     Plugs = {},
                     UIState = {
-                        IsOpen = true,
+                        IsOpen = false,
                     },
                 }
 
@@ -114,7 +114,7 @@ function SocketRoduxStoreWidgetReducer:Get()
                 or {
                     Plugs = {},
                     UIState = {
-                        IsOpen = true,
+                        IsOpen = false,
                     },
                 }
             newState.Groups[plugGroup].Plugs[plugScript] = {
