@@ -43,9 +43,9 @@ WidgetConstants.RoactWidgetLine.Indent = {
 
 WidgetConstants.RoactWidgetLine.Pixel = {
     Indent = 10,
-    LineHeight = 20,
-    IconWidth = 20,
-    ArrowWidth = 20,
+    LineHeight = 21,
+    IconWidth = 21,
+    ArrowWidth = 21,
     RunButtonWidth = 70,
 }
 
@@ -56,6 +56,14 @@ WidgetConstants.SearchBar = {}
 WidgetConstants.SearchBar.Pixel = {
     LineHeight = 26,
     IconWidth = 20,
+}
+
+WidgetConstants.BottomBar = {}
+
+WidgetConstants.BottomBar.Pixel = {
+    LineHeight = 22,
+    DividerHeight = 2,
+    SettingsWidth = 90,
 }
 
 WidgetConstants.Color = {
@@ -87,6 +95,16 @@ WidgetConstants.Color = {
             Light = Color3.fromRGB(30, 30, 30),
         },
         Text = {
+            Dark = Color3.fromRGB(240, 240, 240),
+            Light = Color3.fromRGB(30, 30, 30),
+        },
+    },
+    BottomBar = {
+        Divider = {
+            Dark = Color3.fromRGB(180, 180, 180),
+            Light = Color3.fromRGB(30, 30, 30),
+        },
+        Version = {
             Dark = Color3.fromRGB(240, 240, 240),
             Light = Color3.fromRGB(30, 30, 30),
         },

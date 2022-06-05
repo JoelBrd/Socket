@@ -17,6 +17,7 @@ local RoactPlugContainer ---@type RoactPlugContainer
 local RoactSearchBar ---@type RoactSearchBar
 local WidgetConstants ---@type WidgetConstants
 local SocketController ---@type SocketController
+local RoactBottomBar ---@type RoactBottomBar
 
 --------------------------------------------------
 -- Constants
@@ -34,7 +35,7 @@ function RoactMainWidget:Get()
         Size = UDim2.fromScale(1, 1),
     }, {
         UIPadding = Roact.createElement("UIPadding", {
-            PaddingBottom = MARGIN_PADDING,
+            PaddingBottom = UDim.new(0, 7),
             PaddingLeft = MARGIN_PADDING,
             PaddingRight = MARGIN_PADDING,
             PaddingTop = MARGIN_PADDING,
@@ -58,9 +59,16 @@ function RoactMainWidget:Get()
             PlugHolder = Roact.createElement("Frame", {
                 BackgroundTransparency = 1,
                 LayoutOrder = 2,
-                Size = UDim2.new(1, 0, 1, -WidgetConstants.SearchBar.Pixel.LineHeight),
+                Size = UDim2.new(1, 0, 1, -(WidgetConstants.SearchBar.Pixel.LineHeight + WidgetConstants.BottomBar.Pixel.LineHeight)),
             }, {
                 PlugContainer = RoactPlugContainer:Get(),
+            }),
+            BottomHolder = Roact.createElement("Frame", {
+                BackgroundTransparency = 1,
+                LayoutOrder = 3,
+                Size = UDim2.new(1, 0, 0, WidgetConstants.BottomBar.Pixel.LineHeight),
+            }, {
+                BottomContainer = RoactBottomBar:Get(),
             }),
         }),
     })
@@ -77,6 +85,7 @@ function RoactMainWidget:FrameworkInit()
     RoactSearchBar = PluginFramework:Require("RoactSearchBar")
     WidgetConstants = PluginFramework:Require("WidgetConstants")
     SocketController = PluginFramework:Require("SocketController")
+    RoactBottomBar = PluginFramework:Require("RoactBottomBar")
 end
 
 ---

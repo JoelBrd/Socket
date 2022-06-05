@@ -182,7 +182,11 @@ function SocketController:SetupPlugActions()
                 for _, groupInfo in pairs(groups) do
                     for plugScript, _ in pairs(groupInfo.Plugs) do
                         if plugScript == cachedActiveScript then
+                            -- Changed
                             changedPlug(cachedActiveScript)
+
+                            -- Update cache
+                            cachedActiveScript = activeScript
                             return
                         end
                     end
