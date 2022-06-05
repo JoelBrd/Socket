@@ -54,11 +54,6 @@ local LEVEL = {
         Enabled = false,
         Tag = "📌",
     },
-    PLUG = {
-        Name = "PLUG",
-        Enabled = true,
-        Tag = false,
-    },
 } ---@type table<string, LoggerLevel>
 Logger.Level = LEVEL
 
@@ -109,6 +104,11 @@ end
 ---@vararg any
 ---
 function Logger:PlugInfo(plug, ...)
+    -- RETURN: Disabled
+    if not Logger.Level.INFO.Enabled then
+        return
+    end
+
     print(("[%s %s] %s"):format(plug.Icon or "🔌", plug.Name, concatVars(...)))
 end
 
@@ -119,6 +119,11 @@ end
 ---@vararg any
 ---
 function Logger:PlugWarn(plug, ...)
+    -- RETURN: Disabled
+    if not Logger.Level.WARN.Enabled then
+        return
+    end
+
     warn(("[%s %s] %s"):format(plug.Icon or "🔌", plug.Name, concatVars(...)))
 end
 
@@ -128,6 +133,11 @@ end
 ---@vararg any
 ---
 function Logger:Trace(...)
+    -- RETURN: Disabled
+    if not Logger.Level.TRACE.Enabled then
+        return
+    end
+
     print(writeSourceOutput(Logger.Level.TRACE, ...))
 end
 
@@ -137,6 +147,11 @@ end
 ---@vararg any
 ---
 function Logger:Info(...)
+    -- RETURN: Disabled
+    if not Logger.Level.INFO.Enabled then
+        return
+    end
+
     print(writeSourceOutput(Logger.Level.INFO, ...))
 end
 
@@ -146,6 +161,11 @@ end
 ---@vararg any
 ---
 function Logger:Warn(...)
+    -- RETURN: Disabled
+    if not Logger.Level.WARN.Enabled then
+        return
+    end
+
     warn(writeSourceOutput(Logger.Level.WARN, ...))
 end
 
@@ -155,6 +175,11 @@ end
 ---@vararg any
 ---
 function Logger:Error(...)
+    -- RETURN: Disabled
+    if not Logger.Level.ERROR.Enabled then
+        return
+    end
+
     error(writeSourceOutput(Logger.Level.ERROR, ...), TRACEBACK_SOURCE_LINE)
 end
 

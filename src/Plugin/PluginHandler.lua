@@ -84,7 +84,7 @@ function PluginHandler:Load(passedPlugin)
     end
 
     -- Debug Info
-    Logger:Info("Plugin Loaded")
+    Logger:Trace("Plugin Loaded")
 end
 
 ---
@@ -96,7 +96,7 @@ function PluginHandler:Initialise()
         self:SetSetting(pluginSetting, pluginSetting.DefaultValue)
     end
 
-    Logger:Info("Initialised plugin with defaults")
+    Logger:Trace("Initialised plugin with defaults")
 end
 
 ---
@@ -127,7 +127,7 @@ end
 function PluginHandler:ToolbarButtonClicked()
     -- Toggle active status
     self:SetPluginActiveState(not isPluginActive)
-    Logger:Info(("Toolbar Button Clicked (Active: %s)"):format(tostring(isPluginActive)))
+    Logger:Trace(("Toolbar Button Clicked (Active: %s)"):format(tostring(isPluginActive)))
 end
 
 ---
@@ -157,7 +157,7 @@ function PluginHandler:SetPluginActiveState(isActive)
     toolbarButton.Enabled = true
     toolbarButton:SetActive(isPluginActive)
 
-    Logger:Info("Plugin Active:", isPluginActive)
+    Logger:Trace("Plugin Active:", isPluginActive)
 end
 
 ---
@@ -180,7 +180,7 @@ function PluginHandler:CreateWidget()
     end)
 
     -- Debug Info
-    Logger:Info("Created Widget")
+    Logger:Trace("Created Widget")
 
     -- Save as setting
     self:SetSetting(PluginConstants.Setting.IS_PLUGIN_ACTIVE, true)
@@ -208,7 +208,7 @@ function PluginHandler:DestroyWidget()
     widget = nil
 
     -- Debug Info
-    Logger:Info("Destroyed Widget")
+    Logger:Trace("Destroyed Widget")
 
     -- Save as setting
     self:SetSetting(PluginConstants.Setting.IS_PLUGIN_ACTIVE, false)
