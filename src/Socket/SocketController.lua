@@ -97,6 +97,14 @@ function SocketController:RunPlug(plug)
     plug.Function()
 end
 
+---
+---@param plug PlugDefinition
+---
+function SocketController:ShowDescription(plug)
+    local descriptionHolderString = ("================ %s (%s) | DESCRIPTION ================"):format(plug.Name, plug.Group)
+    print("\n", descriptionHolderString, "\n\n", plug.Description, "\n\n", descriptionHolderString)
+end
+
 ---Will try require the current state of the passed moduleScript, by using a clone.
 ---@param moduleScript ModuleScript
 ---@return table|nil

@@ -67,8 +67,9 @@ function RoactButton:Get(props)
     end
 
     ---@param instance ImageButton
-    ---@param inputObject InputObject
-    local function onActivated(instance, inputObject)
+    ---@param x number
+    ---@param y number
+    local function onActivated(instance, x, y)
         -- Create disc
         local disc = Instance.new("Frame") ---@type Frame
         disc.BackgroundColor3 = activatedDiscColor or Color3.fromRGB(255, 255, 255)
@@ -82,10 +83,7 @@ function RoactButton:Get(props)
         uiCorner.Parent = disc
 
         -- Calculate position
-        disc.Position = UDim2.fromOffset(
-            inputObject.Position.X - instance.AbsolutePosition.X,
-            inputObject.Position.Y - instance.AbsolutePosition.Y
-        )
+        disc.Position = UDim2.fromOffset(x - instance.AbsolutePosition.X, y - instance.AbsolutePosition.Y)
 
         -- Tween
         local discTween = TweenConstructor.new()
@@ -128,9 +126,9 @@ function RoactButton:Get(props)
         Size = UDim2.fromScale(1, 1),
         ClipsDescendants = true,
 
-        [Roact.Event.Activated] = function(instance, inputObject, clickCount)
-            onActivated(instance, inputObject)
-            activatedCallback(instance, inputObject, clickCount)
+        [Roact.Event.MouseButton1Down] = function(instance, x, y)
+            onActivated(instance, x, y)
+            activatedCallback(instance)
         end,
         [Roact.Event.MouseEnter] = onMouseEnter,
         [Roact.Event.MouseLeave] = onMouseLeave,

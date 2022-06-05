@@ -58,7 +58,7 @@ local function createLine(props)
                 Image = WidgetConstants.Images.Arrow,
                 Rotation = isOpen and 90 or 0,
 
-                [Roact.Event.Activated] = onArrowClick,
+                [Roact.Event.MouseButton1Down] = onArrowClick,
             })
         )
     end
@@ -355,11 +355,7 @@ local function getSettings(props)
                 text = "Description",
                 color = Color3.fromRGB(111, 182, 230),
                 activatedCallback = function()
-                    local descriptionHolderString = ("================ %s (%s) | DESCRIPTION ================"):format(
-                        plug.Name,
-                        plug.Group
-                    )
-                    print("\n", descriptionHolderString, "\n\n", plug.Description, "\n\n", descriptionHolderString)
+                    SocketController:ShowDescription(plug)
                 end,
             }),
         }),
