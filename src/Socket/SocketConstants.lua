@@ -16,6 +16,8 @@ local SocketConstants = {}
 --------------------------------------------------
 -- Constants
 
+SocketConstants.ShowDebugUI = false
+
 SocketConstants.RoduxStoreKey = {
     PLUGS = "PLUGS",
     SETTINGS = "SETTINGS",

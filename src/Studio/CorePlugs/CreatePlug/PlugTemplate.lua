@@ -39,7 +39,7 @@ local plugDefinition = {
     },
 
     -- If true, will automatically implement undo/redo functionality for this plug.
-    -- Only functions when the plug makes changes
+    -- Only functions when the plug makes changes to studio.
     EnableAutomaticUndo = false,
 
     -- A keybind that will trigger this plug.

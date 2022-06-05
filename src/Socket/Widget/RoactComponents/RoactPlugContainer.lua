@@ -129,6 +129,15 @@ local function createLinesFragment(props)
         end
     end
 
+    -- Create bottom padding
+    increaseLayoutOrder()
+    local paddingElementName = ("%d_BottomPadding"):format(layoutOrderCount)
+    elements[paddingElementName] = Roact.createElement("Frame", {
+        LayoutOrder = layoutOrderCount,
+        BackgroundTransparency = 1,
+        Size = UDim2.new(1, 0, 0, WidgetConstants.RoactWidgetLine.Pixel.BottomPaddingHeight),
+    })
+
     return Roact.createFragment(elements)
 end
 
@@ -140,7 +149,8 @@ function RoactPlugContainer:Get(props)
     return Roact.createElement("ScrollingFrame", {
         BackgroundTransparency = 1,
         Size = UDim2.fromScale(1, 1),
-        CanvasSize = UDim2.new(0, 0, 1, 0),
+        CanvasSize = UDim2.new(0, 0, 0, 0),
+        AutomaticCanvasSize = Enum.AutomaticSize.Y,
         ScrollBarThickness = 6,
     }, {
         UIPadding = Roact.createElement("UIPadding", {
