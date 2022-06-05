@@ -21,6 +21,7 @@ local SocketConstants ---@type SocketConstants
 local Logger ---@type Logger
 local SocketRoduxStoreController ---@type SocketRoduxStoreController
 local WidgetHandler ---@type WidgetHandler
+local PlugConstants ---@type PlugConstants
 
 --------------------------------------------------
 -- Constants
@@ -122,8 +123,31 @@ local function tryCloneRequire(moduleScript)
     if requireSuccess then
         return requiredClone
     else
-        Logger:Info(("Encountered issue while managing file %q  -  (%s)"):format(moduleScript.Name, err))
+        Logger:Warn(("Encountered issue while managing file %q  -  (%s)"):format(moduleScript.Name, err))
     end
+end
+
+---Will clean up a plug definiton direct from require().
+---Injects expected data structures.
+---Ensures inputted data is valid.
+---Warns of any issues.
+---@param plug PlugDefinition
+---@return PlugDefinition
+local function cleanPlugDefinition(plug)
+    -- PlugFields
+    for _, field in pairs(plug.Fields) do
+        local fieldTypeId = field.Type
+        local fieldType = PlugConstants.FieldType[fieldTypeId]
+        if not fieldType then
+            Logger:Warn(("Field %q has invalid field type %q (%s)"):format(field.Name, fieldTypeId, plug.Name))
+            return
+        end
+        field.Type = fieldType
+    end
+
+    --todo more validation checks!!
+
+    return plug
 end
 
 ---
@@ -135,13 +159,14 @@ function SocketController:SetupPlugActions()
     ---@param moduleScript ModuleScript
     local function changedPlug(moduleScript)
         local requiredClone = tryCloneRequire(moduleScript)
-        if requiredClone then
+        local plugDefinition = requiredClone and cleanPlugDefinition(requiredClone)
+        if plugDefinition then
             -- Update RoduxStore
             ---@type RoduxAction
             local action = {
                 type = SocketConstants.RoduxActionType.PLUGS.UPDATE_PLUG,
                 data = {
-                    plug = requiredClone,
+                    plug = plugDefinition,
                     script = moduleScript,
                 },
             }
@@ -167,13 +192,14 @@ function SocketController:SetupPlugActions()
     ---@param moduleScript ModuleScript
     local function newPlug(moduleScript)
         local requiredClone = tryCloneRequire(moduleScript)
-        if requiredClone then
+        local plugDefinition = requiredClone and cleanPlugDefinition(requiredClone)
+        if plugDefinition then
             -- Update RoduxStore
             ---@type RoduxAction
             local action = {
                 type = SocketConstants.RoduxActionType.PLUGS.ADD_PLUG,
                 data = {
-                    plug = requiredClone,
+                    plug = plugDefinition,
                     script = moduleScript,
                 },
             }
@@ -378,6 +404,7 @@ function SocketController:FrameworkInit()
     Logger = PluginFramework:Require("Logger")
     SocketRoduxStoreController = PluginFramework:Require("SocketRoduxStoreController")
     WidgetHandler = PluginFramework:Require("WidgetHandler")
+    PlugConstants = PluginFramework:Require("PlugConstants")
 end
 
 ---@private

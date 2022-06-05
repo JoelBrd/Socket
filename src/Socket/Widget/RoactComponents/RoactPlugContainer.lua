@@ -80,6 +80,24 @@ local function createLinesFragment(props)
                                 layoutOrder = layoutOrderCount,
                             })
 
+                            -- Create individual fields
+                            if hasFields and plugInfo.isFieldsOpen then
+                                for _, field in pairs(plugInfo.plug.Fields) do
+                                    increaseLayoutOrder()
+                                    local fieldElementName = ("%d_Group_%s_Plug_%s_Field_%s"):format(
+                                        layoutOrderCount,
+                                        groupInfo.name,
+                                        plugInfo.name,
+                                        field.Name
+                                    )
+                                    elements[fieldElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Field, {
+                                        field = field,
+                                        plug = plugInfo.plug,
+                                        layoutOrder = layoutOrderCount,
+                                    })
+                                end
+                            end
+
                             -- Create keybind line
                             increaseLayoutOrder()
                             local keybindElementName = ("%d_Group_%s_Plug_%s_Keybind"):format(

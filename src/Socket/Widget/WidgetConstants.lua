@@ -34,6 +34,7 @@ WidgetConstants.RoactWidgetLine.Type = {
     Keybind = "Keybind",
     Settings = "Settings",
     Fields = "Fields",
+    Field = "Field",
 }
 
 WidgetConstants.RoactWidgetLine.Indent = {
@@ -42,6 +43,7 @@ WidgetConstants.RoactWidgetLine.Indent = {
     Keybind = 2,
     Settings = 2,
     Fields = 2,
+    Field = 3,
 }
 
 WidgetConstants.RoactWidgetLine.Pixel = {
@@ -98,6 +100,20 @@ WidgetConstants.Color = {
         Text = {
             Dark = Color3.fromRGB(240, 240, 240),
             Light = Color3.fromRGB(30, 30, 30),
+        },
+        Field = {
+            PlaceholderText = {
+                Dark = Color3.fromRGB(180, 180, 180),
+                Light = Color3.fromRGB(178, 178, 178),
+            },
+            Text = {
+                Dark = Color3.fromRGB(240, 240, 240),
+                Light = Color3.fromRGB(70, 70, 70),
+            },
+            Stroke = {
+                Dark = Color3.fromRGB(255, 255, 255),
+                Light = Color3.fromRGB(30, 30, 30),
+            },
         },
     },
     BottomBar = {

@@ -430,6 +430,84 @@ local function getFields(props)
     })
 end
 
+---@param props table
+---@return RoactElement
+local function getField(props)
+    -- Read props
+    local field = props.field ---@type PlugField
+    local plug = props.plug ---@type PlugDefinition
+    local layoutOrder = props.layoutOrder ---@type number
+
+    -- Create Details
+    local detailsContainer = Roact.createElement("Frame", {
+        BackgroundTransparency = 1,
+        Size = UDim2.fromScale(1, 1),
+    }, {
+        UIPadding = Roact.createElement("UIPadding", {
+            PaddingLeft = UDim.new(0, 2),
+        }),
+        UIListLayout = Roact.createElement("UIListLayout", {
+            FillDirection = Enum.FillDirection.Horizontal,
+            HorizontalAlignment = Enum.HorizontalAlignment.Left,
+            SortOrder = Enum.SortOrder.LayoutOrder,
+        }),
+        TitleLabel = Roact.createElement("TextLabel", {
+            LayoutOrder = 1,
+            BackgroundTransparency = 1,
+            TextScaled = true,
+            Font = SocketController:GetSetting("Font"),
+            Text = field.Name,
+            Size = UDim2.fromScale(0.5, 1),
+            TextXAlignment = Enum.TextXAlignment.Left,
+            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+        }),
+        TextboxHolder = Roact.createElement("Frame", {
+            LayoutOrder = 2,
+            BackgroundTransparency = 1,
+            Size = UDim2.fromScale(0.5, 1),
+        }, {
+            UIPadding = Roact.createElement("UIPadding", {
+                PaddingBottom = UDim.new(0, 1),
+                PaddingTop = UDim.new(0, 2),
+            }),
+            TextBox = Roact.createElement("TextBox", {
+                Font = SocketController:GetSetting("Font"),
+                PlaceholderColor3 = WidgetConstants.Color.PlugLines.Field.PlaceholderText[SocketController:GetTheme()],
+                PlaceholderText = field.Type.Name,
+                Text = "",
+                TextColor3 = WidgetConstants.Color.PlugLines.Field.Text[SocketController:GetTheme()],
+                TextScaled = true,
+                BackgroundTransparency = 1,
+                Size = UDim2.fromScale(1, 1),
+                ZIndex = 2,
+            }),
+            Backing = Roact.createElement("Frame", {
+                BackgroundTransparency = 1,
+                Size = UDim2.fromScale(1, 1),
+            }, {
+                UICorner = Roact.createElement("UICorner", {
+                    CornerRadius = UDim.new(0, 1),
+                }),
+                UIStroke = Roact.createElement("UIStroke", {
+                    ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
+                    Color = WidgetConstants.Color.PlugLines.Field.Stroke[SocketController:GetTheme()],
+                    LineJoinMode = Enum.LineJoinMode.Round,
+                    Thickness = 2,
+                    Transparency = 0.2,
+                }),
+            }),
+        }),
+    })
+
+    -- Return line
+    return createLine({
+        indent = WidgetConstants.RoactWidgetLine.Indent.Field,
+        icon = field.Type.Icon,
+        detailsContainer = detailsContainer,
+        layoutOrder = layoutOrder,
+    })
+end
+
 ---
 ---@param lineType string WidgetConstants.RoactWidgetLine.Type
 ---@param props table
@@ -471,6 +549,7 @@ function RoactPlugLines:FrameworkStart()
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Keybind] = getKeybind
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Settings] = getSettings
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Fields] = getFields
+    gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Field] = getField
 end
 
 return RoactPlugLines
