@@ -15,6 +15,7 @@ local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---
 local Roact ---@type Roact
 local WidgetConstants ---@type WidgetConstants
 local TweenConstructor ---@type TweenConstructor
+local SocketController ---@type SocketController
 
 --------------------------------------------------
 -- Constants
@@ -147,7 +148,7 @@ function RoactButton:Get(props)
         TextLabel = Roact.createElement("TextLabel", {
             Size = UDim2.fromScale(1, 1),
             TextScaled = true,
-            Font = WidgetConstants.Font,
+            Font = SocketController:GetSetting("Font"),
             BackgroundTransparency = 1,
             Text = text,
         }),
@@ -163,6 +164,7 @@ function RoactButton:FrameworkInit()
     Roact = PluginFramework:Require("Roact")
     WidgetConstants = PluginFramework:Require("WidgetConstants")
     TweenConstructor = PluginFramework:Require("TweenConstructor")
+    SocketController = PluginFramework:Require("SocketController")
 end
 
 ---

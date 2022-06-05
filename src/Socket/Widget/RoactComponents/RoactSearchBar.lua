@@ -90,7 +90,7 @@ function RoactSearchBar:Get()
                     AnchorPoint = Vector2.new(0.5, 0.5),
                     Position = UDim2.fromScale(0.5, 0.55),
                     Size = UDim2.fromScale(0.8, 0.8),
-                    Font = WidgetConstants.Font,
+                    Font = SocketController:GetSetting("Font"),
                 }),
             }),
             TextBoxContainer = Roact.createElement("Frame", {
@@ -99,7 +99,7 @@ function RoactSearchBar:Get()
                 LayoutOrder = 2,
             }, {
                 TextBox = Roact.createElement("TextBox", {
-                    Font = WidgetConstants.Font,
+                    Font = SocketController:GetSetting("Font"),
                     PlaceholderText = "Search",
                     Text = "",
                     PlaceholderColor3 = WidgetConstants.Color.SearchBar.PlaceholderText[SocketController:GetTheme()],

@@ -73,12 +73,31 @@ function SocketController:GetTheme()
     return themeName == "Dark" and "Dark" or "Light"
 end
 
+---
+---Will read this setting from our current store
+---@param settingName string
+---@return any
+---
+function SocketController:GetSetting(settingName)
+    local settings = SocketController:GetStore():getState()[SocketConstants.RoduxStoreKey.SETTINGS].Settings
+
+    -- ERROR: Bad setting name
+    local settingValue = settings[settingName]
+    if settingValue == nil then
+        Logger:Error(("No setting %q"):format(settingName))
+    end
+
+    return settingValue
+end
+
 ---Will try require the current state of the passed moduleScript, by using a clone.
 ---@param moduleScript ModuleScript
 ---@return table|nil
 local function tryCloneRequire(moduleScript)
     -- Get clone + try require
     local clone = moduleScript:Clone()
+    runJanitor:Add(clone)
+
     local requiredClone ---@type table
     local requireSuccess, err = pcall(function()
         requiredClone = require(clone)
@@ -86,7 +105,6 @@ local function tryCloneRequire(moduleScript)
 
     -- Response
     if requireSuccess then
-        runJanitor:Add(clone)
         return requiredClone
     else
         Logger:Info(("Encountered issue while managing file %q  -  (%s)"):format(moduleScript.Name, err))
@@ -226,7 +244,7 @@ function SocketController:SetupSettingsActions()
     end
 
     -- Grab settings file
-    local settingsFile = StudioHandler.Folders.Directory.settings
+    local settingsFile = StudioHandler:GetSettingsScript()
     update(settingsFile)
 
     -- Listener to the user viewing different scripts; used to trigger our update action

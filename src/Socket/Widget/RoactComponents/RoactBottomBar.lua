@@ -18,6 +18,8 @@ local RoactSearchBar ---@type RoactSearchBar
 local WidgetConstants ---@type WidgetConstants
 local SocketController ---@type SocketController
 local RoactButton ---@type RoactButton
+local StudioHandler ---@type StudioHandler
+local PluginHandler ---@type PluginHandler
 
 --------------------------------------------------
 -- Constants
@@ -59,13 +61,13 @@ function RoactBottomBar:Get()
                     text = "Settings",
                     color = Color3.fromRGB(208, 138, 255),
                     activatedCallback = function()
-                        print("settings")
+                        PluginHandler:GetPlugin():OpenScript(StudioHandler:GetSettingsScript())
                     end,
                 }),
             }),
 
             VersionLabel = Roact.createElement("TextLabel", {
-                Font = WidgetConstants.Font,
+                Font = SocketController:GetSetting("Font"),
                 Text = "v?.?.?",
                 TextColor3 = WidgetConstants.Color.BottomBar.Version[SocketController:GetTheme()],
                 TextScaled = true,
@@ -92,6 +94,8 @@ function RoactBottomBar:FrameworkInit()
     WidgetConstants = PluginFramework:Require("WidgetConstants")
     SocketController = PluginFramework:Require("SocketController")
     RoactButton = PluginFramework:Require("RoactButton")
+    PluginHandler = PluginFramework:Require("PluginHandler")
+    StudioHandler = PluginFramework:Require("StudioHandler")
 end
 
 ---

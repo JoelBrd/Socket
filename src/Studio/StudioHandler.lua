@@ -145,6 +145,13 @@ function StudioHandler:Validate()
 end
 
 ---
+---@return ModuleScript
+---
+function StudioHandler:GetSettingsScript()
+    return StudioHandler.Folders.Directory.settings
+end
+
+---
 ---@private
 ---
 function StudioHandler:FrameworkInit()

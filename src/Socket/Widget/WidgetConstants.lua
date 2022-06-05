@@ -49,8 +49,6 @@ WidgetConstants.RoactWidgetLine.Pixel = {
     RunButtonWidth = 70,
 }
 
-WidgetConstants.Font = Enum.Font.Highway
-
 WidgetConstants.SearchBar = {}
 
 WidgetConstants.SearchBar.Pixel = {
