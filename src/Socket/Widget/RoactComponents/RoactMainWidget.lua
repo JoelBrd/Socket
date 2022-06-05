@@ -45,15 +45,20 @@ function RoactMainWidget:Create()
     MainWidget = Roact.Component:extend("MainWidget")
 
     function MainWidget:render()
+        local scale = SocketController:GetSetting("UIScale")
+
         return Roact.createElement("Frame", {
             BackgroundColor3 = WidgetConstants.Color.Background[SocketController:GetTheme()],
-            Size = UDim2.fromScale(1, 1),
+            Size = UDim2.fromScale(1 / scale, 1),
         }, {
             UIPadding = Roact.createElement("UIPadding", {
                 PaddingBottom = UDim.new(0, 7),
                 PaddingLeft = MARGIN_PADDING,
                 PaddingRight = MARGIN_PADDING,
                 PaddingTop = MARGIN_PADDING,
+            }),
+            UIScale = Roact.createElement("UIScale", {
+                Scale = scale,
             }),
             Container = Roact.createElement("Frame", {
                 BackgroundTransparency = 1,
