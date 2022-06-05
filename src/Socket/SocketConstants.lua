@@ -18,6 +18,7 @@ local SocketConstants = {}
 
 SocketConstants.RoduxStoreKey = {
     PLUGS = "PLUGS",
+    SETTINGS = "SETTINGS",
 } ---@type RoduxStoreKey[]
 
 SocketConstants.RoduxActionType = {
@@ -28,6 +29,9 @@ SocketConstants.RoduxActionType = {
         TOGGLE_GROUP_VISIBILITY = "TOGGLE_GROUP_VISIBILITY",
         TOGGLE_PLUG_VISIBILITY = "TOGGLE_PLUG_VISIBILITY",
         SEARCH_TEXT = "SEARCH_TEXT",
+    },
+    SETTINGS = {
+        UPDATE = "UPDATE",
     },
 } ---@type table<RoduxStoreKey, RoduxActionType[]>
 

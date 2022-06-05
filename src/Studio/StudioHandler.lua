@@ -12,6 +12,7 @@ local StudioHandler = {}
 --------------------------------------------------
 -- Dependencies
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
+local Logger ---@type Logger
 
 --------------------------------------------------
 -- Constants
@@ -24,7 +25,6 @@ local UTILS_FOLDER_NAME = "Utils"
 -- Members
 StudioHandler.Folders = {
     Directory = nil, ---@type Folder
-    Internal = nil, ---@type Folder
     Plugs = nil, ---@type Folder
     Utils = nil, ---@type Folder
 }
@@ -103,20 +103,57 @@ function StudioHandler:Validate()
             moduleScript:Clone().Parent = corePlugsFolder
         end
     end
+
+    --------------------------------------------------
+    -- POPULATE SETTINGS
+
+    local existingSettings = directoryFolder:FindFirstChild("settings")
+    if existingSettings then
+        -- We'll overwrite if Socket has had new settings added since.
+        local oldSettings = existingSettings:Clone()
+        local oldSettingsModule = require(oldSettings)
+        local newSettings = script.Parent.Settings.settings:Clone()
+        local newSettingsModule = require(newSettings)
+
+        -- Search
+        local didFindNewSettings = false
+        local foundNewSettings = {}
+        for key, value in pairs(newSettingsModule) do
+            if oldSettingsModule[key] == nil then
+                didFindNewSettings = true
+                foundNewSettings[key] = value
+            end
+        end
+
+        -- Ruh roh! Work to do
+        if didFindNewSettings then
+            Logger:Warn("Socket has loaded with new settings! We have to overwrite your settings, sorry :c")
+            Logger:Warn("(Your old Settings), (The new setting(s)):")
+            print(oldSettingsModule, foundNewSettings)
+
+            existingSettings:Destroy()
+            local updatedSettings = script.Parent.Settings.settings:Clone()
+            updatedSettings.Parent = directoryFolder
+        end
+
+        oldSettings:Destroy()
+        newSettings:Destroy()
+    else
+        local newSettings = script.Parent.Settings.settings:Clone()
+        newSettings.Parent = directoryFolder
+    end
 end
 
 ---
 ---@private
 ---
 function StudioHandler:FrameworkInit()
-    -- TODO Logic here
+    Logger = PluginFramework:Require("Logger")
 end
 
 ---
 ---@private
 ---
-function StudioHandler:FrameworkStart()
-    -- TODO Logic here
-end
+function StudioHandler:FrameworkStart() end
 
 return StudioHandler

@@ -45,8 +45,9 @@ function SocketController:Run()
     -- Init store
     roduxStore = SocketRoduxStoreController:GetRoduxStore()
 
-    -- Setup plugs to populate store
+    -- Setup rodux store actions
     SocketController:SetupPlugActions()
+    SocketController:SetupSettingsActions()
 
     -- Tell the widget handler its go time
     WidgetHandler:Run()
@@ -72,31 +73,31 @@ function SocketController:GetTheme()
     return themeName == "Dark" and "Dark" or "Light"
 end
 
+---Will try require the current state of the passed moduleScript, by using a clone.
+---@param moduleScript ModuleScript
+---@return table|nil
+local function tryCloneRequire(moduleScript)
+    -- Get clone + try require
+    local clone = moduleScript:Clone()
+    local requiredClone ---@type table
+    local requireSuccess, err = pcall(function()
+        requiredClone = require(clone)
+    end)
+
+    -- Response
+    if requireSuccess then
+        runJanitor:Add(clone)
+        return requiredClone
+    else
+        Logger:Info(("Encountered issue while managing file %q  -  (%s)"):format(moduleScript.Name, err))
+    end
+end
+
 ---
 ---Runs the logic for manipulating our RoduxStore from the Plug files in studio.
 ---Called once per Run().
 ---
 function SocketController:SetupPlugActions()
-    ---Will try require the current state of the passed moduleScript, by using a clone.
-    ---@param moduleScript ModuleScript
-    ---@return table|nil
-    local function tryCloneRequire(moduleScript)
-        -- Get clone + try require
-        local clone = moduleScript:Clone()
-        local requiredClone ---@type table
-        local requireSuccess, err = pcall(function()
-            requiredClone = require(clone)
-        end)
-
-        -- Response
-        if requireSuccess then
-            runJanitor:Add(clone)
-            return requiredClone
-        else
-            Logger:Info(("Encountered issue while managing plug file %q  -  (%s)"):format(moduleScript.Name, err))
-        end
-    end
-
     ---Applies changes to our store after a plug has been changed
     ---@param moduleScript ModuleScript
     local function changedPlug(moduleScript)
@@ -194,6 +195,49 @@ function SocketController:SetupPlugActions()
 
                 -- Wasn't in memory
                 newPlug(cachedActiveScript)
+            end
+        end
+
+        -- Update cache
+        cachedActiveScript = activeScript
+    end))
+end
+
+---
+---Runs the logic for manipulating our RoduxStore from the settings file in Studio
+---Called once per Run().
+---
+function SocketController:SetupSettingsActions()
+    ---Put our current settings into the store
+    ---@param settingsFile ModuleScript
+    local function update(settingsFile)
+        local requiredClone = tryCloneRequire(settingsFile)
+        if requiredClone then
+            -- Update RoduxStore
+            ---@type RoduxAction
+            local action = {
+                type = SocketConstants.RoduxActionType.SETTINGS.UPDATE,
+                data = {
+                    settings = requiredClone,
+                },
+            }
+            roduxStore:dispatch(action)
+        end
+    end
+
+    -- Grab settings file
+    local settingsFile = StudioHandler.Folders.Directory.settings
+    update(settingsFile)
+
+    -- Listener to the user viewing different scripts; used to trigger our update action
+    local cachedActiveScript ---@type Instance
+    runJanitor:Add(StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
+        local activeScript = StudioService.ActiveScript
+
+        -- Have we just exited a script file?
+        if cachedActiveScript then
+            if cachedActiveScript == settingsFile then
+                update(settingsFile)
             end
         end
 

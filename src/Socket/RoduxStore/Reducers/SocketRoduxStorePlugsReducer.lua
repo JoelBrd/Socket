@@ -1,9 +1,9 @@
 ---
 ---Reducer for actions pertaining to adding/changing/removing plugs
 ---
----@class SocketRoduxStoreWidgetReducer
+---@class SocketRoduxStorePlugsReducer
 ---
-local SocketRoduxStoreWidgetReducer = {}
+local SocketRoduxStorePlugsReducer = {}
 
 --------------------------------------------------
 -- Types
@@ -26,7 +26,7 @@ local TableUtil ---@type TableUtil
 ---
 ---@return RoduxReducer
 ---
-function SocketRoduxStoreWidgetReducer:Get()
+function SocketRoduxStorePlugsReducer:Get()
     return Rodux.createReducer({
         Groups = {},
         SearchText = "",
@@ -248,13 +248,13 @@ function SocketRoduxStoreWidgetReducer:Get()
 end
 
 ---@private
-function SocketRoduxStoreWidgetReducer:FrameworkInit()
+function SocketRoduxStorePlugsReducer:FrameworkInit()
     Rodux = PluginFramework:Require("Rodux")
     SocketConstants = PluginFramework:Require("SocketConstants")
     TableUtil = PluginFramework:Require("TableUtil")
 end
 
 ---@private
-function SocketRoduxStoreWidgetReducer:FrameworkStart() end
+function SocketRoduxStorePlugsReducer:FrameworkStart() end
 
-return SocketRoduxStoreWidgetReducer
+return SocketRoduxStorePlugsReducer
