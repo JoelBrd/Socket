@@ -218,7 +218,7 @@ local function getPlug(props)
                 strokeThickness = 1.5,
                 activatedDiscColor = Color3.fromRGB(48, 207, 0),
                 activatedCallback = function()
-                    plug.Function()
+                    SocketController:RunPlug(plug)
                 end,
             }),
         }),
@@ -374,6 +374,66 @@ local function getSettings(props)
     })
 end
 
+---@param props table
+---@return RoactElement
+local function getFields(props)
+    -- Read props
+    local hasFields = props.hasFields ---@type boolean
+    local isOpen = props.isOpen ---@type boolean
+    local layoutOrder = props.layoutOrder ---@type number
+    local plugScript = props.plugScript ---@type ModuleScript
+
+    -- Update open status (only show arrow if there are fields)
+    if not hasFields then
+        isOpen = nil
+    end
+
+    -- Create Details
+    local detailsContainer = Roact.createElement("Frame", {
+        BackgroundTransparency = 1,
+        Size = UDim2.fromScale(1, 1),
+    }, {
+        UIPadding = Roact.createElement("UIPadding", {
+            PaddingLeft = UDim.new(0, 2),
+        }),
+        TextLabel = Roact.createElement("TextLabel", {
+            BackgroundTransparency = 1,
+            TextScaled = true,
+            Font = SocketController:GetSetting("Font"),
+            Text = "Fields",
+            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+            Size = UDim2.fromScale(1, 1),
+            TextXAlignment = Enum.TextXAlignment.Left,
+        }),
+    })
+
+    -- Arrow callback
+    local function onArrowClick()
+        -- Get Store
+        local roduxStore = SocketController:GetStore()
+
+        -- Send action
+        ---@type RoduxAction
+        local action = {
+            type = SocketConstants.RoduxActionType.PLUGS.TOGGLE_FIELDS_VISIBILITY,
+            data = {
+                script = plugScript,
+            },
+        }
+        roduxStore:dispatch(action)
+    end
+
+    -- Return line
+    return createLine({
+        indent = WidgetConstants.RoactWidgetLine.Indent.Fields,
+        isOpen = isOpen,
+        icon = WidgetConstants.Icons.Fields,
+        detailsContainer = detailsContainer,
+        onArrowClick = onArrowClick,
+        layoutOrder = layoutOrder,
+    })
+end
+
 ---
 ---@param lineType string WidgetConstants.RoactWidgetLine.Type
 ---@param props table
@@ -414,6 +474,7 @@ function RoactPlugLines:FrameworkStart()
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Plug] = getPlug
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Keybind] = getKeybind
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Settings] = getSettings
+    gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Fields] = getFields
 end
 
 return RoactPlugLines

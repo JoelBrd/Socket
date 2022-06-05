@@ -11,7 +11,6 @@ local PlugDefinitions = {}
 ---@class PlugField
 ---@field Type PlugFieldType
 ---@field Name string
----@field Value any
 
 ---@class PlugDefinition
 ---@field Group string
@@ -22,7 +21,7 @@ local PlugDefinitions = {}
 ---@field State PlugState
 ---@field Keybind Enum.KeyCode[]
 ---@field Fields PlugField[]
----@field Function fun(self:PlugDefinition)
+---@field Function fun()
 
 ---@class PlugState
 ---@field FieldValues table<PlugField, string>

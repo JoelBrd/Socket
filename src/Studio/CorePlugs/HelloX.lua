@@ -1,5 +1,5 @@
 ---
----Hello World Plug
+---Hello X Plug
 ---
 
 --------------------------------------------------
@@ -22,12 +22,18 @@ local Logger = require(Utils.Logger) ---@type Logger
 ---@type PlugDefinition
 local plugDefinition = {
     Group = "Core",
-    Name = "Hello World",
-    Description = "Prints 'Hello World!' to the output",
-    Icon = "🌎",
+    GroupIcon = "🔌",
+    Name = "Hello X",
+    Description = "Prints 'Hello {X}!' to the output",
+    Icon = "👋",
     State = {},
-    Keybind = { Enum.KeyCode.H, Enum.KeyCode.W },
-    Fields = {},
+    Keybind = { Enum.KeyCode.H, Enum.KeyCode.X },
+    Fields = {
+        {
+            Type = "string",
+            Name = "X",
+        },
+    },
     Function = nil,
 }
 

@@ -7,7 +7,21 @@ local RoactMainWidget = {}
 
 --------------------------------------------------
 -- Types
--- ...
+
+---@class RoactMainWidgetProps.GroupInfo
+---@field name string
+---@field icon string
+---@field isOpen boolean
+---@field isVisible boolean
+---@field plugs RoactMainWidgetProps.PlugInfo[]
+
+---@class RoactMainWidgetProps.PlugInfo
+---@field name string
+---@field isOpen boolean
+---@field isFieldsOpen boolean
+---@field isVisible boolean
+---@field plug PlugDefinition
+---@field moduleScript ModuleScript
 
 --------------------------------------------------
 -- Dependencies
@@ -106,7 +120,7 @@ function RoactMainWidget:Create()
         end
 
         -- Construct groups
-        local groups = {} ---@type RoactPlugContainerProps.GroupInfo[]
+        local groups = {} ---@type RoactMainWidgetProps.GroupInfo[]
         local plugsState = state[SocketConstants.RoduxStoreKey.PLUGS]
         local stateGroups = plugsState.Groups
         for groupName, groupChild in pairs(stateGroups) do
@@ -116,8 +130,8 @@ function RoactMainWidget:Create()
                 icon = nil,
                 isOpen = groupChild.UIState.IsOpen,
                 isVisible = true,
-                plugs = {}, ---@type RoactPlugContainerProps.GroupInfo[]
-            } ---@type RoactPlugContainerProps.GroupInfo
+                plugs = {}, ---@type RoactMainWidgetProps.GroupInfo[]
+            } ---@type RoactMainWidgetProps.GroupInfo
             table.insert(groups, groupInfo)
 
             -- Construct plugs
@@ -127,10 +141,11 @@ function RoactMainWidget:Create()
                 local plugInfo = {
                     name = plug.Name,
                     isOpen = plugChild.UIState.IsOpen,
+                    isFieldsOpen = plugChild.UIState.IsFieldsOpen,
                     isVisible = true,
                     plug = plug, ---@type PlugDefinition
                     moduleScript = plugModuleScript,
-                } ---@type RoactPlugContainerProps.GroupInfo
+                } ---@type RoactMainWidgetProps.GroupInfo
                 table.insert(groupInfo.plugs, plugInfo)
 
                 -- Try populate group icon
@@ -140,8 +155,8 @@ function RoactMainWidget:Create()
             end
 
             -- Sort plugs
-            ---@param plugInfo0 RoactPlugContainerProps.PlugInfo
-            ---@param plugInfo1 RoactPlugContainerProps.PlugInfo
+            ---@param plugInfo0 RoactMainWidgetProps.PlugInfo
+            ---@param plugInfo1 RoactMainWidgetProps.PlugInfo
             local function plugsSort(plugInfo0, plugInfo1)
                 return plugInfo0.name < plugInfo1.name
             end
@@ -149,8 +164,8 @@ function RoactMainWidget:Create()
         end
 
         -- Sort groups
-        ---@param groupInfo0 RoactPlugContainerProps.GroupInfo
-        ---@param groupInfo1 RoactPlugContainerProps.GroupInfo
+        ---@param groupInfo0 RoactMainWidgetProps.GroupInfo
+        ---@param groupInfo1 RoactMainWidgetProps.GroupInfo
         local function groupsSort(groupInfo0, groupInfo1)
             return groupInfo0.name < groupInfo1.name
         end

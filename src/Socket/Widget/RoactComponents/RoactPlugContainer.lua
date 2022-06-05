@@ -7,20 +7,7 @@ local RoactPlugContainer = {}
 
 --------------------------------------------------
 -- Types
-
----@class RoactPlugContainerProps.GroupInfo
----@field name string
----@field icon string
----@field isOpen boolean
----@field isVisible boolean
----@field plugs RoactPlugContainerProps.PlugInfo[]
-
----@class RoactPlugContainerProps.PlugInfo
----@field name string
----@field isOpen boolean
----@field isVisible boolean
----@field plug PlugDefinition
----@field moduleScript ModuleScript
+-- ...
 
 --------------------------------------------------
 -- Dependencies
@@ -43,14 +30,18 @@ local WidgetConstants ---@type WidgetConstants
 ---@return RoactFragment
 local function createLinesFragment(props)
     -- Grab variables
-    local groups = props.groups ---@type RoactPlugContainerProps.GroupInfo[]
+    local groups = props.groups ---@type RoactMainWidgetProps.GroupInfo[]
     local elements = {}
     local layoutOrderCount = 0
+
+    local function increaseLayoutOrder()
+        layoutOrderCount = layoutOrderCount + 1
+    end
 
     for _, groupInfo in pairs(groups) do
         if groupInfo.isVisible then
             -- Create group line
-            layoutOrderCount = layoutOrderCount + 1
+            increaseLayoutOrder()
             local groupElementName = ("%d_Group_%s"):format(layoutOrderCount, groupInfo.name)
             elements[groupElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
                 name = groupInfo.name,
@@ -65,7 +56,7 @@ local function createLinesFragment(props)
                 for _, plugInfo in pairs(groupInfo.plugs) do
                     if plugInfo.isVisible then
                         -- Create plug line
-                        layoutOrderCount = layoutOrderCount + 1
+                        increaseLayoutOrder()
                         local plugElementName = ("%d_Group_%s_Plug_%s"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
                         elements[plugElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Plug, {
                             name = plugInfo.name,
@@ -78,8 +69,19 @@ local function createLinesFragment(props)
 
                         -- Create child lines
                         if plugInfo.isOpen then
+                            -- Create fields line
+                            increaseLayoutOrder()
+                            local hasFields = #plugInfo.plug.Fields > 0
+                            local fieldsElementName = ("%d_Group_%s_Plug_%s_Fields"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
+                            elements[fieldsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Fields, {
+                                isOpen = plugInfo.isFieldsOpen,
+                                plugScript = plugInfo.moduleScript,
+                                hasFields = hasFields,
+                                layoutOrder = layoutOrderCount,
+                            })
+
                             -- Create keybind line
-                            layoutOrderCount = layoutOrderCount + 1
+                            increaseLayoutOrder()
                             local keybindElementName = ("%d_Group_%s_Plug_%s_Keybind"):format(
                                 layoutOrderCount,
                                 groupInfo.name,
@@ -91,7 +93,7 @@ local function createLinesFragment(props)
                             })
 
                             -- Create setting line
-                            layoutOrderCount = layoutOrderCount + 1
+                            increaseLayoutOrder()
                             local settingsElementName = ("%d_Group_%s_Plug_%s_Settings"):format(
                                 layoutOrderCount,
                                 groupInfo.name,

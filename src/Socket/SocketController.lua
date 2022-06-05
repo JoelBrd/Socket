@@ -90,6 +90,13 @@ function SocketController:GetSetting(settingName)
     return settingValue
 end
 
+---
+---@param plug PlugDefinition
+---
+function SocketController:RunPlug(plug)
+    plug.Function()
+end
+
 ---Will try require the current state of the passed moduleScript, by using a clone.
 ---@param moduleScript ModuleScript
 ---@return table|nil
@@ -305,7 +312,7 @@ function SocketController:SetupKeybindHooks()
                         heldKeys = {}
 
                         -- Run Plug Function
-                        plug.Function()
+                        SocketController:RunPlug(plug)
 
                         -- Stop
                         return

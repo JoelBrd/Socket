@@ -20,9 +20,10 @@ WidgetConstants.Images = {
 
 WidgetConstants.Icons = {
     Unknown = "❓",
-    Keybind = "*️⃣",
+    Keybind = "🖱️",
     Settings = "⚙️",
     Search = "🔍",
+    Fields = "📂",
 }
 
 WidgetConstants.RoactWidgetLine = {}
@@ -32,6 +33,7 @@ WidgetConstants.RoactWidgetLine.Type = {
     Plug = "Plug",
     Keybind = "Keybind",
     Settings = "Settings",
+    Fields = "Fields",
 }
 
 WidgetConstants.RoactWidgetLine.Indent = {
@@ -39,13 +41,14 @@ WidgetConstants.RoactWidgetLine.Indent = {
     Plug = 1,
     Keybind = 2,
     Settings = 2,
+    Fields = 2,
 }
 
 WidgetConstants.RoactWidgetLine.Pixel = {
     Indent = 10,
-    LineHeight = 21,
-    IconWidth = 21,
-    ArrowWidth = 21,
+    LineHeight = 22,
+    IconWidth = 22,
+    ArrowWidth = 22,
     RunButtonWidth = 70,
 }
 

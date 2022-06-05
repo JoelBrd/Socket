@@ -64,6 +64,7 @@ function SocketRoduxStorePlugsReducer:Get()
                 Plug = plug,
                 UIState = {
                     IsOpen = false,
+                    IsFieldsOpen = false,
                 },
             }
 
@@ -218,6 +219,35 @@ function SocketRoduxStorePlugsReducer:Get()
                 for somePlugScript, somePlugInfo in pairs(groupData.Plugs) do
                     if somePlugScript == plugScript then
                         somePlugInfo.UIState.IsOpen = not somePlugInfo.UIState.IsOpen
+                        return newState
+                    end
+                end
+            end
+
+            return newState
+        end,
+
+        ---Show/Hide plug fields children from the widget
+        ---@param state RoduxState
+        ---@param action RoduxAction
+        [SocketConstants.RoduxActionType.PLUGS.TOGGLE_FIELDS_VISIBILITY] = function(state, action)
+            -- Read Action
+            local plugScript = action.data.script
+
+            -- Recreate state
+            local newState = {
+                Groups = {},
+                SearchText = state.SearchText,
+            }
+            for groupName, groupData in pairs(state.Groups) do
+                newState.Groups[groupName] = groupData
+            end
+
+            -- Toggle visibility for specified plug
+            for _, groupData in pairs(newState.Groups) do
+                for somePlugScript, somePlugInfo in pairs(groupData.Plugs) do
+                    if somePlugScript == plugScript then
+                        somePlugInfo.UIState.IsFieldsOpen = not somePlugInfo.UIState.IsFieldsOpen
                         return newState
                     end
                 end
