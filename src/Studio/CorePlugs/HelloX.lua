@@ -28,6 +28,7 @@ local plugDefinition = {
     Icon = "👋",
     State = {
         FieldValues = {},
+        IsRunning = false,
     },
     Keybind = { Enum.KeyCode.H, Enum.KeyCode.X },
     Fields = {
@@ -35,27 +36,26 @@ local plugDefinition = {
             Type = "string",
             Name = "Name",
         },
-        {
-            Type = "number",
-            Name = "Amount",
-        },
-        {
-            Type = "boolean",
-            Name = "IsMale",
-        },
     },
     Function = nil,
 }
 
 ---@param plug PlugDefinition
 plugDefinition.Function = function(plug)
-    local name = plug.State.FieldValues.Name or "?"
-    local amount = plug.State.FieldValues.Amount or 1
-    local isMale = plug.State.FieldValues.IsMale and true or false
-
-    for _ = 1, amount do
-        Logger:Plug(plug, ("Hello %s! (%s)"):format(name, isMale and "Male" or "Female"))
+    -- Toggle
+    plug.State.IsRunning = not plug.State.IsRunning
+    if not plug.State.IsRunning then
+        return
     end
+
+    -- Loop
+    task.spawn(function()
+        local name = plug.State.FieldValues.Name or "?"
+        while plug.State.IsRunning do
+            Logger:Plug(plug, ("Hello %s!"):format(name))
+            wait(1)
+        end
+    end)
 end
 
 return plugDefinition

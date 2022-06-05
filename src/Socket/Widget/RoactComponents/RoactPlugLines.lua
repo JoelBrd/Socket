@@ -184,6 +184,10 @@ local function getPlug(props)
     local plug = props.plug ---@type PlugDefinition
     local plugScript = props.plugScript ---@type ModuleScript
 
+    -- Get variables
+    local isRunning = plug.State.IsRunning and true or false
+    print(plug.Name, isRunning)
+
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
         BackgroundTransparency = 1,
@@ -214,8 +218,8 @@ local function getPlug(props)
             BackgroundTransparency = 1,
         }, {
             RoactButton:Get({
-                text = "Run",
-                color = Color3.fromRGB(250, 250, 250),
+                text = isRunning and "Running" or "Run",
+                color = isRunning and Color3.fromRGB(191, 255, 139) or Color3.fromRGB(250, 250, 250),
                 strokeThickness = 1.5,
                 activatedDiscColor = Color3.fromRGB(48, 207, 0),
                 activatedCallback = function()

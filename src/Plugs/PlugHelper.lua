@@ -19,16 +19,47 @@ local SocketController ---@type SocketController
 
 --------------------------------------------------
 -- Constants
--- ...
+local YIELD_TIME = 3
 
 --------------------------------------------------
 -- Members
+
+---Refreshes the state after we update a field
+local function refreshState()
+    -- Update RoduxStore
+    ---@type RoduxAction
+    local action = {
+        type = SocketConstants.RoduxActionType.PLUGS.REFRESH,
+        data = {},
+    }
+    SocketController:GetStore():dispatch(action)
+end
 
 ---
 ---@param plug PlugDefinition
 ---
 function PlugHelper:RunPlug(plug)
+    -- Task to ensure the function isn't yielding..
+    local threadIsGood = false
+    task.spawn(function()
+        wait(YIELD_TIME)
+        if not threadIsGood then
+            Logger:Warn(
+                ("Plug %s has been yielding for more than %d seconds.. if unintentional, may cause unintended behaviour."):format(
+                    plug.Name,
+                    YIELD_TIME
+                )
+            )
+        end
+    end)
+
     plug.Function(plug)
+    threadIsGood = true
+
+    -- Plug has `isRunning` enabled, so ensure to refresh the state!
+    if plug.State.IsRunning ~= nil then
+        refreshState()
+    end
 end
 
 ---
@@ -72,17 +103,6 @@ function PlugHelper:CleanPlugDefinition(plug)
     --todo more validation checks!!
 
     return plug
-end
-
----Refreshes the state after we update a field
-local function refreshState()
-    -- Update RoduxStore
-    ---@type RoduxAction
-    local action = {
-        type = SocketConstants.RoduxActionType.PLUGS.REFRESH,
-        data = {},
-    }
-    SocketController:GetStore():dispatch(action)
 end
 
 ---

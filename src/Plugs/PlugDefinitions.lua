@@ -25,6 +25,7 @@ local PlugDefinitions = {}
 
 ---@class PlugState
 ---@field FieldValues table<PlugField, any>
+---@field IsRunning boolean|nil
 
 --------------------------------------------------
 -- Dependencies
