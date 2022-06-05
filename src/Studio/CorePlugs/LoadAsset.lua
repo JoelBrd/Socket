@@ -28,6 +28,7 @@ local plugDefinition = {
     Description = "Will load in an asset with the given Id",
     Icon = "🖨️",
     State = {},
+    EnableAutomaticUndo = true,
     Keybind = {},
     Fields = {
         {

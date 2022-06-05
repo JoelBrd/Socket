@@ -38,6 +38,10 @@ local plugDefinition = {
         IsRunning = nil,
     },
 
+    -- If true, will automatically implement undo/redo functionality for this plug.
+    -- Only functions when the plug makes changes
+    EnableAutomaticUndo = false,
+
     -- A keybind that will trigger this plug.
     Keybind = { Enum.KeyCode.A, Enum.KeyCode.B, Enum.KeyCode.C },
 

@@ -11,6 +11,7 @@ local PlugHelper = {}
 
 --------------------------------------------------
 -- Dependencies
+local ChangeHistoryService = game:GetService("ChangeHistoryService") ---@type ChangeHistoryService
 local Selection = game:GetService("Selection") ---@type Selection
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local PlugConstants ---@type PlugConstants
@@ -47,7 +48,7 @@ function PlugHelper:RunPlug(plug)
         wait(YIELD_TIME)
         if not threadIsGood then
             Logger:Warn(
-                ("Plug %s has been yielding for more than %d seconds.. if unintentional, may cause unintended behaviour."):format(
+                ("Plug %s has been yielding for more than %d seconds.. if unintentional, will cause unintended behaviour."):format(
                     plug.Name,
                     YIELD_TIME
                 )
@@ -55,8 +56,20 @@ function PlugHelper:RunPlug(plug)
         end
     end)
 
+    -- Set waypoint (undo/redo)
+    local doSetWaypoint = plug.EnableAutomaticUndo
+    if doSetWaypoint then
+        ChangeHistoryService:SetWaypoint(("Plug %s Before"):format(plug.Name))
+    end
+
+    -- Run Plug
     plug.Function(plug)
     threadIsGood = true
+
+    -- Set waypoint
+    if doSetWaypoint then
+        ChangeHistoryService:SetWaypoint(("Plug %s After"):format(plug.Name))
+    end
 
     -- Plug has `isRunning` enabled, so ensure to refresh the state!
     if plug.State.IsRunning ~= nil then
@@ -118,6 +131,9 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     -- State
     plug.State = plug.State or {}
     plug.State.FieldValues = plug.State.FieldValues or {}
+
+    -- EnableAutomaticUndo
+    plug.EnableAutomaticUndo = plug.EnableAutomaticUndo and true or false
 
     -- Keybind
     plug.Keybind = plug.Keybind or {}

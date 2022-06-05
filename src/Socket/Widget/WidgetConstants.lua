@@ -47,7 +47,7 @@ WidgetConstants.RoactWidgetLine.Indent = {
 }
 
 WidgetConstants.RoactWidgetLine.Pixel = {
-    Indent = 10,
+    Indent = 14,
     LineHeight = 22,
     IconWidth = 22,
     ArrowWidth = 22,

@@ -15,6 +15,7 @@ local PlugConstants = {}
 ---@field Icon string
 ---@field Description string
 ---@field State PlugState
+---@field EnableAutomaticUndo boolean
 ---@field Keybind Enum.KeyCode[]
 ---@field Fields PlugField[]
 ---@field Function fun()
