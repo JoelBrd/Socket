@@ -347,7 +347,7 @@ local function getSettings(props)
                 text = "View Source",
                 color = Color3.fromRGB(255, 244, 160),
                 activatedCallback = function()
-                    PluginHandler:GetPlugin():OpenScript(moduleScript)
+                    PlugHelper:ViewSource(moduleScript)
                 end,
             }),
         }),

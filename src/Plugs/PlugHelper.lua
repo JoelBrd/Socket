@@ -11,11 +11,13 @@ local PlugHelper = {}
 
 --------------------------------------------------
 -- Dependencies
+local Selection = game:GetService("Selection") ---@type Selection
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local PlugConstants ---@type PlugConstants
 local Logger ---@type Logger
 local SocketConstants ---@type SocketConstants
 local SocketController ---@type SocketController
+local PluginHandler ---@type PluginHandler
 
 --------------------------------------------------
 -- Constants
@@ -68,6 +70,14 @@ end
 function PlugHelper:ShowDescription(plug)
     local descriptionHolderString = ("================ %s (%s) | DESCRIPTION ================"):format(plug.Name, plug.Group)
     print("\n", descriptionHolderString, "\n\n", plug.Description, "\n\n", descriptionHolderString)
+end
+
+---
+---@param plugScript ModuleScript
+---
+function PlugHelper:ViewSource(plugScript)
+    PluginHandler:GetPlugin():OpenScript(plugScript)
+    Selection:Set({ plugScript })
 end
 
 ---Will clean up a plug definiton direct from require().
@@ -199,6 +209,7 @@ function PlugHelper:FrameworkInit()
     PlugConstants = PluginFramework:Require("PlugConstants")
     SocketController = PluginFramework:Require("SocketController")
     SocketConstants = PluginFramework:Require("SocketConstants")
+    PluginHandler = PluginFramework:Require("PluginHandler")
 end
 
 ---
