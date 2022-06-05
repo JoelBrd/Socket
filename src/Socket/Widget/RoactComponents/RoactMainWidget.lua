@@ -184,7 +184,7 @@ function RoactMainWidget:Create()
                     groupHasGoodPlug = groupHasGoodPlug or plugHasGoodName
                 end
                 groupInfo.isVisible = groupHasGoodName or groupHasGoodPlug
-                groupInfo.isOpen = groupInfo.isOpen or groupInfo.isVisible -- Open up the group if it found plugs inside it.
+                groupInfo.isOpen = groupInfo.isOpen or groupHasGoodPlug -- Open up the group if it found plugs inside it.
             end
         end
 
