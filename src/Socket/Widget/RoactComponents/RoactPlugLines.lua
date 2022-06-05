@@ -20,6 +20,7 @@ local Logger ---@type Logger
 local PluginHandler ---@type PluginHandler
 local RoactButton ---@type RoactButton
 local SocketController ---@type SocketController
+local PlugHelper ---@type PlugHelper
 
 --------------------------------------------------
 -- Constants
@@ -218,7 +219,7 @@ local function getPlug(props)
                 strokeThickness = 1.5,
                 activatedDiscColor = Color3.fromRGB(48, 207, 0),
                 activatedCallback = function()
-                    SocketController:RunPlug(plug)
+                    PlugHelper:RunPlug(plug)
                 end,
             }),
         }),
@@ -355,7 +356,7 @@ local function getSettings(props)
                 text = "Description",
                 color = Color3.fromRGB(111, 182, 230),
                 activatedCallback = function()
-                    SocketController:ShowDescription(plug)
+                    PlugHelper:ShowDescription(plug)
                 end,
             }),
         }),
@@ -438,6 +439,27 @@ local function getField(props)
     local plug = props.plug ---@type PlugDefinition
     local layoutOrder = props.layoutOrder ---@type number
 
+    ---User has clicked off the textbox; try validate input
+    ---@param instance TextBox
+    local function onFocusLost(instance)
+        -- Clear
+        local text = instance.Text
+        if text:len() == 0 then
+            PlugHelper:ClearField(plug, field)
+            return
+        end
+
+        -- Try update
+        local finalValue, didUpdate = PlugHelper:UpdateField(plug, field, text)
+        if not didUpdate then
+            instance.Text = tostring(finalValue)
+        end
+    end
+
+    -- Get current value
+    local currentValue = plug.State.FieldValues[field.Name]
+    local currentValueString = currentValue == nil and "" or tostring(currentValue)
+
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
         BackgroundTransparency = 1,
@@ -474,12 +496,14 @@ local function getField(props)
                 Font = SocketController:GetSetting("Font"),
                 PlaceholderColor3 = WidgetConstants.Color.PlugLines.Field.PlaceholderText[SocketController:GetTheme()],
                 PlaceholderText = field.Type.Name,
-                Text = "",
+                Text = currentValueString,
                 TextColor3 = WidgetConstants.Color.PlugLines.Field.Text[SocketController:GetTheme()],
                 TextScaled = true,
                 BackgroundTransparency = 1,
                 Size = UDim2.fromScale(1, 1),
                 ZIndex = 2,
+
+                [Roact.Event.FocusLost] = onFocusLost,
             }),
             Backing = Roact.createElement("Frame", {
                 BackgroundTransparency = 1,
@@ -536,6 +560,7 @@ function RoactPlugLines:FrameworkInit()
     PluginHandler = PluginFramework:Require("PluginHandler")
     RoactButton = PluginFramework:Require("RoactButton")
     SocketController = PluginFramework:Require("SocketController")
+    PlugHelper = PluginFramework:Require("PlugHelper")
 end
 
 ---

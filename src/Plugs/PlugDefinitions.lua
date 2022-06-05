@@ -24,9 +24,7 @@ local PlugDefinitions = {}
 ---@field Function fun()
 
 ---@class PlugState
----@field FieldValues table<PlugField, string>
----@field IsPlugOpen boolean
----@field IsFieldsOpen boolean
+---@field FieldValues table<PlugField, any>
 
 --------------------------------------------------
 -- Dependencies
@@ -70,7 +68,9 @@ function PlugDefinitions:FrameworkStart()
         Name = "Plug",
         Description = "A Template Plug",
         Icon = ImageUtil.Images.Icon.Socket,
-        State = {},
+        State = {
+            FieldValues = {},
+        },
         Keybind = {},
         Fields = {},
         Function = templateFunction,

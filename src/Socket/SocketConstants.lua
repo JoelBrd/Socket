@@ -30,6 +30,7 @@ SocketConstants.RoduxActionType = {
         TOGGLE_PLUG_VISIBILITY = "TOGGLE_PLUG_VISIBILITY",
         TOGGLE_FIELDS_VISIBILITY = "TOGGLE_FIELDS_VISIBILITY",
         SEARCH_TEXT = "SEARCH_TEXT",
+        REFRESH = "REFRESH",
     },
     SETTINGS = {
         UPDATE = "UPDATE",

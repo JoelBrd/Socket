@@ -274,6 +274,22 @@ function SocketRoduxStorePlugsReducer:Get()
 
             return newState
         end,
+
+        ---Refreshes the UI, makes no changes to state
+        ---@param state RoduxState
+        ---@param action RoduxAction
+        [SocketConstants.RoduxActionType.PLUGS.REFRESH] = function(state, action)
+            -- Recreate state
+            local newState = {
+                Groups = {},
+                SearchText = state.SearchText,
+            }
+            for groupName, groupData in pairs(state.Groups) do
+                newState.Groups[groupName] = groupData
+            end
+
+            return newState
+        end,
     })
 end
 

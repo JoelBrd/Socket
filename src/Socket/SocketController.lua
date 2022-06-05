@@ -22,6 +22,7 @@ local Logger ---@type Logger
 local SocketRoduxStoreController ---@type SocketRoduxStoreController
 local WidgetHandler ---@type WidgetHandler
 local PlugConstants ---@type PlugConstants
+local PlugHelper ---@type PlugHelper
 
 --------------------------------------------------
 -- Constants
@@ -91,21 +92,6 @@ function SocketController:GetSetting(settingName)
     return settingValue
 end
 
----
----@param plug PlugDefinition
----
-function SocketController:RunPlug(plug)
-    plug.Function()
-end
-
----
----@param plug PlugDefinition
----
-function SocketController:ShowDescription(plug)
-    local descriptionHolderString = ("================ %s (%s) | DESCRIPTION ================"):format(plug.Name, plug.Group)
-    print("\n", descriptionHolderString, "\n\n", plug.Description, "\n\n", descriptionHolderString)
-end
-
 ---Will try require the current state of the passed moduleScript, by using a clone.
 ---@param moduleScript ModuleScript
 ---@return table|nil
@@ -127,29 +113,6 @@ local function tryCloneRequire(moduleScript)
     end
 end
 
----Will clean up a plug definiton direct from require().
----Injects expected data structures.
----Ensures inputted data is valid.
----Warns of any issues.
----@param plug PlugDefinition
----@return PlugDefinition
-local function cleanPlugDefinition(plug)
-    -- PlugFields
-    for _, field in pairs(plug.Fields) do
-        local fieldTypeId = field.Type
-        local fieldType = PlugConstants.FieldType[fieldTypeId]
-        if not fieldType then
-            Logger:Warn(("Field %q has invalid field type %q (%s)"):format(field.Name, fieldTypeId, plug.Name))
-            return
-        end
-        field.Type = fieldType
-    end
-
-    --todo more validation checks!!
-
-    return plug
-end
-
 ---
 ---Runs the logic for manipulating our RoduxStore from the Plug files in studio.
 ---Called once per Run().
@@ -159,7 +122,7 @@ function SocketController:SetupPlugActions()
     ---@param moduleScript ModuleScript
     local function changedPlug(moduleScript)
         local requiredClone = tryCloneRequire(moduleScript)
-        local plugDefinition = requiredClone and cleanPlugDefinition(requiredClone)
+        local plugDefinition = requiredClone and PlugHelper:CleanPlugDefinition(requiredClone)
         if plugDefinition then
             -- Update RoduxStore
             ---@type RoduxAction
@@ -192,7 +155,7 @@ function SocketController:SetupPlugActions()
     ---@param moduleScript ModuleScript
     local function newPlug(moduleScript)
         local requiredClone = tryCloneRequire(moduleScript)
-        local plugDefinition = requiredClone and cleanPlugDefinition(requiredClone)
+        local plugDefinition = requiredClone and PlugHelper:CleanPlugDefinition(requiredClone)
         if plugDefinition then
             -- Update RoduxStore
             ---@type RoduxAction
@@ -346,7 +309,7 @@ function SocketController:SetupKeybindHooks()
                         heldKeys = {}
 
                         -- Run Plug Function
-                        SocketController:RunPlug(plug)
+                        PlugHelper:RunPlug(plug)
 
                         -- Stop
                         return
@@ -405,6 +368,7 @@ function SocketController:FrameworkInit()
     SocketRoduxStoreController = PluginFramework:Require("SocketRoduxStoreController")
     WidgetHandler = PluginFramework:Require("WidgetHandler")
     PlugConstants = PluginFramework:Require("PlugConstants")
+    PlugHelper = PluginFramework:Require("PlugHelper")
 end
 
 ---@private
