@@ -122,7 +122,7 @@ function SocketController:SetupPlugActions()
     ---@param moduleScript ModuleScript
     local function changedPlug(moduleScript)
         local requiredClone = tryCloneRequire(moduleScript)
-        local plugDefinition = requiredClone and PlugHelper:CleanPlugDefinition(requiredClone)
+        local plugDefinition = requiredClone and PlugHelper:CleanPlugDefinition(moduleScript, requiredClone)
         if plugDefinition then
             -- Update RoduxStore
             ---@type RoduxAction
@@ -155,7 +155,7 @@ function SocketController:SetupPlugActions()
     ---@param moduleScript ModuleScript
     local function newPlug(moduleScript)
         local requiredClone = tryCloneRequire(moduleScript)
-        local plugDefinition = requiredClone and PlugHelper:CleanPlugDefinition(requiredClone)
+        local plugDefinition = requiredClone and PlugHelper:CleanPlugDefinition(moduleScript, requiredClone)
         if plugDefinition then
             -- Update RoduxStore
             ---@type RoduxAction
@@ -173,20 +173,20 @@ function SocketController:SetupPlugActions()
     -- Grab the plugs already sitting there
     local plugsFolder = StudioHandler.Folders.Plugs
     for _, descendant in pairs(plugsFolder:GetDescendants()) do
-        if descendant:IsA("ModuleScript") then
+        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
             newPlug(descendant)
         end
     end
 
     -- Hook up listener events for plug files being added/removed
     runJanitor:Add(plugsFolder.DescendantAdded:Connect(function(descendant)
-        if descendant:IsA("ModuleScript") then
+        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
             newPlug(descendant)
         end
     end))
 
     runJanitor:Add(plugsFolder.DescendantRemoving:Connect(function(descendant)
-        if descendant:IsA("ModuleScript") then
+        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
             removedPlug(descendant)
         end
     end))

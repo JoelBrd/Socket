@@ -8,6 +8,25 @@ local PlugConstants = {}
 --------------------------------------------------
 -- Types
 
+---@class PlugDefinition
+---@field Group string
+---@field GroupIcon string
+---@field Name string
+---@field Icon string
+---@field Description string
+---@field State PlugState
+---@field Keybind Enum.KeyCode[]
+---@field Fields PlugField[]
+---@field Function fun()
+
+---@class PlugState
+---@field FieldValues table<PlugField, any>
+---@field IsRunning boolean|nil
+
+---@class PlugField
+---@field Type PlugFieldType
+---@field Name string
+
 ---@class PlugFieldType
 ---@field Name string
 ---@field Icon string

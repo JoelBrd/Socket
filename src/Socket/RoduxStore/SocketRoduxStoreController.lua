@@ -33,7 +33,7 @@ function SocketRoduxStoreController:GetRoduxStore()
     local roduxInitialState = nil
     local roduxMiddlewares = table.pack(Rodux.loggerMiddleware)
 
-    return Rodux.Store.new(roduxReducer, roduxInitialState, roduxMiddlewares)
+    return Rodux.Store.new(roduxReducer, roduxInitialState)
 end
 
 ---

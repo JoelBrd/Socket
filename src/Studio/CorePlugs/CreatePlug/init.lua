@@ -1,5 +1,5 @@
 ---
----Hello X Plug
+---Creates a new plug!
 ---
 
 --------------------------------------------------
@@ -10,6 +10,7 @@
 -- Dependencies
 local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
+local Plugs = ServerStorage.SocketPlugin.Plugs
 local Logger = require(Utils.Logger) ---@type Logger
 
 --------------------------------------------------
@@ -23,14 +24,11 @@ local Logger = require(Utils.Logger) ---@type Logger
 local plugDefinition = {
     Group = "Core",
     GroupIcon = "🔌",
-    Name = "Hello X",
-    Description = "Prints 'Hello {X}!' to the output",
-    Icon = "👋",
-    State = {
-        FieldValues = {},
-        IsRunning = false,
-    },
-    Keybind = { Enum.KeyCode.H, Enum.KeyCode.X },
+    Name = "Create Plug",
+    Description = "Creates a template plug!",
+    Icon = "🟢",
+    State = {},
+    Keybind = {},
     Fields = {
         {
             Type = "string",
@@ -42,20 +40,13 @@ local plugDefinition = {
 
 ---@param plug PlugDefinition
 plugDefinition.Function = function(plug)
-    -- Toggle
-    plug.State.IsRunning = not plug.State.IsRunning
-    if not plug.State.IsRunning then
-        return
-    end
+    -- Get Name
+    local name = plug.State.FieldValues.Name or "NewPlug"
 
-    -- Loop
-    task.spawn(function()
-        local name = plug.State.FieldValues.Name or "?"
-        while plug.State.IsRunning do
-            Logger:Plug(plug, ("Hello %s!"):format(name))
-            wait(1)
-        end
-    end)
+    -- Create plug
+    local newPlug = script.PlugTemplate:Clone()
+    newPlug.Name = name
+    newPlug.Parent = Plugs
 end
 
 return plugDefinition

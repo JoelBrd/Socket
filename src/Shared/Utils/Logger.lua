@@ -108,8 +108,18 @@ end
 ---@param plug PlugDefinition
 ---@vararg any
 ---
-function Logger:Plug(plug, ...)
-    print(("[🔌 %s] %s"):format(plug.Name, concatVars(...)))
+function Logger:PlugInfo(plug, ...)
+    print(("[%s %s] %s"):format(plug.Icon or "🔌", plug.Name, concatVars(...)))
+end
+
+---
+---[] A plug wants to warn
+---
+---@param plug PlugDefinition
+---@vararg any
+---
+function Logger:PlugWarn(plug, ...)
+    warn(("[%s %s] %s"):format(plug.Icon or "🔌", plug.Name, concatVars(...)))
 end
 
 ---

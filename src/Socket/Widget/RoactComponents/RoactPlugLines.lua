@@ -99,6 +99,7 @@ local function createLine(props)
         }, {
             TextLabel = Roact.createElement("TextLabel", {
                 Text = icon,
+                TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
                 Size = UDim2.fromScale(1, 1),
                 TextScaled = true,
                 BackgroundTransparency = 1,
@@ -186,7 +187,6 @@ local function getPlug(props)
 
     -- Get variables
     local isRunning = plug.State.IsRunning and true or false
-    print(plug.Name, isRunning)
 
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {

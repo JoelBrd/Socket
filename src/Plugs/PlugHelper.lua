@@ -74,33 +74,85 @@ end
 ---Injects expected data structures.
 ---Ensures inputted data is valid.
 ---Warns of any issues.
+---@param plugScript ModuleScript
 ---@param plug PlugDefinition
 ---@return PlugDefinition
-function PlugHelper:CleanPlugDefinition(plug)
+function PlugHelper:CleanPlugDefinition(plugScript, plug)
+    -- Group
+    plug.Group = plug.Group or "No Group"
+    if typeof(plug.Group) ~= "string" then
+        Logger:Warn(("Plug %s `Group` must be of type `string` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+        return
+    end
+
+    -- Name
+    if not plug.Name then
+        Logger:Warn(("Plug %s has no `Name` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+        return
+    end
+    if typeof(plug.Name) ~= "string" then
+        Logger:Warn(("Plug %s `Name` must be of type `string` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+        return
+    end
+
+    -- Description
+    if not plug.Description then
+        Logger:Warn(("Plug %s has no `Description` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+        return
+    end
+    if typeof(plug.Description) ~= "string" then
+        Logger:Warn(("Plug %s `Description` must be of type `string` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+        return
+    end
+
     -- State
     plug.State = plug.State or {}
     plug.State.FieldValues = plug.State.FieldValues or {}
 
-    -- PlugFields
+    -- Keybind
+    plug.Keybind = plug.Keybind or {}
+    for _, keyCode in pairs(plug.Keybind) do
+        if not keyCode.EnumType == Enum.KeyCode then
+            Logger:Warn(
+                ("Plug %s `Keybind` must have values of only type `Enum.KeyCode` (%s)"):format(plugScript.Name, plugScript:GetFullName())
+            )
+            return
+        end
+    end
+
+    -- Fields
     local fieldNames = {}
     for _, field in pairs(plug.Fields) do
-        local fieldTypeId = field.Type
-        local fieldType = PlugConstants.FieldType[fieldTypeId]
-        if not fieldType then
-            Logger:Warn(("Field %q has invalid field type %q (%s)"):format(field.Name, fieldTypeId, plug.Name))
+        if typeof(field) ~= "table" then
+            ("Plug %s `Fields` must contain tables, with entries `Name` and `Type` (%s)"):format(plugScript.Name, plugScript:GetFullName())
             return
         end
 
         local fieldName = field.Name
+        if not (fieldName and typeof(fieldName) == "string") then
+            ("Plug %s has a field with no `Name` (string) (%s)"):format(plugScript.Name, plugScript:GetFullName())
+            return
+        end
         if fieldNames[fieldName] then
-            Logger:Warn(("Field %q is a duplicate name (%s)"):format(field.Name, plug.Name))
+            Logger:Warn(("Field %q is a duplicate name (%s)"):format(field.Name, plugScript:GetFullName()))
+            return
+        end
+
+        local fieldTypeId = tostring(field.Type)
+        local fieldType = PlugConstants.FieldType[fieldTypeId]
+        if not fieldType then
+            Logger:Warn(("Field %q has invalid field type %q (%s)"):format(field.Name, fieldTypeId, plugScript:GetFullName()))
             return
         end
 
         field.Type = fieldType
     end
 
-    --todo more validation checks!!
+    -- Function
+    if not (plug.Function and typeof(plug.Function) == "function") then
+        Logger:Warn(("Plug %s has no `Function`! (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+        return
+    end
 
     return plug
 end
