@@ -47,7 +47,9 @@ local function refreshState()
 end
 
 ---
+---Runs a plug, then returns its state after the fact.
 ---@param plug PlugDefinition
+---@return PlugState
 ---
 function PlugHelper:RunPlug(plug)
     -- Task to ensure the function isn't yielding..
@@ -83,6 +85,8 @@ function PlugHelper:RunPlug(plug)
     if plug.State.IsRunning ~= nil then
         refreshState()
     end
+
+    return plug.State
 end
 
 ---
@@ -99,20 +103,30 @@ function PlugHelper:RunPlugAt(plug, onServer, onClient)
     end
 
     -- Run in this context
-    if (IS_SERVER and onServer) or (IS_CLIENT and onClient) then
-        PlugHelper:RunPlug(plug)
+    if IS_SERVER and onServer then
+        local plugState = PlugHelper:RunPlug(plug)
+        plug.State.Server.IsRunning = (plugState.IsRunning == nil and plug.State.Server.IsRunning) or plugState.IsRunning
+        refreshState()
+    elseif IS_CLIENT and onClient then
+        local plugState = PlugHelper:RunPlug(plug)
+        plug.State.Client.IsRunning = (plugState.IsRunning == nil and plug.State.Client.IsRunning) or plugState.IsRunning
+        refreshState()
     end
 
     -- Server -> Client
     if IS_SERVER and onClient then
         local player = Players:GetPlayerByUserId(StudioService:GetUserId())
-        PlugClientServer:RunPlugOnClient(player, plug._script.Name, plug._script.Parent.Name)
+        local plugState = PlugClientServer:RunPlugOnClient(player, plug)
+        plug.State.Client.IsRunning = (plugState.IsRunning == nil and plug.State.Client.IsRunning) or plugState.IsRunning
+        refreshState()
         return
     end
 
     -- Client -> Server
     if IS_CLIENT and onServer then
-        PlugClientServer:RunPlugOnServer(plug._script.Name, plug._script.Parent.Name)
+        local plugState = PlugClientServer:RunPlugOnServer(plug)
+        plug.State.Server.IsRunning = (plugState.IsRunning == nil and plug.State.Server.IsRunning) or plugState.IsRunning
+        refreshState()
         return
     end
 end
@@ -171,6 +185,8 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     -- State
     plug.State = plug.State or {}
     plug.State.FieldValues = plug.State.FieldValues or {}
+    plug.State.Server = plug.State.Server or {}
+    plug.State.Client = plug.State.Client or {}
 
     -- EnableAutomaticUndo
     plug.EnableAutomaticUndo = plug.EnableAutomaticUndo and true or false

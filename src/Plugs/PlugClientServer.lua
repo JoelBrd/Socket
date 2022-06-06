@@ -68,9 +68,11 @@ function PlugClientServer:SetupCommunication()
         remoteFunction.Parent = game.ReplicatedStorage
     end
 
-    -- Callback
-    ---@param plugScript ModuleScript
-    local function runPlugFromPlugScript(plugScriptName, plugScriptParentName)
+    ---@param plugScriptName string
+    ---@param plugScriptParentName string
+    ---@param plugFieldValues table
+    ---@return PlugState
+    local function runPlugFromPlugScript(plugScriptName, plugScriptParentName, plugFieldValues)
         -- Try find plug from this
         local plugDirectory = StudioHandler.Folders.Plugs
 
@@ -102,42 +104,45 @@ function PlugClientServer:SetupCommunication()
             return
         end
 
-        -- Run!
+        -- Get Plug
         local plugScript = possiblePlugs[1]
         local plug = SocketController:GetPlug(plugScript)
         if not plug then
             Logger:Warn(("Could not find plug %s internally on invoke"):format(plugScriptName))
         end
 
-        PlugHelper:RunPlug(plug)
+        -- Load on our field values
+        plug.State.FieldValues = plugFieldValues
+
+        return PlugHelper:RunPlug(plug)
     end
 
     if IS_SERVER then
-        remoteFunction.OnServerInvoke = function(player, plugScriptName, plugScriptParentName)
-            runPlugFromPlugScript(plugScriptName, plugScriptParentName)
+        remoteFunction.OnServerInvoke = function(player, plugScriptName, plugScriptParentName, plugFieldValues)
+            return runPlugFromPlugScript(plugScriptName, plugScriptParentName, plugFieldValues)
         end
     elseif IS_CLIENT then
-        remoteFunction.OnClientInvoke = function(plugScriptName, plugScriptParentName)
-            runPlugFromPlugScript(plugScriptName, plugScriptParentName)
+        remoteFunction.OnClientInvoke = function(plugScriptName, plugScriptParentName, plugFieldValues)
+            return runPlugFromPlugScript(plugScriptName, plugScriptParentName, plugFieldValues)
         end
     end
 end
 
 ---
 ---@param player Player
----@param plugScriptName string
----@param plugScriptParentName string
+---@param plug PlugDefinition
+---@return PlugState
 ---
-function PlugClientServer:RunPlugOnClient(player, plugScriptName, plugScriptParentName)
-    remoteFunction:InvokeServer(player, plugScriptName, plugScriptParentName)
+function PlugClientServer:RunPlugOnClient(player, plug)
+    return remoteFunction:InvokeServer(player, plug._script.Name, plug._script.Parent.Name, plug.State.FieldValues)
 end
 
 ---
----@param plugScriptName string
----@param plugScriptParentName string
+---@param plug PlugDefinition
+---@return PlugState
 ---
-function PlugClientServer:RunPlugOnServer(plugScriptName, plugScriptParentName)
-    remoteFunction:InvokeServer(plugScriptName, plugScriptParentName)
+function PlugClientServer:RunPlugOnServer(plug)
+    return remoteFunction:InvokeServer(plug._script.Name, plug._script.Parent.Name, plug.State.FieldValues)
 end
 
 ---

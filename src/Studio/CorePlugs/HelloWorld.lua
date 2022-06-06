@@ -8,7 +8,6 @@
 
 --------------------------------------------------
 -- Dependencies
-local InsertService = game:GetService("InsertService") ---@type InsertService
 local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Logger = require(Utils.Logger) ---@type Logger
@@ -26,17 +25,42 @@ local plugDefinition = {
     Name = "Hello World!",
     Description = 'Prints "Hello World!" to the output.',
     Icon = "🌎",
-    State = {},
+    State = {
+        IsRunning = false,
+    },
     EnableAutomaticUndo = false,
     Keybind = {},
-    Fields = {},
+    Fields = {
+        {
+            Name = "Do Loop",
+            Type = "boolean",
+        },
+        {
+            Name = "Time",
+            Type = "number",
+        },
+    },
     Function = nil,
 }
 
 ---Gets passed a `PlugDefinition`, which will be the table defined above (+ its populated .State)
 ---@param plug PlugDefinition
 plugDefinition.Function = function(plug)
-    Logger:PlugInfo(plug, "Hello World!")
+    local doLoop = plug.State.FieldValues["Do Loop"]
+    local time = plug.State.FieldValues["Time"]
+
+    if doLoop and time then
+        plug.State.IsRunning = not plug.State.IsRunning
+
+        task.spawn(function()
+            while plug.State.IsRunning do
+                wait(time)
+                Logger:PlugInfo(plug, "Hello World!")
+            end
+        end)
+    else
+        Logger:PlugInfo(plug, "Hello World!")
+    end
 end
 
 return plugDefinition

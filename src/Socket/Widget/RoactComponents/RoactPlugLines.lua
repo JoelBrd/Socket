@@ -185,14 +185,15 @@ local function getPlug(props)
     local plug = props.plug ---@type PlugDefinition
     local plugScript = props.plugScript ---@type ModuleScript
 
-    -- Get variables
-    local isRunning = plug.State.IsRunning and true or false
-
     -- Create fragment based on studio state
     ---@return RoactFragment
     local function createFragment()
         local isStudioRunning = SocketController:IsRunning()
         if isStudioRunning then
+            -- Get variables
+            local isServerRunning = plug.State.Server.IsRunning and true or false
+            local isClientRunning = plug.State.Client.IsRunning and true or false
+
             return Roact.createFragment({
                 TextLabel = Roact.createElement("TextLabel", {
                     LayoutOrder = 1,
@@ -211,7 +212,7 @@ local function getPlug(props)
                 }, {
                     RoactButton:Get({
                         text = "Server",
-                        color = Color3.fromRGB(250, 250, 250),
+                        color = isServerRunning and Color3.fromRGB(191, 255, 139) or Color3.fromRGB(250, 250, 250),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
@@ -226,7 +227,7 @@ local function getPlug(props)
                 }, {
                     RoactButton:Get({
                         text = "Client",
-                        color = Color3.fromRGB(250, 250, 250),
+                        color = isClientRunning and Color3.fromRGB(191, 255, 139) or Color3.fromRGB(250, 250, 250),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
@@ -236,6 +237,9 @@ local function getPlug(props)
                 }),
             })
         else
+            -- Get variables
+            local isRunning = plug.State.IsRunning and true or false
+
             return Roact.createFragment({
                 TextLabel = Roact.createElement("TextLabel", {
                     LayoutOrder = 1,
