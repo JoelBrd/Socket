@@ -51,9 +51,9 @@ function SocketController:Run()
     roduxStore = SocketRoduxStoreController:GetRoduxStore()
 
     -- Setup rodux store actions
-    SocketController:SetupPlugActions()
-    SocketController:SetupSettingsActions()
     SocketController:SetupStudioActions()
+    SocketController:SetupSettingsActions()
+    SocketController:SetupPlugActions()
 
     -- Tell the widget handler its go time
     WidgetHandler:Run()
@@ -195,6 +195,7 @@ function SocketController:SetupPlugActions()
                 data = {
                     plug = plugDefinition,
                     script = moduleScript,
+                    isFieldsOpen = SocketController:GetSetting("OpenFieldsByDefault"),
                 },
             }
             roduxStore:dispatch(action)

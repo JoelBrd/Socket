@@ -28,6 +28,9 @@ local settings = {
     -- Increase the size of the elements on the Widget.
     -- Useful for high DPI monitors, or for accessibility reasons.
     UIScale = 1,
+
+    -- If true, all `Fields` inside plugs will be toggled open on startup
+    OpenFieldsByDefault = true,
 }
 
 return settings

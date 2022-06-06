@@ -15,6 +15,7 @@ local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---
 local Rodux ---@type Rodux
 local SocketConstants ---@type SocketConstants
 local TableUtil ---@type TableUtil
+local SocketController ---@type SocketController
 
 --------------------------------------------------
 -- Constants
@@ -39,6 +40,7 @@ function SocketRoduxStorePlugsReducer:Get()
             -- Read Action
             local plug = action.data.plug ---@type PlugDefinition
             local plugScript = action.data.script
+            local isFieldsOpen = action.data.isFieldsOpen
 
             -- Recreate state
             local newState = {
@@ -64,7 +66,7 @@ function SocketRoduxStorePlugsReducer:Get()
                 Plug = plug,
                 UIState = {
                     IsOpen = false,
-                    IsFieldsOpen = false,
+                    IsFieldsOpen = isFieldsOpen,
                 },
             }
 
@@ -298,6 +300,7 @@ function SocketRoduxStorePlugsReducer:FrameworkInit()
     Rodux = PluginFramework:Require("Rodux")
     SocketConstants = PluginFramework:Require("SocketConstants")
     TableUtil = PluginFramework:Require("TableUtil")
+    SocketController = PluginFramework:Require("SocketController")
 end
 
 ---@private
