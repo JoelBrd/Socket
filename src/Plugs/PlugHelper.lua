@@ -73,7 +73,9 @@ function PlugHelper:RunPlug(plug)
     end
 
     -- Run Plug
-    plug.Function(plug)
+    pcall(function()
+        plug.Function(plug, PluginHandler:GetPlugin())
+    end)
     threadIsGood = true
 
     -- Set waypoint

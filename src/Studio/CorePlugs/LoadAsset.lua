@@ -49,7 +49,16 @@ plugDefinition.Function = function(plug)
         return
     end
 
-    local model = InsertService:LoadAsset(id)
+    -- Load Model
+    local model ---@type Model
+    local success, err = pcall(function()
+        model = InsertService:LoadAsset(id)
+    end)
+    if not success then
+        Logger:PlugWarn(plug, ("Error loading asset %d (%s)"):format(id, err))
+    end
+
+    -- Place model
     model.Name = ("Asset (%d)"):format(id)
     model.Parent = game.Workspace
 

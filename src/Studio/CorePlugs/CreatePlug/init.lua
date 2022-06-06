@@ -8,14 +8,13 @@
 
 --------------------------------------------------
 -- Dependencies
+local Selection = game:GetService("Selection") ---@type Selection
 local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
-local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Plugs = ServerStorage.SocketPlugin.Plugs
-local Logger = require(Utils.Logger) ---@type Logger
 
 --------------------------------------------------
 -- Constants
--- ...
+local OPEN_ON_LINE = 29
 
 --------------------------------------------------
 -- Members
@@ -39,7 +38,8 @@ local plugDefinition = {
 }
 
 ---@param plug PlugDefinition
-plugDefinition.Function = function(plug)
+---@param plugin Plugin
+plugDefinition.Function = function(plug, plugin)
     -- Get Name
     local name = plug.State.FieldValues.Name or "NewPlug"
 
@@ -47,6 +47,10 @@ plugDefinition.Function = function(plug)
     local newPlug = script.PlugTemplate:Clone()
     newPlug.Name = name
     newPlug.Parent = Plugs
+
+    -- Open
+    plugin:OpenScript(newPlug, OPEN_ON_LINE)
+    Selection:Set({ newPlug })
 end
 
 return plugDefinition

@@ -65,9 +65,11 @@ local plugDefinition = {
     Function = nil,
 }
 
----Gets passed a `PlugDefinition`, which will be the table defined above (+ its populated .State)
+---Gets passed a `PlugDefinition`, which will be the table defined above (+ its populated .State).
+---Also passed `plugin`, which is the Plugin object for Socket.
 ---@param plug PlugDefinition
-plugDefinition.Function = function(plug)
+---@param plugin Plugin
+plugDefinition.Function = function(plug, plugin)
     -- Grabs the field values
     local field1 = plug.State.FieldValues["Field 1"]
     local field2 = plug.State.FieldValues["Field 2"]
