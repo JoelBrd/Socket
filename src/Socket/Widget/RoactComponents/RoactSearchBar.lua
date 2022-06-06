@@ -25,9 +25,13 @@ local SocketConstants ---@type SocketConstants
 -- Members
 
 ---
+---@param props table
 ---@return RoactElement
 ---
-function RoactSearchBar:Get()
+function RoactSearchBar:Get(props)
+    -- Read props
+    local scale = props.scale ---@type number
+
     ---@param instance TextBox
     local function onTextChanged(instance)
         local text = instance.Text
@@ -80,7 +84,7 @@ function RoactSearchBar:Get()
             }),
             IconContainer = Roact.createElement("Frame", {
                 BackgroundTransparency = 1,
-                Size = UDim2.new(0, WidgetConstants.SearchBar.Pixel.IconWidth, 1, 0),
+                Size = UDim2.new(0, WidgetConstants.SearchBar.Pixel.IconWidth * scale, 1, 0),
                 LayoutOrder = 1,
             }, {
                 TextLabel = Roact.createElement("TextLabel", {
@@ -94,7 +98,7 @@ function RoactSearchBar:Get()
                 }),
             }),
             TextBoxContainer = Roact.createElement("Frame", {
-                Size = UDim2.new(1, -WidgetConstants.SearchBar.Pixel.IconWidth, 1, 0),
+                Size = UDim2.new(1, -WidgetConstants.SearchBar.Pixel.IconWidth * scale, 1, 0),
                 BackgroundTransparency = 1,
                 LayoutOrder = 2,
             }, {

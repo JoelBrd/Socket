@@ -40,12 +40,14 @@ local function createLine(props)
     local icon = props.icon ---@type string
     local detailsContainer = props.detailsContainer ---@type RoactElement
     local layoutOrder = props.layoutOrder ---@type number
+    local scale = props.scale ---@type number
 
     -- Calculate sizing
-    local leftPaddingWidthPixel = indent * WidgetConstants.RoactWidgetLine.Pixel.Indent
-    local arrowContainerWidthPixel = WidgetConstants.RoactWidgetLine.Pixel.ArrowWidth - LINE_PADDING * 2
-    local iconContainerWidthPixel = WidgetConstants.RoactWidgetLine.Pixel.IconWidth - LINE_PADDING * 2
-    local detailsHolderWidthPixel = -(leftPaddingWidthPixel + arrowContainerWidthPixel + iconContainerWidthPixel)
+    local iconDetailsPaddingPixel = WidgetConstants.RoactWidgetLine.Pixel.IconDetailsPadding * scale
+    local leftPaddingWidthPixel = (indent * WidgetConstants.RoactWidgetLine.Pixel.Indent) * scale
+    local arrowContainerWidthPixel = (WidgetConstants.RoactWidgetLine.Pixel.ArrowWidth - LINE_PADDING * 2) * scale
+    local iconContainerWidthPixel = (WidgetConstants.RoactWidgetLine.Pixel.IconWidth - LINE_PADDING * 2) * scale
+    local detailsHolderWidthPixel = -(leftPaddingWidthPixel + arrowContainerWidthPixel + iconContainerWidthPixel + iconDetailsPaddingPixel)
 
     -- Create children for arrow container
     local arrowContainerChildren = {} ---@type RoactElement[]
@@ -66,7 +68,7 @@ local function createLine(props)
 
     return Roact.createElement("Frame", {
         BackgroundTransparency = 1,
-        Size = UDim2.new(1, 0, 0, WidgetConstants.RoactWidgetLine.Pixel.LineHeight),
+        Size = UDim2.new(1, 0, 0, WidgetConstants.RoactWidgetLine.Pixel.LineHeight * scale),
         LayoutOrder = layoutOrder,
     }, {
         UIListLayout = Roact.createElement("UIListLayout", {
@@ -113,6 +115,9 @@ local function createLine(props)
             BackgroundTransparency = 1,
             Size = UDim2.new(1, detailsHolderWidthPixel, 1, 0),
         }, {
+            UIPadding = Roact.createElement("UIPadding", {
+                PaddingLeft = UDim.new(0, iconDetailsPaddingPixel),
+            }),
             DetailsContainer = detailsContainer,
         }),
     })
@@ -127,6 +132,7 @@ local function getGroup(props)
     local totalPlugs = props.totalPlugs ---@type number
     local icon = props.icon ---@type string
     local layoutOrder = props.layoutOrder ---@type number
+    local scale = props.scale ---@type number
 
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
@@ -171,6 +177,7 @@ local function getGroup(props)
         detailsContainer = detailsContainer,
         onArrowClick = onArrowClick,
         layoutOrder = layoutOrder,
+        scale = scale,
     })
 end
 
@@ -184,6 +191,7 @@ local function getPlug(props)
     local layoutOrder = props.layoutOrder ---@type number
     local plug = props.plug ---@type PlugDefinition
     local plugScript = props.plugScript ---@type ModuleScript
+    local scale = props.scale ---@type number
 
     -- Create fragment based on studio state
     ---@return RoactFragment
@@ -311,6 +319,7 @@ local function getPlug(props)
         detailsContainer = detailsContainer,
         onArrowClick = onArrowClick,
         layoutOrder = layoutOrder,
+        scale = scale,
     })
 end
 
@@ -320,6 +329,7 @@ local function getKeybind(props)
     -- Read props
     local keybind = props.keybind ---@type Enum.KeyCode[]
     local layoutOrder = props.layoutOrder ---@type number
+    local scale = props.scale ---@type number
 
     -- Create keybind string
     local keybindString ---@type string
@@ -368,6 +378,7 @@ local function getKeybind(props)
         icon = WidgetConstants.Icons.Keybind,
         detailsContainer = detailsContainer,
         layoutOrder = layoutOrder,
+        scale = scale,
     })
 end
 
@@ -378,6 +389,7 @@ local function getSettings(props)
     local layoutOrder = props.layoutOrder ---@type number
     local moduleScript = props.moduleScript ---@type ModuleScript
     local plug = props.plug ---@type PlugDefinition
+    local scale = props.scale ---@type number
 
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
@@ -430,6 +442,7 @@ local function getSettings(props)
         icon = WidgetConstants.Icons.Settings,
         detailsContainer = detailsContainer,
         layoutOrder = layoutOrder,
+        scale = scale,
     })
 end
 
@@ -441,6 +454,7 @@ local function getFields(props)
     local isOpen = props.isOpen ---@type boolean
     local layoutOrder = props.layoutOrder ---@type number
     local plugScript = props.plugScript ---@type ModuleScript
+    local scale = props.scale ---@type number
 
     -- Update open status (only show arrow if there are fields)
     if not hasFields then
@@ -490,6 +504,7 @@ local function getFields(props)
         detailsContainer = detailsContainer,
         onArrowClick = onArrowClick,
         layoutOrder = layoutOrder,
+        scale = scale,
     })
 end
 
@@ -500,6 +515,7 @@ local function getField(props)
     local field = props.field ---@type PlugField
     local plug = props.plug ---@type PlugDefinition
     local layoutOrder = props.layoutOrder ---@type number
+    local scale = props.scale ---@type number
 
     ---User has clicked off the textbox; try validate input
     ---@param instance TextBox
@@ -591,6 +607,7 @@ local function getField(props)
         icon = field.Type.Icon,
         detailsContainer = detailsContainer,
         layoutOrder = layoutOrder,
+        scale = scale,
     })
 end
 

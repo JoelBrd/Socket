@@ -53,6 +53,7 @@ WidgetConstants.RoactWidgetLine.Pixel = {
     ArrowWidth = 22,
     RunButtonWidth = 70,
     BottomPaddingHeight = 4,
+    IconDetailsPadding = 2,
 }
 
 WidgetConstants.SearchBar = {}

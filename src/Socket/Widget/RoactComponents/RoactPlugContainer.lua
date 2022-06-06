@@ -31,6 +31,7 @@ local WidgetConstants ---@type WidgetConstants
 local function createLinesFragment(props)
     -- Grab variables
     local groups = props.groups ---@type RoactMainWidgetProps.GroupInfo[]
+    local scale = props.scale ---@type number
     local elements = {}
     local layoutOrderCount = 0
 
@@ -49,6 +50,7 @@ local function createLinesFragment(props)
                 totalPlugs = #groupInfo.plugs,
                 icon = groupInfo.icon or WidgetConstants.Icons.Unknown,
                 layoutOrder = layoutOrderCount,
+                scale = scale,
             })
 
             if groupInfo.isOpen then
@@ -63,6 +65,7 @@ local function createLinesFragment(props)
                             isOpen = plugInfo.isOpen,
                             icon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown,
                             layoutOrder = layoutOrderCount,
+                            scale = scale,
                             plug = plugInfo.plug,
                             plugScript = plugInfo.moduleScript,
                         })
@@ -78,6 +81,7 @@ local function createLinesFragment(props)
                                 plugScript = plugInfo.moduleScript,
                                 hasFields = hasFields,
                                 layoutOrder = layoutOrderCount,
+                                scale = scale,
                             })
 
                             -- Create individual fields
@@ -89,6 +93,7 @@ local function createLinesFragment(props)
                                         field = field,
                                         plug = plugInfo.plug,
                                         layoutOrder = layoutOrderCount,
+                                        scale = scale,
                                     })
                                 end
                             end
@@ -99,6 +104,7 @@ local function createLinesFragment(props)
                             elements[keybindElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
                                 keybind = plugInfo.plug.Keybind or {},
                                 layoutOrder = layoutOrderCount,
+                                scale = scale,
                             })
 
                             -- Create setting line
@@ -107,6 +113,7 @@ local function createLinesFragment(props)
                             elements[settingsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Settings, {
                                 moduleScript = plugInfo.moduleScript,
                                 layoutOrder = layoutOrderCount,
+                                scale = scale,
                                 plug = plugInfo.plug,
                             })
                         end
@@ -139,6 +146,7 @@ function RoactPlugContainer:Get(props)
         CanvasSize = UDim2.new(0, 0, 0, 0),
         AutomaticCanvasSize = Enum.AutomaticSize.Y,
         ScrollBarThickness = 6,
+        BorderSizePixel = 0,
     }, {
         UIPadding = Roact.createElement("UIPadding", {
             PaddingBottom = UDim.new(0, 4),

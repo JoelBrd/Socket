@@ -63,16 +63,13 @@ function RoactMainWidget:Create()
 
         return Roact.createElement("Frame", {
             BackgroundColor3 = WidgetConstants.Color.Background[SocketController:GetTheme()],
-            Size = UDim2.fromScale(1 / scale, 1 / scale),
+            Size = UDim2.fromScale(1, 1),
         }, {
             UIPadding = Roact.createElement("UIPadding", {
                 PaddingBottom = UDim.new(0, 7),
                 PaddingLeft = MARGIN_PADDING,
                 PaddingRight = MARGIN_PADDING,
                 PaddingTop = MARGIN_PADDING,
-            }),
-            UIScale = Roact.createElement("UIScale", {
-                Scale = scale,
             }),
             Container = Roact.createElement("Frame", {
                 BackgroundTransparency = 1,
@@ -86,21 +83,28 @@ function RoactMainWidget:Create()
                 SearchHolder = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
                     LayoutOrder = 1,
-                    Size = UDim2.new(1, 0, 0, WidgetConstants.SearchBar.Pixel.LineHeight),
+                    Size = UDim2.new(1, 0, 0, WidgetConstants.SearchBar.Pixel.LineHeight * scale),
                 }, {
-                    SearchContainer = RoactSearchBar:Get(),
+                    SearchContainer = RoactSearchBar:Get({
+                        scale = scale,
+                    }),
                 }),
                 PlugHolder = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
                     LayoutOrder = 2,
-                    Size = UDim2.new(1, 0, 1, -(WidgetConstants.SearchBar.Pixel.LineHeight + WidgetConstants.BottomBar.Pixel.LineHeight)),
+                    Size = UDim2.new(
+                        1,
+                        0,
+                        1,
+                        -(WidgetConstants.SearchBar.Pixel.LineHeight * scale + WidgetConstants.BottomBar.Pixel.LineHeight * scale)
+                    ),
                 }, {
                     PlugContainer = RoactPlugContainer:Get(self.props),
                 }),
                 BottomHolder = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
                     LayoutOrder = 3,
-                    Size = UDim2.new(1, 0, 0, WidgetConstants.BottomBar.Pixel.LineHeight),
+                    Size = UDim2.new(1, 0, 0, WidgetConstants.BottomBar.Pixel.LineHeight * scale),
                 }, {
                     BottomContainer = RoactBottomBar:Get(),
                 }),
@@ -136,10 +140,19 @@ function RoactMainWidget:Create()
 
             -- Construct plugs
             for plugModuleScript, plugChild in pairs(groupChild.Plugs) do
-                -- Create plug info
+                -- Search for duplicate names
                 local plug = plugChild.Plug ---@type PlugDefinition
+                local duplicateCount = 0
+                for _, somePlugInfo in pairs(groupInfo.plugs) do
+                    if somePlugInfo.plug.Name == plug.Name then
+                        duplicateCount = duplicateCount + 1
+                    end
+                end
+
+                -- Create plug info
+                local name = duplicateCount == 0 and plug.Name or ("%s (%d)"):format(plug.Name, duplicateCount)
                 local plugInfo = {
-                    name = plug.Name,
+                    name = name,
                     isOpen = plugChild.UIState.IsOpen,
                     isFieldsOpen = plugChild.UIState.IsFieldsOpen,
                     isVisible = true,
@@ -191,6 +204,7 @@ function RoactMainWidget:Create()
         -- Return props
         return {
             groups = groups,
+            scale = SocketController:GetSetting("UIScale"),
         }
     end
 

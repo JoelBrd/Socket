@@ -385,7 +385,6 @@ function SocketController:SetupKeybindHooks()
     end
 
     runJanitor:Add(UserInputService.InputBegan:Connect(inputBegan))
-
     runJanitor:Add(UserInputService.InputEnded:Connect(inputEnded))
 end
 
