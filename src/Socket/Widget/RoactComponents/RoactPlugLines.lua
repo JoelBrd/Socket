@@ -188,6 +188,84 @@ local function getPlug(props)
     -- Get variables
     local isRunning = plug.State.IsRunning and true or false
 
+    -- Create fragment based on studio state
+    ---@return RoactFragment
+    local function createFragment()
+        local isStudioRunning = SocketController:IsRunning()
+        if isStudioRunning then
+            return Roact.createFragment({
+                TextLabel = Roact.createElement("TextLabel", {
+                    LayoutOrder = 1,
+                    BackgroundTransparency = 1,
+                    TextScaled = true,
+                    Font = SocketController:GetSetting("Font"),
+                    Text = name,
+                    Size = UDim2.new(1, -WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth * 2, 1, 0),
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+                }),
+                RunServerButtonHolder = Roact.createElement("Frame", {
+                    LayoutOrder = 2,
+                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
+                    BackgroundTransparency = 1,
+                }, {
+                    RoactButton:Get({
+                        text = "Server",
+                        color = Color3.fromRGB(250, 250, 250),
+                        strokeThickness = 1.5,
+                        activatedDiscColor = Color3.fromRGB(48, 207, 0),
+                        activatedCallback = function()
+                            PlugHelper:RunPlugAt(plug, true, false)
+                        end,
+                    }),
+                }),
+                RunClientButtonHolder = Roact.createElement("Frame", {
+                    LayoutOrder = 3,
+                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
+                    BackgroundTransparency = 1,
+                }, {
+                    RoactButton:Get({
+                        text = "Client",
+                        color = Color3.fromRGB(250, 250, 250),
+                        strokeThickness = 1.5,
+                        activatedDiscColor = Color3.fromRGB(48, 207, 0),
+                        activatedCallback = function()
+                            PlugHelper:RunPlugAt(plug, false, true)
+                        end,
+                    }),
+                }),
+            })
+        else
+            return Roact.createFragment({
+                TextLabel = Roact.createElement("TextLabel", {
+                    LayoutOrder = 1,
+                    BackgroundTransparency = 1,
+                    TextScaled = true,
+                    Font = SocketController:GetSetting("Font"),
+                    Text = name,
+                    Size = UDim2.new(1, -WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
+                    TextXAlignment = Enum.TextXAlignment.Left,
+                    TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+                }),
+                RunButtonHolder = Roact.createElement("Frame", {
+                    LayoutOrder = 2,
+                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
+                    BackgroundTransparency = 1,
+                }, {
+                    RoactButton:Get({
+                        text = isRunning and "Running" or "Run",
+                        color = isRunning and Color3.fromRGB(191, 255, 139) or Color3.fromRGB(250, 250, 250),
+                        strokeThickness = 1.5,
+                        activatedDiscColor = Color3.fromRGB(48, 207, 0),
+                        activatedCallback = function()
+                            PlugHelper:RunPlug(plug)
+                        end,
+                    }),
+                }),
+            })
+        end
+    end
+
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
         BackgroundTransparency = 1,
@@ -202,31 +280,7 @@ local function getPlug(props)
             HorizontalAlignment = Enum.HorizontalAlignment.Left,
             SortOrder = Enum.SortOrder.LayoutOrder,
         }),
-        TextLabel = Roact.createElement("TextLabel", {
-            LayoutOrder = 1,
-            BackgroundTransparency = 1,
-            TextScaled = true,
-            Font = SocketController:GetSetting("Font"),
-            Text = name,
-            Size = UDim2.new(1, -WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
-            TextXAlignment = Enum.TextXAlignment.Left,
-            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
-        }),
-        RunButtonHolder = Roact.createElement("Frame", {
-            LayoutOrder = 2,
-            Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
-            BackgroundTransparency = 1,
-        }, {
-            RoactButton:Get({
-                text = isRunning and "Running" or "Run",
-                color = isRunning and Color3.fromRGB(191, 255, 139) or Color3.fromRGB(250, 250, 250),
-                strokeThickness = 1.5,
-                activatedDiscColor = Color3.fromRGB(48, 207, 0),
-                activatedCallback = function()
-                    PlugHelper:RunPlug(plug)
-                end,
-            }),
-        }),
+        Fragment = createFragment(),
     })
 
     -- Arrow callback

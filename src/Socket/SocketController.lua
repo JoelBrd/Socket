@@ -11,6 +11,8 @@ local SocketController = {}
 
 --------------------------------------------------
 -- Dependencies
+local RunService = game:GetService("RunService") ---@type RunService
+local Studio = settings().Studio ---@type Studio
 local StudioService = game:GetService("StudioService") ---@type StudioService
 local UserInputService = game:GetService("UserInputService") ---@type UserInputService
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
@@ -23,10 +25,11 @@ local SocketRoduxStoreController ---@type SocketRoduxStoreController
 local WidgetHandler ---@type WidgetHandler
 local PlugConstants ---@type PlugConstants
 local PlugHelper ---@type PlugHelper
+local PlugClientServer ---@type PlugClientServer
 
 --------------------------------------------------
 -- Constants
--- ...
+local IS_RUNNING = RunService:IsRunning()
 
 --------------------------------------------------
 -- Members
@@ -50,12 +53,19 @@ function SocketController:Run()
     -- Setup rodux store actions
     SocketController:SetupPlugActions()
     SocketController:SetupSettingsActions()
+    SocketController:SetupStudioActions()
 
     -- Tell the widget handler its go time
     WidgetHandler:Run()
 
     -- Setup Keybind listener
     SocketController:SetupKeybindHooks()
+
+    -- One time server/client setup
+    if IS_RUNNING then
+        PlugClientServer:RunTransfer()
+        PlugClientServer:SetupCommunication()
+    end
 end
 
 ---
@@ -66,13 +76,34 @@ function SocketController:GetStore()
 end
 
 ---
+---Gets the currently stored PlugDefiniton from the passed plugScript
+---@param plugScript ModuleScript
+---@return PlugDefinition
+---
+function SocketController:GetPlug(plugScript)
+    for _, groupInfo in pairs(roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups) do
+        for somePlugScript, somePlugInfo in pairs(groupInfo.Plugs) do
+            if somePlugScript == plugScript then
+                return somePlugInfo.Plug
+            end
+        end
+    end
+end
+
+---
 ---Returns the current theme of studio, and hence socket.
 ---Either `Light` or `Dark`
 ---@return string
 ---
 function SocketController:GetTheme()
-    local themeName = settings().Studio.Theme.Name
-    return themeName == "Dark" and "Dark" or "Light"
+    return SocketController:GetStore():getState()[SocketConstants.RoduxStoreKey.STUDIO].Theme
+end
+
+---
+---@return boolean
+---
+function SocketController:IsRunning()
+    return SocketController:GetStore():getState()[SocketConstants.RoduxStoreKey.STUDIO].IsRunning
 end
 
 ---
@@ -269,6 +300,39 @@ function SocketController:SetupSettingsActions()
 end
 
 ---
+---Runs the logic for manipulating our RoduxStore, reading from the Studio service
+---Called once per Run().
+---
+function SocketController:SetupStudioActions()
+    -- Theme
+    local function setTheme()
+        -- Update RoduxStore
+        ---@type RoduxAction
+        local action = {
+            type = SocketConstants.RoduxActionType.STUDIO.SET_THEME,
+            data = {
+                theme = Studio.Theme.Name,
+            },
+        }
+        SocketController:GetStore():dispatch(action)
+    end
+
+    setTheme()
+    runJanitor:Add(Studio.ThemeChanged:Connect(setTheme))
+
+    -- Is Running
+    -- Update RoduxStore
+    ---@type RoduxAction
+    local action = {
+        type = SocketConstants.RoduxActionType.STUDIO.IS_RUNNING,
+        data = {
+            isRunning = RunService:IsRunning(),
+        },
+    }
+    SocketController:GetStore():dispatch(action)
+end
+
+---
 ---Listens to users input to detect whether to run plugs via keybind
 ---
 function SocketController:SetupKeybindHooks()
@@ -369,6 +433,7 @@ function SocketController:FrameworkInit()
     WidgetHandler = PluginFramework:Require("WidgetHandler")
     PlugConstants = PluginFramework:Require("PlugConstants")
     PlugHelper = PluginFramework:Require("PlugHelper")
+    PlugClientServer = PluginFramework:Require("PlugClientServer")
 end
 
 ---@private

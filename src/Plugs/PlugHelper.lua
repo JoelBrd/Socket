@@ -11,6 +11,9 @@ local PlugHelper = {}
 
 --------------------------------------------------
 -- Dependencies
+local Players = game:GetService("Players") ---@type Players
+local StudioService = game:GetService("StudioService") ---@type StudioService
+local RunService = game:GetService("RunService") ---@type RunService
 local ChangeHistoryService = game:GetService("ChangeHistoryService") ---@type ChangeHistoryService
 local Selection = game:GetService("Selection") ---@type Selection
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
@@ -19,10 +22,15 @@ local Logger ---@type Logger
 local SocketConstants ---@type SocketConstants
 local SocketController ---@type SocketController
 local PluginHandler ---@type PluginHandler
+local StudioHandler ---@type StudioHandler
+local PlugClientServer ---@type PlugClientServer
 
 --------------------------------------------------
 -- Constants
 local YIELD_TIME = 3
+local IS_SERVER = RunService:IsServer()
+local IS_CLIENT = RunService:IsClient()
+local IS_RUNNING = RunService:IsRunning()
 
 --------------------------------------------------
 -- Members
@@ -74,6 +82,38 @@ function PlugHelper:RunPlug(plug)
     -- Plug has `isRunning` enabled, so ensure to refresh the state!
     if plug.State.IsRunning ~= nil then
         refreshState()
+    end
+end
+
+---
+---Will run the plug at the specified location, regardless of this being called on server or client.
+---Warning: Can be called on both client and server simultaneously
+---@param plug PlugDefinition
+---@param onServer boolean
+---@param onClient boolean
+---
+function PlugHelper:RunPlugAt(plug, onServer, onClient)
+    -- ERROR: Bad api
+    if not IS_RUNNING then
+        Logger:Error("Bad API; only use RunPlugAt when playing.")
+    end
+
+    -- Run in this context
+    if (IS_SERVER and onServer) or (IS_CLIENT and onClient) then
+        PlugHelper:RunPlug(plug)
+    end
+
+    -- Server -> Client
+    if IS_SERVER and onClient then
+        local player = Players:GetPlayerByUserId(StudioService:GetUserId())
+        PlugClientServer:RunPlugOnClient(player, plug._script.Name, plug._script.Parent.Name)
+        return
+    end
+
+    -- Client -> Server
+    if IS_CLIENT and onServer then
+        PlugClientServer:RunPlugOnServer(plug._script.Name, plug._script.Parent.Name)
+        return
     end
 end
 
@@ -180,6 +220,9 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         return
     end
 
+    -- Give script reference
+    plug._script = plugScript
+
     return plug
 end
 
@@ -226,6 +269,8 @@ function PlugHelper:FrameworkInit()
     SocketController = PluginFramework:Require("SocketController")
     SocketConstants = PluginFramework:Require("SocketConstants")
     PluginHandler = PluginFramework:Require("PluginHandler")
+    StudioHandler = PluginFramework:Require("StudioHandler")
+    PlugClientServer = PluginFramework:Require("PlugClientServer")
 end
 
 ---
@@ -233,8 +278,6 @@ end
 ---
 ---Synchronously called, one after the other, with all other FrameworkStart()
 ---
-function PlugHelper:FrameworkStart()
-    -- TODO Logic here
-end
+function PlugHelper:FrameworkStart() end
 
 return PlugHelper

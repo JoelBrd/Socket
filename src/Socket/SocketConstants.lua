@@ -21,6 +21,7 @@ SocketConstants.ShowDebugUI = false
 SocketConstants.RoduxStoreKey = {
     PLUGS = "PLUGS",
     SETTINGS = "SETTINGS",
+    STUDIO = "STUDIO",
 } ---@type RoduxStoreKey[]
 
 SocketConstants.RoduxActionType = {
@@ -36,6 +37,10 @@ SocketConstants.RoduxActionType = {
     },
     SETTINGS = {
         UPDATE = "UPDATE",
+    },
+    STUDIO = {
+        SET_THEME = "SET_THEME",
+        IS_RUNNING = "IS_RUNNING",
     },
 } ---@type table<RoduxStoreKey, RoduxActionType[]>
 

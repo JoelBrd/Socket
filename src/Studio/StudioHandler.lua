@@ -105,6 +105,9 @@ function StudioHandler:Validate()
     end
 
     --------------------------------------------------
+    -- CHECK PLUGS INTEGRITY
+
+    --------------------------------------------------
     -- POPULATE SETTINGS
 
     local existingSettings = directoryFolder:FindFirstChild("settings")

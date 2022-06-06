@@ -16,6 +16,7 @@ local Rodux ---@type Rodux
 local SocketConstants ---@type SocketConstants
 local SocketRoduxStorePlugsReducer ---@type SocketRoduxStorePlugsReducer
 local SocketRoduxStoreSettingsReducer ---@type SocketRoduxStoreSettingsReducer
+local SocketRoduxStoreStudioReducer ---@type SocketRoduxStoreStudioReducer
 
 --------------------------------------------------
 -- Constants
@@ -46,6 +47,7 @@ function SocketRoduxStoreController:CreateGlobalReducer()
     return Rodux.combineReducers({
         [SocketConstants.RoduxStoreKey.PLUGS] = SocketRoduxStorePlugsReducer:Get(),
         [SocketConstants.RoduxStoreKey.SETTINGS] = SocketRoduxStoreSettingsReducer:Get(),
+        [SocketConstants.RoduxStoreKey.STUDIO] = SocketRoduxStoreStudioReducer:Get(),
     })
 end
 
@@ -55,6 +57,7 @@ function SocketRoduxStoreController:FrameworkInit()
     SocketConstants = PluginFramework:Require("SocketConstants")
     SocketRoduxStorePlugsReducer = PluginFramework:Require("SocketRoduxStorePlugsReducer")
     SocketRoduxStoreSettingsReducer = PluginFramework:Require("SocketRoduxStoreSettingsReducer")
+    SocketRoduxStoreStudioReducer = PluginFramework:Require("SocketRoduxStoreStudioReducer")
 end
 
 ---@private

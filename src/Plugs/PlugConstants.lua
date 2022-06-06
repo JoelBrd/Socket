@@ -19,6 +19,7 @@ local PlugConstants = {}
 ---@field Keybind Enum.KeyCode[]
 ---@field Fields PlugField[]
 ---@field Function fun()
+---@field _script ModuleScript
 
 ---@class PlugState
 ---@field FieldValues table<PlugField, any>
