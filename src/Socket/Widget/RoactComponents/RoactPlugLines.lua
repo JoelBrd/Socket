@@ -520,7 +520,7 @@ local function getField(props)
 
     -- Get current value
     local currentValue = plug.State.FieldValues[field.Name]
-    local currentValueString = currentValue == nil and "" or tostring(currentValue)
+    local stringValue = currentValue ~= nil and field.Type.ToString(currentValue) or ""
 
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
@@ -558,7 +558,7 @@ local function getField(props)
                 Font = SocketController:GetSetting("Font"),
                 PlaceholderColor3 = WidgetConstants.Color.PlugLines.Field.PlaceholderText[SocketController:GetTheme()],
                 PlaceholderText = field.Type.Name,
-                Text = currentValueString,
+                Text = stringValue,
                 TextColor3 = WidgetConstants.Color.PlugLines.Field.Text[SocketController:GetTheme()],
                 TextScaled = true,
                 BackgroundTransparency = 1,

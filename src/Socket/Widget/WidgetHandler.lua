@@ -11,6 +11,7 @@ local WidgetHandler = {}
 
 --------------------------------------------------
 -- Dependencies
+local UserInputService = game:GetService("UserInputService") ---@type UserInputService
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local SocketController ---@type SocketController
 local PluginHandler ---@type PluginHandler
@@ -29,6 +30,7 @@ local Janitor ---@type Janitor
 -- Members
 local roactTree ---@type RoactTree
 local runJanitor ---@type Janitor
+local registerTextBoxMemory ---@type table
 
 ---
 ---Called to start the widget population
@@ -73,6 +75,77 @@ function WidgetHandler:Run()
             Roact.unmount(debugRoactTree)
         end, true)
     end
+
+    -- Tracking textbox navigating
+    runJanitor:Add(UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
+        -- RETURN: Bad keybind
+        if inputObject.KeyCode ~= SocketController:GetSetting("NavigateFieldsKeybind") then
+            return
+        end
+
+        -- RETURN: No selected textbox
+        local selectedTextBox = registerTextBoxMemory and registerTextBoxMemory.Selected.TextBox
+        if not selectedTextBox then
+            return
+        end
+
+        -- Get index of textbox in its locality
+        local index ---@type number
+        local dictionary = registerTextBoxMemory.ReferenceDictionary[registerTextBoxMemory.Selected.Reference] or {}
+        for someIndex, someTextBox in pairs(dictionary) do
+            if someTextBox == selectedTextBox then
+                index = someIndex
+                break
+            end
+        end
+
+        -- RETURN: No next textbox
+        local nextTextBox = index and dictionary and dictionary[index + 1] ---@type TextBox
+        if not nextTextBox then
+            return
+        end
+
+        -- Focus
+        nextTextBox:CaptureFocus()
+    end))
+end
+
+---
+---Used to track fields within a RoactComponent, so the user can navigate them easily using "Tab".
+---Very very ugly and hacky, but I couldn't be bothered to figure out how to implement this purely with Roact.
+---@param reference any
+---@param textBox TextBox
+---@param layoutOrder number
+---
+function WidgetHandler:RegisterTextBox(reference, textBox, layoutOrder)
+    -- Init memory
+    registerTextBoxMemory = registerTextBoxMemory
+        or {
+            ReferenceDictionary = {}, ---@type table<any, table<number, TextBox>>
+            Selected = {
+                TextBox = nil, ---@type TextBox
+                Reference = nil, ---@type any
+            },
+        }
+
+    -- Create dictionary for this element
+    local dict = registerTextBoxMemory.ReferenceDictionary[reference] or {}
+    registerTextBoxMemory.ReferenceDictionary[reference] = dict
+
+    -- Write this textbox to memory
+    dict[layoutOrder] = textBox
+
+    -- Setup some listeners
+    runJanitor:Add(textBox.Focused:Connect(function()
+        registerTextBoxMemory.Selected.TextBox = textBox
+        registerTextBoxMemory.Selected.Reference = reference
+    end))
+    runJanitor:Add(textBox.FocusLost:Connect(function()
+        if registerTextBoxMemory.Selected.TextBox == textBox then
+            registerTextBoxMemory.Selected.TextBox = nil
+            registerTextBoxMemory.Selected.Reference = nil
+        end
+    end))
 end
 
 ---
@@ -80,6 +153,7 @@ end
 ---
 function WidgetHandler:Stop()
     runJanitor:Cleanup()
+    registerTextBoxMemory = nil
 end
 
 ---@private

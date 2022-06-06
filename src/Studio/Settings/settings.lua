@@ -31,6 +31,9 @@ local settings = {
 
     -- If true, all `Fields` inside plugs will be toggled open on startup
     OpenFieldsByDefault = true,
+
+    -- What keybind will navigate through same-context fields
+    NavigateFieldsKeybind = Enum.KeyCode.Tab,
 }
 
 return settings

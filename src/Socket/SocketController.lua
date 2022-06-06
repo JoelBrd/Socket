@@ -338,17 +338,12 @@ end
 ---
 function SocketController:SetupKeybindHooks()
     -- Track keys being held down
-    local heldKeys = {} ---@type Enum.KeyCode
+    local heldKeys = {} ---@type table<Enum.KeyCode, boolean>
 
     ---@param inputObject InputObject
     ---@param gameProcessedEvent boolean
     local function inputBegan(inputObject, gameProcessedEvent)
-        -- RETURN: Game processed
-        if gameProcessedEvent then
-            return
-        end
-
-        table.insert(heldKeys, inputObject.KeyCode)
+        heldKeys[inputObject.KeyCode] = gameProcessedEvent
 
         -- Does this equate a keybind?
         local state = roduxStore:getState()
@@ -362,17 +357,16 @@ function SocketController:SetupKeybindHooks()
                 local hasKeybind = totalKeyCodes and totalKeyCodes > 0
                 if hasKeybind then
                     local matchingKeyCodes = 0
+                    local hasNonGameProcessedEventKeyCode = false
                     for _, someKeyCode in pairs(plug.Keybind) do
-                        if table.find(heldKeys, someKeyCode) then
+                        if heldKeys[someKeyCode] ~= nil then
+                            hasNonGameProcessedEventKeyCode = hasNonGameProcessedEventKeyCode or not heldKeys[someKeyCode]
                             matchingKeyCodes = matchingKeyCodes + 1
                         end
                     end
 
                     -- Huzzah!
-                    if totalKeyCodes == matchingKeyCodes then
-                        -- Clear held keys
-                        heldKeys = {}
-
+                    if totalKeyCodes == matchingKeyCodes and hasNonGameProcessedEventKeyCode then
                         -- Run Plug Function
                         PlugHelper:RunPlug(plug)
 
@@ -387,15 +381,7 @@ function SocketController:SetupKeybindHooks()
     ---@param inputObject InputObject
     ---@param gameProcessedEvent boolean
     local function inputEnded(inputObject, gameProcessedEvent)
-        -- RETURN: Game processed
-        if gameProcessedEvent then
-            return
-        end
-
-        local index = table.find(heldKeys, inputObject.KeyCode)
-        if index then
-            table.remove(heldKeys, index)
-        end
+        heldKeys[inputObject.KeyCode] = nil
     end
 
     runJanitor:Add(UserInputService.InputBegan:Connect(inputBegan))

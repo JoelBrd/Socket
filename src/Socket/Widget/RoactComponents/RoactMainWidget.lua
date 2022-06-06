@@ -63,7 +63,7 @@ function RoactMainWidget:Create()
 
         return Roact.createElement("Frame", {
             BackgroundColor3 = WidgetConstants.Color.Background[SocketController:GetTheme()],
-            Size = UDim2.fromScale(1 / scale, 1),
+            Size = UDim2.fromScale(1 / scale, 1 / scale),
         }, {
             UIPadding = Roact.createElement("UIPadding", {
                 PaddingBottom = UDim.new(0, 7),

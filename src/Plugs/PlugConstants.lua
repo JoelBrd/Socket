@@ -35,9 +35,22 @@ local PlugConstants = {}
 ---@field Name string
 ---@field Icon string
 ---@field Validate fun(value:any):any|nil
+---@field ToString fun(value:any):string
 
 --------------------------------------------------
 -- Constants
+
+---@param number number
+---@return string
+local function commaValue(number)
+    if number == math.huge then
+        return "Infinite"
+    end
+
+    -- credit http://richard.warburton.it
+    local left, num, right = string.match(tostring(number), "^([^%d]*%d)(%d*)(.-)$")
+    return left .. (num:reverse():gsub("(%d%d%d)", "%1,"):reverse()) .. right
+end
 
 PlugConstants.FieldType = {
     number = {
@@ -45,6 +58,9 @@ PlugConstants.FieldType = {
         Icon = "#️⃣",
         Validate = function(value)
             return tonumber(value)
+        end,
+        ToString = function(value)
+            return commaValue(value)
         end,
     },
     boolean = {
@@ -68,12 +84,18 @@ PlugConstants.FieldType = {
                 return false
             end
         end,
+        ToString = function(value)
+            return tostring(value)
+        end,
     },
     string = {
         Name = "string",
         Icon = "📝",
         Validate = function(value)
             return tostring(value)
+        end,
+        ToString = function(value)
+            return value
         end,
     },
 } ---@type table<string, PlugFieldType>

@@ -29,7 +29,7 @@ local plugDefinition = {
         IsRunning = false,
     },
     EnableAutomaticUndo = false,
-    Keybind = {},
+    Keybind = { Enum.KeyCode.H, Enum.KeyCode.W },
     Fields = {
         {
             Name = "Do Loop",
