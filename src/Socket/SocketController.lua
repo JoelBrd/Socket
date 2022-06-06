@@ -202,39 +202,25 @@ function SocketController:SetupPlugActions()
         end
     end
 
-    -- Grab the plugs already sitting there
-    local plugsFolder = StudioHandler.Folders.Plugs
-    for _, descendant in pairs(plugsFolder:GetDescendants()) do
-        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
-            newPlug(descendant)
-        end
-    end
-
-    -- Hook up listener events for plug files being added/removed
-    runJanitor:Add(plugsFolder.DescendantAdded:Connect(function(descendant)
-        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
-            newPlug(descendant)
-        end
-    end))
-
-    runJanitor:Add(plugsFolder.DescendantRemoving:Connect(function(descendant)
-        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
-            -- Search for plug (may never have been registered)
-            local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
-            for _, groupInfo in pairs(groups) do
-                for plugScript, _ in pairs(groupInfo.Plugs) do
-                    if plugScript == descendant then
-                        -- Changed
-                        removedPlug(descendant)
-                        return
-                    end
+    ---Returns true if this plugScript is added to our store
+    ---@param plugScript ModuleScript
+    ---@return boolean
+    local function isPlugScriptAdded(plugScript)
+        local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
+        for _, groupInfo in pairs(groups) do
+            for somePlugScript, _ in pairs(groupInfo.Plugs) do
+                if somePlugScript == plugScript then
+                    return true
                 end
             end
         end
-    end))
+
+        return false
+    end
 
     -- Listener to the user viewing different scripts; used to trigger "plug changed" events
     local cachedActiveScript ---@type Instance
+    local plugsFolder = StudioHandler.Folders.Plugs
     runJanitor:Add(StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
         local activeScript = StudioService.ActiveScript
 
@@ -242,28 +228,59 @@ function SocketController:SetupPlugActions()
         if cachedActiveScript then
             local isPlugScript = cachedActiveScript:IsDescendantOf(plugsFolder)
             if isPlugScript then
-                -- Search for plug
-                local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
-                for _, groupInfo in pairs(groups) do
-                    for plugScript, _ in pairs(groupInfo.Plugs) do
-                        if plugScript == cachedActiveScript then
-                            -- Changed
-                            changedPlug(cachedActiveScript)
-
-                            -- Update cache
-                            cachedActiveScript = activeScript
-                            return
-                        end
-                    end
+                if isPlugScriptAdded(cachedActiveScript) then
+                    -- Changed
+                    changedPlug(cachedActiveScript)
+                else
+                    -- Wasn't in memory
+                    newPlug(cachedActiveScript)
                 end
-
-                -- Wasn't in memory
-                newPlug(cachedActiveScript)
             end
         end
 
         -- Update cache
         cachedActiveScript = activeScript
+    end))
+
+    ---Had a new module script added that is likely a plug
+    ---@param plugScript ModuleScript
+    local function newPlugScript(plugScript)
+        newPlug(plugScript)
+
+        -- Listen for source changes to update plug
+        runJanitor:Add(plugScript.Changed:Connect(function(property)
+            if property == "Source" and cachedActiveScript ~= plugScript then
+                if isPlugScriptAdded(plugScript) then
+                    -- Changed
+                    changedPlug(plugScript)
+                else
+                    -- Wasn't in memory
+                    newPlug(plugScript)
+                end
+            end
+        end))
+    end
+
+    -- Grab the plugs already sitting there
+    for _, descendant in pairs(plugsFolder:GetDescendants()) do
+        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
+            newPlugScript(descendant)
+        end
+    end
+
+    -- Hook up listener events for plug files being added/removed
+    runJanitor:Add(plugsFolder.DescendantAdded:Connect(function(descendant)
+        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
+            newPlugScript(descendant)
+        end
+    end))
+
+    runJanitor:Add(plugsFolder.DescendantRemoving:Connect(function(descendant)
+        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
+            if isPlugScriptAdded(descendant) then
+                removedPlug(descendant)
+            end
+        end
     end))
 end
 
