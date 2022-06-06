@@ -42,7 +42,7 @@ local function createLinesFragment(props)
         if groupInfo.isVisible then
             -- Create group line
             increaseLayoutOrder()
-            local groupElementName = ("%d_Group_%s"):format(layoutOrderCount, groupInfo.name)
+            local groupElementName = ("Group_%s"):format(groupInfo.name)
             elements[groupElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
                 name = groupInfo.name,
                 isOpen = groupInfo.isOpen,
@@ -57,7 +57,7 @@ local function createLinesFragment(props)
                     if plugInfo.isVisible then
                         -- Create plug line
                         increaseLayoutOrder()
-                        local plugElementName = ("%d_Group_%s_Plug_%s"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
+                        local plugElementName = ("Group_%s_Plug_%s"):format(groupInfo.name, plugInfo.name)
                         elements[plugElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Plug, {
                             name = plugInfo.name,
                             isOpen = plugInfo.isOpen,
@@ -72,7 +72,7 @@ local function createLinesFragment(props)
                             -- Create fields line
                             increaseLayoutOrder()
                             local hasFields = #plugInfo.plug.Fields > 0
-                            local fieldsElementName = ("%d_Group_%s_Plug_%s_Fields"):format(layoutOrderCount, groupInfo.name, plugInfo.name)
+                            local fieldsElementName = ("Group_%s_Plug_%s_Fields"):format(groupInfo.name, plugInfo.name)
                             elements[fieldsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Fields, {
                                 isOpen = plugInfo.isFieldsOpen,
                                 plugScript = plugInfo.moduleScript,
@@ -84,12 +84,7 @@ local function createLinesFragment(props)
                             if hasFields and plugInfo.isFieldsOpen then
                                 for _, field in pairs(plugInfo.plug.Fields) do
                                     increaseLayoutOrder()
-                                    local fieldElementName = ("%d_Group_%s_Plug_%s_Field_%s"):format(
-                                        layoutOrderCount,
-                                        groupInfo.name,
-                                        plugInfo.name,
-                                        field.Name
-                                    )
+                                    local fieldElementName = ("Group_%s_Plug_%s_Field_%s"):format(groupInfo.name, plugInfo.name, field.Name)
                                     elements[fieldElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Field, {
                                         field = field,
                                         plug = plugInfo.plug,
@@ -100,11 +95,7 @@ local function createLinesFragment(props)
 
                             -- Create keybind line
                             increaseLayoutOrder()
-                            local keybindElementName = ("%d_Group_%s_Plug_%s_Keybind"):format(
-                                layoutOrderCount,
-                                groupInfo.name,
-                                plugInfo.name
-                            )
+                            local keybindElementName = ("Group_%s_Plug_%s_Keybind"):format(groupInfo.name, plugInfo.name)
                             elements[keybindElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
                                 keybind = plugInfo.plug.Keybind or {},
                                 layoutOrder = layoutOrderCount,
@@ -112,11 +103,7 @@ local function createLinesFragment(props)
 
                             -- Create setting line
                             increaseLayoutOrder()
-                            local settingsElementName = ("%d_Group_%s_Plug_%s_Settings"):format(
-                                layoutOrderCount,
-                                groupInfo.name,
-                                plugInfo.name
-                            )
+                            local settingsElementName = ("Group_%s_Plug_%s_Settings"):format(groupInfo.name, plugInfo.name)
                             elements[settingsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Settings, {
                                 moduleScript = plugInfo.moduleScript,
                                 layoutOrder = layoutOrderCount,
@@ -131,7 +118,7 @@ local function createLinesFragment(props)
 
     -- Create bottom padding
     increaseLayoutOrder()
-    local paddingElementName = ("%d_BottomPadding"):format(layoutOrderCount)
+    local paddingElementName = ("BottomPadding"):format()
     elements[paddingElementName] = Roact.createElement("Frame", {
         LayoutOrder = layoutOrderCount,
         BackgroundTransparency = 1,
