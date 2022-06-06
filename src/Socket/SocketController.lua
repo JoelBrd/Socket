@@ -219,7 +219,17 @@ function SocketController:SetupPlugActions()
 
     runJanitor:Add(plugsFolder.DescendantRemoving:Connect(function(descendant)
         if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
-            removedPlug(descendant)
+            -- Search for plug (may never have been registered)
+            local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
+            for _, groupInfo in pairs(groups) do
+                for plugScript, _ in pairs(groupInfo.Plugs) do
+                    if plugScript == descendant then
+                        -- Changed
+                        removedPlug(descendant)
+                        return
+                    end
+                end
+            end
         end
     end))
 
