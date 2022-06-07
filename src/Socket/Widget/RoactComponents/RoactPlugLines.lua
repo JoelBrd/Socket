@@ -201,6 +201,9 @@ local function getPlug(props)
             -- Get variables
             local isServerRunning = plug.State.Server.IsRunning and true or false
             local isClientRunning = plug.State.Client.IsRunning and true or false
+            local textLabelXOffset = -(
+                    WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth * 2 + WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding
+                )
 
             return Roact.createFragment({
                 TextLabel = Roact.createElement("TextLabel", {
@@ -209,12 +212,17 @@ local function getPlug(props)
                     TextScaled = true,
                     Font = SocketController:GetSetting("Font"),
                     Text = name,
-                    Size = UDim2.new(1, -WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth * 2, 1, 0),
+                    Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
                     TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
                 }),
-                RunServerButtonHolder = Roact.createElement("Frame", {
+                Padding = Roact.createElement("Frame", {
+                    BackgroundTransparency = 1,
                     LayoutOrder = 2,
+                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding, 1, 0),
+                }),
+                RunServerButtonHolder = Roact.createElement("Frame", {
+                    LayoutOrder = 3,
                     Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
                     BackgroundTransparency = 1,
                 }, {
@@ -247,6 +255,9 @@ local function getPlug(props)
         else
             -- Get variables
             local isRunning = plug.State.IsRunning and true or false
+            local textLabelXOffset = -(
+                    WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth + WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding
+                )
 
             return Roact.createFragment({
                 TextLabel = Roact.createElement("TextLabel", {
@@ -255,12 +266,17 @@ local function getPlug(props)
                     TextScaled = true,
                     Font = SocketController:GetSetting("Font"),
                     Text = name,
-                    Size = UDim2.new(1, -WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
+                    Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
                     TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
                 }),
-                RunButtonHolder = Roact.createElement("Frame", {
+                Padding = Roact.createElement("Frame", {
+                    BackgroundTransparency = 1,
                     LayoutOrder = 2,
+                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding, 1, 0),
+                }),
+                RunButtonHolder = Roact.createElement("Frame", {
+                    LayoutOrder = 3,
                     Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
                     BackgroundTransparency = 1,
                 }, {
