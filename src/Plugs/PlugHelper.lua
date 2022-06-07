@@ -73,10 +73,15 @@ function PlugHelper:RunPlug(plug)
     end
 
     -- Run Plug
-    pcall(function()
+    local success, err = pcall(function()
         plug.Function(plug, PluginHandler:GetPlugin())
     end)
     threadIsGood = true
+
+    -- Show error
+    if not success then
+        Logger:PlugWarn(plug, ("ERROR: %s"):format(err))
+    end
 
     -- Set waypoint
     if doSetWaypoint then

@@ -370,6 +370,11 @@ function SocketController:SetupKeybindHooks()
     ---@param inputObject InputObject
     ---@param gameProcessedEvent boolean
     local function inputBegan(inputObject, gameProcessedEvent)
+        -- RETURN: Ignore game processed
+        if gameProcessedEvent then
+            return
+        end
+
         heldKeys[inputObject.KeyCode] = gameProcessedEvent
 
         -- Does this equate a keybind?
