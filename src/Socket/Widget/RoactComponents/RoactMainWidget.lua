@@ -123,6 +123,9 @@ function RoactMainWidget:Create()
             return
         end
 
+        -- Get Variables
+        local doGroupMatchingIcons = state[SocketConstants.RoduxStoreKey.SETTINGS].Settings.GroupMatchingIcons and true or false
+
         -- Construct groups
         local groups = {} ---@type RoactMainWidgetProps.GroupInfo[]
         local plugsState = state[SocketConstants.RoduxStoreKey.PLUGS]
@@ -171,6 +174,10 @@ function RoactMainWidget:Create()
             ---@param plugInfo0 RoactMainWidgetProps.PlugInfo
             ---@param plugInfo1 RoactMainWidgetProps.PlugInfo
             local function plugsSort(plugInfo0, plugInfo1)
+                if doGroupMatchingIcons and plugInfo0.plug.Icon ~= plugInfo1.plug.Icon then
+                    return plugInfo0.plug.Icon < plugInfo1.plug.Icon
+                end
+
                 return plugInfo0.name < plugInfo1.name
             end
             table.sort(groupInfo.plugs, plugsSort)

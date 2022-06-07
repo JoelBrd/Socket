@@ -34,6 +34,9 @@ local settings = {
 
     -- What keybind will navigate through same-context fields
     NavigateFieldsKeybind = Enum.KeyCode.Tab,
+
+    -- If true, plugs with identical icons will be next to one another
+    GroupMatchingIcons = true,
 }
 
 return settings
