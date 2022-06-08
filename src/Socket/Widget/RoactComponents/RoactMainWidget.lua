@@ -35,6 +35,7 @@ local RoactBottomBar ---@type RoactBottomBar
 local RoactRodux ---@type RoactRodux
 local SocketConstants ---@type SocketConstants
 local SocketSettings ---@type SocketSettings
+local WidgetTheme ---@type WidgetTheme
 
 --------------------------------------------------
 -- Constants
@@ -63,7 +64,7 @@ function RoactMainWidget:Create()
         local scale = SocketSettings:GetSetting("UIScale")
 
         return Roact.createElement("Frame", {
-            BackgroundColor3 = WidgetConstants.Color.Background[SocketController:GetTheme()],
+            BackgroundColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.Background),
             Size = UDim2.fromScale(1, 1),
         }, {
             UIPadding = Roact.createElement("UIPadding", {
@@ -234,6 +235,7 @@ function RoactMainWidget:FrameworkInit()
     SocketConstants = PluginFramework:Require("SocketConstants")
     RoactRodux = PluginFramework:Require("RoactRodux")
     SocketSettings = PluginFramework:Require("SocketSettings")
+    WidgetTheme = PluginFramework:Require("WidgetTheme")
 end
 
 ---

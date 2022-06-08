@@ -23,10 +23,12 @@ local SocketController ---@type SocketController
 local PlugHelper ---@type PlugHelper
 local SocketSettings ---@type SocketSettings
 local PlugConstants ---@type PlugConstants
+local WidgetTheme ---@type WidgetTheme
 
 --------------------------------------------------
 -- Constants
 local LINE_PADDING = 1
+local COLOR_WHITE = Color3.fromRGB(255, 255, 255)
 
 --------------------------------------------------
 -- Members
@@ -59,7 +61,7 @@ local function createLine(props)
             Roact.createElement("ImageButton", {
                 BackgroundTransparency = 1,
                 Size = UDim2.fromScale(1, 1),
-                ImageColor3 = WidgetConstants.Color.PlugLines.Arrow[SocketController:GetTheme()],
+                ImageColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Arrow),
                 Image = WidgetConstants.Images.Arrow,
                 Rotation = isOpen and 90 or 0,
 
@@ -103,7 +105,7 @@ local function createLine(props)
         }, {
             TextLabel = Roact.createElement("TextLabel", {
                 Text = icon,
-                TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+                TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
                 Size = UDim2.fromScale(1, 1),
                 TextScaled = true,
                 BackgroundTransparency = 1,
@@ -149,7 +151,7 @@ local function getGroup(props)
             TextScaled = true,
             Font = SocketSettings:GetSetting("Font"),
             Text = ("%s (%d)"):format(name, totalPlugs),
-            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
         }),
@@ -216,7 +218,7 @@ local function getPlug(props)
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+                    TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
                 }),
                 Padding = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
@@ -270,7 +272,7 @@ local function getPlug(props)
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+                    TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
                 }),
                 Padding = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
@@ -376,7 +378,7 @@ local function getKeybind(props)
             Text = "Keybind",
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
-            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
         }),
         KeybindLabel = Roact.createElement("TextLabel", {
             LayoutOrder = 2,
@@ -386,7 +388,7 @@ local function getKeybind(props)
             Text = keybindString,
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Right,
-            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
         }),
     })
 
@@ -492,7 +494,7 @@ local function getFields(props)
             TextScaled = true,
             Font = SocketSettings:GetSetting("Font"),
             Text = "Fields",
-            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
         }),
@@ -581,7 +583,7 @@ local function getField(props)
             Text = field.Name,
             Size = UDim2.fromScale(0.5, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
-            TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
+            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
         }),
         TextboxHolder = Roact.createElement("Frame", {
             LayoutOrder = 2,
@@ -594,10 +596,10 @@ local function getField(props)
             }),
             TextBox = Roact.createElement("TextBox", {
                 Font = SocketSettings:GetSetting("Font"),
-                PlaceholderColor3 = WidgetConstants.Color.PlugLines.Field.PlaceholderText[SocketController:GetTheme()],
+                PlaceholderColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Field.PlaceholderText),
                 PlaceholderText = field.Type.Name,
                 Text = stringValue,
-                TextColor3 = WidgetConstants.Color.PlugLines.Field.Text[SocketController:GetTheme()],
+                TextColor3 = doColor and COLOR_WHITE or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Field.Text),
                 TextScaled = true,
                 TextStrokeTransparency = doColor and 0.4 or 1,
                 BackgroundTransparency = 1,
@@ -607,7 +609,7 @@ local function getField(props)
                 [Roact.Event.FocusLost] = onFocusLost,
             }),
             Backing = Roact.createElement("Frame", {
-                BackgroundColor3 = doColor and color or WidgetConstants.Color.PlugLines.Field.Backing[SocketController:GetTheme()],
+                BackgroundColor3 = doColor and color or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Field.Backing),
                 Size = UDim2.fromScale(1, 1),
             }, {
                 UICorner = Roact.createElement("UICorner", {
@@ -615,7 +617,7 @@ local function getField(props)
                 }),
                 UIStroke = Roact.createElement("UIStroke", {
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
-                    Color = WidgetConstants.Color.PlugLines.Field.Stroke[SocketController:GetTheme()],
+                    Color = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Field.Stroke),
                     LineJoinMode = Enum.LineJoinMode.Round,
                     Thickness = 2,
                     Transparency = 0.2,
@@ -665,6 +667,7 @@ function RoactPlugLines:FrameworkInit()
     PlugHelper = PluginFramework:Require("PlugHelper")
     SocketSettings = PluginFramework:Require("SocketSettings")
     PlugConstants = PluginFramework:Require("PlugConstants")
+    WidgetTheme = PluginFramework:Require("WidgetTheme")
 end
 
 ---

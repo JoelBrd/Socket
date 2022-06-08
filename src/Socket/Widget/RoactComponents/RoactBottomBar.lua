@@ -22,6 +22,7 @@ local StudioHandler ---@type StudioHandler
 local PluginHandler ---@type PluginHandler
 local SocketConstants ---@type SocketConstants
 local SocketSettings ---@type SocketSettings
+local WidgetTheme ---@type WidgetTheme
 
 --------------------------------------------------
 -- Constants
@@ -40,7 +41,7 @@ function RoactBottomBar:Get()
     }, {
         DividerLine = Roact.createElement("Frame", {
             AnchorPoint = Vector2.new(0.5, 0),
-            BackgroundColor3 = WidgetConstants.Color.BottomBar.Divider[SocketController:GetTheme()],
+            BackgroundColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.BottomBar.Divider),
             Position = UDim2.fromScale(0.5, 0),
             Size = UDim2.new(1, -10, 0, WidgetConstants.BottomBar.Pixel.DividerHeight),
         }),
@@ -71,7 +72,7 @@ function RoactBottomBar:Get()
             VersionLabel = Roact.createElement("TextLabel", {
                 Font = SocketSettings:GetSetting("Font"),
                 Text = SocketConstants.Version,
-                TextColor3 = WidgetConstants.Color.BottomBar.Version[SocketController:GetTheme()],
+                TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.BottomBar.Version),
                 TextScaled = true,
                 TextXAlignment = Enum.TextXAlignment.Right,
                 TextYAlignment = Enum.TextYAlignment.Bottom,
@@ -100,6 +101,7 @@ function RoactBottomBar:FrameworkInit()
     StudioHandler = PluginFramework:Require("StudioHandler")
     SocketConstants = PluginFramework:Require("SocketConstants")
     SocketSettings = PluginFramework:Require("SocketSettings")
+    WidgetTheme = PluginFramework:Require("WidgetTheme")
 end
 
 ---

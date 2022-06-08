@@ -17,6 +17,7 @@ local WidgetConstants ---@type WidgetConstants
 local SocketController ---@type SocketController
 local SocketConstants ---@type SocketConstants
 local SocketSettings ---@type SocketSettings
+local WidgetTheme ---@type WidgetTheme
 
 --------------------------------------------------
 -- Constants
@@ -60,7 +61,7 @@ function RoactSearchBar:Get(props)
             PaddingTop = UDim.new(0, 4),
         }),
         Background = Roact.createElement("Frame", {
-            BackgroundColor3 = WidgetConstants.Color.SearchBar.Background[SocketController:GetTheme()],
+            BackgroundColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.SearchBar.Background),
             AnchorPoint = Vector2.new(0.5, 0.5),
             Position = UDim2.fromScale(0.5, 0.5),
             Size = UDim2.fromScale(0.95, 1),
@@ -75,7 +76,7 @@ function RoactSearchBar:Get(props)
             }),
             UIStroke = Roact.createElement("UIStroke", {
                 ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
-                Color = WidgetConstants.Color.SearchBar.Stroke[SocketController:GetTheme()],
+                Color = WidgetTheme:GetColor(WidgetTheme.Indexes.SearchBar.Stroke),
                 LineJoinMode = Enum.LineJoinMode.Round,
                 Thickness = 2,
                 Transparency = 0.2,
@@ -107,8 +108,8 @@ function RoactSearchBar:Get(props)
                     Font = SocketSettings:GetSetting("Font"),
                     PlaceholderText = "Search",
                     Text = "",
-                    PlaceholderColor3 = WidgetConstants.Color.SearchBar.PlaceholderText[SocketController:GetTheme()],
-                    TextColor3 = WidgetConstants.Color.SearchBar.Text[SocketController:GetTheme()],
+                    PlaceholderColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.SearchBar.PlaceholderText),
+                    TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.SearchBar.Text),
                     TextScaled = true,
                     TextXAlignment = Enum.TextXAlignment.Left,
                     AnchorPoint = Vector2.new(0, 0.5),
@@ -134,6 +135,7 @@ function RoactSearchBar:FrameworkInit()
     SocketController = PluginFramework:Require("SocketController")
     SocketConstants = PluginFramework:Require("SocketConstants")
     SocketSettings = PluginFramework:Require("SocketSettings")
+    WidgetTheme = PluginFramework:Require("WidgetTheme")
 end
 
 ---

@@ -28,27 +28,8 @@ local TableUtil ---@type TableUtil
 ---
 function SocketRoduxStoreStudioReducer:Get()
     return Rodux.createReducer({
-        Theme = "Light",
         IsRunning = false,
     }, {
-        ---Update theme
-        ---@param state RoduxState
-        ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.STUDIO.SET_THEME] = function(state, action)
-            -- Read Action
-            local theme = action.data.theme ---@type string
-
-            -- Recreate state
-            local newState = {}
-            for k, v in pairs(state) do
-                newState[k] = v
-            end
-
-            newState.Theme = theme == "Dark" and "Dark" or "Light"
-
-            return newState
-        end,
-
         ---Declare if we are in a running state or not
         ---@param state RoduxState
         ---@param action RoduxAction

@@ -101,15 +101,6 @@ function SocketController:GetPlug(plugScript)
 end
 
 ---
----Returns the current theme of studio, and hence socket.
----Either `Light` or `Dark`
----@return string
----
-function SocketController:GetTheme()
-    return SocketController:GetStore():getState()[SocketConstants.RoduxStoreKey.STUDIO].Theme
-end
-
----
 ---@return boolean
 ---
 function SocketController:IsRunning()
@@ -284,15 +275,8 @@ end
 function SocketController:SetupStudioActions()
     -- Theme
     local function setTheme()
-        -- Update RoduxStore
-        ---@type RoduxAction
-        local action = {
-            type = SocketConstants.RoduxActionType.STUDIO.SET_THEME,
-            data = {
-                theme = Studio.Theme.Name,
-            },
-        }
-        SocketController:GetStore():dispatch(action)
+        -- Used to update the store.. now just refresh the widget
+        WidgetHandler:Refresh()
     end
 
     setTheme()

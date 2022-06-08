@@ -35,7 +35,6 @@ SocketConstants.RoduxActionType = {
         REFRESH = "REFRESH",
     },
     STUDIO = {
-        SET_THEME = "SET_THEME",
         IS_RUNNING = "IS_RUNNING",
     },
 } ---@type table<RoduxStoreKey, RoduxActionType[]>
