@@ -42,6 +42,8 @@ local function createLine(props)
     local isOpen = props.isOpen ---@type boolean
     local onArrowClick = props.onArrowClick ---@type function optional (required when isOpen ~= nil)
     local icon = props.icon ---@type string
+    local iconColor = props.iconColor ---@type Color3
+    local isIconImageId = props.isIconImageId ---@type boolean
     local detailsContainer = props.detailsContainer ---@type RoactElement
     local layoutOrder = props.layoutOrder ---@type number
     local scale = props.scale ---@type number
@@ -68,6 +70,29 @@ local function createLine(props)
                 [Roact.Event.MouseButton1Down] = onArrowClick,
             })
         )
+    end
+
+    ---@return RoactElement
+    local function getIconElement()
+        if isIconImageId then
+            return Roact.createElement("ImageLabel", {
+                Image = icon,
+                ImageColor3 = iconColor,
+                Size = UDim2.fromScale(1, 1),
+                BackgroundTransparency = 1,
+            })
+        else
+            return Roact.createElement("TextLabel", {
+                Text = icon,
+                TextColor3 = iconColor,
+                Size = UDim2.fromScale(1, 1),
+                TextScaled = true,
+                BackgroundTransparency = 1,
+                TextXAlignment = Enum.TextXAlignment.Center,
+                TextYAlignment = Enum.TextYAlignment.Center,
+                Font = SocketSettings:GetSetting("Font"),
+            })
+        end
     end
 
     return Roact.createElement("Frame", {
@@ -103,16 +128,7 @@ local function createLine(props)
             Size = UDim2.new(1, 0, 0, iconContainerWidthPixel),
             BackgroundTransparency = 1,
         }, {
-            TextLabel = Roact.createElement("TextLabel", {
-                Text = icon,
-                TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
-                Size = UDim2.fromScale(1, 1),
-                TextScaled = true,
-                BackgroundTransparency = 1,
-                TextXAlignment = Enum.TextXAlignment.Center,
-                TextYAlignment = Enum.TextYAlignment.Center,
-                Font = SocketSettings:GetSetting("Font"),
-            }),
+            IconElement = getIconElement(),
         }),
         DetailsHolder = Roact.createElement("Frame", {
             LayoutOrder = 4,
@@ -135,6 +151,8 @@ local function getGroup(props)
     local isOpen = props.isOpen ---@type boolean
     local totalPlugs = props.totalPlugs ---@type number
     local icon = props.icon ---@type string
+    local iconColor = props.iconColor ---@type Color3
+    local isIconImageId = props.isIconImageId ---@type boolean
     local layoutOrder = props.layoutOrder ---@type number
     local scale = props.scale ---@type number
 
@@ -178,6 +196,8 @@ local function getGroup(props)
         indent = WidgetConstants.RoactWidgetLine.Indent.Group,
         isOpen = isOpen,
         icon = icon,
+        iconColor = iconColor,
+        isIconImageId = isIconImageId,
         detailsContainer = detailsContainer,
         onArrowClick = onArrowClick,
         layoutOrder = layoutOrder,
@@ -192,6 +212,8 @@ local function getPlug(props)
     local name = props.name ---@type string
     local isOpen = props.isOpen ---@type boolean
     local icon = props.icon ---@type string
+    local iconColor = props.iconColor ---@type Color3
+    local isIconImageId = props.isIconImageId ---@type boolean
     local layoutOrder = props.layoutOrder ---@type number
     local plug = props.plug ---@type PlugDefinition
     local plugScript = props.plugScript ---@type ModuleScript
@@ -349,6 +371,8 @@ local function getPlug(props)
         indent = WidgetConstants.RoactWidgetLine.Indent.Plug,
         isOpen = isOpen,
         icon = icon,
+        iconColor = iconColor,
+        isIconImageId = isIconImageId,
         detailsContainer = detailsContainer,
         onArrowClick = onArrowClick,
         layoutOrder = layoutOrder,

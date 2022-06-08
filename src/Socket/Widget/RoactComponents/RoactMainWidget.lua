@@ -137,6 +137,7 @@ function RoactMainWidget:Create()
             local groupInfo = {
                 name = groupName,
                 icon = nil,
+                iconColor = nil,
                 isOpen = groupChild.UIState.IsOpen,
                 isVisible = true,
                 plugs = {}, ---@type RoactMainWidgetProps.GroupInfo[]
@@ -169,6 +170,9 @@ function RoactMainWidget:Create()
                 -- Try populate group icon
                 if plug.GroupIcon and not groupInfo.icon then
                     groupInfo.icon = plug.GroupIcon
+                end
+                if plug.GroupIconColor and not groupInfo.iconColor then
+                    groupInfo.iconColor = plug.GroupIconColor
                 end
             end
 

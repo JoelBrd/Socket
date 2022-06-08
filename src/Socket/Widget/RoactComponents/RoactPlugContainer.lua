@@ -20,10 +20,16 @@ local WidgetConstants ---@type WidgetConstants
 
 --------------------------------------------------
 -- Constants
--- ...
+local COLOR_WHITE = Color3.fromRGB(255, 255, 255)
 
 --------------------------------------------------
 -- Members
+
+---@param str string
+---@return boolean
+local function couldStringBeIconImageId(str)
+    return str:find("rbxassetid")
+end
 
 ---Creates all of the individual lines to populate the PlugContainer
 ---@param props table
@@ -44,11 +50,14 @@ local function createLinesFragment(props)
             -- Create group line
             increaseLayoutOrder()
             local groupElementName = ("Group_%s"):format(groupInfo.name)
+            local groupIcon = groupInfo.icon or WidgetConstants.Icons.Unknown
             elements[groupElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
                 name = groupInfo.name,
                 isOpen = groupInfo.isOpen,
                 totalPlugs = #groupInfo.plugs,
-                icon = groupInfo.icon or WidgetConstants.Icons.Unknown,
+                icon = groupIcon,
+                iconColor = groupInfo.iconColor or COLOR_WHITE,
+                isIconImageId = couldStringBeIconImageId(groupIcon),
                 layoutOrder = layoutOrderCount,
                 scale = scale,
             })
@@ -60,10 +69,13 @@ local function createLinesFragment(props)
                         -- Create plug line
                         increaseLayoutOrder()
                         local plugElementName = ("Group_%s_Plug_%s"):format(groupInfo.name, plugInfo.name)
+                        local plugIcon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown
                         elements[plugElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Plug, {
                             name = plugInfo.name,
                             isOpen = plugInfo.isOpen,
-                            icon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown,
+                            icon = plugIcon,
+                            iconColor = plugInfo.plug.IconColor or COLOR_WHITE,
+                            isIconImageId = couldStringBeIconImageId(plugIcon),
                             layoutOrder = layoutOrderCount,
                             scale = scale,
                             plug = plugInfo.plug,

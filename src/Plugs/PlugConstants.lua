@@ -11,8 +11,10 @@ local PlugConstants = {}
 ---@class PlugDefinition
 ---@field Group string
 ---@field GroupIcon string
+---@field GroupIconColor Color3
 ---@field Name string
 ---@field Icon string
+---@field IconColor Color3
 ---@field Description string
 ---@field State PlugState
 ---@field EnableAutomaticUndo boolean
