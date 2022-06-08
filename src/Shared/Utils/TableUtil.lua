@@ -79,7 +79,23 @@ function TableUtil:DeepCopy(t)
             tCopy[k] = v
         end
     end
+
     return tCopy
+end
+
+---
+---Places the keys of the passed array/dictionary into an array
+---@generic K
+---@param tbl table<K, any>
+---@return K[]
+---
+function TableUtil:KeysToArray(tbl)
+    local keys = {}
+    for key, _ in pairs(tbl) do
+        table.insert(keys, key)
+    end
+
+    return keys
 end
 
 return TableUtil

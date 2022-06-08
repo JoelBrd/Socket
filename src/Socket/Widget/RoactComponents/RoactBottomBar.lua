@@ -63,7 +63,7 @@ function RoactBottomBar:Get()
                     text = "Settings",
                     color = Color3.fromRGB(208, 138, 255),
                     activatedCallback = function()
-                        PluginHandler:GetPlugin():OpenScript(StudioHandler:GetSettingsScript())
+                        SocketSettings:OpenSettings()
                     end,
                 }),
             }),

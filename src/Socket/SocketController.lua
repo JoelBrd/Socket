@@ -72,6 +72,13 @@ function SocketController:Run()
 end
 
 ---
+---@return Janitor
+---
+function SocketController:GetRunJanitor()
+    return runJanitor
+end
+
+---
 ---@return RoduxStore
 ---
 function SocketController:GetStore()

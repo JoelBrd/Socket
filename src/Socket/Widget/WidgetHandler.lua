@@ -112,6 +112,19 @@ function WidgetHandler:Run()
 end
 
 ---
+---Refreshes the PLUGS store, and hence the widget
+---
+function WidgetHandler:Refresh()
+    -- Update RoduxStore
+    ---@type RoduxAction
+    local action = {
+        type = SocketConstants.RoduxActionType.PLUGS.REFRESH,
+        data = {},
+    }
+    SocketController:GetStore():dispatch(action)
+end
+
+---
 ---Used to track fields within a RoactComponent, so the user can navigate them easily using "Tab".
 ---Very very ugly and hacky, but I couldn't be bothered to figure out how to implement this purely with Roact.
 ---@param reference any
