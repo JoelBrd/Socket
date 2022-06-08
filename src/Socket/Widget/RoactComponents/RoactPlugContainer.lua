@@ -53,6 +53,7 @@ local function createLinesFragment(props)
             local groupIcon = groupInfo.icon or WidgetConstants.Icons.Unknown
             elements[groupElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
                 name = groupInfo.name,
+                nameColor = groupInfo.nameColor,
                 isOpen = groupInfo.isOpen,
                 totalPlugs = #groupInfo.plugs,
                 icon = groupIcon,
@@ -72,6 +73,7 @@ local function createLinesFragment(props)
                         local plugIcon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown
                         elements[plugElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Plug, {
                             name = plugInfo.name,
+                            nameColor = plugInfo.plug.NameColor,
                             isOpen = plugInfo.isOpen,
                             icon = plugIcon,
                             iconColor = plugInfo.plug.IconColor or COLOR_WHITE,

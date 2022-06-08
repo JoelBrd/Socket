@@ -10,7 +10,9 @@ local RoactMainWidget = {}
 
 ---@class RoactMainWidgetProps.GroupInfo
 ---@field name string
+---@field nameColor Color3
 ---@field icon string
+---@field iconColor Color3
 ---@field isOpen boolean
 ---@field isVisible boolean
 ---@field plugs RoactMainWidgetProps.PlugInfo[]
@@ -136,6 +138,7 @@ function RoactMainWidget:Create()
             -- Create group info
             local groupInfo = {
                 name = groupName,
+                nameColor = nil,
                 icon = nil,
                 iconColor = nil,
                 isOpen = groupChild.UIState.IsOpen,
@@ -173,6 +176,9 @@ function RoactMainWidget:Create()
                 end
                 if plug.GroupIconColor and not groupInfo.iconColor then
                     groupInfo.iconColor = plug.GroupIconColor
+                end
+                if plug.GroupColor and not groupInfo.nameColor then
+                    groupInfo.nameColor = plug.GroupColor
                 end
             end
 

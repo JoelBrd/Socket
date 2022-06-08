@@ -148,6 +148,7 @@ end
 local function getGroup(props)
     -- Read props
     local name = props.name ---@type string
+    local nameColor = props.nameColor ---@type Color3
     local isOpen = props.isOpen ---@type boolean
     local totalPlugs = props.totalPlugs ---@type number
     local icon = props.icon ---@type string
@@ -169,7 +170,7 @@ local function getGroup(props)
             TextScaled = true,
             Font = SocketSettings:GetSetting("Font"),
             Text = ("%s (%d)"):format(name, totalPlugs),
-            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
+            TextColor3 = nameColor or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
         }),
@@ -210,6 +211,7 @@ end
 local function getPlug(props)
     -- Read props
     local name = props.name ---@type string
+    local nameColor = props.nameColor ---@type Color3
     local isOpen = props.isOpen ---@type boolean
     local icon = props.icon ---@type string
     local iconColor = props.iconColor ---@type Color3
@@ -242,7 +244,7 @@ local function getPlug(props)
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
+                    TextColor3 = nameColor or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
                 }),
                 Padding = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
@@ -305,7 +307,7 @@ local function getPlug(props)
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
+                    TextColor3 = nameColor or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
                 }),
                 Padding = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,

@@ -10,9 +10,11 @@ local PlugConstants = {}
 
 ---@class PlugDefinition
 ---@field Group string
+---@field GroupColor Color3
 ---@field GroupIcon string
 ---@field GroupIconColor Color3
 ---@field Name string
+---@field NameColor Color3
 ---@field Icon string
 ---@field IconColor Color3
 ---@field Description string
