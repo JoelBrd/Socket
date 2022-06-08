@@ -21,6 +21,7 @@ local RoactButton ---@type RoactButton
 local StudioHandler ---@type StudioHandler
 local PluginHandler ---@type PluginHandler
 local SocketConstants ---@type SocketConstants
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -68,7 +69,7 @@ function RoactBottomBar:Get()
             }),
 
             VersionLabel = Roact.createElement("TextLabel", {
-                Font = SocketController:GetSetting("Font"),
+                Font = SocketSettings:GetSetting("Font"),
                 Text = SocketConstants.Version,
                 TextColor3 = WidgetConstants.Color.BottomBar.Version[SocketController:GetTheme()],
                 TextScaled = true,
@@ -98,6 +99,7 @@ function RoactBottomBar:FrameworkInit()
     PluginHandler = PluginFramework:Require("PluginHandler")
     StudioHandler = PluginFramework:Require("StudioHandler")
     SocketConstants = PluginFramework:Require("SocketConstants")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---

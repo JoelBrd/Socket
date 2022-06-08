@@ -21,6 +21,7 @@ local PluginHandler ---@type PluginHandler
 local RoactButton ---@type RoactButton
 local SocketController ---@type SocketController
 local PlugHelper ---@type PlugHelper
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -107,7 +108,7 @@ local function createLine(props)
                 BackgroundTransparency = 1,
                 TextXAlignment = Enum.TextXAlignment.Center,
                 TextYAlignment = Enum.TextYAlignment.Center,
-                Font = SocketController:GetSetting("Font"),
+                Font = SocketSettings:GetSetting("Font"),
             }),
         }),
         DetailsHolder = Roact.createElement("Frame", {
@@ -145,7 +146,7 @@ local function getGroup(props)
         TextLabel = Roact.createElement("TextLabel", {
             BackgroundTransparency = 1,
             TextScaled = true,
-            Font = SocketController:GetSetting("Font"),
+            Font = SocketSettings:GetSetting("Font"),
             Text = ("%s (%d)"):format(name, totalPlugs),
             TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
             Size = UDim2.fromScale(1, 1),
@@ -210,7 +211,7 @@ local function getPlug(props)
                     LayoutOrder = 1,
                     BackgroundTransparency = 1,
                     TextScaled = true,
-                    Font = SocketController:GetSetting("Font"),
+                    Font = SocketSettings:GetSetting("Font"),
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
@@ -264,7 +265,7 @@ local function getPlug(props)
                     LayoutOrder = 1,
                     BackgroundTransparency = 1,
                     TextScaled = true,
-                    Font = SocketController:GetSetting("Font"),
+                    Font = SocketSettings:GetSetting("Font"),
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
@@ -370,7 +371,7 @@ local function getKeybind(props)
             LayoutOrder = 1,
             BackgroundTransparency = 1,
             TextScaled = true,
-            Font = SocketController:GetSetting("Font"),
+            Font = SocketSettings:GetSetting("Font"),
             Text = "Keybind",
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
@@ -380,7 +381,7 @@ local function getKeybind(props)
             LayoutOrder = 2,
             BackgroundTransparency = 1,
             TextScaled = true,
-            Font = SocketController:GetSetting("Font"),
+            Font = SocketSettings:GetSetting("Font"),
             Text = keybindString,
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Right,
@@ -488,7 +489,7 @@ local function getFields(props)
         TextLabel = Roact.createElement("TextLabel", {
             BackgroundTransparency = 1,
             TextScaled = true,
-            Font = SocketController:GetSetting("Font"),
+            Font = SocketSettings:GetSetting("Font"),
             Text = "Fields",
             TextColor3 = WidgetConstants.Color.PlugLines.Text[SocketController:GetTheme()],
             Size = UDim2.fromScale(1, 1),
@@ -571,7 +572,7 @@ local function getField(props)
             LayoutOrder = 1,
             BackgroundTransparency = 1,
             TextScaled = true,
-            Font = SocketController:GetSetting("Font"),
+            Font = SocketSettings:GetSetting("Font"),
             Text = field.Name,
             Size = UDim2.fromScale(0.5, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
@@ -587,7 +588,7 @@ local function getField(props)
                 PaddingTop = UDim.new(0, 2),
             }),
             TextBox = Roact.createElement("TextBox", {
-                Font = SocketController:GetSetting("Font"),
+                Font = SocketSettings:GetSetting("Font"),
                 PlaceholderColor3 = WidgetConstants.Color.PlugLines.Field.PlaceholderText[SocketController:GetTheme()],
                 PlaceholderText = field.Type.Name,
                 Text = stringValue,
@@ -656,6 +657,7 @@ function RoactPlugLines:FrameworkInit()
     RoactButton = PluginFramework:Require("RoactButton")
     SocketController = PluginFramework:Require("SocketController")
     PlugHelper = PluginFramework:Require("PlugHelper")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---

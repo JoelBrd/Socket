@@ -26,6 +26,7 @@ local WidgetHandler ---@type WidgetHandler
 local PlugConstants ---@type PlugConstants
 local PlugHelper ---@type PlugHelper
 local PlugClientServer ---@type PlugClientServer
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -50,9 +51,11 @@ function SocketController:Run()
     -- Init store
     roduxStore = SocketRoduxStoreController:GetRoduxStore()
 
+    -- Setup settings
+    SocketSettings:ValidateSettings()
+
     -- Setup rodux store actions
     SocketController:SetupStudioActions()
-    SocketController:SetupSettingsActions()
     SocketController:SetupPlugActions()
 
     -- Tell the widget handler its go time
@@ -104,23 +107,6 @@ end
 ---
 function SocketController:IsRunning()
     return SocketController:GetStore():getState()[SocketConstants.RoduxStoreKey.STUDIO].IsRunning
-end
-
----
----Will read this setting from our current store
----@param settingName string
----@return any
----
-function SocketController:GetSetting(settingName)
-    local settings = SocketController:GetStore():getState()[SocketConstants.RoduxStoreKey.SETTINGS].Settings
-
-    -- ERROR: Bad setting name
-    local settingValue = settings[settingName]
-    if settingValue == nil then
-        Logger:Error(("No setting %q"):format(settingName))
-    end
-
-    return settingValue
 end
 
 ---Will try require the current state of the passed moduleScript, by using a clone.
@@ -195,7 +181,7 @@ function SocketController:SetupPlugActions()
                 data = {
                     plug = plugDefinition,
                     script = moduleScript,
-                    isFieldsOpen = SocketController:GetSetting("OpenFieldsByDefault"),
+                    isFieldsOpen = SocketSettings:GetSetting("OpenFieldsByDefault"),
                 },
             }
             roduxStore:dispatch(action)
@@ -281,49 +267,6 @@ function SocketController:SetupPlugActions()
                 removedPlug(descendant)
             end
         end
-    end))
-end
-
----
----Runs the logic for manipulating our RoduxStore from the settings file in Studio
----Called once per Run().
----
-function SocketController:SetupSettingsActions()
-    ---Put our current settings into the store
-    ---@param settingsFile ModuleScript
-    local function update(settingsFile)
-        local requiredClone = tryCloneRequire(settingsFile)
-        if requiredClone then
-            -- Update RoduxStore
-            ---@type RoduxAction
-            local action = {
-                type = SocketConstants.RoduxActionType.SETTINGS.UPDATE,
-                data = {
-                    settings = requiredClone,
-                },
-            }
-            roduxStore:dispatch(action)
-        end
-    end
-
-    -- Grab settings file
-    local settingsFile = StudioHandler:GetSettingsScript()
-    update(settingsFile)
-
-    -- Listener to the user viewing different scripts; used to trigger our update action
-    local cachedActiveScript ---@type Instance
-    runJanitor:Add(StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
-        local activeScript = StudioService.ActiveScript
-
-        -- Have we just exited a script file?
-        if cachedActiveScript then
-            if cachedActiveScript == settingsFile then
-                update(settingsFile)
-            end
-        end
-
-        -- Update cache
-        cachedActiveScript = activeScript
     end))
 end
 
@@ -452,6 +395,7 @@ function SocketController:FrameworkInit()
     PlugConstants = PluginFramework:Require("PlugConstants")
     PlugHelper = PluginFramework:Require("PlugHelper")
     PlugClientServer = PluginFramework:Require("PlugClientServer")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---@private

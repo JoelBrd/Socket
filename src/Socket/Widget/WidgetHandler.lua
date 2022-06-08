@@ -21,6 +21,7 @@ local RoactRodux ---@type RoactRodux
 local RoactMainWidget ---@type RoactMainWidget
 local SocketConstants ---@type SocketConstants
 local Janitor ---@type Janitor
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -79,7 +80,7 @@ function WidgetHandler:Run()
     -- Tracking textbox navigating
     runJanitor:Add(UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
         -- RETURN: Bad keybind
-        if inputObject.KeyCode ~= SocketController:GetSetting("NavigateFieldsKeybind") then
+        if inputObject.KeyCode ~= SocketSettings:GetSetting("NavigateFieldsKeybind") then
             return
         end
 
@@ -166,6 +167,7 @@ function WidgetHandler:FrameworkInit()
     RoactMainWidget = PluginFramework:Require("RoactMainWidget")
     SocketConstants = PluginFramework:Require("SocketConstants")
     Janitor = PluginFramework:Require("Janitor")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---@private

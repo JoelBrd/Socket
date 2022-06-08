@@ -16,6 +16,7 @@ local Roact ---@type Roact
 local WidgetConstants ---@type WidgetConstants
 local TweenConstructor ---@type TweenConstructor
 local SocketController ---@type SocketController
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -146,7 +147,7 @@ function RoactButton:Get(props)
         TextLabel = Roact.createElement("TextLabel", {
             Size = UDim2.fromScale(1, 1),
             TextScaled = true,
-            Font = SocketController:GetSetting("Font"),
+            Font = SocketSettings:GetSetting("Font"),
             BackgroundTransparency = 1,
             Text = text,
         }),
@@ -163,6 +164,7 @@ function RoactButton:FrameworkInit()
     WidgetConstants = PluginFramework:Require("WidgetConstants")
     TweenConstructor = PluginFramework:Require("TweenConstructor")
     SocketController = PluginFramework:Require("SocketController")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---

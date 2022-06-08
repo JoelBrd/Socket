@@ -20,7 +20,6 @@ SocketConstants.ShowDebugUI = false
 
 SocketConstants.RoduxStoreKey = {
     PLUGS = "PLUGS",
-    SETTINGS = "SETTINGS",
     STUDIO = "STUDIO",
 } ---@type RoduxStoreKey[]
 
@@ -34,9 +33,6 @@ SocketConstants.RoduxActionType = {
         TOGGLE_FIELDS_VISIBILITY = "TOGGLE_FIELDS_VISIBILITY",
         SEARCH_TEXT = "SEARCH_TEXT",
         REFRESH = "REFRESH",
-    },
-    SETTINGS = {
-        UPDATE = "UPDATE",
     },
     STUDIO = {
         SET_THEME = "SET_THEME",

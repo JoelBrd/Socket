@@ -61,13 +61,6 @@ function PluginHandler:Load(passedPlugin)
     plugin = passedPlugin
 
     --------------------------------------------------
-    -- Initialise (if needed)
-    local hasNotRunBefore = not (self:GetSetting(PluginConstants.Setting.HAS_RUN_BEFORE) and true or false)
-    if hasNotRunBefore then
-        self:Initialise()
-    end
-
-    --------------------------------------------------
     -- Create button on the plugin toolbar
     toolbar = plugin:CreateToolbar(TOOLBAR_NAME)
     toolbarButton = toolbar:CreateButton(TOOLBAR_BUTTON_TITLE, TOOLBAR_BUTTON_DESCRIPTION, TOOLBAR_LOGO_ICON)
@@ -88,35 +81,23 @@ function PluginHandler:Load(passedPlugin)
 end
 
 ---
----First time initialisation of the plugin
----
-function PluginHandler:Initialise()
-    -- Load on default settings
-    for _, pluginSetting in pairs(PluginConstants.Setting) do
-        self:SetSetting(pluginSetting, pluginSetting.DefaultValue)
-    end
-
-    Logger:Trace("Initialised plugin with defaults")
-end
-
----
 ---Sets the value of the given setting
 ---
----@param pluginSetting PluginSetting
+---@param settingName string
 ---@param settingValue any
 ---
-function PluginHandler:SetSetting(pluginSetting, settingValue)
-    plugin:SetSetting(pluginSetting.Id, settingValue)
+function PluginHandler:SetSetting(settingName, settingValue)
+    plugin:SetSetting(settingName, settingValue)
 end
 
 ---
 ---Returns the value of the given setting
 ---
----@param pluginSetting PluginSetting
+---@param settingName string
 ---@return any
 ---
-function PluginHandler:GetSetting(pluginSetting)
-    return plugin:GetSetting(pluginSetting.Id)
+function PluginHandler:GetSetting(settingName)
+    return plugin:GetSetting(settingName)
 end
 
 ---

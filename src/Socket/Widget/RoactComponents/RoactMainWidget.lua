@@ -34,6 +34,7 @@ local SocketController ---@type SocketController
 local RoactBottomBar ---@type RoactBottomBar
 local RoactRodux ---@type RoactRodux
 local SocketConstants ---@type SocketConstants
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -59,7 +60,7 @@ function RoactMainWidget:Create()
     MainWidget = Roact.Component:extend("MainWidget")
 
     function MainWidget:render()
-        local scale = SocketController:GetSetting("UIScale")
+        local scale = SocketSettings:GetSetting("UIScale")
 
         return Roact.createElement("Frame", {
             BackgroundColor3 = WidgetConstants.Color.Background[SocketController:GetTheme()],
@@ -124,7 +125,7 @@ function RoactMainWidget:Create()
         end
 
         -- Get Variables
-        local doGroupMatchingIcons = state[SocketConstants.RoduxStoreKey.SETTINGS].Settings.GroupMatchingIcons and true or false
+        local doGroupMatchingIcons = SocketSettings:GetSetting("GroupMatchingIcons")
 
         -- Construct groups
         local groups = {} ---@type RoactMainWidgetProps.GroupInfo[]
@@ -211,7 +212,7 @@ function RoactMainWidget:Create()
         -- Return props
         return {
             groups = groups,
-            scale = SocketController:GetSetting("UIScale"),
+            scale = SocketSettings:GetSetting("UIScale"),
         }
     end
 
@@ -232,6 +233,7 @@ function RoactMainWidget:FrameworkInit()
     RoactBottomBar = PluginFramework:Require("RoactBottomBar")
     SocketConstants = PluginFramework:Require("SocketConstants")
     RoactRodux = PluginFramework:Require("RoactRodux")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---

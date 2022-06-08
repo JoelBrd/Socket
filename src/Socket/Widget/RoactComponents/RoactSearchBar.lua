@@ -16,6 +16,7 @@ local Roact ---@type Roact
 local WidgetConstants ---@type WidgetConstants
 local SocketController ---@type SocketController
 local SocketConstants ---@type SocketConstants
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -94,7 +95,7 @@ function RoactSearchBar:Get(props)
                     AnchorPoint = Vector2.new(0.5, 0.5),
                     Position = UDim2.fromScale(0.5, 0.55),
                     Size = UDim2.fromScale(0.8, 0.8),
-                    Font = SocketController:GetSetting("Font"),
+                    Font = SocketSettings:GetSetting("Font"),
                 }),
             }),
             TextBoxContainer = Roact.createElement("Frame", {
@@ -103,7 +104,7 @@ function RoactSearchBar:Get(props)
                 LayoutOrder = 2,
             }, {
                 TextBox = Roact.createElement("TextBox", {
-                    Font = SocketController:GetSetting("Font"),
+                    Font = SocketSettings:GetSetting("Font"),
                     PlaceholderText = "Search",
                     Text = "",
                     PlaceholderColor3 = WidgetConstants.Color.SearchBar.PlaceholderText[SocketController:GetTheme()],
@@ -132,6 +133,7 @@ function RoactSearchBar:FrameworkInit()
     WidgetConstants = PluginFramework:Require("WidgetConstants")
     SocketController = PluginFramework:Require("SocketController")
     SocketConstants = PluginFramework:Require("SocketConstants")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---
