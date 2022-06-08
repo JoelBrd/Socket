@@ -206,7 +206,9 @@ local function getPlug(props)
             local isServerRunning = plug.State.Server.IsRunning and true or false
             local isClientRunning = plug.State.Client.IsRunning and true or false
             local textLabelXOffset = -(
-                    WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth * 2 + WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding
+                    WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth * 2
+                    + WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding
+                    + WidgetConstants.RoactWidgetLine.Pixel.PlugRunButtonsPadding
                 )
 
             return Roact.createFragment({
@@ -242,8 +244,13 @@ local function getPlug(props)
                         end,
                     }),
                 }),
+                PaddingButtons = Roact.createElement("Frame", {
+                    BackgroundTransparency = 1,
+                    LayoutOrder = 4,
+                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.PlugRunButtonsPadding, 1, 0),
+                }),
                 RunClientButtonHolder = Roact.createElement("Frame", {
-                    LayoutOrder = 3,
+                    LayoutOrder = 5,
                     Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
                     BackgroundTransparency = 1,
                 }, {

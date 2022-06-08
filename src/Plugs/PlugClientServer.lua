@@ -140,7 +140,7 @@ end
 ---@return PlugState
 ---
 function PlugClientServer:RunPlugOnClient(player, plug)
-    return remoteFunction:InvokeServer(player, plug._script.Name, plug._script.Parent.Name, plug.State.FieldValues)
+    return remoteFunction:InvokeClient(player, plug._script.Name, plug._script.Parent.Name, plug.State.FieldValues)
 end
 
 ---
