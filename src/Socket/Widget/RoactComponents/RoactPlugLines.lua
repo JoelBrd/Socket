@@ -218,7 +218,7 @@ local function getPlug(props)
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
+                    TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
                 }),
                 Padding = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
@@ -232,7 +232,9 @@ local function getPlug(props)
                 }, {
                     RoactButton:Get({
                         text = "Server",
-                        color = isServerRunning and Color3.fromRGB(191, 255, 139) or Color3.fromRGB(250, 250, 250),
+                        color = isServerRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
+                            WidgetTheme.Indexes.PlugLines.Plug.RunButton
+                        ),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
@@ -247,7 +249,9 @@ local function getPlug(props)
                 }, {
                     RoactButton:Get({
                         text = "Client",
-                        color = isClientRunning and Color3.fromRGB(191, 255, 139) or Color3.fromRGB(250, 250, 250),
+                        color = isClientRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
+                            WidgetTheme.Indexes.PlugLines.Plug.RunButton
+                        ),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
@@ -272,7 +276,7 @@ local function getPlug(props)
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
+                    TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
                 }),
                 Padding = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
@@ -286,7 +290,9 @@ local function getPlug(props)
                 }, {
                     RoactButton:Get({
                         text = isRunning and "Running" or "Run",
-                        color = isRunning and Color3.fromRGB(191, 255, 139) or Color3.fromRGB(250, 250, 250),
+                        color = isRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
+                            WidgetTheme.Indexes.PlugLines.Plug.RunButton
+                        ),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()

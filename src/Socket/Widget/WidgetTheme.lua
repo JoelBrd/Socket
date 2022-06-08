@@ -22,12 +22,24 @@ local Logger ---@type Logger
 --------------------------------------------------
 -- Constants
 
+local mainText = {
+    --GuideColor = Enum.StudioStyleGuideColor.MainText,
+    Dark = Color3.fromRGB(204, 204, 204),
+    Light = Color3.fromRGB(40, 40, 40),
+}
+local popText = {
+    --GuideColor = Enum.StudioStyleGuideColor.MainText,
+    Dark = Color3.fromRGB(235, 235, 235),
+    Light = Color3.fromRGB(0, 0, 0),
+}
+local mainBackground = {
+    GuideColor = Enum.StudioStyleGuideColor.MainBackground,
+    -- Dark = Color3.fromRGB(46, 46, 46),
+    -- Light = Color3.fromRGB(255, 255, 255),
+}
+
 WidgetTheme.Indexes = {
-    Background = {
-        GuideColor = Enum.StudioStyleGuideColor.MainBackground,
-        -- Dark = Color3.fromRGB(46, 46, 46),
-        -- Light = Color3.fromRGB(255, 255, 255),
-    },
+    Background = mainBackground,
     SearchBar = {
         Background = {
             GuideColor = Enum.StudioStyleGuideColor.InputFieldBackground,
@@ -35,47 +47,40 @@ WidgetTheme.Indexes = {
             -- Light = Color3.fromRGB(255, 255, 255),
         },
         Stroke = {
-            GuideColor = Enum.StudioStyleGuideColor.Border,
-            -- Dark = Color3.fromRGB(255, 255, 255),
-            -- Light = Color3.fromRGB(30, 30, 30),
+            --GuideColor = Enum.StudioStyleGuideColor.Border,
+            Dark = Color3.fromRGB(79, 79, 79),
+            Light = Color3.fromRGB(185, 185, 185),
         },
         PlaceholderText = {
             Dark = Color3.fromRGB(180, 180, 180),
             Light = Color3.fromRGB(178, 178, 178),
         },
-        Text = {
-            GuideColor = Enum.StudioStyleGuideColor.MainText,
-            -- Dark = Color3.fromRGB(240, 240, 240),
-            -- Light = Color3.fromRGB(70, 70, 70)
-        },
+        Text = mainText,
     },
     PlugLines = {
         Arrow = {
             Dark = Color3.fromRGB(180, 180, 180),
             Light = Color3.fromRGB(30, 30, 30),
         },
-        Text = {
-            GuideColor = Enum.StudioStyleGuideColor.MainText,
-            -- Dark = Color3.fromRGB(240, 240, 240),
-            -- Light = Color3.fromRGB(30, 30, 30),
+        Text = mainText,
+        Plug = {
+            Text = popText,
+            RunButton = {
+                Dark = Color3.fromRGB(230, 230, 230),
+                Light = Color3.fromRGB(255, 255, 255),
+            },
         },
         Field = {
             PlaceholderText = {
                 Dark = Color3.fromRGB(180, 180, 180),
                 Light = Color3.fromRGB(178, 178, 178),
             },
-            Text = {
-                GuideColor = Enum.StudioStyleGuideColor.MainText,
-                -- Dark = Color3.fromRGB(240, 240, 240),
-                -- Light = Color3.fromRGB(70, 70, 70),
-            },
+            Text = mainText,
             Stroke = {
                 Dark = Color3.fromRGB(255, 255, 255),
                 Light = Color3.fromRGB(30, 30, 30),
             },
-            Backing = {
-                GuideColor = Enum.StudioStyleGuideColor.MainBackground,
-            },
+            Backing = mainBackground,
         },
     },
     BottomBar = {
@@ -83,11 +88,7 @@ WidgetTheme.Indexes = {
             Dark = Color3.fromRGB(180, 180, 180),
             Light = Color3.fromRGB(30, 30, 30),
         },
-        Version = {
-            GuideColor = Enum.StudioStyleGuideColor.MainText,
-            -- Dark = Color3.fromRGB(240, 240, 240),
-            -- Light = Color3.fromRGB(30, 30, 30),
-        },
+        Version = mainText,
     },
 }
 
