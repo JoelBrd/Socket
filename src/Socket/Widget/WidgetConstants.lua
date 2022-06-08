@@ -117,6 +117,10 @@ WidgetConstants.Color = {
                 Dark = Color3.fromRGB(255, 255, 255),
                 Light = Color3.fromRGB(30, 30, 30),
             },
+            Backing = {
+                Dark = Color3.fromRGB(46, 46, 46),
+                Light = Color3.fromRGB(255, 255, 255),
+            },
         },
     },
     BottomBar = {

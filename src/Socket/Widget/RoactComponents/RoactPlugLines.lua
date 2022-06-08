@@ -22,6 +22,7 @@ local RoactButton ---@type RoactButton
 local SocketController ---@type SocketController
 local PlugHelper ---@type PlugHelper
 local SocketSettings ---@type SocketSettings
+local PlugConstants ---@type PlugConstants
 
 --------------------------------------------------
 -- Constants
@@ -547,13 +548,17 @@ local function getField(props)
         -- Try update
         local finalValue, didUpdate = PlugHelper:UpdateField(plug, field, text)
         if not didUpdate then
-            instance.Text = tostring(finalValue)
+            instance.Text = finalValue and field.Type.ToString(finalValue) or ""
         end
     end
 
     -- Get current value
     local currentValue = plug.State.FieldValues[field.Name]
     local stringValue = currentValue ~= nil and field.Type.ToString(currentValue) or ""
+
+    -- Custom behaviour
+    local color = field.Type == PlugConstants.FieldType.Color3 and currentValue
+    local doColor = color and true or false
 
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
@@ -594,6 +599,7 @@ local function getField(props)
                 Text = stringValue,
                 TextColor3 = WidgetConstants.Color.PlugLines.Field.Text[SocketController:GetTheme()],
                 TextScaled = true,
+                TextStrokeTransparency = doColor and 0.4 or 1,
                 BackgroundTransparency = 1,
                 Size = UDim2.fromScale(1, 1),
                 ZIndex = 2,
@@ -601,7 +607,7 @@ local function getField(props)
                 [Roact.Event.FocusLost] = onFocusLost,
             }),
             Backing = Roact.createElement("Frame", {
-                BackgroundTransparency = 1,
+                BackgroundColor3 = doColor and color or WidgetConstants.Color.PlugLines.Field.Backing[SocketController:GetTheme()],
                 Size = UDim2.fromScale(1, 1),
             }, {
                 UICorner = Roact.createElement("UICorner", {
@@ -658,6 +664,7 @@ function RoactPlugLines:FrameworkInit()
     SocketController = PluginFramework:Require("SocketController")
     PlugHelper = PluginFramework:Require("PlugHelper")
     SocketSettings = PluginFramework:Require("SocketSettings")
+    PlugConstants = PluginFramework:Require("PlugConstants")
 end
 
 ---

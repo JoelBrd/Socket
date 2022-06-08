@@ -39,6 +39,7 @@ local PlugConstants = {}
 
 --------------------------------------------------
 -- Constants
+local PATTERN_3_VALUES = "%s*(%d+),%s*(%d+),%s*(%d+)%s*"
 
 ---@param number number
 ---@return string
@@ -67,20 +68,11 @@ PlugConstants.FieldType = {
         Name = "boolean",
         Icon = "🅱️",
         Validate = function(value)
-            if value == true then
+            if value == "true" or value == "t" then
                 return true
             end
 
-            if value == false then
-                return false
-            end
-
-            local str = tostring(value)
-            if str == "true" or str == "t" then
-                return true
-            end
-
-            if str == "false" or str == "f" then
+            if value == "false" or value == "f" then
                 return false
             end
         end,
@@ -92,10 +84,36 @@ PlugConstants.FieldType = {
         Name = "string",
         Icon = "📝",
         Validate = function(value)
-            return tostring(value)
+            return value
         end,
         ToString = function(value)
             return value
+        end,
+    },
+    Color3 = {
+        Name = "Color3",
+        Icon = "🌈",
+        Validate = function(value)
+            local r, g, b = value:match(PATTERN_3_VALUES)
+            if r and g and b then
+                return Color3.fromRGB(math.clamp(r, 0, 255), math.clamp(g, 0, 255), math.clamp(b, 0, 255))
+            end
+        end,
+        ToString = function(value)
+            return ("%d, %d, %d"):format(value.r * 255, value.g * 255, value.b * 255)
+        end,
+    },
+    Vector3 = {
+        Name = "Vector3",
+        Icon = "↗️",
+        Validate = function(value)
+            local x, y, z = value:match(PATTERN_3_VALUES)
+            if x and y and z then
+                return Vector3.new(x, y, z)
+            end
+        end,
+        ToString = function(value)
+            return ("%d, %d, %d"):format(value.X, value.Y, value.Z)
         end,
     },
 } ---@type table<string, PlugFieldType>
