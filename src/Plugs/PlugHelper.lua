@@ -158,6 +158,7 @@ end
 ---Injects expected data structures.
 ---Ensures inputted data is valid.
 ---Warns of any issues.
+---Returns when missing vital information.
 ---@param plugScript ModuleScript
 ---@param plug PlugDefinition
 ---@return PlugDefinition

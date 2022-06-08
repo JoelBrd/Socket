@@ -220,12 +220,13 @@ local function getPlug(props)
     local plug = props.plug ---@type PlugDefinition
     local plugScript = props.plugScript ---@type ModuleScript
     local scale = props.scale ---@type number
+    local isBroken = props.isBroken ---@type boolean
 
     -- Create fragment based on studio state
     ---@return RoactFragment
     local function createFragment()
         local isStudioRunning = SocketController:IsRunning()
-        if isStudioRunning then
+        if isStudioRunning and not isBroken then
             -- Get variables
             local isServerRunning = plug.State.Server.IsRunning and true or false
             local isClientRunning = plug.State.Client.IsRunning and true or false
@@ -298,6 +299,32 @@ local function getPlug(props)
                     WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth + WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding
                 )
 
+            ---@return RoactElement
+            local function getInteractionElement()
+                if isBroken then
+                    return Roact.createElement("TextLabel", {
+                        BackgroundTransparency = 1,
+                        TextScaled = true,
+                        Font = SocketSettings:GetSetting("Font"),
+                        Text = WidgetConstants.Icons.Warning,
+                        Size = UDim2.fromScale(1, 1),
+                        TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
+                    })
+                else
+                    return RoactButton:Get({
+                        text = isRunning and "Running" or "Run",
+                        color = isRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
+                            WidgetTheme.Indexes.PlugLines.Plug.RunButton
+                        ),
+                        strokeThickness = 1.5,
+                        activatedDiscColor = Color3.fromRGB(48, 207, 0),
+                        activatedCallback = function()
+                            PlugHelper:RunPlug(plug)
+                        end,
+                    })
+                end
+            end
+
             return Roact.createFragment({
                 TextLabel = Roact.createElement("TextLabel", {
                     LayoutOrder = 1,
@@ -319,17 +346,7 @@ local function getPlug(props)
                     Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth, 1, 0),
                     BackgroundTransparency = 1,
                 }, {
-                    RoactButton:Get({
-                        text = isRunning and "Running" or "Run",
-                        color = isRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
-                            WidgetTheme.Indexes.PlugLines.Plug.RunButton
-                        ),
-                        strokeThickness = 1.5,
-                        activatedDiscColor = Color3.fromRGB(48, 207, 0),
-                        activatedCallback = function()
-                            PlugHelper:RunPlug(plug)
-                        end,
-                    }),
+                    getInteractionElement(),
                 }),
             })
         end

@@ -149,6 +149,23 @@ function SocketController:SetupPlugActions()
                 },
             }
             roduxStore:dispatch(action)
+        else
+            -- Had an issue; the user has likely done something wrong
+            local currentPlugDefinition = SocketController:GetPlug(moduleScript)
+            if currentPlugDefinition then
+                currentPlugDefinition._isBroken = true
+
+                -- Update RoduxStore
+                ---@type RoduxAction
+                local action = {
+                    type = SocketConstants.RoduxActionType.PLUGS.UPDATE_PLUG,
+                    data = {
+                        plug = currentPlugDefinition,
+                        script = moduleScript,
+                    },
+                }
+                roduxStore:dispatch(action)
+            end
         end
     end
 

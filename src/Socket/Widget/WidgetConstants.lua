@@ -13,6 +13,7 @@ WidgetConstants.Icons = {
     Settings = "⚙️",
     Search = "🔍",
     Fields = "📂",
+    Warning = "⚠️",
 }
 
 WidgetConstants.RoactWidgetLine = {}

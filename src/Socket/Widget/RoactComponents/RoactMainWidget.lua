@@ -21,6 +21,7 @@ local RoactMainWidget = {}
 ---@field name string
 ---@field isOpen boolean
 ---@field isFieldsOpen boolean
+---@field isBroken boolean
 ---@field isVisible boolean
 ---@field plug PlugDefinition
 ---@field moduleScript ModuleScript
@@ -164,6 +165,7 @@ function RoactMainWidget:Create()
                     name = name,
                     isOpen = plugChild.UIState.IsOpen,
                     isFieldsOpen = plugChild.UIState.IsFieldsOpen,
+                    isBroken = plug._isBroken and true or false,
                     isVisible = true,
                     plug = plug, ---@type PlugDefinition
                     moduleScript = plugModuleScript,

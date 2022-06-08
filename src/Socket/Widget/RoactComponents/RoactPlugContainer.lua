@@ -82,6 +82,7 @@ local function createLinesFragment(props)
                             scale = scale,
                             plug = plugInfo.plug,
                             plugScript = plugInfo.moduleScript,
+                            isBroken = plugInfo.isBroken,
                         })
 
                         -- Create child lines

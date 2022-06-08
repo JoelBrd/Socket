@@ -24,6 +24,7 @@ local PlugConstants = {}
 ---@field Fields PlugField[]
 ---@field Function fun()
 ---@field _script ModuleScript
+---@field _isBroken boolean
 
 ---@class PlugState
 ---@field FieldValues table<PlugField, any>
