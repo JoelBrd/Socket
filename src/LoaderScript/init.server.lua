@@ -51,9 +51,15 @@ local function loadPlugin()
     PluginHandler:Load(plugin)
 end
 
+local function isInPluginContext()
+    return not script:IsDescendantOf(game.ServerScriptService)
+end
+
 --------------------------------------------------
 -- Logic
 
-setupFramework()
-grabDependencies()
-loadPlugin()
+if isInPluginContext() then
+    setupFramework()
+    grabDependencies()
+    loadPlugin()
+end
