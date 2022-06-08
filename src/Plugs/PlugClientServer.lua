@@ -23,7 +23,7 @@ local PlugHelper ---@type PlugHelper
 local IS_SERVER = RunService:IsServer()
 local IS_CLIENT = RunService:IsClient()
 local REMOTE_FUNCTION_NAME = "SocketPluginRemoteFunction"
-local CLONED_PLUGS_FOLDER_NAME = "_SocketPlugsForClients"
+local CLONED_DIRECTORY_FOLDER_NAME = "_SocketDirectoryForClients"
 
 --------------------------------------------------
 -- Members
@@ -33,26 +33,32 @@ local remoteFunction ---@type RemoteFunction
 ---Call on Server + Client to ensure identical plugs on each
 ---
 function PlugClientServer:RunTransfer()
-    -- Send over the plugs to the client
+    -- Send over the plugs+utils to the client
     if IS_SERVER then
-        local plugsFolder = StudioHandler.Folders.Plugs
-        local plugsFolderClone = plugsFolder:Clone()
-        plugsFolderClone.Name = CLONED_PLUGS_FOLDER_NAME
-        plugsFolderClone.Parent = game.ReplicatedStorage
+        local directoryFolder = StudioHandler.Folders.Directory
+        local directoryFolderClone = directoryFolder:Clone()
+        directoryFolderClone.Name = CLONED_DIRECTORY_FOLDER_NAME
+        directoryFolderClone.Parent = game.ReplicatedStorage
     elseif IS_CLIENT then
-        local clonedPlugsFolder = game.ReplicatedStorage:FindFirstChild(CLONED_PLUGS_FOLDER_NAME)
-            or game.ReplicatedStorage:WaitForChild(CLONED_PLUGS_FOLDER_NAME)
+        local clonedDirectoryFolder = game.ReplicatedStorage:FindFirstChild(CLONED_DIRECTORY_FOLDER_NAME)
+            or game.ReplicatedStorage:WaitForChild(CLONED_DIRECTORY_FOLDER_NAME)
 
         -- Clear client
-        for _, child in pairs(StudioHandler.Folders.Plugs:GetChildren()) do
-            child:Destroy()
+        for _, plug in pairs(StudioHandler.Folders.Plugs:GetChildren()) do
+            plug:Destroy()
+        end
+        for _, util in pairs(StudioHandler.Folders.Utils:GetChildren()) do
+            util:Destroy()
         end
 
         -- Populate from server
-        for _, child in pairs(clonedPlugsFolder:GetChildren()) do
-            child.Parent = StudioHandler.Folders.Plugs
+        for _, util in pairs(clonedDirectoryFolder.Utils:GetChildren()) do
+            util.Parent = StudioHandler.Folders.Utils
         end
-        clonedPlugsFolder:Destroy()
+        for _, plug in pairs(clonedDirectoryFolder.Plugs:GetChildren()) do
+            plug.Parent = StudioHandler.Folders.Plugs
+        end
+        clonedDirectoryFolder:Destroy()
     end
 end
 
