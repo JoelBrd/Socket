@@ -62,16 +62,19 @@ function WidgetHandler:Run()
     end, true)
 
     -- TESTING: Debug UI
-    if SocketConstants.ShowDebugUI then
-        local gui = game.StarterGui
-        local screenGui = gui:FindFirstChild("DebugSocketUI")
-        if not screenGui then
-            screenGui = Instance.new("ScreenGui") ---@type ScreenGui
-            screenGui.Name = "DebugSocketUI"
-            screenGui.Parent = gui
-        end
+    local gui = game.StarterGui
+    local debugScreenGui = gui:FindFirstChild("DebugSocketUI")
+    if debugScreenGui then
+        debugScreenGui:Destroy()
+        debugScreenGui = nil
+    end
 
-        local debugRoactTree = Roact.mount(app, screenGui)
+    if SocketConstants.ShowDebugUI then
+        debugScreenGui = Instance.new("ScreenGui") ---@type ScreenGui
+        debugScreenGui.Name = "DebugSocketUI"
+        debugScreenGui.Parent = gui
+
+        local debugRoactTree = Roact.mount(app, debugScreenGui)
         runJanitor:Add(function()
             Roact.unmount(debugRoactTree)
         end, true)
