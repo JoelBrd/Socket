@@ -24,7 +24,7 @@ local UTILS_FOLDER_NAME = "Utils"
 --------------------------------------------------
 -- Members
 StudioHandler.Folders = {
-    Directory = nil, ---@type Folder
+    Directory = nil, ---@type Configuration
     Plugs = nil, ---@type Folder
     Utils = nil, ---@type Folder
 }
@@ -39,7 +39,7 @@ function StudioHandler:Validate()
     -- Directory
     local directoryFolder = DIRECTORY_FOLDER_PARENT:FindFirstChild(DIRECTORY_FOLDER_NAME)
     if not directoryFolder then
-        directoryFolder = Instance.new("Folder")
+        directoryFolder = Instance.new("Configuration")
         directoryFolder.Name = DIRECTORY_FOLDER_NAME
         directoryFolder.Parent = DIRECTORY_FOLDER_PARENT
     end
