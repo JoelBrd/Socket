@@ -172,6 +172,10 @@ function SocketController:SetupPlugActions()
     ---Applies changes to our store after a plug has been removed
     ---@param moduleScript ModuleScript
     local function removedPlug(moduleScript)
+        -- Run Bind to close
+        local plug = SocketController:GetPlug(moduleScript)
+        plug._BindToClose(plug)
+
         -- Update RoduxStore
         ---@type RoduxAction
         local action = {
@@ -380,6 +384,15 @@ function SocketController:Stop()
         return
     end
     isRunning = false
+
+    -- Bind to close on our plugs
+    local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
+    for _, groupInfo in pairs(groups) do
+        for _, plugInfo in pairs(groupInfo.Plugs) do
+            local plug = plugInfo.Plug ---@type PlugDefinition
+            plug._BindToClose(plug)
+        end
+    end
 
     -- Clear Janitor
     runJanitor:Cleanup()

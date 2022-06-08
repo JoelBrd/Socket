@@ -154,6 +154,36 @@ function PlugHelper:ViewSource(plugScript)
     Selection:Set({ plugScript })
 end
 
+---Checks the type of a plug member is correct.
+---Returns true if good.
+---@param plug PlugDefinition
+---@param key string
+---@param value any
+---@param type string
+---@return boolean
+local function validateType(plugScript, plug, isRequired, key, type)
+    -- Get Variables
+    local ourValue = plug[key]
+    local ourType = ourValue and typeof(ourValue)
+
+    -- FALSE: Required key is missing
+    if plug[key] == nil and isRequired then
+        Logger:Warn(("Plug %s does not have required entry %q (%s) (%s)"):format(plugScript.Name, key, type, plugScript:GetFullName()))
+        return false
+    end
+
+    -- FALSE: Wrong type
+    if plug[key] and typeof(plug[key]) ~= type then
+        Logger:Warn(
+            ("Plug %s entry %q expected type %q, got %q (%s)"):format(plugScript.Name, key, type, ourType, plugScript:GetFullName())
+        )
+        return false
+    end
+
+    -- TRUE
+    return true
+end
+
 ---Will clean up a plug definiton direct from require().
 ---Injects expected data structures.
 ---Ensures inputted data is valid.
@@ -165,41 +195,58 @@ end
 function PlugHelper:CleanPlugDefinition(plugScript, plug)
     -- Group
     plug.Group = plug.Group or "No Group"
-    if typeof(plug.Group) ~= "string" then
-        Logger:Warn(("Plug %s `Group` must be of type `string` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+    if not validateType(plugScript, plug, true, "Group", "string") then
+        return
+    end
+    if not validateType(plugScript, plug, false, "GroupColor", "Color3") then
+        return
+    end
+    if not validateType(plugScript, plug, false, "GroupIcon", "string") then
+        return
+    end
+    if not validateType(plugScript, plug, false, "GroupIconColor", "Color3") then
         return
     end
 
     -- Name
-    if not plug.Name then
-        Logger:Warn(("Plug %s has no `Name` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+    if not validateType(plugScript, plug, true, "Name", "string") then
         return
     end
-    if typeof(plug.Name) ~= "string" then
-        Logger:Warn(("Plug %s `Name` must be of type `string` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+    if not validateType(plugScript, plug, false, "NameColor", "Color3") then
+        return
+    end
+
+    -- Icon
+    if not validateType(plugScript, plug, false, "Icon", "string") then
+        return
+    end
+    if not validateType(plugScript, plug, false, "IconColor", "Color3") then
         return
     end
 
     -- Description
-    if not plug.Description then
-        Logger:Warn(("Plug %s has no `Description` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
-        return
-    end
-    if typeof(plug.Description) ~= "string" then
-        Logger:Warn(("Plug %s `Description` must be of type `string` (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+    if not validateType(plugScript, plug, true, "Description", "string") then
         return
     end
 
     -- State
+    if not validateType(plugScript, plug, false, "State", "table") then
+        return
+    end
     plug.State = plug.State or {}
     plug.State.FieldValues = plug.State.FieldValues or {}
     plug.State.Server = plug.State.Server or {}
     plug.State.Client = plug.State.Client or {}
 
     -- EnableAutomaticUndo
-    plug.EnableAutomaticUndo = plug.EnableAutomaticUndo and true or false
+    if not validateType(plugScript, plug, false, "EnableAutomaticUndo", "boolean") then
+        return
+    end
 
     -- Keybind
+    if not validateType(plugScript, plug, false, "Keybind", "table") then
+        return
+    end
     plug.Keybind = plug.Keybind or {}
     for _, keyCode in pairs(plug.Keybind) do
         if not keyCode.EnumType == Enum.KeyCode then
@@ -211,6 +258,9 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     end
 
     -- Fields
+    if not validateType(plugScript, plug, false, "Fields", "table") then
+        return
+    end
     local fieldNames = {}
     for _, field in pairs(plug.Fields) do
         if typeof(field) ~= "table" then
@@ -238,14 +288,23 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         field.Type = fieldType
     end
 
-    -- Function
-    if not (plug.Function and typeof(plug.Function) == "function") then
-        Logger:Warn(("Plug %s has no `Function`! (%s)"):format(plugScript.Name, plugScript:GetFullName()))
+    -- Functions
+    if not validateType(plugScript, plug, true, "Function", "function") then
         return
+    end
+    if not validateType(plugScript, plug, false, "BindToClose", "function") then
+        return
+    end
+    plug._BindToClose = function(somePlug)
+        if somePlug.BindToClose then
+            somePlug.BindToClose(plug)
+        end
+        somePlug.State.IsRunning = false
     end
 
     -- Give script reference
     plug._script = plugScript
+    plug._isBroken = plug._isBroken or false
 
     return plug
 end

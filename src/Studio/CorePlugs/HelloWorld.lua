@@ -41,6 +41,7 @@ local plugDefinition = {
         },
     },
     Function = nil,
+    BindToClose = nil,
 }
 
 ---Gets passed a `PlugDefinition`, which will be the table defined above (+ its populated .State)
@@ -61,6 +62,11 @@ plugDefinition.Function = function(plug)
     else
         Logger:PlugInfo(plug, "Hello World!")
     end
+end
+
+---@param plug PlugDefinition
+plugDefinition.BindToClose = function(plug)
+    Logger:PlugInfo(plug, "Goodbye World!")
 end
 
 return plugDefinition
