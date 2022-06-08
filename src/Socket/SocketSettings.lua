@@ -107,6 +107,27 @@ function SocketSettings:OpenSettings()
     PluginHandler:GetPlugin():OpenScript(settingsScript)
 
     --------------------------------------------------
+    local function saveSettings()
+        -- Get Settings
+        local newSettings ---@type SocketSettings
+        local success, err = pcall(function()
+            newSettings = require(settingsScript)
+        end)
+        if not success then
+            Logger:Warn(("Error occured when exiting settings, no changes were able to be saved (%s)"):format(err))
+        else
+            -- Sync with template
+            TableUtil:Sync(newSettings, defaultSettings)
+
+            -- Update our cache
+            PluginHandler:SetSetting(PluginConstants.Setting, newSettings)
+
+            -- Refresh widget
+            WidgetHandler:Refresh()
+
+            Logger:Info("Settings updated!")
+        end
+    end
 
     -- Listener to the user viewing different scripts; used to know when to read + write the settingsScript
     local cachedActiveScript ---@type Instance
@@ -114,25 +135,7 @@ function SocketSettings:OpenSettings()
     activeScriptConnection = StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
         local justClosedSettings = cachedActiveScript and cachedActiveScript == settingsScript
         if justClosedSettings then
-            -- Get Settings
-            local newSettings ---@type SocketSettings
-            local success, err = pcall(function()
-                newSettings = require(settingsScript)
-            end)
-            if not success then
-                Logger:Warn(("Error occured when exiting settings, no changes were able to be saved (%s)"):format(err))
-            else
-                -- Sync with template
-                TableUtil:Sync(newSettings, defaultSettings)
-
-                -- Update our cache
-                PluginHandler:SetSetting(PluginConstants.Setting, newSettings)
-
-                -- Refresh widget
-                WidgetHandler:Refresh()
-
-                Logger:Info("Settings updated!")
-            end
+            saveSettings()
 
             -- Close up shop!
             settingsScript:Destroy()
@@ -146,6 +149,7 @@ function SocketSettings:OpenSettings()
     -- Cleanup incase plugin closes
     local runJanitor = SocketController:GetRunJanitor()
     runJanitor:Add(function()
+        saveSettings()
         settingsScript:Destroy()
         activeScriptConnection:Disconnect()
     end)
