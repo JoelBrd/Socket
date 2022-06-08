@@ -44,6 +44,7 @@ function RoactBottomBar:Get()
             BackgroundColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.BottomBar.Divider),
             Position = UDim2.fromScale(0.5, 0),
             Size = UDim2.new(1, -10, 0, WidgetConstants.BottomBar.Pixel.DividerHeight),
+            BorderSizePixel = 0,
         }),
 
         Space = Roact.createElement("Frame", {
