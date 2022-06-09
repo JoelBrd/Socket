@@ -27,6 +27,7 @@ local PlugConstants ---@type PlugConstants
 local PlugHelper ---@type PlugHelper
 local PlugClientServer ---@type PlugClientServer
 local SocketSettings ---@type SocketSettings
+local PluginHandler ---@type PluginHandler
 
 --------------------------------------------------
 -- Constants
@@ -174,7 +175,7 @@ function SocketController:SetupPlugActions()
     local function removedPlug(moduleScript)
         -- Run Bind to close
         local plug = SocketController:GetPlug(moduleScript)
-        plug._BindToClose(plug)
+        plug._BindToClose(plug, PluginHandler:GetPlugin())
 
         -- Update RoduxStore
         ---@type RoduxAction
@@ -390,7 +391,7 @@ function SocketController:Stop()
     for _, groupInfo in pairs(groups) do
         for _, plugInfo in pairs(groupInfo.Plugs) do
             local plug = plugInfo.Plug ---@type PlugDefinition
-            plug._BindToClose(plug)
+            plug._BindToClose(plug, PluginHandler:GetPlugin())
         end
     end
 
@@ -417,6 +418,7 @@ function SocketController:FrameworkInit()
     PlugHelper = PluginFramework:Require("PlugHelper")
     PlugClientServer = PluginFramework:Require("PlugClientServer")
     SocketSettings = PluginFramework:Require("SocketSettings")
+    PluginHandler = PluginFramework:Require("PluginHandler")
 end
 
 ---@private

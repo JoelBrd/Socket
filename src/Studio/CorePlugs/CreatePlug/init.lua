@@ -32,6 +32,16 @@ local plugDefinition = {
         {
             Type = "string",
             Name = "Name",
+            IsRequired = true,
+        },
+        {
+            Type = "string",
+            Name = "Group",
+            IsRequired = true,
+        },
+        {
+            Type = "string",
+            Name = "Icon",
         },
     },
     Function = nil,
@@ -40,12 +50,18 @@ local plugDefinition = {
 ---@param plug PlugDefinition
 ---@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
-    -- Get Name
-    local name = plug.State.FieldValues.Name or "NewPlug"
+    -- Get Fields
+    local name = plug.State.FieldValues.Name
+    local group = plug.State.FieldValues.Group
+    local icon = plug.State.FieldValues.Icon or "🔌"
+
+    -- Create variables
+    local description = ("%s Description"):format(name)
 
     -- Create plug
-    local newPlug = script.PlugTemplate:Clone()
-    newPlug.Name = name
+    local newPlug = Instance.new("ModuleScript") ---@type ModuleScript
+    newPlug.Name = name:gsub(" ", "") -- Remove whitespace
+    newPlug.Source = script.PlugTemplate.Source:format(group, name, description, icon, "%s")
     newPlug.Parent = Plugs
 
     -- Open

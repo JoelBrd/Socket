@@ -29,7 +29,7 @@ local plugDefinition = {
         IsRunning = false,
     },
     EnableAutomaticUndo = false,
-    Keybind = { Enum.KeyCode.H, Enum.KeyCode.W },
+    Keybind = { Enum.KeyCode.LeftShift, Enum.KeyCode.H, Enum.KeyCode.W },
     Fields = {
         {
             Name = "Do Loop",
@@ -45,9 +45,8 @@ local plugDefinition = {
     BindToClose = nil,
 }
 
----Gets passed a `PlugDefinition`, which will be the table defined above (+ its populated .State)
 ---@param plug PlugDefinition
-plugDefinition.Function = function(plug)
+plugDefinition.Function = function(plug, _)
     local doLoop = plug.State.FieldValues["Do Loop"]
     local time = plug.State.FieldValues["Time"]
 

@@ -39,9 +39,8 @@ local plugDefinition = {
     Function = nil,
 }
 
----Gets passed a `PlugDefinition`, which will be the table defined above (+ its populated .State)
 ---@param plug PlugDefinition
-plugDefinition.Function = function(plug)
+plugDefinition.Function = function(plug, _)
     -- Grabs the field values
     local id = plug.State.FieldValues.Id
     if not id then

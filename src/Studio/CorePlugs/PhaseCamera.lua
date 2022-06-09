@@ -21,43 +21,28 @@ local Logger = require(Utils.Logger) ---@type Logger
 
 ---@type PlugDefinition
 local plugDefinition = {
-    -- Define group this plug belongs to.
     Group = "Core",
-
-    -- Basic definitions for this plug.
     Name = "Phase Camera",
     Description = "Will teleport the camera to the world position of the mouse.\n`Distance` Field is how far from the camera a point can be registered.",
     Icon = "📷",
-
-    -- Init state (not required, as will get automatically populated).
     State = {
         FieldValues = {
             Distance = 50000,
         },
     },
-
-    -- If true, will automatically implement undo/redo functionality for this plug.
-    -- Only functions when the plug makes changes to studio.
     EnableAutomaticUndo = true,
-
-    -- A keybind that will trigger this plug.
-    Keybind = { Enum.KeyCode.LeftShift, Enum.KeyCode.C },
-
-    -- The fields for this plug.
+    Keybind = { Enum.KeyCode.LeftShift, Enum.KeyCode.F },
     Fields = {
         {
             Name = "Distance",
             Type = "number",
         },
     },
-
-    -- Can declare inside or outside the table
     Function = nil,
 }
 
----Gets passed a `PlugDefinition`, which will be the table defined above (+ its populated .State)
 ---@param plug PlugDefinition
-plugDefinition.Function = function(plug)
+plugDefinition.Function = function(plug, _)
     -- Read Fields
     local distance = plug.State.FieldValues.Distance
     if not distance then

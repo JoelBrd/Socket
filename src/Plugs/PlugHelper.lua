@@ -308,9 +308,9 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     if not validateType(plugScript, plug, false, "BindToClose", "function") then
         return
     end
-    plug._BindToClose = function(somePlug)
+    plug._BindToClose = function(somePlug, plugin)
         if somePlug.BindToClose then
-            somePlug.BindToClose(plug)
+            somePlug.BindToClose(plug, plugin)
         end
         somePlug.State.IsRunning = false
     end
