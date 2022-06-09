@@ -34,6 +34,7 @@ local plugDefinition = {
         {
             Name = "Do Loop",
             Type = "boolean",
+            IsRequired = true,
         },
         {
             Name = "Time",

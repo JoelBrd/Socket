@@ -52,16 +52,23 @@ end
 ---@return PlugState
 ---
 function PlugHelper:RunPlug(plug)
+    -- Check Fields
+    for _, field in pairs(plug.Fields) do
+        local currentValue = plug.State.FieldValues[field.Name]
+        if field.IsRequired and currentValue == nil then
+            Logger:PlugWarn(plug, ("Field %q is required!"):format(field.Name))
+            return
+        end
+    end
+
     -- Task to ensure the function isn't yielding..
     local threadIsGood = false
     task.spawn(function()
         wait(YIELD_TIME)
         if not threadIsGood then
-            Logger:Warn(
-                ("Plug %s has been yielding for more than %d seconds.. if unintentional, will cause unintended behaviour."):format(
-                    plug.Name,
-                    YIELD_TIME
-                )
+            Logger:PlugWarn(
+                plug,
+                ("Plug has been yielding for more than %d seconds.. will cause unintended behaviour."):format(plug.Name, YIELD_TIME)
             )
         end
     end)
@@ -270,7 +277,7 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
 
         local fieldName = field.Name
         if not (fieldName and typeof(fieldName) == "string") then
-            ("Plug %s has a field with no `Name` (string) (%s)"):format(plugScript.Name, plugScript:GetFullName())
+            Logger:Warn(("Plug %s has a field with invalid `Name` (string) (%s)"):format(plugScript.Name, plugScript:GetFullName()))
             return
         end
         if fieldNames[fieldName] then
@@ -282,6 +289,12 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         local fieldType = PlugConstants.FieldType[fieldTypeId]
         if not fieldType then
             Logger:Warn(("Field %q has invalid field type %q (%s)"):format(field.Name, fieldTypeId, plugScript:GetFullName()))
+            return
+        end
+
+        local isRequired = field.IsRequired
+        if isRequired ~= nil and (typeof(isRequired) ~= "boolean") then
+            Logger:Warn(("Plug %s has a field with invalid `IsRequired` (boolean) (%s)"):format(plugScript.Name, plugScript:GetFullName()))
             return
         end
 
