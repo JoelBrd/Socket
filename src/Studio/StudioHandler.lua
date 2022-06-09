@@ -11,6 +11,7 @@ local StudioHandler = {}
 
 --------------------------------------------------
 -- Dependencies
+local RunService = game:GetService("RunService") ---@type RunService
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local Logger ---@type Logger
 
@@ -20,6 +21,8 @@ local DIRECTORY_FOLDER_PARENT = game:GetService("ServerStorage")
 local DIRECTORY_FOLDER_NAME = "SocketPlugin"
 local PLUGS_FOLDER_NAME = "Plugs"
 local UTILS_FOLDER_NAME = "Utils"
+local IS_RUNNING = RunService:IsRunning()
+local IS_CLIENT = RunService:IsClient()
 
 --------------------------------------------------
 -- Members
@@ -90,17 +93,20 @@ function StudioHandler:Validate()
         corePlugsFolder.Parent = plugsFolder
     end
 
-    local internalCorePlugsFolder = script.Parent.CorePlugs
-    local plugsModuleScripts = internalCorePlugsFolder:GetChildren() ---@type ModuleScript[]
-    for _, moduleScript in pairs(plugsModuleScripts) do
-        -- Destroy matching instance
-        local matchingStudioInstance = corePlugsFolder:FindFirstChild(moduleScript.Name) ---@type ModuleScript
-        if matchingStudioInstance then
-            matchingStudioInstance:Destroy()
-        end
+    -- Copy over core plugs UNLESS we're running on client (`PlugClientServer` handles this)
+    if not (IS_RUNNING and IS_CLIENT) then
+        local internalCorePlugsFolder = script.Parent.CorePlugs
+        local plugsModuleScripts = internalCorePlugsFolder:GetChildren() ---@type ModuleScript[]
+        for _, moduleScript in pairs(plugsModuleScripts) do
+            -- Destroy matching instance
+            local matchingStudioInstance = corePlugsFolder:FindFirstChild(moduleScript.Name) ---@type ModuleScript
+            if matchingStudioInstance then
+                matchingStudioInstance:Destroy()
+            end
 
-        if moduleScript:IsA("ModuleScript") then
-            moduleScript:Clone().Parent = corePlugsFolder
+            if moduleScript:IsA("ModuleScript") then
+                moduleScript:Clone().Parent = corePlugsFolder
+            end
         end
     end
 end
