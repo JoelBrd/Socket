@@ -10,7 +10,6 @@ local settings = {
     Font = Enum.Font.Highway,
     UIScale = 1,
     OpenFieldsByDefault = true,
-    NavigateFieldsKeybind = Enum.KeyCode.Tab,
     GroupMatchingIcons = true,
 }
 
