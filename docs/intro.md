@@ -21,7 +21,7 @@ This interface is much nicer, don't you think?
 
 ![image](/widget_interface.png)
 
-**Socket** is a *"macro manager"*; we can pre-define code, and run it via the Run buttons on the Widget. There is functionality to run these macros via a keybind,
+**Socket** is a *"macro manager"*; we can pre-define code, and run it via the Run buttons on the Widget. There is functionality to run these *"macros"* via a keybind,
 we can define fields values for our macros to use and more.
 
 There are other tools out there that provide this *"macro manager"* functionality, so why use **Socket**?
@@ -68,7 +68,7 @@ Want to give some instructions on how to use your **Plug** incase your distribut
 
 Whenever you make a change to a **Plug**, it will automatically update the *Widget*. If any changes break the integrity of the `ModuleScript`, **you will be warned!**
 
-It can be cumbersome to make changes whenever you want to alter the funcionality of your **Plug** - `Fields` come to the rescue! You can define field values on the *Widget* that can then be read from instantly in your **Plug** [Function](/api/PlugDefinition#Function)
+It can be cumbersome to make changes whenever you want to alter the functionality of your **Plug** - `Fields` come to the rescue! You can define field values on the *Widget* that can then be read from instantly in your **Plug** [Function](/api/PlugDefinition#Function)
 
 ### Automation
 

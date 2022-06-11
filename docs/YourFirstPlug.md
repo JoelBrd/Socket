@@ -90,12 +90,12 @@ We now have a fresh **Plug**, and have played around with how it appears on the 
 
 [Function](/api/PlugDefinition#Function) gets passed 2 parameters; `plug`: [PlugDefinition](/api/PlugDefinition), `plugin`: [Plugin].
 
-* `plug` is our [PlugDefinition](/api/PlugDefinition). It is important we reference `plug`, and **not** `plugDefinition` inside `Function` as necessary changes are made outside the scope of the `ModuleScript` (e.g., if we change a `Field` value on the *Widget*, this is written to `plug` and **not** `plugDefinition`)
-* `plugin` is the actual [Plugin] object that **Socket** is under; this is passed for special use cases, as a [Plugin] object has unique API
+* `plug` is our [PlugDefinition](/api/PlugDefinition). It is important we reference `plug`, and **not** `plugDefinition`. Changes are made outside the scope of the `ModuleScript` (e.g., if we change a `Field` value on the *Widget*, this is written to `plug` and **not** `plugDefinition`)
+* `plugin` is the actual [Plugin] object that **Socket** is under; this is passed for special use cases, as the [Plugin] object has unique API
 
 ### Logging
 
-You'll notice in the default **Plug** that gets created, a required `Logger` file. This gives us access to:
+You'll notice in the template **Plug** that gets created, a required `Logger` file. This gives us access to:
 ```lua
 Logger:PlugInfo(plug, "Hello!") -- <==> print(("[%s %s] %s"):format(plug.Icon or "", plug.Name, "Hello!"))
 Logger:PlugWarn(plug, "Uh Oh!") -- <==> warn(("[%s %s] %s"):format(plug.Icon or "", plug.Name, "Hello!"))
@@ -108,7 +108,7 @@ You can reference any members of `plug` (see [PlugDefinition](/api/PlugDefinitio
 
 #### `plug.State.IsRunning`
 
-We can use this value to toggle the state of our **Plug**, so we can have a routine that gets toggled on/off. You can easily declare your own variable in `plug.State` to do this, but using `IsRunning` will give us some nice feedback on the *Widget* UI.
+We can use this value to toggle the state of our **Plug**, so we can have a routine that gets toggled on/off. You *could* declare your own variable in `plug.State` to do this, but using `IsRunning` will give us some nice feedback on the *Widget* UI.
 
 #### `plug.State.FieldValues`
 
@@ -139,9 +139,9 @@ Note that amount may not exist, so we can either:
 	}
 }
 ```
-If `IsRequired=true`, we will get a `Logger:PlugWarn` in our output if the field does not have a defined value. We can assume it exists in our `Function` now!
+If `IsRequired=true`, we will get a `Logger:PlugWarn` in our output if we run the plug and we have not declared a value for the Field. We can assume it exists in our `Function` now!
 
-A nice trick we can do is if we want to declare a default value for a Field, we can create the following structure in our [PlugDefinition](/api/PlugDefinition)
+A nice trick we can do is if we want to declare a default value for a Field, we can mirror the following structure in our [PlugDefinition](/api/PlugDefinition)
 ```lua
 {
 	Fields = {
@@ -167,7 +167,8 @@ Example:
     local Heartbeat = game:GetService("RunService").Heartbeat
 
     -- PlugDefinition that, when running, will print the time since the last frame
-    {
+    local plugDefinition = {
+		-- ...
         Fields = {
             {
                 Name = "Timer";
@@ -201,6 +202,7 @@ Example:
                 plug.State.HeartbeatConnection = nil
             end
         end
+		-- ...
     }
 ```
 
@@ -212,7 +214,7 @@ while plug.State.IsRunning do
 -- ...
 end
 ```
-The loop would stop without the existence of `BindToClose`
+The loop would stop and does not require a `BindToClose` function
 :::
 
 ## Midas Touch **Plug**
@@ -364,11 +366,11 @@ I'm also not super happy with it always being the same color; lets add 2 color f
 
 ![image](/midas_touch_4.png)
 
-#### Realtime
+#### Real time
 
 Finally, I don't want to have to click Run, or use a Keybind, to make a part gold. I want to
 1. Make the **Plug** toggleable
-2. Whenever the **Plug** is running, any parts I select will turn to gold in realm time.
+2. Whenever the **Plug** is running, any parts I select will turn to gold in real time.
 
 Lets write some code to make this happen..
 ```lua
@@ -401,12 +403,12 @@ local plugDefinition = {
 	EnableAutomaticUndo = true,
 	Fields = {
 		{
-			Name = "Color1",
+			Name = "ColorA",
 			Type = "Color3",
 			IsRequired = true,
 		},
 		{
-			Name = "Color2",
+			Name = "ColorB",
 			Type = "Color3",
 			IsRequired = true,
 		},
@@ -424,8 +426,8 @@ plugDefinition.Function = function(plug, plugin)
 	
 	-- Get Variables
 	local isRunning = plug.State.IsRunning
-	local color1 = plug.State.FieldValues.Color1
-	local color2 = plug.State.FieldValues.Color2
+	local colorA = plug.State.FieldValues.ColorA
+	local colorB = plug.State.FieldValues.ColorB
 	
 	if isRunning then
 		plug.State.SelectionChangedConnection = Selection.SelectionChanged:Connect(function()
@@ -440,7 +442,7 @@ plugDefinition.Function = function(plug, plugin)
 			
 			-- Apply a gold finish to each part
 			for _,part in pairs(parts) do
-				part.Color = color1:Lerp(color2, math.random())
+				part.Color = colorA:Lerp(colorB, math.random())
 				part.Material = Enum.Material.Foil
 			end
 			
@@ -456,13 +458,13 @@ end
 
 return plugDefinition
 ```
-**Fantastic**
+**Fantastic <3**
 
 ![image](/midas_touch_v2.gif)
 
 ### v3
 
-With v2, if we close **Socket** while running the *Midas Touch* **Plug**, we will be encrusting parts forever as we never toggle the **Plug** back. The Solution:
+With v2, if we close **Socket** while running the *Midas Touch* **Plug**, we will be encrusting parts forever as we never toggle the **Plug** to stop it running. The Solution:
 ```lua
 ---@param plug PlugDefinition
 ---@param plugin Plugin
@@ -505,12 +507,12 @@ local plugDefinition = {
 	EnableAutomaticUndo = true,
 	Fields = {
 		{
-			Name = "Color1",
+			Name = "ColorA",
 			Type = "Color3",
 			IsRequired = true,
 		},
 		{
-			Name = "Color2",
+			Name = "ColorB",
 			Type = "Color3",
 			IsRequired = true,
 		},
@@ -528,8 +530,8 @@ plugDefinition.Function = function(plug, plugin)
 	
 	-- Get Variables
 	local isRunning = plug.State.IsRunning
-	local color1 = plug.State.FieldValues.Color1
-	local color2 = plug.State.FieldValues.Color2
+	local colorA = plug.State.FieldValues.ColorA
+	local colorB = plug.State.FieldValues.ColorB
 	
 	if isRunning then
 		plug.State.SelectionChangedConnection = Selection.SelectionChanged:Connect(function()
@@ -544,7 +546,7 @@ plugDefinition.Function = function(plug, plugin)
 			
 			-- Apply a gold finish to each part
 			for _,part in pairs(parts) do
-				part.Color = color1:Lerp(color2, math.random())
+				part.Color = colorA:Lerp(colorB, math.random())
 				part.Material = Enum.Material.Foil
 			end
 			
