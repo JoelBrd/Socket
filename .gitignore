@@ -53,6 +53,8 @@ notes.txt
 .vscode
 *.rbxl
 *.rbxl.lock
+node_modules
+build
 
 # Temp
 Documents/**
