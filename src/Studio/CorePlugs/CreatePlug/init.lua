@@ -32,12 +32,10 @@ local plugDefinition = {
         {
             Type = "string",
             Name = "Name",
-            IsRequired = true,
         },
         {
             Type = "string",
             Name = "Group",
-            IsRequired = true,
         },
         {
             Type = "string",
@@ -51,8 +49,8 @@ local plugDefinition = {
 ---@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
     -- Get Fields
-    local name = plug.State.FieldValues.Name
-    local group = plug.State.FieldValues.Group
+    local name = plug.State.FieldValues.Name or "No Name"
+    local group = plug.State.FieldValues.Group or "No Group"
     local icon = plug.State.FieldValues.Icon or "🔌"
 
     -- Create variables

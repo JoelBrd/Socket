@@ -232,6 +232,7 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     end
 
     -- Description
+    plug.Description = plug.Description or "No Description"
     if not validateType(plugScript, plug, true, "Description", "string") then
         return
     end
