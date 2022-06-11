@@ -252,10 +252,10 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     end
 
     -- Keybind
+    plug.Keybind = plug.Keybind or {}
     if not validateType(plugScript, plug, false, "Keybind", "table") then
         return
     end
-    plug.Keybind = plug.Keybind or {}
     for _, keyCode in pairs(plug.Keybind) do
         if not keyCode.EnumType == Enum.KeyCode then
             Logger:Warn(
@@ -266,6 +266,7 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     end
 
     -- Fields
+    plug.Fields = plug.Fields or {}
     if not validateType(plugScript, plug, false, "Fields", "table") then
         return
     end

@@ -109,7 +109,7 @@ function Logger:PlugInfo(plug, ...)
         return
     end
 
-    print(("[%s %s] %s"):format(plug.Icon or "🔌", plug.Name, concatVars(...)))
+    print(("[%s %s] %s"):format(plug.Icon or "", plug.Name, concatVars(...)))
 end
 
 ---
@@ -124,7 +124,7 @@ function Logger:PlugWarn(plug, ...)
         return
     end
 
-    warn(("[%s %s] %s"):format(plug.Icon or "🔌", plug.Name, concatVars(...)))
+    warn(("[%s %s] %s"):format(plug.Icon or "", plug.Name, concatVars(...)))
 end
 
 ---

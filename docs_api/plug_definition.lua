@@ -222,7 +222,7 @@
             -- Toggle running state
             plug.State.IsRunning = not plug.State.IsRunning
 
-            -- Get Fields
+            -- Get Variables
             local timer = plug.State.FieldValues.Timer
             local isRunning = plug.State.IsRunning
         
@@ -230,13 +230,15 @@
                 plug.State.HeartbeatConnection = Heartbeat:Connect(function(dt)
                     Logger:PlugInfo(plug, ("dt: %f"))
                 end)
-            else
+            elseif plug.State.HeartbeatConnection then
                 plug.State.HeartbeatConnection:Disconnect()
+                plug.State.HeartbeatConnection = nil
             end
         end
         BindToClose = function(plug, plugin)
             if plug.State.HeartbeatConnection then
                 plug.State.HeartbeatConnection:Disconnect()
+                plug.State.HeartbeatConnection = nil
             end
         end
     }

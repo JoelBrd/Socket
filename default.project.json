@@ -26,20 +26,6 @@
           }
         }
       }
-    },
-
-    "ServerStorage": {
-      "$className": "ServerStorage",
-      "SocketPlugin": {
-        "$className": "Folder",
-        "Plugs": {
-          "$className": "Folder",
-          "3rdPartyPlugs":{
-            "$path": "src/3rdPartyPlugs"
-          }
-        }
-      }
     }
-
   }
 }
