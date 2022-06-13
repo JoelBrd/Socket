@@ -28,6 +28,7 @@ local PlugHelper ---@type PlugHelper
 local PlugClientServer ---@type PlugClientServer
 local SocketSettings ---@type SocketSettings
 local PluginHandler ---@type PluginHandler
+local TeamCreateUtil ---@type TeamCreateUtil
 
 --------------------------------------------------
 -- Constants
@@ -395,6 +396,9 @@ function SocketController:Stop()
         end
     end
 
+    -- Cleanup Instances
+    TeamCreateUtil:Cleanup()
+
     -- Clear Janitor
     runJanitor:Cleanup()
 
@@ -419,6 +423,7 @@ function SocketController:FrameworkInit()
     PlugClientServer = PluginFramework:Require("PlugClientServer")
     SocketSettings = PluginFramework:Require("SocketSettings")
     PluginHandler = PluginFramework:Require("PluginHandler")
+    TeamCreateUtil = PluginFramework:Require("TeamCreateUtil")
 end
 
 ---@private

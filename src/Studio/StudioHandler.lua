@@ -14,6 +14,7 @@ local StudioHandler = {}
 local RunService = game:GetService("RunService") ---@type RunService
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local Logger ---@type Logger
+local Framework ---@type Framework
 
 --------------------------------------------------
 -- Constants
@@ -77,8 +78,15 @@ function StudioHandler:Validate()
             matchingStudioInstance:Destroy()
         end
 
+        -- Place Clone
         if moduleScript:IsA("ModuleScript") then
-            moduleScript:Clone().Parent = utilsFolder
+            local clone = moduleScript:Clone()
+            clone.Parent = utilsFolder
+
+            local isCustomModuleObject = moduleScript:FindFirstChild(Framework.IS_CUSTOM_MODULE_NAME)
+            if isCustomModuleObject then
+                isCustomModuleObject:Destroy()
+            end
         end
     end
 
@@ -116,6 +124,7 @@ end
 ---
 function StudioHandler:FrameworkInit()
     Logger = PluginFramework:Require("Logger")
+    Framework = PluginFramework:Require("Framework")
 end
 
 ---
