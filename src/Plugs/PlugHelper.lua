@@ -60,6 +60,12 @@ function PlugHelper:RunPlug(plug)
             Logger:PlugWarn(plug, ("Field %q is required!"):format(field.Name))
             return
         end
+
+        local validatorMessage = field.Validator and field.Validator(currentValue)
+        if validatorMessage then
+            Logger:PlugWarn(plug, ("Field %q: %s"):format(field.Name, validatorMessage))
+            return
+        end
     end
 
     -- Task to ensure the function isn't yielding..
@@ -305,19 +311,19 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     end
 
     -- Run Janitor
-    if not validateType(plugScript, plug, true, "Janitor", "table") then
+    if not validateType(plugScript, plug, false, "Janitor", "table") then
         return
     end
     plug.RunJanitor = plug.RunJanitor or Janitor.new()
 
     -- Functions
-    if not validateType(plugScript, plug, true, "ToggleIsRunning", "function") then
+    if not validateType(plugScript, plug, false, "ToggleIsRunning", "function") then
         return
     end
-    plug.ToggleIsRunning = plug.ToggleIsRunning
-        or function(somePlug)
-            somePlug.State.IsRunning = not (somePlug.State.IsRunning and true or false)
-        end
+    plug.ToggleIsRunning = function(somePlug)
+        somePlug.State.IsRunning = not (somePlug.State.IsRunning and true or false)
+        somePlug.RunJanitor:Cleanup()
+    end
 
     if not validateType(plugScript, plug, true, "Function", "function") then
         return
@@ -330,6 +336,7 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
             somePlug.BindToClose(plug, plugin)
         end
         somePlug.State.IsRunning = false
+        somePlug.RunJanitor:Cleanup()
     end
 
     -- Give script reference
