@@ -24,6 +24,7 @@ local SocketController ---@type SocketController
 local PluginHandler ---@type PluginHandler
 local StudioHandler ---@type StudioHandler
 local PlugClientServer ---@type PlugClientServer
+local Janitor ---@type Janitor
 
 --------------------------------------------------
 -- Constants
@@ -303,7 +304,21 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         field.Type = fieldType
     end
 
+    -- Run Janitor
+    if not validateType(plugScript, plug, true, "Janitor", "table") then
+        return
+    end
+    plug.RunJanitor = plug.RunJanitor or Janitor.new()
+
     -- Functions
+    if not validateType(plugScript, plug, true, "ToggleIsRunning", "function") then
+        return
+    end
+    plug.ToggleIsRunning = plug.ToggleIsRunning
+        or function(somePlug)
+            somePlug.State.IsRunning = not (somePlug.State.IsRunning and true or false)
+        end
+
     if not validateType(plugScript, plug, true, "Function", "function") then
         return
     end
@@ -369,6 +384,7 @@ function PlugHelper:FrameworkInit()
     PluginHandler = PluginFramework:Require("PluginHandler")
     StudioHandler = PluginFramework:Require("StudioHandler")
     PlugClientServer = PluginFramework:Require("PlugClientServer")
+    Janitor = PluginFramework:Require("Janitor")
 end
 
 ---

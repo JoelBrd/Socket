@@ -22,6 +22,8 @@ local PlugConstants = {}
 ---@field EnableAutomaticUndo boolean
 ---@field Keybind Enum.KeyCode[]
 ---@field Fields PlugField[]
+---@field RunJanitor Janitor
+---@field ToggleIsRunning fun()
 ---@field Function fun(plug:PlugDefinition)
 ---@field BindToClose fun(plug:PlugDefinition) Called when plugin is closed, or plug is removed from state
 ---@field _BindToClose fun(plug:PlugDefinition) Wraps BindToClose plus some internal stuff (e.g., IsRunning=false)
