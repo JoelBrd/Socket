@@ -21,7 +21,8 @@ local Logger = require(Utils.Logger) ---@type Logger
 
 --------------------------------------------------
 -- Constants
-local FRAMEWORK_IGNORE_INSTANCE_NAME = "FrameworkIgnore"
+Framework.IGNORE_INSTANCE_NAME = "FrameworkIgnore"
+Framework.IS_CUSTOM_MODULE_NAME = "IsCustomModule"
 
 --------------------------------------------------
 -- Members
@@ -64,7 +65,9 @@ function Framework:LoadModule(moduleScript)
 
     -- Cache
     local requiredModule = require(moduleScript)
-    requiredModule._IsFrameworkModule = true
+    if not moduleScript:FindFirstChild(Framework.IS_CUSTOM_MODULE_NAME) then
+        requiredModule._IsFrameworkModule = true
+    end
 
     self.modulesDict[name] = requiredModule
     self.moduleScriptsDict[name] = moduleScript
@@ -83,12 +86,9 @@ function Framework:LoadRecurse(directory)
     end
 
     -- RETURN: Ignore
-    local ignoreValueObject = directory:FindFirstChild(FRAMEWORK_IGNORE_INSTANCE_NAME) ---@type Insance
-    local ignoreValue = ignoreValueObject and ignoreValueObject:IsA("StringValue") and ignoreValueObject.Value
-    if ignoreValue and not (ignoreValue == "true" or ignoreValue == "false") then
-        Logger:Error(("Bad ignore value; must be a StringValue of `true` or `false` (%s)"):format(ignoreValueObject:GetFullName()))
-    end
-    if ignoreValue == "true" then
+    local ignoreValueObject = directory:FindFirstChild(Framework.IGNORE_INSTANCE_NAME) ---@type Instance
+    local isCustomModuleObject = directory:FindFirstChild(Framework.IS_CUSTOM_MODULE_NAME) ---@type Instance
+    if ignoreValueObject or isCustomModuleObject then
         return
     end
 
