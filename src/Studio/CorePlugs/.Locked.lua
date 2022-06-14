@@ -89,7 +89,7 @@ local plugDefinition = {
             ["Do Highlight"] = true,
             ["Color"] = Color3.fromRGB(255, 136, 0),
             ["Thickness"] = 0.1,
-            ["Transparency"] = 0.5,
+            ["Transparency"] = 0.2,
         },
         IsRunning = false,
     },
@@ -259,6 +259,7 @@ local function manageHighlighting(plug)
     local function createSelection()
         local selectionBox = Instance.new("SelectionBox") ---@type SelectionBox
         selectionBox.Color3 = highlightColor
+        selectionBox.SurfaceColor3 = highlightColor
         selectionBox.LineThickness = highlightThickness
         selectionBox.Transparency = highlightTransparency
         TeamCreateUtil:IntroduceInstance(selectionBox)
@@ -283,7 +284,8 @@ local function manageHighlighting(plug)
 
         -- Iterate raycast
         local lockedParts = {}
-        if plug.State.IsToggled then
+        local isToggled = plug.State.IsToggled
+        if isToggled then
             lockedParts = plug.State.LockedParts
         else
             local origin = camera.CFrame.Position
@@ -315,6 +317,7 @@ local function manageHighlighting(plug)
                 table.insert(plug.State.SelectionBoxes, selection)
             end
             selection.Adornee = lockedPart
+            selection.SurfaceTransparency = isToggled and 0.7 or 1
         end
         for j = #plug.State.SelectionBoxes, #lockedParts + 1, -1 do
             TeamCreateUtil:ClearInstance(plug.State.SelectionBoxes[j], true)
