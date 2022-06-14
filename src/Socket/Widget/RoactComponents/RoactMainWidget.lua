@@ -189,7 +189,7 @@ function RoactMainWidget:Create()
             ---@param plugInfo1 RoactMainWidgetProps.PlugInfo
             local function plugsSort(plugInfo0, plugInfo1)
                 if doGroupMatchingIcons and plugInfo0.plug.Icon ~= plugInfo1.plug.Icon then
-                    return plugInfo0.plug.Icon < plugInfo1.plug.Icon
+                    return (plugInfo0.plug.Icon or "") < (plugInfo1.plug.Icon or "")
                 end
 
                 return plugInfo0.name < plugInfo1.name
