@@ -315,6 +315,12 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         field.Type = fieldType
     end
 
+    -- FieldChanged Event
+    if not validateType(plugScript, plug, false, "FieldChanged", "BindableEvent") then
+        return
+    end
+    plug.FieldChanged = plug.FieldChanged or Instance.new("BindableEvent")
+
     -- Run Janitor
     if not validateType(plugScript, plug, false, "Janitor", "table") then
         return
@@ -386,6 +392,7 @@ function PlugHelper:UpdateField(plug, field, text)
 
     -- Update
     plug.State.FieldValues[field.Name] = value
+    plug.FieldChanged:Fire(field.Name, value)
     refreshState()
     return value, true
 end

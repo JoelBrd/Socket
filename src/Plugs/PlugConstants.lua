@@ -23,6 +23,7 @@ local PlugConstants = {}
 ---@field AutoRun boolean
 ---@field Keybind Enum.KeyCode[]
 ---@field Fields PlugField[]
+---@field FieldChanged BindableEvent Fired with (fieldName, fieldValue)
 ---@field RunJanitor Janitor
 ---@field ToggleIsRunning fun(plug:PlugDefinition)
 ---@field GetFieldValue fun(plug:PlugDefinition, fieldName:string)

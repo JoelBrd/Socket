@@ -47,13 +47,17 @@ local plugDefinition = {
 
 ---@param plug PlugDefinition
 plugDefinition.Function = function(plug, _)
-    local doLoop = plug.State.FieldValues["Do Loop"]
-    local time = plug.State.FieldValues["Time"]
+    local doLoop = plug:GetFieldValue("Do Loop")
+    local time = plug:GetFieldValue("Time")
 
     if doLoop and time then
         plug.State.IsRunning = not plug.State.IsRunning
 
         task.spawn(function()
+            plug.RunJanitor:Add(plug.FieldChanged.Event:Connect(function(fieldName, fieldValue)
+                time = fieldName == "Time" and fieldValue or time
+            end))
+
             while plug.State.IsRunning do
                 wait(time)
                 Logger:PlugInfo(plug, "Hello World!")
