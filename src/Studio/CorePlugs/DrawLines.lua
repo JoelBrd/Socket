@@ -157,7 +157,7 @@ local function drawLines(plug)
     local function createLine(pos0, pos1)
         -- Create part
         local part = Instance.new("Part") ---@type Part
-        part.Name = "RopePart"
+        part.Name = "Part"
         part.Anchored = true
         part.CanCollide = false
         part.Color = partColor
@@ -178,8 +178,11 @@ local function drawLines(plug)
 
     -- Create lines
     if doRecurse then
-        for _, node0 in pairs(nodes) do
-            for _, node1 in pairs(nodes) do
+        local totalNodes = #nodes
+        for i = 1, totalNodes do
+            local node0 = nodes[i]
+            for j = i + 1, totalNodes do
+                local node1 = nodes[j]
                 if node0 ~= node1 then
                     table.insert(lines, createLine(node0.Position, node1.Position))
                 end
