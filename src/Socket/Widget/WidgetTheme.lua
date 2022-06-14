@@ -24,7 +24,7 @@ local Logger ---@type Logger
 
 local mainText = {
     --GuideColor = Enum.StudioStyleGuideColor.MainText,
-    Dark = Color3.fromRGB(204, 204, 204),
+    Dark = Color3.fromRGB(225, 225, 225),
     Light = Color3.fromRGB(40, 40, 40),
 }
 local popText = {
@@ -73,7 +73,7 @@ WidgetTheme.Indexes = {
         Field = {
             PlaceholderText = {
                 Dark = Color3.fromRGB(180, 180, 180),
-                Light = Color3.fromRGB(178, 178, 178),
+                Light = Color3.fromRGB(135, 135, 135),
             },
             Text = mainText,
             Stroke = {
