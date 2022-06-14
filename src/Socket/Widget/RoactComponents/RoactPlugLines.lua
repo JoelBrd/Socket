@@ -618,6 +618,9 @@ local function getField(props)
     local color = field.Type == PlugConstants.FieldType.Color3 and currentValue
     local doColor = color and true or false
 
+    -- Padding
+    local paddingPixel = WidgetConstants.RoactWidgetLine.Pixel.FieldTitleTextBoxPadding
+
     -- Create Details
     local detailsContainer = Roact.createElement("Frame", {
         BackgroundTransparency = 1,
@@ -637,14 +640,19 @@ local function getField(props)
             TextScaled = true,
             Font = SocketSettings:GetSetting("Font"),
             Text = field.Name,
-            Size = UDim2.fromScale(0.5, 1),
+            Size = UDim2.new(0.5, -paddingPixel / 2, 1, 0),
             TextXAlignment = Enum.TextXAlignment.Left,
             TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
         }),
-        TextboxHolder = Roact.createElement("Frame", {
-            LayoutOrder = 2,
+        Padding = Roact.createElement("Frame", {
             BackgroundTransparency = 1,
-            Size = UDim2.fromScale(0.5, 1),
+            LayoutOrder = 2,
+            Size = UDim2.new(0, paddingPixel, 1, 0),
+        }),
+        TextboxHolder = Roact.createElement("Frame", {
+            LayoutOrder = 3,
+            BackgroundTransparency = 1,
+            Size = UDim2.new(0.5, -paddingPixel / 2, 1, 0),
         }, {
             UIPadding = Roact.createElement("UIPadding", {
                 PaddingBottom = UDim.new(0, 1),

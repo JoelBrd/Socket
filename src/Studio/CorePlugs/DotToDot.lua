@@ -44,7 +44,7 @@ end
 ---@type PlugDefinition
 local plugDefinition = {
     Group = "Core", ---@type string
-    Name = "Draw Lines",
+    Name = "Dot To Dot",
     Icon = "🌠",
     Description = description, ---@type string
     Fields = {
