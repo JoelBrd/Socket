@@ -12,6 +12,8 @@ local settings = {
     OpenFieldsByDefault = true,
     GroupMatchingIcons = true,
     IgnoreGameProcessedKeybinds = false,
+    EnableCorePlugs = true,
+    EnableCorePlugsOverwrite = true,
 }
 
 return settings

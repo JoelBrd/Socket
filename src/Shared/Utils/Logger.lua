@@ -109,7 +109,7 @@ function Logger:PlugInfo(plug, ...)
         return
     end
 
-    local icon = plug.Icon and not string.find(plug.Icon, "rbxassetid") or ""
+    local icon = plug.Icon and not string.find(plug.Icon, "rbxassetid") and plug.Icon or ""
     print(("[%s %s] %s"):format(icon, plug.Name, concatVars(...)))
 end
 
@@ -125,7 +125,7 @@ function Logger:PlugWarn(plug, ...)
         return
     end
 
-    local icon = plug.Icon and not string.find(plug.Icon, "rbxassetid") or ""
+    local icon = plug.Icon and not string.find(plug.Icon, "rbxassetid") and plug.Icon or ""
     warn(("[%s %s] %s"):format(icon, plug.Name, concatVars(...)))
 end
 

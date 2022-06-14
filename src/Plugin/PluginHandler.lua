@@ -126,8 +126,9 @@ function PluginHandler:SetPluginActiveState(isActive)
 
     -- Logic for when Plugin is Opened/Closed
     if isPluginActive then
-        StudioHandler:Validate()
+        StudioHandler:ValidateStructure()
         self:CreateWidget()
+        StudioHandler:ValidatePlugs()
     else
         self:DestroyWidget()
     end

@@ -15,6 +15,7 @@ local RunService = game:GetService("RunService") ---@type RunService
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local Logger ---@type Logger
 local Framework ---@type Framework
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -36,7 +37,7 @@ StudioHandler.Folders = {
 ---
 ---Will ensure the proper Studio requisites exist; will create anything missing.
 ---
-function StudioHandler:Validate()
+function StudioHandler:ValidateStructure()
     --------------------------------------------------
     -- CREATE FOLDERS
 
@@ -100,20 +101,35 @@ function StudioHandler:Validate()
         corePlugsFolder.Name = "Core"
         corePlugsFolder.Parent = plugsFolder
     end
+end
 
-    -- Copy over core plugs UNLESS we're running on client (`PlugClientServer` handles this)
-    if not (IS_RUNNING and IS_CLIENT) then
+---
+---Ensures our core plugs are initiated
+---
+function StudioHandler:ValidatePlugs()
+    local corePlugsFolder = StudioHandler.Folders.Plugs.Core
+
+    -- Copy over core plugs UNLESS we're running on client (`PlugClientServer` handles this) (or got something disabled)
+    local doEnableCorePlugs = SocketSettings:GetSetting("EnableCorePlugs")
+    local doEnableCorePlugsOverwrite = SocketSettings:GetSetting("EnableCorePlugsOverwrite")
+    if not (IS_RUNNING and IS_CLIENT) and doEnableCorePlugs then
         local internalCorePlugsFolder = script.Parent.CorePlugs
         local plugsModuleScripts = internalCorePlugsFolder:GetChildren() ---@type ModuleScript[]
         for _, moduleScript in pairs(plugsModuleScripts) do
-            -- Destroy matching instance
             local matchingStudioInstance = corePlugsFolder:FindFirstChild(moduleScript.Name) ---@type ModuleScript
-            if matchingStudioInstance then
-                matchingStudioInstance:Destroy()
-            end
+            if doEnableCorePlugsOverwrite then
+                -- Destroy matching instance
+                if matchingStudioInstance then
+                    matchingStudioInstance:Destroy()
+                end
 
-            if moduleScript:IsA("ModuleScript") then
-                moduleScript:Clone().Parent = corePlugsFolder
+                if moduleScript:IsA("ModuleScript") then
+                    moduleScript:Clone().Parent = corePlugsFolder
+                end
+            elseif not matchingStudioInstance then
+                if moduleScript:IsA("ModuleScript") then
+                    moduleScript:Clone().Parent = corePlugsFolder
+                end
             end
         end
     end
@@ -125,6 +141,7 @@ end
 function StudioHandler:FrameworkInit()
     Logger = PluginFramework:Require("Logger")
     Framework = PluginFramework:Require("Framework")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---
