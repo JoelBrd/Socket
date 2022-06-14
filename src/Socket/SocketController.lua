@@ -327,11 +327,10 @@ function SocketController:SetupKeybindHooks()
     ---@param inputObject InputObject
     ---@param gameProcessedEvent boolean
     local function inputBegan(inputObject, gameProcessedEvent)
-        -- RETURN: Ignore game processed
-        if gameProcessedEvent then
-            return
-        end
+        -- Grab setting
+        local doIgnoreGameProcessedKeybinds = SocketSettings:GetSetting("IgnoreGameProcessedKeybinds")
 
+        -- Record keypress
         heldKeys[inputObject.KeyCode] = gameProcessedEvent
 
         -- Does this equate a keybind?
@@ -348,7 +347,7 @@ function SocketController:SetupKeybindHooks()
                     local matchingKeyCodes = 0
                     local hasNonGameProcessedEventKeyCode = false
                     for _, someKeyCode in pairs(plug.Keybind) do
-                        if heldKeys[someKeyCode] ~= nil then
+                        if heldKeys[someKeyCode] == true and doIgnoreGameProcessedKeybinds or heldKeys[someKeyCode] == false then
                             hasNonGameProcessedEventKeyCode = hasNonGameProcessedEventKeyCode or not heldKeys[someKeyCode]
                             matchingKeyCodes = matchingKeyCodes + 1
                         end

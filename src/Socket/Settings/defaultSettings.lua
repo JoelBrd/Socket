@@ -11,6 +11,7 @@ local settings = {
     UIScale = 1,
     OpenFieldsByDefault = true,
     GroupMatchingIcons = true,
+    IgnoreGameProcessedKeybinds = false,
 }
 
 return settings
