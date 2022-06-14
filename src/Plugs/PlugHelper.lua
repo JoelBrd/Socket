@@ -258,6 +258,11 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         return
     end
 
+    -- AutoRun
+    if not validateType(plugScript, plug, false, "AutoRun", "boolean") then
+        return
+    end
+
     -- Keybind
     plug.Keybind = plug.Keybind or {}
     if not validateType(plugScript, plug, false, "Keybind", "table") then

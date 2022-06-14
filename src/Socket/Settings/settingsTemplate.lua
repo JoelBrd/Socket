@@ -6,6 +6,7 @@
 -- Types
 
 ---@class SocketSettings
+---@field EnableAutoRun boolean If true, plugs with `AutoRun=true` will run on plugin startup
 ---@field EnableCorePlugs boolean If true, will ensure core plugs are created on startup
 ---@field EnableCorePlugsOverwrite boolean If true, will overwrite any changes makes to the core plugs source code when the plugin is opened
 ---@field Font Enum.Font The font used on the Widget

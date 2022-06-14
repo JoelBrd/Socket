@@ -14,6 +14,7 @@ local settings = {
     IgnoreGameProcessedKeybinds = false,
     EnableCorePlugs = true,
     EnableCorePlugsOverwrite = true,
+    EnableAutoRun = true,
 }
 
 return settings

@@ -206,6 +206,12 @@ function SocketController:SetupPlugActions()
                 },
             }
             roduxStore:dispatch(action)
+
+            -- Auto run?
+            local doRun = plugDefinition.AutoRun and SocketSettings:GetSetting("EnableAutoRun")
+            if doRun then
+                PlugHelper:RunPlug(plugDefinition)
+            end
         end
     end
 
