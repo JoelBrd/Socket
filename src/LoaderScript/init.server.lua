@@ -8,7 +8,7 @@
 
 --------------------------------------------------
 -- Dependencies
-local PluginFramework = require(script.PluginFramework) ---@type Framework
+local PluginFramework = require(script:WaitForChild("PluginFramework")) ---@type Framework
 local PluginHandler ---@type PluginHandler
 
 --------------------------------------------------

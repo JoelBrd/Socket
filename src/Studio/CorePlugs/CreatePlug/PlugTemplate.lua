@@ -44,7 +44,7 @@ local plugDefinition = {
 ---@param plug PlugDefinition
 ---@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
-    Logger:PlugInfo(plug, "Hello %s!")
+    Logger:PlugInfo(plug, "Hello!")
 end
 
 return plugDefinition

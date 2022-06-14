@@ -59,7 +59,7 @@ plugDefinition.Function = function(plug, plugin)
     -- Create plug
     local newPlug = Instance.new("ModuleScript") ---@type ModuleScript
     newPlug.Name = name:gsub(" ", "") -- Remove whitespace
-    newPlug.Source = script.PlugTemplate.Source:format(group, name, icon, description, "%s")
+    newPlug.Source = script.PlugTemplate.Source:format(group, name, icon, description)
     newPlug.Parent = Plugs
 
     -- Open
