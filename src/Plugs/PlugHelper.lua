@@ -325,6 +325,13 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         somePlug.RunJanitor:Cleanup()
     end
 
+    if not validateType(plugScript, plug, false, "GetFieldValue", "function") then
+        return
+    end
+    plug.GetFieldValue = function(somePlug, fieldName)
+        return somePlug.State.FieldValues[fieldName]
+    end
+
     if not validateType(plugScript, plug, true, "Function", "function") then
         return
     end
