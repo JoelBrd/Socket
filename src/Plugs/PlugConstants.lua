@@ -20,6 +20,7 @@ local PlugConstants = {}
 ---@field Description string
 ---@field State PlugState
 ---@field EnableAutomaticUndo boolean
+---@field IgnoreGameProcessedKeybinds boolean
 ---@field AutoRun boolean
 ---@field Keybind Enum.KeyCode[]
 ---@field Fields PlugField[]

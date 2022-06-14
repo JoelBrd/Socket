@@ -1,5 +1,5 @@
 ---
----Creates a new plug!
+---Creates a new plug
 ---
 
 --------------------------------------------------
@@ -24,10 +24,8 @@ local plugDefinition = {
     Group = "Core",
     GroupIcon = "🔌",
     Name = "Create Plug",
-    Description = "Creates a template plug!",
+    Description = "Creates a new plug",
     Icon = "🟢",
-    State = {},
-    Keybind = {},
     Fields = {
         {
             Type = "string",
@@ -42,16 +40,15 @@ local plugDefinition = {
             Name = "Icon",
         },
     },
-    Function = nil,
 }
 
 ---@param plug PlugDefinition
 ---@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
     -- Get Fields
-    local name = plug.State.FieldValues.Name or "No Name"
-    local group = plug.State.FieldValues.Group or "No Group"
-    local icon = plug.State.FieldValues.Icon or "🔌"
+    local name = plug:GetFieldValue("Name") or "No Name"
+    local group = plug:GetFieldValue("Group") or "No Group"
+    local icon = plug:GetFieldValue("Icon") or "🔌"
 
     -- Create variables
     local description = ("%s Description"):format(name)

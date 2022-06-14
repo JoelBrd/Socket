@@ -348,19 +348,18 @@ function SocketController:SetupKeybindHooks()
 
                 -- See if we have all held keys in this plug
                 local totalKeyCodes = #plug.Keybind
-                local hasKeybind = totalKeyCodes and totalKeyCodes > 0
+                local hasKeybind = totalKeyCodes > 0
                 if hasKeybind then
                     local matchingKeyCodes = 0
-                    local hasNonGameProcessedEventKeyCode = false
+                    local allowGameProcessedEventKeyCodes = doIgnoreGameProcessedKeybinds or plug.IgnoreGameProcessedKeybinds
                     for _, someKeyCode in pairs(plug.Keybind) do
-                        if heldKeys[someKeyCode] == true and doIgnoreGameProcessedKeybinds or heldKeys[someKeyCode] == false then
-                            hasNonGameProcessedEventKeyCode = hasNonGameProcessedEventKeyCode or not heldKeys[someKeyCode]
+                        if heldKeys[someKeyCode] == false or heldKeys[someKeyCode] and allowGameProcessedEventKeyCodes then
                             matchingKeyCodes = matchingKeyCodes + 1
                         end
                     end
 
                     -- Huzzah!
-                    if totalKeyCodes == matchingKeyCodes and hasNonGameProcessedEventKeyCode then
+                    if totalKeyCodes == matchingKeyCodes then
                         -- Run Plug Function
                         PlugHelper:RunPlug(plug)
 

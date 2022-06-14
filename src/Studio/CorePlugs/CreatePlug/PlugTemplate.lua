@@ -34,6 +34,7 @@ local plugDefinition = {
     Description = "%s", ---@type string
     State = {}, ---@type PlugState
     EnableAutomaticUndo = false, ---@type boolean
+    AutoRun = false, ---@type boolean
     Keybind = {}, ---@type Enum.KeyCode[]
     Fields = {}, ---@type PlugField[]
 

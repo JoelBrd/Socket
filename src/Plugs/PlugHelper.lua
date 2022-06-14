@@ -263,6 +263,11 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         return
     end
 
+    -- IgnoreGameProcessedKeybinds
+    if not validateType(plugScript, plug, false, "IgnoreGameProcessedKeybinds", "boolean") then
+        return
+    end
+
     -- Keybind
     plug.Keybind = plug.Keybind or {}
     if not validateType(plugScript, plug, false, "Keybind", "table") then
