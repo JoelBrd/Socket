@@ -63,10 +63,10 @@ function PluginHandler:Load(passedPlugin)
     --------------------------------------------------
     -- Setup deactivation logic
     plugin.Deactivation:Connect(function()
-        self:SetPluginActiveState(false)
+        SocketController:Stop()
     end)
     plugin.Unloading:Connect(function()
-        self:SetPluginActiveState(false)
+        SocketController:Stop()
     end)
 
     --------------------------------------------------

@@ -30,6 +30,7 @@ local PlugConstants = {}
 ---@field GetFieldValue fun(plug:PlugDefinition, fieldName:string)
 ---@field Function fun(plug:PlugDefinition)
 ---@field BindToClose fun(plug:PlugDefinition) Called when plugin is closed, or plug is removed from state
+---@field BindToOpen fun(plug:PlugDefinition) Called when plugin is started
 ---@field _BindToClose fun(plug:PlugDefinition) Wraps BindToClose plus some internal stuff (e.g., IsRunning=false)
 ---@field _script ModuleScript
 ---@field _isBroken boolean

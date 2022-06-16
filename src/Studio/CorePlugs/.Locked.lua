@@ -14,6 +14,8 @@ local UserInputService = game:GetService("UserInputService") ---@type UserInputS
 local PhysicsService = game:GetService("PhysicsService") ---@type PhysicsService
 local Selection = game:GetService("Selection") ---@type Selection
 local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
+local StudioService = game:GetService("StudioService") ---@type StudioService
+local CollectionService = game:GetService("CollectionService") ---@type CollectionService
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Logger = require(Utils.Logger) ---@type Logger
 local Janitor = require(Utils.Janitor) ---@type Janitor
@@ -29,9 +31,12 @@ local DO_TRACE = false
 local RAYCAST_PARAMS = RaycastParams.new()
 RAYCAST_PARAMS.CollisionGroup = COLLISION_GROUP_NAME
 local EPSILON = 0.01
+local TRACK_ATTRIBUTE_FORMAT = "_Socket_.Locked_%d"
 
 --------------------------------------------------
 -- Members
+local trackingTag = TRACK_ATTRIBUTE_FORMAT:format(StudioService:GetUserId())
+
 local description = "When enabled, will put all `Locked=true` instances in game.Workspace into a custom collision group. "
 description = ("%s%s"):format(description, "This adds the functionality to be able to select instances through `Locked=true` instances.")
 description = ("%s\n%s"):format(description, "Will only affect locked parts with the default collision group (Id=0)")
@@ -108,6 +113,22 @@ local function trace(plug, ...)
 end
 
 ---@param plug PlugDefinition
+local function verify(plug)
+    -- Assume the worst and that we crashed. Reset any locked parts we had.
+    local taggedInstances = CollectionService:GetTagged(trackingTag) ---@type BasePart[]
+    for _, instance in pairs(taggedInstances) do
+        instance.Locked = true
+        instance.CollisionGroupId = DEFAULT_COLLISION_GROUP_ID
+        CollectionService:RemoveTag(instance, trackingTag)
+    end
+
+    -- Log
+    if #taggedInstances > 0 then
+        Logger:PlugWarn(plug, "Looks like .Locked was running when the place was saved/closed... all fixed now!")
+    end
+end
+
+---@param plug PlugDefinition
 ---@return number
 local function setupCollisionGroup(plug)
     -- Get Collision groups
@@ -161,12 +182,15 @@ local function manageCollisionsForBasePart(plug, instance)
 
     if doAdd then
         instance.CollisionGroupId = plug.State.CollisionGroupId
+        CollectionService:AddTag(instance, trackingTag)
         table.insert(plug.State.LockedParts, instance)
         trace(plug, ("Added %s"):format(instance:GetFullName()))
     elseif doRemove then
         instance.CollisionGroupId = DEFAULT_COLLISION_GROUP_ID
+        CollectionService:RemoveTag(instance, trackingTag)
         local index = table.find(plug.State.LockedParts, instance)
         if index then
+            instance.Locked = true
             table.remove(plug.State.LockedParts, index)
         end
         trace(plug, ("Removed %s"):format(instance:GetFullName()))
@@ -368,14 +392,7 @@ end
 ---@param plug PlugDefinition
 local function stoppedRunning(plug)
     plug.State.IsRunning = false
-
-    if plug.State.IsToggled then
-        for _, lockedPart in pairs(plug.State.LockedParts) do
-            lockedPart.Locked = true
-            lockedPart.CollisionGroupId = plug.State.CollisionGroupId
-        end
-        plug.State.IsToggled = false
-    end
+    plug.State.IsToggled = false
 
     for _, descendant in pairs(game.Workspace:GetDescendants()) do
         if descendant:IsA("BasePart") then
@@ -392,6 +409,13 @@ end
 --================================================================================================================================================
 --===
 --================================================================================================================================================
+
+---@param plug PlugDefinition
+---@param plugin Plugin
+plugDefinition.BindToOpen = function(plug, plugin)
+    -- Ensure nothing bad was left from .Locked in a previous session
+    verify(plug)
+end
 
 ---@param plug PlugDefinition
 ---@param plugin Plugin

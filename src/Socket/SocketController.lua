@@ -56,6 +56,9 @@ function SocketController:Run()
     -- Setup settings
     SocketSettings:ValidateSettings()
 
+    -- Cleanup any instances from a bad shutdown
+    TeamCreateUtil:Cleanup()
+
     -- Setup rodux store actions
     SocketController:SetupStudioActions()
     SocketController:SetupPlugActions()
@@ -70,6 +73,17 @@ function SocketController:Run()
     if IS_RUNNING then
         PlugClientServer:RunTransfer()
         PlugClientServer:SetupCommunication()
+    end
+
+    -- Bind to open on our plugs
+    local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
+    for _, groupInfo in pairs(groups) do
+        for _, plugInfo in pairs(groupInfo.Plugs) do
+            local plug = plugInfo.Plug ---@type PlugDefinition
+            if plug.BindToOpen then
+                plug.BindToOpen(plug, PluginHandler:GetPlugin())
+            end
+        end
     end
 end
 

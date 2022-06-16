@@ -351,6 +351,9 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     if not validateType(plugScript, plug, true, "Function", "function") then
         return
     end
+    if not validateType(plugScript, plug, false, "BindToOpen", "function") then
+        return
+    end
     if not validateType(plugScript, plug, false, "BindToClose", "function") then
         return
     end
