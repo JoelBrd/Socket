@@ -15,6 +15,9 @@ local Logger = require(Utils.Logger) ---@type Logger
 
 --------------------------------------------------
 -- Constants
+local LOCKED_COLLISION_GROUP_NAME = "SocketLocked"
+local LOCKED_RAYCAST_PARAMS = RaycastParams.new()
+LOCKED_RAYCAST_PARAMS.CollisionGroup = LOCKED_COLLISION_GROUP_NAME
 
 --------------------------------------------------
 -- Members
@@ -36,19 +39,15 @@ local plugDefinition = {
         {
             Name = "Distance",
             Type = "number",
+            IsRequired = true,
         },
     },
-    Function = nil,
 }
 
 ---@param plug PlugDefinition
 plugDefinition.Function = function(plug, _)
     -- Read Fields
-    local distance = plug.State.FieldValues.Distance
-    if not distance then
-        Logger:PlugWarn(plug, "Distance Field must be declared.")
-        return
-    end
+    local distance = plug:GetFieldValue("Distance")
 
     -- Get Mouse Position on screen
     local mousePoint = UserInputService:GetMouseLocation()
@@ -59,6 +58,11 @@ plugDefinition.Function = function(plug, _)
 
     -- Raycast for point
     local raycastResult = game.Workspace:Raycast(camera.CFrame.Position, unitRay.Direction * distance)
+    if not raycastResult then
+        -- Be compatible with .Locked
+        raycastResult = game.Workspace:Raycast(camera.CFrame.Position, unitRay.Direction * distance, LOCKED_RAYCAST_PARAMS)
+    end
+
     if raycastResult then
         local position = raycastResult.Position
         camera.CFrame = camera.CFrame - camera.CFrame.Position + position - camera.CFrame.LookVector

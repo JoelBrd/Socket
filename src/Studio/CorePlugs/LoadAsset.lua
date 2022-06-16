@@ -27,26 +27,20 @@ local plugDefinition = {
     Name = "Load Asset",
     Description = "Will load in an asset with the given Id",
     Icon = "🖨️",
-    State = {},
     EnableAutomaticUndo = true,
-    Keybind = {},
     Fields = {
         {
             Name = "Id",
             Type = "number",
+            IsRequired = true,
         },
     },
-    Function = nil,
 }
 
 ---@param plug PlugDefinition
 plugDefinition.Function = function(plug, _)
     -- Grabs the field values
-    local id = plug.State.FieldValues.Id
-    if not id then
-        Logger:PlugWarn(plug, "`Id` Field undefined")
-        return
-    end
+    local id = plug:GetFieldValue("Id")
 
     -- Load Model
     local model ---@type Model

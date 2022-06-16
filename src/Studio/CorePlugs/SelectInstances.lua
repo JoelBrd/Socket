@@ -100,12 +100,11 @@ plugDefinition.Function = function(plug, plugin)
     end
 
     -- Get State
-    local fieldValues = plug.State.FieldValues
-    local name = fieldValues.Name
-    local className = fieldValues.ClassName
-    local childName = fieldValues["Child Name"]
-    local recurseChildren = fieldValues["Recurse Children"] and true or false
-    local maxAmount = fieldValues["Max Amount"]
+    local name = plug:GetFieldValue("Name")
+    local className = plug:GetFieldValue("ClassName")
+    local childName = plug:GetFieldValue("Child Name")
+    local recurseChildren = plug:GetFieldValue("Recurse Children") and true or false
+    local maxAmount = plug:GetFieldValue("Max Amount")
 
     -- Search
     local results = search(selectedInstances, name, className, childName, recurseChildren, maxAmount)
