@@ -35,14 +35,13 @@ local EPSILON = 0.01
 local description = "When enabled, will put all `Locked=true` instances in game.Workspace into a custom collision group. "
 description = ("%s%s"):format(description, "This adds the functionality to be able to select instances through `Locked=true` instances.")
 description = ("%s\n%s"):format(description, "Will only affect locked parts with the default collision group (Id=0)")
-description = ("%s\n%s"):format(description, "Toggle Keybind: Keybind to toggle locked state of .Locked parts")
-description = ("%s\n%s"):format(description, "Use Selection: If true, will only notice .Locked changes of selected Instances.")
+description = ("%s\n\n%s"):format(description, "Toggle Keybind: Keybind to toggle locked state of .Locked parts")
+description = ("%s\n\n%s"):format(description, "Use Selection: If true, will only notice .Locked changes of selected Instances.")
 description = ("%s%s"):format(
     description,
-    "You may want to set this to false if you have other scripts changing .Locked value, as by default"
+    "You may want to set this to false if you have other scripts changing .Locked value, as by default "
 )
 description = ("%s%s"):format(description, "these changes will not be detected (to aid performance)")
-description = ("%s\n%s"):format(description, "Do Highlight: If true, will highlight locked parts that would be otherwise selected.")
 
 ---@type PlugDefinition
 local plugDefinition = {

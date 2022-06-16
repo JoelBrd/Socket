@@ -61,6 +61,15 @@ function PluginHandler:Load(passedPlugin)
     plugin = passedPlugin
 
     --------------------------------------------------
+    -- Setup deactivation logic
+    plugin.Deactivation:Connect(function()
+        self:SetPluginActiveState(false)
+    end)
+    plugin.Unloading:Connect(function()
+        self:SetPluginActiveState(false)
+    end)
+
+    --------------------------------------------------
     -- Create button on the plugin toolbar
     toolbar = plugin:CreateToolbar(TOOLBAR_NAME)
     toolbarButton = toolbar:CreateButton(TOOLBAR_BUTTON_TITLE, TOOLBAR_BUTTON_DESCRIPTION, TOOLBAR_LOGO_ICON)
