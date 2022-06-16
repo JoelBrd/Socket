@@ -11,6 +11,7 @@ local TeamCreateUtil = {}
 
 --------------------------------------------------
 -- Dependencies
+local ChangeHistoryService = game:GetService("ChangeHistoryService") ---@type ChangeHistoryService
 local StudioService = game:GetService("StudioService") ---@type StudioService
 local Logger = require(script.Parent.Logger)
 
@@ -22,12 +23,20 @@ local WORKSPACE_DIRECTORY_NAME = "_SocketInstances"
 -- Members
 
 ---
----Brings an instance into the workspace in the context of Socket and the user calling this function
+---Brings an instance into the workspace in the context of Socket and the user calling this function.
+---By default, sets a ChangeHistoryService waypoint.
 ---@param instance Instance
+---@param dontSetWaypoint boolean
 ---
-function TeamCreateUtil:IntroduceInstance(instance)
+---@overload fun(instance:Instance)
+---
+function TeamCreateUtil:IntroduceInstance(instance, dontSetWaypoint)
     local directory = TeamCreateUtil:GetDirectory(true)
     instance.Parent = directory
+
+    if not dontSetWaypoint then
+        ChangeHistoryService:SetWaypoint("Toggled Locked")
+    end
 end
 
 ---

@@ -8,6 +8,7 @@
 
 --------------------------------------------------
 -- Dependencies
+local ChangeHistoryService = game:GetService("ChangeHistoryService") ---@type ChangeHistoryService
 local RunService = game:GetService("RunService") ---@type RunService
 local UserInputService = game:GetService("UserInputService") ---@type UserInputService
 local PhysicsService = game:GetService("PhysicsService") ---@type PhysicsService
@@ -348,7 +349,8 @@ local function listenForToggleInput(plug)
             plug.State.IsToggled = false
         end
 
-        Logger:PlugInfo(plug, ("Toggled Locked Parts: %s"):format(tostring(plug.State.IsToggled)))
+        ChangeHistoryService:SetWaypoint("Toggled Locked")
+        trace(plug, ("Toggled Locked Parts: %s"):format(tostring(plug.State.IsToggled)))
     end
 
     plug.RunJanitor:Add(UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
