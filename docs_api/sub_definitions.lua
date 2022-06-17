@@ -1,4 +1,8 @@
 --[=[
+    @class PlugField
+]=]
+
+--[=[
     @prop Type PlugFieldType
     @tag Required
     @within PlugField
@@ -52,35 +56,39 @@
 
 --[=[
     @prop Name string
+    @within PlugFieldType
 
     The string that should be referenced inside a `PlugDefinition` for a `PlugField`'s `PlugFieldType` 
+
+    Socket comes with the following types:
+    ```
+    "string"|"number"|"boolean"|"Color3"|"Vector3"
+    ```
 ]=]
 
 --[=[
     @prop Icon string
+    @within PlugFieldType
 
     A small string/emoji
 ]=]
 
 --[=[
     @function Validate
-    @prop value string
+    @param value string
     @return any|nil
+    @within PlugFieldType
 
     Takes an input value, and returns a type-safe version. Can return nil if there is nothing we can do with it.
 ]=]
 
 --[=[
     @function ToString
-    @prop value any
+    @param value any
     @return string
+    @within PlugFieldType
 
     Takes a type-safe value, and returns it as a string that can be put into the field `TextBox` on the UI.
-]=]
-
---[=[
-    @interface PlugFieldType "string"|"number"|"boolean"|"Color3"|"Vector3"
-    @within PlugDefinition
 ]=]
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------

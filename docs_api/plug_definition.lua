@@ -202,8 +202,7 @@
 ]=]
 
 --[=[
-    @function GetFieldValue
-    @param plug PlugDefinition
+    @method GetFieldValue
     @param fieldName string
     @within PlugDefinition
 
@@ -305,8 +304,7 @@
 ]=]
 
 --[=[
-    @function ToggleIsRunning
-    @param plug PlugDefinition
+    @method ToggleIsRunning
     @within PlugDefinition
 
     Sugar for
