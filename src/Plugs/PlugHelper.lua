@@ -71,7 +71,7 @@ function PlugHelper:RunPlug(plug)
     -- Task to ensure the function isn't yielding..
     local threadIsGood = false
     task.spawn(function()
-        wait(YIELD_TIME)
+        task.wait(YIELD_TIME)
         if not threadIsGood then
             Logger:PlugWarn(
                 plug,

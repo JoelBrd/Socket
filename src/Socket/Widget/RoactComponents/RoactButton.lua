@@ -96,7 +96,7 @@ function RoactButton:Get(props)
 
         -- Cleanup
         task.spawn(function()
-            wait(ACTIVATED_DISC_TWEEN_INFO.Time)
+            task.wait(ACTIVATED_DISC_TWEEN_INFO.Time)
             discTween:Destroy()
             disc:Destroy()
         end)
