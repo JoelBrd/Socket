@@ -141,6 +141,29 @@
 ]=]
 
 --[=[
+    @prop IgnoreGameProcessedKeybinds boolean
+    @within PlugDefinition
+
+    Socket uses [UserInputService#InputBegan] for detecting keybinds.
+    ```
+    game:GetService("UserInputService").InputBegan:Connect(function(inputObject, gameProcessedEvent)
+        if gameProcessedEvent and not IgnoreGameProcessedKeybinds then
+            return
+        end
+
+        ...
+    end)
+    ```
+]=]
+
+--[=[
+    @prop AutoRun boolean
+    @within PlugDefinition
+
+    If `true`, `plug.Function` will be called when Socket starts. Useful if there is a plug you always want running
+]=]
+
+--[=[
     @prop Keybind {Enum.KeyCode}
     @within PlugDefinition
 
@@ -176,6 +199,33 @@
         }
     }    
     ```
+]=]
+
+--[=[
+    @function GetFieldValue
+    @param plug PlugDefinition
+    @param fieldName string
+    @within PlugDefinition
+
+    Sugar for
+    ```lua
+    plug.State.FieldValues[fieldName]
+    ```
+]=]
+
+--[=[
+    @prop FieldChanged BindableEvent
+    @within PlugDefinition
+
+    A `BindableEvent` to listen to field values being changed on the UI!
+    ```
+    plug.FieldChanged.Event:Connect(function(fieldName, fieldValue)
+        -- plug:GetFieldValue(fieldName) === fieldValue
+    end)
+    ```
+
+    Most cases it will suffice to just read `plug:GetFieldValue(fieldName)` as and when you need a field value. But sometimes you may need to re-run some routines
+    after a field value change.
 ]=]
 
 --[=[
@@ -246,6 +296,29 @@
 ]=]
 
 --[=[
+    @prop RunJanitor Janitor
+    @within PlugDefinition
+
+    A [Janitor](https://github.com/howmanysmall/Janitor) object, intended to be used to cleanup tasks after a plug stops running.
+
+    Is automatically cleaned up when using `plug:ToggleIsRunning()`
+]=]
+
+--[=[
+    @function ToggleIsRunning
+    @param plug PlugDefinition
+    @within PlugDefinition
+
+    Sugar for
+    ```lua
+    plug.State.IsRunning = not plug.State.IsRunning
+    if not plug.State.IsRunning then
+        plug.RunJanitor:Cleanup()
+    end
+    ```
+]=]
+
+--[=[
     @function Function
     @param plug PlugDefinition
     @param plugin Plugin
@@ -277,4 +350,20 @@
     :::caution
     This function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent
     :::
+]=]
+
+--[=[
+    @function BindToOpen
+    @param plug PlugDefinition
+    @param plugin Plugin
+    @within PlugDefinition
+
+    This is a function that is called when the Socket plugin is started! This has some rare use cases.
+
+    For the most part, Socket is really good at calling `BindToClose` when it is needed, but there are some Roblox limitations.
+    Imagine we have a plug that makes significant changes in `game.Workspace` (e.g., changes the `Color3` of part(s)). If Roblox Studio
+    is suddenly closed, or crashes, it's possible the changes the plug made will be saved, but the stopping logic is never ran. `BindToOpen` can
+    be used to run checks to cleanup any mess left from the previous session. This is more a failsafe than a requirement, but will save headaches!
+
+    For a good example use-case, see the Socket Core Plug `.Locked`
 ]=]

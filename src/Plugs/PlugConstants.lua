@@ -50,7 +50,7 @@ local PlugConstants = {}
 ---@class PlugFieldType
 ---@field Name string
 ---@field Icon string
----@field Validate fun(value:any):any|nil
+---@field Validate fun(value:string):any|nil
 ---@field ToString fun(value:any):string
 
 --------------------------------------------------
