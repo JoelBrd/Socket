@@ -1,7 +1,13 @@
 --[=[
     @class PlugDefinition
     
-    This is how we define the behaviour of a **Plug**
+    This is how we define the behaviour of a **Plug**.
+
+    There are a few `Required` members for a [PlugDefinition] to be valid.
+
+    Many fields are `Populated`, where if it is not defined in your [PlugDefinition], will be auto-filled by Socket with a default value.
+    
+    There are some `Read-Only` fields, that you should not define in your [PlugDefinition] and let them be `Popualted` by Socket.
 ]=]
 
 --[=[
@@ -18,6 +24,7 @@
 
 --[=[
     @prop NameColor Color3
+    @tag Populated
     @within PlugDefinition
 
     Give your **Plug** a pretty color on the Widget!
@@ -27,6 +34,7 @@
 
 --[=[
     @prop Icon string
+    @tag Populated
     @within PlugDefinition
 
     Defines an icon to put alongside the `Name` of the **Plug**.
@@ -43,10 +51,13 @@
         Icon = "http://www.roblox.com/asset/?id=9553550332" -- Bad ImageId (Decal)
     }
     ```
+
+    Defaults to `"❓"`
 ]=]
 
 --[=[
     @prop IconColor Color3
+    @tag Populated
     @within PlugDefinition
 
     Give your **Plug** icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input
@@ -56,13 +67,17 @@
 
 --[=[
     @prop Group string
+    @tag Populated
     @within PlugDefinition
 
     The group that the **Plug** belongs to. Any plugs with matching `Group` will be group together on the Widget
+
+    Defaults to `"No Group"`
 ]=]
 
 --[=[
     @prop GroupColor Color3
+    @tag Populated
     @within PlugDefinition
 
     Give a `Group` a pretty color on the Widget! If you have multiple **Plugs** under the same `Group`, `GroupColor` need only be defined
@@ -73,6 +88,7 @@
 
 --[=[
     @prop GroupIcon string
+    @tag Populated
     @within PlugDefinition
 
     Defines an icon to put alongside the name of the `Group` the **Plug** is under. If you have multiple **Plugs** under the same `Group`, `GroupIcon` need only be defined
@@ -90,10 +106,13 @@
         Icon = "http://www.roblox.com/asset/?id=9553550332" -- Bad ImageId (Decal)
     }
     ```
+
+    Defaults to `"❓"`
 ]=]
 
 --[=[
     @prop GroupIconColor Color3
+    @tag Populated
     @within PlugDefinition
 
     Give your **Plug** icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input. If you have multiple **Plugs** under the 
@@ -104,6 +123,7 @@
 
 --[=[
     @prop Description string
+    @tag Populated
     @within PlugDefinition
 
     Any and all information pertaining to this specific **Plug**. This can be as long as you like as it appears in the output.
@@ -123,10 +143,13 @@
 
     ================ Plug Name (Plug Group) | DESCRIPTION ================
     ```
+
+    Defaults to `"No Description"`
 ]=]
 
 --[=[
     @prop EnableAutomaticUndo boolean
+    @tag Populated
     @within PlugDefinition
 
     If `true`, will automatically setup `ChangeHistoryService` waypoints before and after running the **Plug's** `Function`. AKA, any changes
@@ -138,10 +161,13 @@
     When you run "Undo" in Studio, it will undo the last change under the `DataModel` (`game`). If your **Plug** just prints to the output (and doesn't
     make any changes to the `DataModel`) it will undo your last change unrelated to your **Plug**
     :::
+
+    Defaults to `false`
 ]=]
 
 --[=[
     @prop IgnoreGameProcessedKeybinds boolean
+    @tag Populated
     @within PlugDefinition
 
     Socket uses [UserInputService#InputBegan] for detecting keybinds.
@@ -154,17 +180,23 @@
         ...
     end)
     ```
+
+    Defaults to `false`
 ]=]
 
 --[=[
     @prop AutoRun boolean
+    @tag Populated
     @within PlugDefinition
 
-    If `true`, `plug.Function` will be called when Socket starts. Useful if there is a plug you always want running
+    If `true`, `plug.Function` will be called when Socket starts. Useful if there is a plug you want to run on startup.
+
+    Defaults to `false`
 ]=]
 
 --[=[
     @prop Keybind {Enum.KeyCode}
+    @tag Populated
     @within PlugDefinition
 
     An array of `Enum.KeyCode` that can trigger the **Plug** to run.
@@ -177,10 +209,13 @@
     :::tip
     Will not work if any of the inputs have `gameProcessedEvent` set to true. See: [UserInputService]
     :::
+
+    Defaults to `{}`
 ]=]
 
 --[=[
     @prop Fields {PlugField}
+    @tag Populated
     @within PlugDefinition
 
     An array of `PlugField`, which define the different fields the **Plug** has
@@ -199,11 +234,14 @@
         }
     }    
     ```
+
+    Defaults to `{}`
 ]=]
 
 --[=[
     @method GetFieldValue
     @param fieldName string
+    @tag Read-Only
     @within PlugDefinition
 
     Sugar for
@@ -214,6 +252,7 @@
 
 --[=[
     @prop FieldChanged BindableEvent
+    @tag Read-Only
     @within PlugDefinition
 
     A `BindableEvent` to listen to field values being changed on the UI!
@@ -229,6 +268,7 @@
 
 --[=[
     @prop State PlugState
+    @tag Populated
     @within PlugDefinition
 
     A persistent `State` of the **Plug** while the Socket plugin is running. We can write to this inside the `PlugDefinition`, and
@@ -292,10 +332,20 @@
         end
     }
     ```
+
+    Defaults to
+    ```
+    {
+        FieldValues = {};
+        _Server = {};
+        _Client = {};
+    }
+    ```
 ]=]
 
 --[=[
     @prop RunJanitor Janitor
+    @tag Read-Only
     @within PlugDefinition
 
     A [Janitor](https://github.com/howmanysmall/Janitor) object, intended to be used to cleanup tasks after a plug stops running.
@@ -305,6 +355,7 @@
 
 --[=[
     @method ToggleIsRunning
+    @tag Read-Only
     @within PlugDefinition
 
     Sugar for

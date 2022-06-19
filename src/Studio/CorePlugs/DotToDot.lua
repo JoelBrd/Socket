@@ -15,7 +15,7 @@ local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Logger = require(Utils.Logger) ---@type Logger
 local Janitor = require(Utils.Janitor) ---@type Janitor
-local TeamCreateUtil = require(Utils.TeamCreateUtil) ---@type TeamCreateUtil
+local InstanceUtil = require(Utils.InstanceUtil) ---@type InstanceUtil
 local CameraUtil = require(Utils.CameraUtil) ---@type CameraUtil
 
 --------------------------------------------------
@@ -97,7 +97,7 @@ local function init(plug)
     -- Create node directory
     local nodeDirectory = Instance.new("Folder") ---@type Folder
     nodeDirectory.Name = "DrawLinesNodes"
-    TeamCreateUtil:IntroduceInstance(nodeDirectory)
+    InstanceUtil:IntroduceInstance(nodeDirectory)
     plug.State.NodeDirectory = nodeDirectory
 end
 
@@ -210,7 +210,7 @@ end
 
 ---@param plug PlugDefinition
 local function stopRunning(plug)
-    TeamCreateUtil:ClearInstance(plug.State.NodeDirectory, true)
+    InstanceUtil:ClearInstance(plug.State.NodeDirectory, true)
 end
 
 --================================================================================================================================================

@@ -12,12 +12,12 @@ position = "right"
 
 [[home.features]]
 title = "Customisable"
-description = "There are lots of ways to customise the plugin to make it fit your personal taste and accessibilty requirements"
+description = "There are many ways to customise the plugin to make it fit your personal taste and accessibilty requirements"
 
 [[home.features]]
 title = "Easy collaboration"
-description = "It's super simple to share macros among your team, be it through Roblox Studio or Rojo syncing"
+description = "It's easy to share macros among your team, be it through Team Create or Rojo"
 
 [[home.features]]
 title = "Modern"
-description = "This is probably the most powerful macro manager for Roblox (and it uses Roact & Rodux!)"
+description = "This is probably the most powerful macro manager for Roblox (and uses Roact + Rodux!)"

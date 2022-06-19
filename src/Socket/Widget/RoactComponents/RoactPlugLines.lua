@@ -228,8 +228,8 @@ local function getPlug(props)
         local isStudioRunning = SocketController:IsRunning()
         if isStudioRunning and not isBroken then
             -- Get variables
-            local isServerRunning = plug.State.Server.IsRunning and true or false
-            local isClientRunning = plug.State.Client.IsRunning and true or false
+            local isServerRunning = plug.State._Server.IsRunning and true or false
+            local isClientRunning = plug.State._Client.IsRunning and true or false
             local textLabelXOffset = -(
                     WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth * 2
                     + WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding

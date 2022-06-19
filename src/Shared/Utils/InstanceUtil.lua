@@ -1,9 +1,9 @@
 ---
 ---Nice utility functions to handle multiple instances of Socket running in Team Create
 ---
----@class TeamCreateUtil
+---@class InstanceUtil
 ---
-local TeamCreateUtil = {}
+local InstanceUtil = {}
 
 --------------------------------------------------
 -- Types
@@ -30,8 +30,8 @@ local WORKSPACE_DIRECTORY_NAME = "_SocketInstances"
 ---
 ---@overload fun(instance:Instance)
 ---
-function TeamCreateUtil:IntroduceInstance(instance, dontSetWaypoint)
-    local directory = TeamCreateUtil:GetDirectory(true)
+function InstanceUtil:IntroduceInstance(instance, dontSetWaypoint)
+    local directory = InstanceUtil:GetDirectory(true)
     instance.Parent = directory
 
     if not dontSetWaypoint then
@@ -44,9 +44,9 @@ end
 ---@param instance Instance
 ---@param doDestroy boolean
 ---
-function TeamCreateUtil:ClearInstance(instance, doDestroy)
+function InstanceUtil:ClearInstance(instance, doDestroy)
     -- Get directory this was introduced into
-    local directory = TeamCreateUtil:GetDirectory(false)
+    local directory = InstanceUtil:GetDirectory(false)
     if not directory then
         Logger:Warn(("Instance %s was not introduced?"):format(instance:GetFullName()))
         return
@@ -60,7 +60,7 @@ function TeamCreateUtil:ClearInstance(instance, doDestroy)
 
     -- Manage directory
     if #directory:GetChildren() == 0 then
-        TeamCreateUtil:Cleanup()
+        InstanceUtil:Cleanup()
     end
 end
 
@@ -69,7 +69,7 @@ end
 ---@param doCreate boolean
 ---@return Configuration
 ---
-function TeamCreateUtil:GetDirectory(doCreate)
+function InstanceUtil:GetDirectory(doCreate)
     local workspaceDirectory = game.Workspace:FindFirstChild(WORKSPACE_DIRECTORY_NAME, true)
     if not workspaceDirectory and doCreate then
         workspaceDirectory = Instance.new("Configuration") ---@type Configuration
@@ -91,7 +91,7 @@ end
 ---
 ---Cleans up as much as possible for this User
 ---
-function TeamCreateUtil:Cleanup()
+function InstanceUtil:Cleanup()
     local userId = tostring(StudioService:GetUserId())
     local workspaceDirectory = game.Workspace:FindFirstChild(WORKSPACE_DIRECTORY_NAME, true)
     local userDirectory = workspaceDirectory and workspaceDirectory:FindFirstChild(userId)
@@ -105,4 +105,4 @@ function TeamCreateUtil:Cleanup()
     end
 end
 
-return TeamCreateUtil
+return InstanceUtil

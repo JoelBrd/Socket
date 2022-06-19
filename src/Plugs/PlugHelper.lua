@@ -126,11 +126,11 @@ function PlugHelper:RunPlugAt(plug, onServer, onClient)
     -- Run in this context
     if IS_SERVER and onServer then
         local plugState = PlugHelper:RunPlug(plug)
-        plug.State.Server.IsRunning = (plugState.IsRunning == nil and plug.State.Server.IsRunning) or plugState.IsRunning
+        plug.State._Server.IsRunning = (plugState.IsRunning == nil and plug.State._Server.IsRunning) or plugState.IsRunning
         refreshState()
     elseif IS_CLIENT and onClient then
         local plugState = PlugHelper:RunPlug(plug)
-        plug.State.Client.IsRunning = (plugState.IsRunning == nil and plug.State.Client.IsRunning) or plugState.IsRunning
+        plug.State._Client.IsRunning = (plugState.IsRunning == nil and plug.State._Client.IsRunning) or plugState.IsRunning
         refreshState()
     end
 
@@ -138,7 +138,7 @@ function PlugHelper:RunPlugAt(plug, onServer, onClient)
     if IS_SERVER and onClient then
         local player = Players:GetPlayerByUserId(StudioService:GetUserId())
         local plugState = PlugClientServer:RunPlugOnClient(player, plug)
-        plug.State.Client.IsRunning = (plugState.IsRunning == nil and plug.State.Client.IsRunning) or plugState.IsRunning
+        plug.State._Client.IsRunning = (plugState.IsRunning == nil and plug.State._Client.IsRunning) or plugState.IsRunning
         refreshState()
         return
     end
@@ -146,7 +146,7 @@ function PlugHelper:RunPlugAt(plug, onServer, onClient)
     -- Client -> Server
     if IS_CLIENT and onServer then
         local plugState = PlugClientServer:RunPlugOnServer(plug)
-        plug.State.Server.IsRunning = (plugState.IsRunning == nil and plug.State.Server.IsRunning) or plugState.IsRunning
+        plug.State._Server.IsRunning = (plugState.IsRunning == nil and plug.State._Server.IsRunning) or plugState.IsRunning
         refreshState()
         return
     end
@@ -250,8 +250,8 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
     end
     plug.State = plug.State or {}
     plug.State.FieldValues = plug.State.FieldValues or {}
-    plug.State.Server = plug.State.Server or {}
-    plug.State.Client = plug.State.Client or {}
+    plug.State._Server = plug.State._Server or {}
+    plug.State._Client = plug.State._Client or {}
 
     -- EnableAutomaticUndo
     if not validateType(plugScript, plug, false, "EnableAutomaticUndo", "boolean") then

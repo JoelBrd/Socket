@@ -28,7 +28,7 @@ local PlugHelper ---@type PlugHelper
 local PlugClientServer ---@type PlugClientServer
 local SocketSettings ---@type SocketSettings
 local PluginHandler ---@type PluginHandler
-local TeamCreateUtil ---@type TeamCreateUtil
+local InstanceUtil ---@type InstanceUtil
 
 --------------------------------------------------
 -- Constants
@@ -57,7 +57,7 @@ function SocketController:Run()
     SocketSettings:ValidateSettings()
 
     -- Cleanup any instances from a bad shutdown
-    TeamCreateUtil:Cleanup()
+    InstanceUtil:Cleanup()
 
     -- Setup rodux store actions
     SocketController:SetupStudioActions()
@@ -415,7 +415,7 @@ function SocketController:Stop()
     end
 
     -- Cleanup Instances
-    TeamCreateUtil:Cleanup()
+    InstanceUtil:Cleanup()
 
     -- Clear Janitor
     runJanitor:Cleanup()
@@ -441,7 +441,7 @@ function SocketController:FrameworkInit()
     PlugClientServer = PluginFramework:Require("PlugClientServer")
     SocketSettings = PluginFramework:Require("SocketSettings")
     PluginHandler = PluginFramework:Require("PluginHandler")
-    TeamCreateUtil = PluginFramework:Require("TeamCreateUtil")
+    InstanceUtil = PluginFramework:Require("InstanceUtil")
 end
 
 ---@private

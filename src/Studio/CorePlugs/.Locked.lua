@@ -19,7 +19,7 @@ local CollectionService = game:GetService("CollectionService") ---@type Collecti
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Logger = require(Utils.Logger) ---@type Logger
 local Janitor = require(Utils.Janitor) ---@type Janitor
-local TeamCreateUtil = require(Utils.TeamCreateUtil) ---@type TeamCreateUtil
+local InstanceUtil = require(Utils.InstanceUtil) ---@type InstanceUtil
 local FieldsUtil = require(Utils.FieldsUtil) ---@type FieldsUtil
 
 --------------------------------------------------
@@ -286,7 +286,7 @@ local function manageHighlighting(plug)
         selectionBox.SurfaceColor3 = highlightColor
         selectionBox.LineThickness = highlightThickness
         selectionBox.Transparency = highlightTransparency
-        TeamCreateUtil:IntroduceInstance(selectionBox)
+        InstanceUtil:IntroduceInstance(selectionBox)
 
         return selectionBox
     end
@@ -344,7 +344,7 @@ local function manageHighlighting(plug)
             selection.SurfaceTransparency = isToggled and 0.7 or 1
         end
         for j = #plug.State.SelectionBoxes, #lockedParts + 1, -1 do
-            TeamCreateUtil:ClearInstance(plug.State.SelectionBoxes[j], true)
+            InstanceUtil:ClearInstance(plug.State.SelectionBoxes[j], true)
             table.remove(plug.State.SelectionBoxes, j)
         end
 
@@ -401,7 +401,7 @@ local function stoppedRunning(plug)
     end
 
     for _, selectionBox in pairs(plug.State.SelectionBoxes) do
-        TeamCreateUtil:ClearInstance(selectionBox, true)
+        InstanceUtil:ClearInstance(selectionBox, true)
     end
     plug.State.SelectionBoxes = nil
 end

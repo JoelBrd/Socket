@@ -1,11 +1,15 @@
 --[=[
     @class PlugField
+
+    This is a datastructure that populates [PlugDefinition#Fields] and defines the different fields that will appear for a plug on the widget.
 ]=]
 
 --[=[
     @prop Type PlugFieldType
     @tag Required
     @within PlugField
+
+    The type of data this field will take (e.g., `"number"`)
 ]=]
 
 --[=[
@@ -32,7 +36,7 @@
     We can define a `Validator` function to run our field value by when we run the plug. If there is an issue, we have `Validator`
     return a `string` detailing the issue. If everything is OK, return nil.
 
-    A good use case is if the user can define a number, but we want to make sure it is non-negative.
+    An example use case is if we have a `"number"` field, but we want to make sure it is non-negative.
     ```
     {
         Name = "Height";
@@ -64,6 +68,8 @@
     ```
     "string"|"number"|"boolean"|"Color3"|"Vector3"
     ```
+
+    There is currently no support for adding new types (unless you fork the repo and develop your own)
 ]=]
 
 --[=[
@@ -95,10 +101,10 @@
 
 --[=[
     @interface PlugState
-    @field FieldValues table<PlugField.Name,any> -- Where we can read the values of our fields from
+    @field FieldValues table<PlugField.Name,any> -- Where we can read the values in our fields from
     @field IsRunning boolean|nil -- Use this variable to toggle the state of a Plug (updates the UI)
-    @field Server PlugState -- Socket-only (used for communcicating Server/Client in Accurate Play Solo)
-    @field Client PlugState -- Socket-only (used for communcicating Server/Client in Accurate Play Solo)
+    @field _Server PlugState -- Socket-only (used for communcicating Server/Client in Accurate Play Solo)
+    @field _Client PlugState -- Socket-only (used for communcicating Server/Client in Accurate Play Solo)
     @within PlugDefinition
 
     A table to store a plug's "State". Socket writes some stuff here, but feel free to use this for whatever you need. If you overwrite any
