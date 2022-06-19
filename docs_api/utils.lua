@@ -55,3 +55,37 @@
 
     Clears an instance from our context of Socket and the user calling this function. Should be an instance that was introduced via `IntroduceInstance`
 ]=]
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--[=[
+    @class RaycastUtil
+
+    Gives some nice methods for raycasting. 
+]=]
+
+--[=[
+    @method RaycastMouse
+    @param distance number
+    @param raycastParams RaycastParams|nil
+    @param checkAllCollisionGroups boolean|nil
+    @within RaycastUtil
+
+    Sends a raycast from our camera to the point our mouse is at in the world.
+
+    `checkAllCollisionGroups=true` will make sure we raycast against parts that don't collide with the `"Default"` Collision Group (see the ".Locked" plug)
+]=]
+
+--[=[
+    @method Raycast
+    @param origin Vector3
+    @param direction Vector3
+    @param distance number
+    @param raycastParams RaycastParams|nil
+    @param checkAllCollisionGroups boolean|nil
+    @within RaycastUtil
+
+    Does a bog standard raycast.
+
+    `checkAllCollisionGroups=true` will make sure we raycast against parts that don't collide with the `"Default"` Collision Group (see the ".Locked" plug)
+]=]

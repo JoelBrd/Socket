@@ -16,7 +16,7 @@ local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Logger = require(Utils.Logger) ---@type Logger
 local Janitor = require(Utils.Janitor) ---@type Janitor
 local InstanceUtil = require(Utils.InstanceUtil) ---@type InstanceUtil
-local CameraUtil = require(Utils.CameraUtil) ---@type CameraUtil
+local RaycastUtil = require(Utils.RaycastUtil) ---@type RaycastUtil
 
 --------------------------------------------------
 -- Constants
@@ -104,7 +104,7 @@ end
 ---@param plug PlugDefinition
 local function placeNode(plug)
     -- Get position to place
-    local raycastResult = CameraUtil:RaycastMouse(RAYCAST_LENGTH, nil, true)
+    local raycastResult = RaycastUtil:RaycastMouse(RAYCAST_LENGTH, nil, true)
     if not raycastResult then
         return
     end

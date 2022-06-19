@@ -1,9 +1,9 @@
 ---
----CameraUtil
+---RaycastUtil
 ---
----@class CameraUtil
+---@class RaycastUtil
 ---
-local CameraUtil = {}
+local RaycastUtil = {}
 
 --------------------------------------------------
 -- Types
@@ -31,9 +31,7 @@ local PhysicsService = game:GetService("PhysicsService") ---@type PhysicsService
 ---
 ---@overload fun(distance:number):RaycastResult
 ---
-function CameraUtil:RaycastMouse(distance, raycastParams, checkAllCollisionGroups)
-    checkAllCollisionGroups = checkAllCollisionGroups or false
-
+function RaycastUtil:RaycastMouse(distance, raycastParams, checkAllCollisionGroups)
     -- Get Mouse Position on screen
     local mousePoint = UserInputService:GetMouseLocation()
 
@@ -42,7 +40,27 @@ function CameraUtil:RaycastMouse(distance, raycastParams, checkAllCollisionGroup
     local unitRay = camera:ViewportPointToRay(mousePoint.X, mousePoint.Y)
 
     -- Raycast
-    local raycastResult = game.Workspace:Raycast(camera.CFrame.Position, unitRay.Direction * distance, raycastParams)
+    return RaycastUtil:Raycast(camera.CFrame.Position, unitRay.Direction, distance, raycastParams, checkAllCollisionGroups)
+end
+
+---
+---Returns the RaycastResult of this raycast.
+---If `checkAllCollisionGroups` is true, will raycast in CollisionGroups that don't collide with the `Default` collision groups as well.
+---@param origin Vector3
+---@param direction Vector3
+---@param distance number
+---@param raycastParams RaycastParams
+---@param checkAllCollisionGroups boolean
+---@return RaycastResult
+---
+---@overload fun(distance:number):RaycastResult
+---
+function RaycastUtil:Raycast(origin, direction, distance, raycastParams, checkAllCollisionGroups)
+    checkAllCollisionGroups = checkAllCollisionGroups or false
+    direction = direction.Unit
+
+    -- Raycast
+    local raycastResult = game.Workspace:Raycast(origin, direction * distance, raycastParams)
     if checkAllCollisionGroups then
         -- Get groups that don't collide with default
         local groupNames = {}
@@ -62,7 +80,7 @@ function CameraUtil:RaycastMouse(distance, raycastParams, checkAllCollisionGroup
             newRaycastParams.FilterType = raycastParams and raycastParams.FilterType or newRaycastParams.FilterType
             newRaycastParams.IgnoreWater = raycastParams and raycastParams.IgnoreWater or newRaycastParams.IgnoreWater
 
-            local newRaycastResult = game.Workspace:Raycast(camera.CFrame.Position, unitRay.Direction * distance, newRaycastParams)
+            local newRaycastResult = game.Workspace:Raycast(origin, direction * distance, newRaycastParams)
             local thisIsABetterResult = not raycastResult or newRaycastResult and raycastResult.Distance > newRaycastResult.Distance
             raycastResult = thisIsABetterResult and newRaycastResult or raycastResult
         end
@@ -71,4 +89,4 @@ function CameraUtil:RaycastMouse(distance, raycastParams, checkAllCollisionGroup
     return raycastResult
 end
 
-return CameraUtil
+return RaycastUtil

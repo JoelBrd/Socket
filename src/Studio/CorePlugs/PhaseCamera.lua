@@ -11,7 +11,7 @@
 local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Logger = require(Utils.Logger) ---@type Logger
-local CameraUtil = require(Utils.CameraUtil) ---@type CameraUtil
+local RaycastUtil = require(Utils.RaycastUtil) ---@type RaycastUtil
 
 --------------------------------------------------
 -- Constants
@@ -51,7 +51,7 @@ plugDefinition.Function = function(plug, _)
     local camera = game.Workspace.CurrentCamera
 
     -- Raycast for point
-    local raycastResult = CameraUtil:RaycastMouse(distance, nil, true)
+    local raycastResult = RaycastUtil:RaycastMouse(distance, nil, true)
 
     if raycastResult then
         local position = raycastResult.Position
