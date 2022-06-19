@@ -32,7 +32,7 @@
     A Util object that gives some nice methods for when a plug needs to create instances + place them somewhere in the workspace. It places instances
     under a Socket folder, under this specific user - useful for Team Create!
 
-    Instances parented using this class will be automatically cleaned up when Socket closes. You may still want to have a `BindToClose` implementation,
+    Instances parented using this class will be automatically cleaned up when Socket closes (but only for the specific user in Team Create). You may still want to have a `BindToClose` implementation,
     depending on what your plug does and if you need to handle cases where the plugin isn't closed properly (e.g., Studio crash)
 
     This can be required under `game.ServerStorage.SocketPlugin.Utils.InstanceUtil`

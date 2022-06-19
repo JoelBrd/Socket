@@ -1,3 +1,9 @@
+classOrder = [
+    "PlugDefinition",
+    "PlugField",
+    "SocketSettings",
+]
+
 [docusaurus]
 tagline = "A Macro Manager Plugin for Roblox"
 favicon = "/square_logo.png"

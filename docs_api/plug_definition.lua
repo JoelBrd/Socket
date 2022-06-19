@@ -7,7 +7,7 @@
 
     Many fields are `Populated`, where if it is not defined in your [PlugDefinition], will be auto-filled by Socket with a default value.
     
-    There are some `Read-Only` fields, that you should not define in your [PlugDefinition] and let them be `Popualted` by Socket.
+    There are some `Read-Only` fields, that you'll want to avoid defining in your [PlugDefinition] and let them be `Populated` by Socket.
 ]=]
 
 --[=[
@@ -70,7 +70,7 @@
     @tag Populated
     @within PlugDefinition
 
-    The group that the **Plug** belongs to. Any plugs with matching `Group` will be group together on the Widget
+    The group that the **Plug** belongs to. Any plugs with a matching `Group` value will be grouped together on the Widget
 
     Defaults to `"No Group"`
 ]=]
@@ -80,8 +80,8 @@
     @tag Populated
     @within PlugDefinition
 
-    Give a `Group` a pretty color on the Widget! If you have multiple **Plugs** under the same `Group`, `GroupColor` need only be defined
-    on a singular `PlugDefinition`
+    Give the `Group` text a pretty color on the Widget! If you have multiple **Plugs** under the same `Group`, `GroupColor` need only be defined
+    on a singular `PlugDefinition`.
 
     Defaults to `Color.fromRGB(255, 255, 255)`
 ]=]
@@ -158,8 +158,8 @@
     You can obviously set this to `false` (or don't declare the field) if you want to write your own implementation.
 
     :::tip
-    When you run "Undo" in Studio, it will undo the last change under the `DataModel` (`game`). If your **Plug** just prints to the output (and doesn't
-    make any changes to the `DataModel`) it will undo your last change unrelated to your **Plug**
+    When you run "Undo" in Studio, it will undo the last change under the `DataModel` (`game`). If, for example, your **Plug** just prints to the output (and doesn't
+    make any changes to the `DataModel`) it will undo the last change unrelated to your **Plug**
     :::
 
     Defaults to `false`
@@ -208,6 +208,8 @@
 
     :::tip
     Will not work if any of the inputs have `gameProcessedEvent` set to true. See: [UserInputService]
+
+    To disable this, see [TODO]
     :::
 
     Defaults to `{}`
@@ -218,7 +220,8 @@
     @tag Populated
     @within PlugDefinition
 
-    An array of `PlugField`, which define the different fields the **Plug** has
+    An array of `PlugField`, which define the different fields the **Plug** has. The order they are defined is the order they will appear
+    on the widget.
     ```lua
     {
         Fields = { 
@@ -258,11 +261,13 @@
     A `BindableEvent` to listen to field values being changed on the UI!
     ```
     plug.FieldChanged.Event:Connect(function(fieldName, fieldValue)
-        -- plug:GetFieldValue(fieldName) === fieldValue
+        print(plug:GetFieldValue(fieldName) == fieldValue)
     end)
+
+    -- Output: true
     ```
 
-    Most cases it will suffice to just read `plug:GetFieldValue(fieldName)` as and when you need a field value. But sometimes you may need to re-run some routines
+    Most cases it will suffice to just read `plug:GetFieldValue(fieldName)` as and when you need a field value. But sometimes you may want to re-run routines
     after a field value change.
 ]=]
 
@@ -272,7 +277,7 @@
     @within PlugDefinition
 
     A persistent `State` of the **Plug** while the Socket plugin is running. We can write to this inside the `PlugDefinition`, and
-    read/write to it in our `Function` and `BindToState` functions.
+    read/write to it in our `Function` and `BindToClose/BindToOpen` functions.
 
     We can declare default values for fields:
     ```lua
@@ -285,7 +290,7 @@
         }
         State = {
             FieldValues = {
-                Size = Vector3.new(2, 2, 2);
+                Size = Vector3.new(2, 2, 2); -- Will automatically appear on the Widget
             }
         }
     }
@@ -297,37 +302,21 @@
 
     -- PlugDefinition that, when running, will print the time since the last frame
     {
-        Fields = {
-            {
-                Name = "Timer";
-                Type = "number";
-                IsRequired = true;
-            }
-        }
-        State = {
-            IsRunning = false
-        }
         Function = function(plug, plugin)
             -- Toggle running state
-            plug.State.IsRunning = not plug.State.IsRunning
+            plug:ToggleIsRunning()
 
             -- Get Variables
             local timer = plug.State.FieldValues.Timer
             local isRunning = plug.State.IsRunning
         
             if isRunning then
-                plug.State.HeartbeatConnection = Heartbeat:Connect(function(dt)
+                -- Add to our RunJanitor
+                -- Automatically gets cleaned up when we toggle IsRunning to false via ToggleIsRunning
+                -- Also gets cleaned up when BindToClose is called
+                plug.RunJanitor:Add(Heartbeat:Connect(function(dt)
                     Logger:PlugInfo(plug, ("dt: %f"))
-                end)
-            elseif plug.State.HeartbeatConnection then
-                plug.State.HeartbeatConnection:Disconnect()
-                plug.State.HeartbeatConnection = nil
-            end
-        end
-        BindToClose = function(plug, plugin)
-            if plug.State.HeartbeatConnection then
-                plug.State.HeartbeatConnection:Disconnect()
-                plug.State.HeartbeatConnection = nil
+                end))
             end
         end
     }
@@ -350,7 +339,7 @@
 
     A [Janitor](https://github.com/howmanysmall/Janitor) object, intended to be used to cleanup tasks after a plug stops running.
 
-    Is automatically cleaned up when using `plug:ToggleIsRunning()`
+    Is automatically cleaned up when using `plug:ToggleIsRunning()`, and on `BindToClose`
 ]=]
 
 --[=[
@@ -393,12 +382,14 @@
 
     Use this to clean anything up instantiated by the **Plug**
     
-    :::tip
-    Along with `BindToClose` being called, we also set `IsRunning=false`
-    :::
     :::caution
     This function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent
     :::
+
+    Order of operations:
+    1) `BindToClose` is called
+    2) `plug.State.IsRunning = false`
+    3) `plug.RunJanitor:Cleanup()`
 ]=]
 
 --[=[
@@ -411,8 +402,12 @@
 
     For the most part, Socket is really good at calling `BindToClose` when it is needed, but there are some Roblox limitations.
     Imagine we have a plug that makes significant changes in `game.Workspace` (e.g., changes the `Color3` of part(s)). If Roblox Studio
-    is suddenly closed, or crashes, it's possible the changes the plug made will be saved, but the stopping logic is never ran. `BindToOpen` can
-    be used to run checks to cleanup any mess left from the previous session. This is more a failsafe than a requirement, but will save headaches!
+    is suddenly closed, or crashes, it's possible the changes the plug made will be saved, but the "stopping" logic is never run. `BindToOpen` can
+    be used to run checks to cleanup any mess left from the previous session. This is more a failsafe than a requirement, but can save headaches!
 
     For a good example use-case, see the Socket Core Plug `.Locked`
+
+    :::caution
+    This function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent
+    :::
 ]=]

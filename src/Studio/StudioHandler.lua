@@ -110,8 +110,8 @@ function StudioHandler:ValidatePlugs()
     local corePlugsFolder = StudioHandler.Folders.Plugs.Core
 
     -- Copy over core plugs UNLESS we're running on client (`PlugClientServer` handles this) (or got something disabled)
-    local doEnableCorePlugs = SocketSettings:GetSetting("EnableCorePlugs")
-    local doEnableCorePlugsOverwrite = SocketSettings:GetSetting("EnableCorePlugsOverwrite")
+    local doEnableCorePlugs = SocketSettings:GetSetting("EnableSocketPlugs")
+    local doEnableCorePlugsOverwrite = SocketSettings:GetSetting("EnableSocketPlugsOverwrite")
     if not (IS_RUNNING and IS_CLIENT) and doEnableCorePlugs then
         local internalCorePlugsFolder = script.Parent.CorePlugs
         local plugsModuleScripts = internalCorePlugsFolder:GetChildren() ---@type ModuleScript[]

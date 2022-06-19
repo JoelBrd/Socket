@@ -104,7 +104,7 @@ end
 ---@param plug PlugDefinition
 local function placeNode(plug)
     -- Get position to place
-    local raycastResult = CameraUtil:RaycastMouse(RAYCAST_LENGTH)
+    local raycastResult = CameraUtil:RaycastMouse(RAYCAST_LENGTH, nil, true)
     if not raycastResult then
         return
     end

@@ -52,50 +52,50 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
---[=[
-    @class PlugFieldType
+-- --[=[
+--     @class PlugFieldType
 
-    A data structure to define the different types of plug fields.
-]=]
+--     A data structure to define the different types of plug fields.
+-- ]=]
 
---[=[
-    @prop Name string
-    @within PlugFieldType
+-- --[=[
+--     @prop Name string
+--     @within PlugFieldType
 
-    The string that should be referenced inside a `PlugDefinition` for a `PlugField`'s `PlugFieldType` 
+--     The string that should be referenced inside a `PlugDefinition` for a `PlugField`'s `PlugFieldType`
 
-    Socket comes with the following types:
-    ```
-    "string"|"number"|"boolean"|"Color3"|"Vector3"
-    ```
+--     Socket comes with the following types:
+--     ```
+--     "string"|"number"|"boolean"|"Color3"|"Vector3"
+--     ```
 
-    There is currently no support for adding new types (unless you fork the repo and develop your own)
-]=]
+--     There is currently no support for adding new types (unless you fork the repo and develop your own)
+-- ]=]
 
---[=[
-    @prop Icon string
-    @within PlugFieldType
+-- --[=[
+--     @prop Icon string
+--     @within PlugFieldType
 
-    A small string/emoji
-]=]
+--     A small string/emoji
+-- ]=]
 
---[=[
-    @function Validate
-    @param value string
-    @return any|nil
-    @within PlugFieldType
+-- --[=[
+--     @function Validate
+--     @param value string
+--     @return any|nil
+--     @within PlugFieldType
 
-    Takes an input value, and returns a type-safe version. Can return nil if there is nothing we can do with it.
-]=]
+--     Takes an input value, and returns a type-safe version. Can return nil if there is nothing we can do with it.
+-- ]=]
 
---[=[
-    @function ToString
-    @param value any
-    @return string
-    @within PlugFieldType
+-- --[=[
+--     @function ToString
+--     @param value any
+--     @return string
+--     @within PlugFieldType
 
-    Takes a type-safe value, and returns it as a string that can be put into the field `TextBox` on the UI.
-]=]
+--     Takes a type-safe value, and returns it as a string that can be put into the field `TextBox` on the UI.
+-- ]=]
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 

@@ -47,6 +47,21 @@ local function refreshState()
     SocketController:GetStore():dispatch(action)
 end
 
+local function getMessageAndTracebackOnError(func, ...) -- similar to "tpcall" below
+    local traceback
+    local errMsg
+    local result = table.pack(xpcall(func, function(err)
+        traceback = debug.traceback()
+        errMsg = err
+    end, ...))
+
+    if result[1] then
+        return true, nil, nil
+    end
+
+    return false, errMsg, traceback
+end
+
 ---
 ---Runs a plug, then returns its state after the fact.
 ---@param plug PlugDefinition
@@ -87,14 +102,12 @@ function PlugHelper:RunPlug(plug)
     end
 
     -- Run Plug
-    local success, err = pcall(function()
-        plug.Function(plug, PluginHandler:GetPlugin())
-    end)
+    local success, err, traceback = getMessageAndTracebackOnError(plug.Function, plug, PluginHandler:GetPlugin())
     threadIsGood = true
 
     -- Show error
     if not success then
-        Logger:PlugWarn(plug, ("ERROR: %s"):format(err))
+        Logger:PlugWarn(plug, ("ERROR: %s\n%s"):format(err, traceback))
     end
 
     -- Set waypoint

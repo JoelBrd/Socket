@@ -8,16 +8,14 @@
 
 --------------------------------------------------
 -- Dependencies
-local UserInputService = game:GetService("UserInputService") ---@type UserInputService
 local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Logger = require(Utils.Logger) ---@type Logger
+local CameraUtil = require(Utils.CameraUtil) ---@type CameraUtil
 
 --------------------------------------------------
 -- Constants
-local LOCKED_COLLISION_GROUP_NAME = "SocketLocked"
-local LOCKED_RAYCAST_PARAMS = RaycastParams.new()
-LOCKED_RAYCAST_PARAMS.CollisionGroup = LOCKED_COLLISION_GROUP_NAME
+-- ...
 
 --------------------------------------------------
 -- Members
@@ -49,19 +47,11 @@ plugDefinition.Function = function(plug, _)
     -- Read Fields
     local distance = plug:GetFieldValue("Distance")
 
-    -- Get Mouse Position on screen
-    local mousePoint = UserInputService:GetMouseLocation()
-
-    -- Get Ray
+    -- Get Camera
     local camera = game.Workspace.CurrentCamera
-    local unitRay = camera:ViewportPointToRay(mousePoint.X, mousePoint.Y)
 
     -- Raycast for point
-    local raycastResult = game.Workspace:Raycast(camera.CFrame.Position, unitRay.Direction * distance)
-    if not raycastResult then
-        -- Be compatible with .Locked
-        raycastResult = game.Workspace:Raycast(camera.CFrame.Position, unitRay.Direction * distance, LOCKED_RAYCAST_PARAMS)
-    end
+    local raycastResult = CameraUtil:RaycastMouse(distance, nil, true)
 
     if raycastResult then
         local position = raycastResult.Position
