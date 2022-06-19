@@ -1,5 +1,5 @@
 <div align="center">
-    <p><strong>Socket</strong></p>
+    <p><b>Socket</b></p>
 	<img src=".moonwave/static/square_logo.png" alt="Socket" height="150" />
     <p>A macro plugin for Roblox</p>
 	<br>
