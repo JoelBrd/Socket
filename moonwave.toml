@@ -1,6 +1,6 @@
 [docusaurus]
 tagline = "A Macro Manager Plugin for Roblox"
-favicon = "/favicon.png"
+favicon = "/square_logo.png"
 
 [home]
 enabled = true
