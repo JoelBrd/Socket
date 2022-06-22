@@ -6,7 +6,7 @@ classOrder = [
 
 [docusaurus]
 tagline = "A Macro Manager Plugin for Roblox"
-favicon = "/square_logo.png"
+favicon = "/square_logo_512.png"
 
 [home]
 enabled = true
