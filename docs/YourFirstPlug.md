@@ -23,48 +23,39 @@ You'll get a `ModuleScript` with a `Source` similar to:
 ---
 
 --------------------------------------------------
--- Types
--- ...
-
---------------------------------------------------
 -- Dependencies
 local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Logger = require(Utils.Logger) ---@type Logger
 
 --------------------------------------------------
--- Constants
--- ...
-
---------------------------------------------------
 -- Members
 
 ---@type PlugDefinition
 local plugDefinition = {
-    Group = "No Group", ---@type string
+    Group = "%s", ---@type string
     GroupColor = nil, ---@type Color3
     GroupIcon = nil, ---@type string
     GroupIconColor = nil, ---@type Color3
 
-    Name = "No Name",
+    Name = "%s",
     NameColor = nil, ---@type Color3
-    Icon = "🔌",
+    Icon = "%s",
     IconColor = nil, ---@type Color3
 
-    Description = "No Name Description", ---@type string
-    State = {}, ---@type PlugState
+    Description = "%s", ---@type string
     EnableAutomaticUndo = false, ---@type boolean
+    AutoRun = false, ---@type boolean
     Keybind = {}, ---@type Enum.KeyCode[]
     Fields = {}, ---@type PlugField[]
 
     Function = nil, ---@type fun(plug:PlugDefinition, plugin:Plugin)
-    BindToClose = nil, ---@type fun(plug:PlugDefinition, plugin:Plugin)
 }
 
 ---@param plug PlugDefinition
 ---@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
-    Logger:PlugInfo(plug, "Hello!")
+    Logger:PlugInfo(plug, ("Hello, from %s!"):format(plug.Name))
 end
 
 return plugDefinition
@@ -91,7 +82,7 @@ We now have a fresh **Plug**, and have played around with how it appears on the 
 [Function](/api/PlugDefinition#Function) gets passed 2 parameters; `plug`: [PlugDefinition](/api/PlugDefinition), `plugin`: [Plugin].
 
 * `plug` is our [PlugDefinition](/api/PlugDefinition). It is important we reference `plug`, and **not** `plugDefinition`. Changes are made outside the scope of the `ModuleScript` (e.g., if we change a `Field` value on the *Widget*, this is written to `plug` and **not** `plugDefinition`)
-* `plugin` is the actual [Plugin] object that **Socket** is under; this is passed for special use cases, as the [Plugin] object has unique API
+* `plugin` is the actual [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin) object that **Socket** is under; this is passed for special use cases, as the [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin) object has unique API
 
 ### Logging
 
@@ -106,13 +97,13 @@ This is just a nice way to print to the output, and show the **Plug** scope it c
 
 You can reference any members of `plug` (see [PlugDefinition](/api/PlugDefinition)) - most notably `plug.State` (see [PlugState](/api/PlugDefinition#PlugState))
 
-#### `plug.State.IsRunning`
+#### `plug.State.IsRunning` & `plug:ToggleIsRunning()`
 
-We can use this value to toggle the state of our **Plug**, so we can have a routine that gets toggled on/off. You *could* declare your own variable in `plug.State` to do this, but using `IsRunning` will give us some nice feedback on the *Widget* UI.
+We may want to have a **Plug** that has a toggleable routine; aka we can turn it on and off. We can change `plug.State.IsRunning` to indicate on the widget if the plug is running or not. Check out the API [here](/api/PlugDefinition#ToggleIsRunning)
 
 #### `plug.State.FieldValues`
 
-This is where we access the values of our fields, and make use of them. If we have declared a field such as:
+This is where the declared values of fields exist. If we have declared a field such as:
 ```lua
 {
 	Fields = {
@@ -123,8 +114,7 @@ This is where we access the values of our fields, and make use of them. If we ha
 	}
 }
 ```
-We can access the value via
-`local amount = plug.State.FieldValues.Amount`
+We can access the value via `local amount = plug.State.FieldValues.Amount` - or more nicely `local amount = plug:GetFieldValue("Amount")`
 Note that amount may not exist, so we can either:
 1. Run this check in our `Function`
 2. Do 
@@ -160,7 +150,7 @@ A nice trick we can do is if we want to declare a default value for a Field, we 
 
 ### BindToClose
 
-Imagine we have a **Plug** that is running routines (`IsRunning=true`), but we then delete the `ModuleScript` for that **Plug**, or we close the [Plugin]? We could still have code running that would've normally been stopped by toggling the **Plug**. This is where [BindToClose](/api/PlugDefinition#BindToClose) comes in.
+Imagine we have a **Plug** that is running routines (`IsRunning=true`), but we then delete the `ModuleScript` for that **Plug**, or we close the [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin)? We could still have code running that would've normally been stopped by toggling the **Plug**. This is where [BindToClose](/api/PlugDefinition#BindToClose) comes in.
 
 Example:
 ```lua
@@ -214,360 +204,43 @@ while plug.State.IsRunning do
 -- ...
 end
 ```
-The loop would stop and does not require a `BindToClose` function
+The loop would stop and does not require a `BindToClose` function. We also cleanup the `RunJanitor` when `BindToClose` is called. Check out the API [here](/api/PlugDefinition/BindToClose)
 :::
 
-## Midas Touch **Plug**
-
-Lets go through an example here by creating a **Plug** that makes parts look golden.
-
-### Create the Plug
-
-We'll start off by placing a `ModuleScript` at `game.ServerStorage.SocketPlugin.Plugs.MidasTouch`:
+The above example was to demonstrate the functionality of `BindToClose`; a much cleaner structure would be:
 ```lua
----
----Midas Touch
----
+    local Heartbeat = game:GetService("RunService").Heartbeat
 
---------------------------------------------------
--- Dependencies
-local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
-local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local Logger = require(Utils.Logger) ---@type Logger
+    -- PlugDefinition that, when running, will print the time since the last frame
+    local plugDefinition = {
+		-- ...
+        Fields = {
+            {
+                Name = "Timer";
+                Type = "number";
+                IsRequired = true;
+            }
+        }
+        State = {
+            IsRunning = false
+        }
+        Function = function(plug, plugin)
+            -- Toggle running state
+			plug:ToggleIsRunning()
 
---------------------------------------------------
--- Members
-
----@type PlugDefinition
-local plugDefinition = {
-    Group = "Golden",
-    Name = "Midas Touch",
-    Description = "Makes parts gold",
-}
-
----@param plug PlugDefinition
----@param plugin Plugin
-plugDefinition.Function = function(plug, plugin)
-    Logger:PlugInfo(plug, "I command you to make parts golden!")
-end
-
-return plugDefinition
-
-```
-**Result:**
-
-![image](/midas_touch_1.png)
-
-### Make it pretty
-
-This is looking a touch bland on our *Widget*, lets juice it up a bit.
-```lua
-local plugDefinition = {
-	Group = "Golden",
-	GroupColor = Color3.fromRGB(255, 180, 0),
-	GroupIcon = "👑",
-	Name = "Midas Touch",
-	Icon = "🤏";
-	Description = "Makes parts gold",
-}
-```
-**Better!**
-
-![image](/midas_touch_2.png)
-
-### v1
-
-The **Plug** currently doesn't do anything, other than print a silly message to the output window. Lets make it so when we run the *Midas Touch* **Plug**, it will make any parts that we have selected turn to gold:
-```lua
----
----Midas Touch
----
-
---------------------------------------------------
--- Dependencies
-local Selection = game:GetService("Selection")
-local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
-local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local Logger = require(Utils.Logger) ---@type Logger
-
---------------------------------------------------
--- Constants
-local COLOR_GOLD = Color3.fromRGB(255, 180, 0)
-
---------------------------------------------------
--- Members
-
----@type PlugDefinition
-local plugDefinition = {
-	Group = "Golden",
-	GroupColor = COLOR_GOLD,
-	GroupIcon = "👑",
-	Name = "Midas Touch",
-	Icon = "🤏";
-	Description = "Converts any parts we have selected turn to gold",
-}
-
----@param plug PlugDefinition
----@param plugin Plugin
-plugDefinition.Function = function(plug, plugin)
-	-- Get our selected instances, and filter out any non-parts
-	local selectedInstances = Selection:Get()
-	local parts = {}
-	for _,instance in pairs(selectedInstances) then
-		if instance:IsA("BasePart") then
-			table.insert(parts, instance)
-		end
-	end
-
-	-- Apply a gold finish to each part
-	for _,part in pairs(parts) do
-		part.Color = COLOR_GOLD
-		part.Material = Enum.Material.Foil
-	end
-
-    Logger:PlugInfo(plug, ("I encrusted %d parts with gold!"):format(#parts))
-end
-
-return plugDefinition
-
-```
-**Cool!**
-
-![image](/midas_touch_3.png)
-
-### v2
-
-#### Automatic Undo
-
-v1 was all well and good, but what if I accidentally gold-ify a part that I didn't want to? We need to setup `ChangeHistoryService` waypoints to implement this, or we can simply do:
-```lua
-EnableAutomaticUndo = true
-```
-
-#### More colors
-
-I'm also not super happy with it always being the same color; lets add 2 color fields that we will uniformly interpolate between.
-```lua
-{
-	Fields = {
-		{
-			Name = "Color1",
-			Type = "Color3",
-			IsRequired = true,
-		},
-		{
-			Name = "Color2",
-			Type = "Color3",
-			IsRequired = true,
-		},
-	}
-}
-```
-
-![image](/midas_touch_4.png)
-
-#### Real time
-
-Finally, I don't want to have to click Run, or use a Keybind, to make a part gold. I want to
-1. Make the **Plug** toggleable
-2. Whenever the **Plug** is running, any parts I select will turn to gold in real time.
-
-Lets write some code to make this happen..
-```lua
----
----Midas Touch
----
-
---------------------------------------------------
--- Dependencies
-local Selection = game:GetService("Selection")
-local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
-local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local Logger = require(Utils.Logger) ---@type Logger
-
---------------------------------------------------
--- Constants
-local COLOR_GOLD = Color3.fromRGB(255, 180, 0)
-
---------------------------------------------------
--- Members
-
----@type PlugDefinition
-local plugDefinition = {
-	Group = "Golden",
-	GroupColor = COLOR_GOLD,
-	GroupIcon = "👑",
-	Name = "Midas Touch",
-	Icon = "🤏";
-	Description = "Converts any parts we have selected turn to gold",
-	EnableAutomaticUndo = true,
-	Fields = {
-		{
-			Name = "ColorA",
-			Type = "Color3",
-			IsRequired = true,
-		},
-		{
-			Name = "ColorB",
-			Type = "Color3",
-			IsRequired = true,
-		},
-	},
-	State = {
-		IsRunning = false,
-	},
-}
-
----@param plug PlugDefinition
----@param plugin Plugin
-plugDefinition.Function = function(plug, plugin)
-	-- Toggle running
-	plug.State.IsRunning = not plug.State.IsRunning
-	
-	-- Get Variables
-	local isRunning = plug.State.IsRunning
-	local colorA = plug.State.FieldValues.ColorA
-	local colorB = plug.State.FieldValues.ColorB
-	
-	if isRunning then
-		plug.State.SelectionChangedConnection = Selection.SelectionChanged:Connect(function()
-			-- Get our selected instances, and filter out any non-parts
-			local selectedInstances = Selection:Get()
-			local parts = {}
-			for _,instance in pairs(selectedInstances) do
-				if instance:IsA("BasePart") then
-					table.insert(parts, instance)
-				end
+			-- RETURN: Not running
+			if not plug.State.IsRunning then
+				return
 			end
-			
-			-- Apply a gold finish to each part
-			for _,part in pairs(parts) do
-				part.Color = colorA:Lerp(colorB, math.random())
-				part.Material = Enum.Material.Foil
-			end
-			
-			if #parts > 0 then
-				Logger:PlugInfo(plug, ("I encrusted %d parts with gold!"):format(#parts))
-			end
-		end)
-	else
-		plug.State.SelectionChangedConnection:Disconnect()
-		plug.State.SelectionChangedConnection = nil
-	end
-end
 
-return plugDefinition
-```
-**Fantastic <3**
+            -- Get Variables
+            local timer = plug.State.FieldValues.Timer
 
-![image](/midas_touch_v2.gif)
-
-### v3
-
-With v2, if we close **Socket** while running the *Midas Touch* **Plug**, we will be encrusting parts forever as we never toggle the **Plug** to stop it running. The Solution:
-```lua
----@param plug PlugDefinition
----@param plugin Plugin
-plugDefinition.BindToClose = function(plug, plugin)
-	if plug.State.SelectionChangedConnection then
-		plug.State.SelectionChangedConnection:Disconnect()
-		plug.State.SelectionChangedConnection = nil
-	end
-end
-```
-
-#### Our Final Plug
-```lua
----
----Midas Touch
----
-
---------------------------------------------------
--- Dependencies
-local Selection = game:GetService("Selection")
-local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
-local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local Logger = require(Utils.Logger) ---@type Logger
-
---------------------------------------------------
--- Constants
-local COLOR_GOLD = Color3.fromRGB(255, 180, 0)
-
---------------------------------------------------
--- Members
-
----@type PlugDefinition
-local plugDefinition = {
-	Group = "Golden",
-	GroupColor = COLOR_GOLD,
-	GroupIcon = "👑",
-	Name = "Midas Touch",
-	Icon = "🤏";
-	Description = "Converts any parts we have selected turn to gold",
-	EnableAutomaticUndo = true,
-	Fields = {
-		{
-			Name = "ColorA",
-			Type = "Color3",
-			IsRequired = true,
-		},
-		{
-			Name = "ColorB",
-			Type = "Color3",
-			IsRequired = true,
-		},
-	},
-	State = {
-		IsRunning = false,
-	},
-}
-
----@param plug PlugDefinition
----@param plugin Plugin
-plugDefinition.Function = function(plug, plugin)
-	-- Toggle running
-	plug.State.IsRunning = not plug.State.IsRunning
-	
-	-- Get Variables
-	local isRunning = plug.State.IsRunning
-	local colorA = plug.State.FieldValues.ColorA
-	local colorB = plug.State.FieldValues.ColorB
-	
-	if isRunning then
-		plug.State.SelectionChangedConnection = Selection.SelectionChanged:Connect(function()
-			-- Get our selected instances, and filter out any non-parts
-			local selectedInstances = Selection:Get()
-			local parts = {}
-			for _,instance in pairs(selectedInstances) do
-				if instance:IsA("BasePart") then
-					table.insert(parts, instance)
-				end
-			end
-			
-			-- Apply a gold finish to each part
-			for _,part in pairs(parts) do
-				part.Color = colorA:Lerp(colorB, math.random())
-				part.Material = Enum.Material.Foil
-			end
-			
-			if #parts > 0 then
-				Logger:PlugInfo(plug, ("I encrusted %d parts with gold!"):format(#parts))
-			end
-		end)
-	else
-		plug.State.SelectionChangedConnection:Disconnect()
-		plug.State.SelectionChangedConnection = nil
-	end
-end
-
----@param plug PlugDefinition
----@param plugin Plugin
-plugDefinition.BindToClose = function(plug, plugin)
-	if plug.State.SelectionChangedConnection then
-		plug.State.SelectionChangedConnection:Disconnect()
-		plug.State.SelectionChangedConnection = nil
-	end
-end
-
-return plugDefinition
+			-- Setup Loop
+			plug.RunJanitor:Add(Heartbeat:Connect(function(dt)
+                    Logger:PlugInfo(plug, ("dt: %f"))
+            end))
+        end
+		-- ...
+    }
 ```

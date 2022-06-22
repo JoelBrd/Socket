@@ -89,3 +89,17 @@
 
     `checkAllCollisionGroups=true` will make sure we raycast against parts that don't collide with the `"Default"` Collision Group (see the ".Locked" plug)
 ]=]
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--[=[
+    @class Promise
+
+    See [Promise](https://eryn.io/roblox-lua-promise/)
+]=]
+
+--[=[
+    @class Janitor
+
+    See [Janitor](https://github.com/howmanysmall/Janitor)
+]=]

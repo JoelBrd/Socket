@@ -298,6 +298,7 @@ function SocketController:SetupPlugActions()
     -- Hook up listener events for plug files being added/removed
     runJanitor:Add(plugsFolder.DescendantAdded:Connect(function(descendant)
         if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
+            task.wait() -- May have been added through a Rojo Sync
             newPlugScript(descendant)
         end
     end))

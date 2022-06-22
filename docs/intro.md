@@ -13,7 +13,7 @@ sidebar_position: 1
 **Socket** is a Roblox plugin that allows us to easily run code in Roblox Studio.
 
 #### Why do I need **Socket** when I have the **Command Line**?
-You can obviously run code through the command line, but you're limited to this interface:
+You can run code through the command line, but you're limited to this interface:
 
 ![image](/command_line.png)
 
@@ -21,17 +21,17 @@ This interface is much nicer, don't you think?
 
 ![image](/widget_interface.png)
 
-**Socket** is a *"macro manager"*; we can pre-define code, and run it via the Run buttons on the Widget. There is functionality to run these *"macros"* via a keybind,
+**Socket** is a macro manager; we can pre-define code, and run it via the Run buttons on the Widget. There is functionality to run these *"macros"* via a keybind,
 we can define fields values for our macros to use and more.
 
 There are other tools out there that provide this *"macro manager"* functionality, so why use **Socket**?
 
 ## Why Socket?
 :::info
-"Macros" <==> "Plugs"
+The desire to create Socket came from wanting a plugin that could have the functionality of multiple plugins. You could just add multiple buttons to the plugin toolbar,
+but this doesn't scale well. Introducing Socket!
 
-Many would define **Socket** as a *macro manager*. Albeit true, it's design originated from wanting to create a plugin that could have the functionality of 
-multiple plugins. In the real world, "Plugs" "Plug in" into "Sockets" - so **Socket** and it's **Plugs** were born!
+We call individual macros "Plugs", as a Plug will Plug-in to a Socket IRL
 :::
 
 ### Organisation

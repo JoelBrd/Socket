@@ -24,7 +24,7 @@ local PLUGIN_NAME = "Socket"
 local TOOLBAR_NAME = PLUGIN_NAME
 local TOOLBAR_BUTTON_TITLE = "Open"
 local TOOLBAR_BUTTON_DESCRIPTION = "Opens the Socket widget"
-local TOOLBAR_LOGO_ICON = "rbxassetid://8754658166"
+local TOOLBAR_LOGO_ICON = "rbxassetid://9988462830"
 
 local WIDGET_NAME = PLUGIN_NAME
 local WIDGET_INFO = DockWidgetPluginGuiInfo.new(
