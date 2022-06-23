@@ -204,7 +204,7 @@ while plug.State.IsRunning do
 -- ...
 end
 ```
-The loop would stop and does not require a `BindToClose` function. We also cleanup the `RunJanitor` when `BindToClose` is called. Check out the API [here](/api/PlugDefinition/BindToClose)
+The loop would stop and does not require a `BindToClose` function. We also cleanup the `RunJanitor` when `BindToClose` is called. Check out the API [here](/api/PlugDefinition#BindToClose)
 :::
 
 The above example was to demonstrate the functionality of `BindToClose`; a much cleaner structure would be:

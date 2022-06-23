@@ -12,7 +12,7 @@ favicon = "/square_logo_512.png"
 enabled = true
 
 [[navbar.items]]
-href = "https://www.roblox.com/users/16290995/profile"
+href = "https://www.roblox.com/library/9988470603/Socket"
 label = "Roblox"
 position = "right"
 

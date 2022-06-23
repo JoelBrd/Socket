@@ -1,7 +1,9 @@
 ---
 sidebar_position: 4
 ---
-# Example 1 | Midas Touch **Plug**
+
+# Examples
+## Example 1 | Midas Touch Plug
 
 Lets go through an example here by creating a **Plug** that makes parts look golden.
 
