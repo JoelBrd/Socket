@@ -26,17 +26,6 @@
           }
         }
       }
-    },
-
-    "ServerStorage": {
-      "$className": "ServerStorage",
-      "SocketPlugin": {
-        "$className": "Configuration",
-        "Plugs": {
-          "$className": "Folder",
-          "$path": "src/Studio/TestingPlugs"
-        }
-      }
     }
   }
 }

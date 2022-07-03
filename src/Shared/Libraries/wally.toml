@@ -9,7 +9,6 @@ shared-packages = "game.ReplicatedStorage.Packages"
 
 [dependencies]
 roact = "roblox/roact@1.4.2"
-testez = "roblox/testez@0.4.1"
 promise = "evaera/promise@4.0.0"
 janitor = "howmanysmall/janitor@1.14.1"
 rodux = "roblox/rodux@3.0.0"
