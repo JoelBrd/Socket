@@ -17,22 +17,19 @@ We'll start off by placing a `ModuleScript` at `game.ServerStorage.SocketPlugin.
 
 --------------------------------------------------
 -- Dependencies
-local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
+local ServerStorage = game:GetService("ServerStorage")
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local Logger = require(Utils.Logger) ---@type Logger
+local Logger = require(Utils.Logger)
 
 --------------------------------------------------
 -- Members
 
----@type PlugDefinition
 local plugDefinition = {
     Group = "Golden",
     Name = "Midas Touch",
     Description = "Makes parts gold",
 }
 
----@param plug PlugDefinition
----@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
     Logger:PlugInfo(plug, "I command you to make parts golden!")
 end
@@ -46,7 +43,7 @@ return plugDefinition
 
 ### Make it pretty
 
-This is looking a touch bland on our *Widget*, lets juice it up a bit.
+This is looking a touch bland on our Widget, lets juice it up a bit.
 ```lua
 local plugDefinition = {
 	Group = "Golden",
@@ -72,9 +69,9 @@ The Plug currently doesn't do anything, other than print a silly message to the 
 --------------------------------------------------
 -- Dependencies
 local Selection = game:GetService("Selection")
-local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
+local ServerStorage = game:GetService("ServerStorage")
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local Logger = require(Utils.Logger) ---@type Logger
+local Logger = require(Utils.Logger)
 
 --------------------------------------------------
 -- Constants
@@ -83,7 +80,6 @@ local COLOR_GOLD = Color3.fromRGB(255, 180, 0)
 --------------------------------------------------
 -- Members
 
----@type PlugDefinition
 local plugDefinition = {
 	Group = "Golden",
 	GroupColor = COLOR_GOLD,
@@ -93,10 +89,8 @@ local plugDefinition = {
 	Description = "Converts any parts we have selected turn to gold",
 }
 
----@param plug PlugDefinition
----@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
-	-- Get our selected instances, and filter out any non-parts
+	-- Get our selected instances, and filter out any non-BaseParts
 	local selectedInstances = Selection:Get()
 	local parts = {}
 	for _,instance in pairs(selectedInstances) then
@@ -111,6 +105,7 @@ plugDefinition.Function = function(plug, plugin)
 		part.Material = Enum.Material.Foil
 	end
 
+	-- Log
     Logger:PlugInfo(plug, ("I encrusted %d parts with gold!"):format(#parts))
 end
 
@@ -139,6 +134,7 @@ v1 was all well and good, but what if I accidentally gold-ify a part that I didn
 I'm also not super happy with it always being the same color; lets add 2 color fields that we will uniformly interpolate between.
 ```lua
 {
+	-- ...
 	Fields = {
 		{
 			Name = "ColorA",
@@ -151,6 +147,7 @@ I'm also not super happy with it always being the same color; lets add 2 color f
 			IsRequired = true,
 		},
 	}
+    -- ...
 }
 ```
 
@@ -172,9 +169,9 @@ Lets write some code to make this happen..
 --------------------------------------------------
 -- Dependencies
 local Selection = game:GetService("Selection")
-local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
+local ServerStorage = game:GetService("ServerStorage")
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local Logger = require(Utils.Logger) ---@type Logger
+local Logger = require(Utils.Logger)
 
 --------------------------------------------------
 -- Constants
@@ -183,7 +180,6 @@ local COLOR_GOLD = Color3.fromRGB(255, 180, 0)
 --------------------------------------------------
 -- Members
 
----@type PlugDefinition
 local plugDefinition = {
 	Group = "Golden",
 	GroupColor = COLOR_GOLD,
@@ -206,14 +202,12 @@ local plugDefinition = {
 	},
 }
 
----@param plug PlugDefinition
----@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
 	-- Toggle running
     plug:ToggleIsRunning()
 
     -- RETURN: Not running
-    if not plug.State.IsRunning then
+    if not plug:IsRunning() then
         return
     end
 	

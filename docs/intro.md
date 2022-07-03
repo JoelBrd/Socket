@@ -56,7 +56,7 @@ While the **Socket** plugin adheres to your Studio theme, you can customise each
 ### Uses ModuleScripts
 
 The way you define Plugs and add/remove/change them is via `ModuleScripts`! There is a `game.ServerStorage.SocketPlugin` directory where you can place multiple Plugs and any *utility* `ModuleScripts`.
-* Easy management of your Plugs through both the *Widget* and *Explorer* tab
+* Easy management of your Plugs through both the Widget and *Explorer* tab
 * Reroute logic to *Util* files that multiple Plugs can access
 * Use the Roblox Studio script editor to write your code
 * Easily share Plugs between all team members on *Team Create*
@@ -64,17 +64,17 @@ The way you define Plugs and add/remove/change them is via `ModuleScripts`! Ther
 
 ### Ergonomics
 
-Want to give some instructions on how to use your Plug incase your distributing it, or plan to use it 2 weeks from now? You can add a [Description](/api/PlugDefinition#Description) that can be easily viewed in 1 Click via the *Widget*.
+Want to give some instructions on how to use your Plug incase your distributing it, or plan to use it 2 weeks from now? You can add a [Description](/api/PlugDefinition#Description) that can be easily viewed in 1 Click via the Widget.
 
-Whenever you make a change to a Plug, it will automatically update the *Widget*. If any changes break the integrity of the `ModuleScript`, **you will be warned!**
+Whenever you make a change to a Plug, it will automatically update the Widget. If any changes break the integrity of the `ModuleScript`, **you will be warned!**
 
-It can be cumbersome to make changes whenever you want to alter the functionality of your Plug - `Fields` come to the rescue! You can define field values on the *Widget* that can then be read from instantly in your Plug [Function](/api/PlugDefinition#Function)
+It can be cumbersome to make changes whenever you want to alter the functionality of your Plug - `Fields` come to the rescue! You can define field values on the Widget that can then be read from instantly in your Plug [Function](/api/PlugDefinition#Function)
 
 ### Automation
 
 There is an obvious hint at automation with any kind of *"macro manager"*, but with **Socket** specifically:
 * 1 Click to run any of your Plugs
-* Define a *Keybind* to run a Plug without using the *Widget*!
+* Define a *Keybind* to run a Plug without using the Widget!
 * Toggleable Plugs to turn routines on/off as you please
 
 **Toggleable Plugs** (See: [PlugState](/api/PlugDefinition#PlugState))

@@ -223,7 +223,7 @@ plugDefinition.Function = function(plug, plugin)
     plug:ToggleIsRunning()
 
     -- Read state
-    local isRunning = plug.State.IsRunning
+    local isRunning = plug:IsRunning()
     local confirmKeybind = plug.State.FieldValues["Confirm Keybind"]
     local placeKeybind = plug.State.FieldValues["Place Keybind"]
 
@@ -262,7 +262,7 @@ end
 ---@param plug PlugDefinition
 ---@param plugin Plugin
 plugDefinition.BindToClose = function(plug, plugin)
-    if plug.State.IsRunning then
+    if plug:IsRunning() then
         plug:ToggleIsRunning()
         stopRunning(plug)
     end

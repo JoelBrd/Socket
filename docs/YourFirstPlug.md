@@ -19,49 +19,39 @@ You can create folders in this directory to help organise your Plugs; but the `G
 You'll get a `ModuleScript` with a `Source` similar to:
 ```lua
 ---
----Plug Template
+-- Plug
 ---
 
 --------------------------------------------------
 -- Dependencies
-local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
+local ServerStorage = game:GetService("ServerStorage")
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local Logger = require(Utils.Logger) ---@type Logger
+local Logger = require(Utils.Logger)
 
 --------------------------------------------------
 -- Members
 
----@type PlugDefinition
 local plugDefinition = {
-    Group = "%s", ---@type string
-    GroupColor = nil, ---@type Color3
-    GroupIcon = nil, ---@type string
-    GroupIconColor = nil, ---@type Color3
-
     Name = "%s",
-    NameColor = nil, ---@type Color3
+    Group = "Plugs",
     Icon = "%s",
-    IconColor = nil, ---@type Color3
-
-    Description = "%s", ---@type string
-    EnableAutomaticUndo = false, ---@type boolean
-    AutoRun = false, ---@type boolean
-    Keybind = {}, ---@type Enum.KeyCode[]
-    Fields = {}, ---@type PlugField[]
-
-    Function = nil, ---@type fun(plug:PlugDefinition, plugin:Plugin)
+    Description = "%s",
 }
 
----@param plug PlugDefinition
----@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
-    Logger:PlugInfo(plug, ("Hello, from %s!"):format(plug.Name))
+    Logger:PlugInfo(plug, ("Hello %s!"):format(plug.Name))
+    --[[
+        ...
+        Your Logic Here
+        ...
+    ]]
 end
 
 return plugDefinition
+
 ```
 
-You'll notice we're returning a table with a bunch of key/value pairs. For a full breakdown of these, and what they each do, see [PlugDefinition](/api/PlugDefinition).
+You'll notice we're returning a table with key/value pairs. For a full breakdown of what is on offer, and what they each do, see [PlugDefinition](/api/PlugDefinition).
 
 There are 2 required key/value pairs:
 * Name
@@ -70,40 +60,39 @@ There are 2 required key/value pairs:
 Everything else is optional, or will be populated with a default value.
 
 :::tip
-Try editing some of these fields, and see how the *Widget* updates! Keep an eye on the *output* window incase there are any issues with your [PlugDefinition](/api/PlugDefinition).
+Try adding + configuring some fields, and see how the Widget updates! Keep an eye on the *output* window incase there are any issues with your [PlugDefinition](/api/PlugDefinition).
 :::
 
 ## Creating our code
 
-We now have a fresh Plug, and have played around with how it appears on the *Widget*. Lets take a look at the tools we have when defining our [Function](/api/PlugDefinition#Function)
+We now have a fresh Plug, and have played around with how it appears on the Widget. Lets take a look at the tools we have when defining our [Function](/api/PlugDefinition#Function)
 
 ### Parameters
 
-[Function](/api/PlugDefinition#Function) gets passed 2 parameters; `plug`: [PlugDefinition](/api/PlugDefinition), `plugin`: [Plugin].
+[Function](/api/PlugDefinition#Function) gets passed 2 parameters; `plug`: [PlugDefinition](/api/PlugDefinition), `plugin`: [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin).
 
-* `plug` is our [PlugDefinition](/api/PlugDefinition). It is important we reference `plug`, and **not** `plugDefinition`. Changes are made outside the scope of the `ModuleScript` (e.g., if we change a `Field` value on the *Widget*, this is written to `plug` and **not** `plugDefinition`)
+* `plug` is our [PlugDefinition](/api/PlugDefinition). It is important we reference `plug` inside our functions, and **not** `plugDefinition`. Changes are made outside the scope of the `ModuleScript` (e.g., if we change a `Field` value on the Widget, this is written to the `plug` variable and **not** `plugDefinition`)
 * `plugin` is the actual [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin) object that **Socket** is under; this is passed for special use cases, as the [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin) object has unique API
 
 ### Logging
 
-You'll notice in the template Plug that gets created, a required `Logger` file. This gives us access to:
-```lua
-Logger:PlugInfo(plug, "Hello!") -- <==> print(("[%s %s] %s"):format(plug.Icon or "", plug.Name, "Hello!"))
-Logger:PlugWarn(plug, "Uh Oh!") -- <==> warn(("[%s %s] %s"):format(plug.Icon or "", plug.Name, "Hello!"))
-```
+You'll notice in the template Plug that gets created, a required `Logger` file. This gives us access to `Logger:PlugInfo(plug, "Hello!")` and `Logger:PlugWarn(plug, "Uh Oh!")`
+
 This is just a nice way to print to the output, and show the Plug scope it came from. This is the same API used for when **Socket** detects an issue with a Plug and wants to inform the user (e.g., a required Field is missing its value)
 
-### Using `plug` Parameter
+### Using the `plug` Parameter
 
-You can reference any members of `plug` (see [PlugDefinition](/api/PlugDefinition)) - most notably `plug.State` (see [PlugState](/api/PlugDefinition#PlugState))
+You can reference any members of `plug` (see [PlugDefinition](/api/PlugDefinition)).
+
+One of the most useful members is `plug.State` (see [PlugState](/api/PlugDefinition#PlugState)). Let's take a quick look what that gives us access to:
 
 #### `plug.State.IsRunning` & `plug:ToggleIsRunning()`
 
-We may want to have a Plug that has a toggleable routine; aka we can turn it on and off. We can change `plug.State.IsRunning` to indicate on the widget if the plug is running or not. Check out the API [here](/api/PlugDefinition#ToggleIsRunning)
+We may want to have a Plug that has a toggleable routine; aka we can turn it on and off. We can change `plug.State.IsRunning` to keep track of the plug being on or off. We can toggle this using [ToggleIsRunning](/api/PlugDefinition#ToggleIsRunning) and read it via [IsRunning](/api/PlugDefinition#IsRunning). These methods are sugar for manipulating values in `plug`
 
 #### `plug.State.FieldValues`
 
-This is where the declared values of fields exist. If we have declared a field such as:
+A strength of Socket is being able to declare values on the fly to be used in our Plugs. These are easily accessible on the Widget, but we then ofcourse need to reference them in our [Function](/api/PlugDefinition#Function). `plug.State.FieldValues` is where the declared values of fields exist. If we have declared a field such as:
 ```lua
 {
 	Fields = {
@@ -114,7 +103,7 @@ This is where the declared values of fields exist. If we have declared a field s
 	}
 }
 ```
-We can access the value via `local amount = plug.State.FieldValues.Amount` - or more nicely `local amount = plug:GetFieldValue("Amount")`
+We can access the value via `plug:GetFieldValue("Amount")` (which is sugar for `plug.State.FieldValues.Amount`)
 Note that amount may not exist, so we can either:
 1. Run this check in our `Function`
 2. Do 
@@ -129,7 +118,7 @@ Note that amount may not exist, so we can either:
 	}
 }
 ```
-If `IsRequired=true`, we will get a `Logger:PlugWarn` in our output if we run the plug and we have not declared a value for the Field. We can assume it exists in our `Function` now!
+If `IsRequired=true`, we will get a `Logger:PlugWarn` warning in our output if we run the plug and we have not declared a value for the Field. We can assume it exists in our `Function` now!
 
 A nice trick we can do is if we want to declare a default value for a Field, we can mirror the following structure in our [PlugDefinition](/api/PlugDefinition)
 ```lua
@@ -148,9 +137,32 @@ A nice trick we can do is if we want to declare a default value for a Field, we 
 }
 ```
 
+We may also have an input field that has some specific requirements (e.g., for an `Amount` value, we probably want a positive integer!). We can write these checks in our [Function](/api/PlugDefinition#Function) ofcourse - a cleaner option is this:
+
+```lua
+{
+    Fields = {
+        {
+            Name = "Amount";
+            Type = "number";
+            IsRequired = true;
+            Validator = function(value)
+                local hasDecimalComponent = math.floor(value) ~= value
+                local isLessThanZero = value <= 0
+                if hasDecimalComponent or isLessThanZero then
+                    return "Must be a positive non-zero integer"
+                end
+            end
+        }
+    }
+}
+```
+
+If there is an issue, return a string detailing the issue. This will be written to the output, along with the context of the Field (Plug, Field Name/Type/Value)
+
 ### BindToClose
 
-Imagine we have a Plug that is running routines (`IsRunning=true`), but we then delete the `ModuleScript` for that Plug, or we close the [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin)? We could still have code running that would've normally been stopped by toggling the Plug. This is where [BindToClose](/api/PlugDefinition#BindToClose) comes in.
+Imagine we have a Plug that is running routines (`plug.State.IsRunning=true`), but we then delete the `ModuleScript` for that Plug, or we close the [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin)? We could still have code running that would've normally been stopped by toggling the Plug. This is where [BindToClose](/api/PlugDefinition#BindToClose) comes in.
 
 Example:
 ```lua
@@ -159,23 +171,12 @@ Example:
     -- PlugDefinition that, when running, will print the time since the last frame
     local plugDefinition = {
 		-- ...
-        Fields = {
-            {
-                Name = "Timer";
-                Type = "number";
-                IsRequired = true;
-            }
-        }
-        State = {
-            IsRunning = false
-        }
         Function = function(plug, plugin)
             -- Toggle running state
-            plug.State.IsRunning = not plug.State.IsRunning
+            plug:ToggleIsRunning()
 
             -- Get Variables
-            local timer = plug.State.FieldValues.Timer
-            local isRunning = plug.State.IsRunning
+            local isRunning = plug:IsRunning()
         
             if isRunning then
                 plug.State.HeartbeatConnection = Heartbeat:Connect(function(dt)
@@ -185,13 +186,13 @@ Example:
                 plug.State.HeartbeatConnection:Disconnect()
                 plug.State.HeartbeatConnection = nil
             end
-        end
+        end;
         BindToClose = function(plug, plugin)
             if plug.State.HeartbeatConnection then
                 plug.State.HeartbeatConnection:Disconnect()
                 plug.State.HeartbeatConnection = nil
             end
-        end
+        end;
 		-- ...
     }
 ```
@@ -204,7 +205,7 @@ while plug.State.IsRunning do
 -- ...
 end
 ```
-The loop would stop and does not require a `BindToClose` function. We also cleanup the `RunJanitor` when `BindToClose` is called. Check out the API [here](/api/PlugDefinition#BindToClose)
+The loop would stop and does not require a `BindToClose` function. We also cleanup the `RunJanitor` when `BindToClose` is called. We can pass any Instances, or other routines, to the [RunJanitor](/api/PlugDefinition#RunJanitor) to be cleaned up when the Plug stops running. Check out the API [here](/api/PlugDefinition#BindToClose)
 :::
 
 The above example was to demonstrate the functionality of `BindToClose`; a much cleaner structure would be:
@@ -214,31 +215,18 @@ The above example was to demonstrate the functionality of `BindToClose`; a much 
     -- PlugDefinition that, when running, will print the time since the last frame
     local plugDefinition = {
 		-- ...
-        Fields = {
-            {
-                Name = "Timer";
-                Type = "number";
-                IsRequired = true;
-            }
-        }
-        State = {
-            IsRunning = false
-        }
         Function = function(plug, plugin)
             -- Toggle running state
 			plug:ToggleIsRunning()
 
 			-- RETURN: Not running
-			if not plug.State.IsRunning then
+			if not plug:IsRunning() then
 				return
 			end
 
-            -- Get Variables
-            local timer = plug.State.FieldValues.Timer
-
 			-- Setup Loop
 			plug.RunJanitor:Add(Heartbeat:Connect(function(dt)
-                    Logger:PlugInfo(plug, ("dt: %f"))
+                Logger:PlugInfo(plug, ("dt: %f"))
             end))
         end
 		-- ...

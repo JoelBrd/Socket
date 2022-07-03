@@ -28,6 +28,7 @@ local PlugConstants = {}
 ---@field FieldChanged BindableEvent Fired with (fieldName, fieldValue)
 ---@field RunJanitor Janitor
 ---@field ToggleIsRunning fun(plug:PlugDefinition)
+---@field IsRunning fun(plug:PlugDefinition):boolean
 ---@field GetFieldValue fun(plug:PlugDefinition, fieldName:string)
 ---@field Function fun(plug:PlugDefinition)
 ---@field BindToClose fun(plug:PlugDefinition) Called when plugin is closed, or plug is removed from state

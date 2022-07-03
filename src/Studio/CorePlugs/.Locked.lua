@@ -167,7 +167,7 @@ local function manageCollisionsForBasePart(plug, instance)
     end
 
     -- Get state
-    local isRunning = plug.State.IsRunning
+    local isRunning = plug:IsRunning()
 
     -- Add/Remove from our collision group
     local doAdd = false
@@ -424,7 +424,7 @@ plugDefinition.Function = function(plug, plugin)
     plug:ToggleIsRunning()
 
     -- Get state
-    local isRunning = plug.State.IsRunning
+    local isRunning = plug:IsRunning()
 
     -- Run Routines
     if isRunning then
@@ -440,7 +440,7 @@ end
 ---@param plug PlugDefinition
 ---@param plugin Plugin
 plugDefinition.BindToClose = function(plug, plugin)
-    if plug.State.IsRunning then
+    if plug:IsRunning() then
         plug:ToggleIsRunning()
         stoppedRunning(plug)
     end

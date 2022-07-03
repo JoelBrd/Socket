@@ -294,7 +294,7 @@ local function getPlug(props)
             })
         else
             -- Get variables
-            local isRunning = plug.State.IsRunning and true or false
+            local isRunning = plug:IsRunning()
             local textLabelXOffset = -(
                     WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth + WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding
                 )

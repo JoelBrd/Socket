@@ -375,6 +375,13 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         somePlug.RunJanitor:Cleanup()
     end
 
+    if not validateType(plugScript, plug, false, "IsRunning", "function") then
+        return
+    end
+    plug.IsRunning = function(somePlug)
+        return somePlug.State.IsRunning and true or false
+    end
+
     if not validateType(plugScript, plug, false, "GetFieldValue", "function") then
         return
     end

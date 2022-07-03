@@ -256,6 +256,7 @@
 --[=[
     @method GetFieldValue
     @param fieldName string
+    @return any
     @tag Read-Only
     @within PlugDefinition
 
@@ -365,6 +366,20 @@
     if not plug.State.IsRunning then
         plug.RunJanitor:Cleanup()
     end
+    ```
+]=]
+
+--[=[
+    @method IsRunning
+    @return boolean
+    @tag Read-Only
+    @within PlugDefinition
+
+    Returns true if the Plug is running (`plug.State.IsRunning == true`). False otherwise.
+
+    Sugar for
+    ```lua
+    plug.State.IsRunning
     ```
 ]=]
 
