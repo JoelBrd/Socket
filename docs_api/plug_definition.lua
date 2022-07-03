@@ -148,6 +148,18 @@
 ]=]
 
 --[=[
+    @prop LayoutOrder number
+    @tag Populated
+    @within PlugDefinition
+
+    Can be used to define the position of where the *Plug* is rendered on the Widget.
+
+    See [Settings](/api/SocketSettings#SortType)
+
+    Defaults to `0`
+]=]
+
+--[=[
     @prop EnableAutomaticUndo boolean
     @tag Populated
     @within PlugDefinition

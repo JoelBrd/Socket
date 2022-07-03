@@ -44,7 +44,7 @@ function TableUtil:Sync(tbl, templateTbl)
         local valueTemplate = templateTbl[key]
 
         -- Manage existing keys
-        if valueTemplate == nil or type(value) ~= type(valueTemplate) then
+        if valueTemplate == nil or typeof(value) ~= typeof(valueTemplate) then
             tbl[key] = nil
         elseif type(value) == "table" then
             self:Sync(value, valueTemplate)

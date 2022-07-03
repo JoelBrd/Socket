@@ -29,7 +29,88 @@ local TEMPLATE_SOURCE_SETTINGS_LINE = "local settings = {}"
 --------------------------------------------------
 -- Members
 local defaultSettings ---@type SocketSettings
+local validationFunctions ---@type table
 local settingsTemplateFile ---@type ModuleScript
+
+---
+---Cleans the table of passed settings; syncs with default values, ensures correct types and runs any validation functions.
+---If any issues, uses the currently stored value or default value (whichever exists first)
+---@param settings SocketSettings
+---
+function SocketSettings:CleanSettings(settings)
+    -- Get Stored Settings
+    local storedSettings = PluginHandler:GetSetting(PluginConstants.Setting) or {}
+
+    -- Validate settings
+    for settingName, defaultValue in pairs(defaultSettings) do
+        -- Get values
+        local storedValue = storedSettings[settingName]
+        local setValue = settings[settingName]
+        local overrideValue = ValueUtil:ReturnFirstNonNil(storedValue, defaultValue)
+
+        -- SILENT: Doesn't exist
+        if settings[settingName] == nil then
+            settings[settingName] = overrideValue
+            setValue = overrideValue
+        end
+
+        -- ISSUE: Bad type
+        local defaultType = typeof(defaultValue)
+        local setType = typeof(setValue)
+        if defaultType ~= setType then
+            -- SPECIAL CASE: Convert string to EnumType
+            local isEnumItem = defaultType == "EnumItem"
+            if isEnumItem then
+                local success, result = pcall(function()
+                    return Enum[tostring(defaultValue.EnumType)][setValue]
+                end)
+                if success then
+                    settings[settingName] = result
+                    setValue = result
+                else
+                    Logger:Warn(
+                        ("Issue with Setting %s:%s. Not a valid EnumType %q. New value: %q"):format(
+                            settingName,
+                            tostring(setValue),
+                            defaultValue.EnumType,
+                            tostring(overrideValue)
+                        )
+                    )
+                    settings[settingName] = overrideValue
+                end
+            else
+                Logger:Warn(
+                    ("Issue with Setting %s:%s. Expected type %q, got %q. New value: %q"):format(
+                        settingName,
+                        tostring(setValue),
+                        defaultType,
+                        setType,
+                        tostring(overrideValue)
+                    )
+                )
+                settings[settingName] = overrideValue
+            end
+        end
+
+        -- ISSUE: Bad validation
+        local validationFunction = validationFunctions[settingName]
+        local validationError = validationFunction and validationFunction(setValue)
+        if validationError then
+            Logger:Warn(
+                ("Issue with Setting (%s:%s). %s. New value: %q"):format(
+                    settingName,
+                    tostring(setValue),
+                    validationError,
+                    tostring(overrideValue)
+                )
+            )
+            settings[settingName] = overrideValue
+        end
+    end
+
+    -- Sync
+    TableUtil:Sync(settings, defaultSettings)
+end
 
 ---
 ---Will ensure the stored settings on the plugin is in line with our template.
@@ -40,8 +121,10 @@ function SocketSettings:ValidateSettings()
     local storedSettings = PluginHandler:GetSetting(PluginConstants.Setting) or {}
     storedSettings = typeof(storedSettings) == "table" and storedSettings or {}
 
-    -- Sync
-    TableUtil:Sync(storedSettings, defaultSettings)
+    -- Clean
+    SocketSettings:CleanSettings(storedSettings)
+
+    -- Store
     PluginHandler:SetSetting(PluginConstants.Setting, storedSettings)
 end
 
@@ -116,8 +199,8 @@ function SocketSettings:OpenSettings()
         if not success then
             Logger:Warn(("Error occured when exiting settings, no changes were able to be saved (%s)"):format(err))
         else
-            -- Sync with template
-            TableUtil:Sync(newSettings, defaultSettings)
+            -- Clean
+            SocketSettings:CleanSettings(storedSettings)
 
             -- Update our cache
             PluginHandler:SetSetting(PluginConstants.Setting, newSettings)
@@ -182,7 +265,10 @@ end
 ---Synchronously called, one after the other, with all other FrameworkStart()
 ---
 function SocketSettings:FrameworkStart()
-    defaultSettings = require(script.Parent.Settings.defaultSettings)
+    local defaultSettingsTable = require(script.Parent.Settings.defaultSettings)
+    defaultSettings = defaultSettingsTable.defaultSettings
+    validationFunctions = defaultSettingsTable.validationFunctions
+
     settingsTemplateFile = script.Parent.Settings.settingsTemplate
 end
 

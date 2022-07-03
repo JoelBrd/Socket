@@ -18,6 +18,7 @@ local PlugConstants = {}
 ---@field Icon string
 ---@field IconColor Color3
 ---@field Description string
+---@field LayoutOrder number
 ---@field State PlugState
 ---@field EnableAutomaticUndo boolean
 ---@field IgnoreGameProcessedKeybinds boolean

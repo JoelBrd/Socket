@@ -129,7 +129,7 @@ function RoactMainWidget:Create()
         end
 
         -- Get Variables
-        local doGroupMatchingIcons = SocketSettings:GetSetting("GroupMatchingIcons")
+        local sortType = SocketSettings:GetSetting("SortType")
 
         -- Construct groups
         local groups = {} ---@type RoactMainWidgetProps.GroupInfo[]
@@ -188,7 +188,9 @@ function RoactMainWidget:Create()
             ---@param plugInfo0 RoactMainWidgetProps.PlugInfo
             ---@param plugInfo1 RoactMainWidgetProps.PlugInfo
             local function plugsSort(plugInfo0, plugInfo1)
-                if doGroupMatchingIcons and plugInfo0.plug.Icon ~= plugInfo1.plug.Icon then
+                if sortType == "LayoutOrder" and (plugInfo0.plug.LayoutOrder ~= plugInfo1.plug.LayoutOrder) then
+                    return (plugInfo0.plug.LayoutOrder or 0) < (plugInfo1.plug.LayoutOrder or 0)
+                elseif sortType == "Icon" and (plugInfo0.plug.Icon ~= plugInfo1.plug.Icon) then
                     return (plugInfo0.plug.Icon or "") < (plugInfo1.plug.Icon or "")
                 end
 
@@ -201,6 +203,25 @@ function RoactMainWidget:Create()
         ---@param groupInfo0 RoactMainWidgetProps.GroupInfo
         ---@param groupInfo1 RoactMainWidgetProps.GroupInfo
         local function groupsSort(groupInfo0, groupInfo1)
+            if sortType == "LayoutOrder" then
+                -- Calculate lowest layout order from plugs in each group
+                local lowestLayoutOrder0
+                for _, plugInfo in pairs(groupInfo0.plugs) do
+                    local layoutOrder = plugInfo.plug.LayoutOrder
+                    lowestLayoutOrder0 = lowestLayoutOrder0 and lowestLayoutOrder0 < layoutOrder and lowestLayoutOrder0 or layoutOrder
+                end
+                local lowestLayoutOrder1
+                for _, plugInfo in pairs(groupInfo1.plugs) do
+                    local layoutOrder = plugInfo.plug.LayoutOrder
+                    lowestLayoutOrder1 = lowestLayoutOrder1 and lowestLayoutOrder1 < layoutOrder and lowestLayoutOrder1 or layoutOrder
+                end
+                if lowestLayoutOrder0 ~= lowestLayoutOrder1 then
+                    return (lowestLayoutOrder0 or 0) < (lowestLayoutOrder1 or 0)
+                end
+            elseif sortType == "Icon" and (groupInfo0.icon ~= groupInfo1.icon) then
+                return (groupInfo0.icon or "") < (groupInfo1.icon or "")
+            end
+
             return groupInfo0.name < groupInfo1.name
         end
         table.sort(groups, groupsSort)

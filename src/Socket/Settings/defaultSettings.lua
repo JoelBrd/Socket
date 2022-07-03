@@ -2,6 +2,9 @@
 ---Default Socket Settings
 ---
 
+-- Constants
+local SORT_TYPES = { "Name", "LayoutOrder", "Icon" }
+
 --------------------------------------------------
 -- Members
 
@@ -10,7 +13,7 @@ local settings = {
     Font = Enum.Font.Highway,
     UIScale = 1,
     OpenFieldsByDefault = true,
-    GroupMatchingIcons = true,
+    SortType = "Name",
     IgnoreGameProcessedKeybinds = false,
     EnableSocketPlugs = true,
     EnableSocketPlugsOverwrite = true,
@@ -18,4 +21,21 @@ local settings = {
     UseDefaultSettings = false,
 }
 
-return settings
+---@type table<string, fun(value:any):string|nil>
+local validationFunctions = {
+    Font = function(value)
+        if not value.EnumType == Enum.Font then
+            return "Not passed an Enum.Font value"
+        end
+    end,
+    SortType = function(value)
+        if not table.find(SORT_TYPES, value) then
+            return ("Bad SortType. Good SortTypes: %s"):format(table.concat(SORT_TYPES, ", "))
+        end
+    end,
+}
+
+return {
+    defaultSettings = settings,
+    validationFunctions = validationFunctions,
+}

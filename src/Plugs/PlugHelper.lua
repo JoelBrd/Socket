@@ -257,6 +257,12 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         return
     end
 
+    -- LayoutOrder
+    plug.LayoutOrder = plug.LayoutOrder or 0
+    if not validateType(plugScript, plug, false, "LayoutOrder", "number") then
+        return
+    end
+
     -- State
     if not validateType(plugScript, plug, false, "State", "table") then
         return

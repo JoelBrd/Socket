@@ -19,7 +19,7 @@ local ValueUtil = {}
 
 --------------------------------------------------
 -- Members
-local valueToSourceStringToStringTypes = { "number", "boolean", "string" }
+local valueToSourceStringToStringTypes = { "number", "boolean" }
 
 ---
 ---Passed a value, will return a string that could represent it in a lua file.
@@ -33,6 +33,11 @@ local valueToSourceStringToStringTypes = { "number", "boolean", "string" }
 function ValueUtil:ValueToSourceString(value)
     local valueType = typeof(value)
 
+    -- String
+    if valueType == "string" then
+        return ('"%s"'):format(value)
+    end
+
     -- To String method
     if table.find(valueToSourceStringToStringTypes, valueType) then
         return tostring(value)
@@ -44,6 +49,20 @@ function ValueUtil:ValueToSourceString(value)
     end
 
     error(("Don't know how to convert %q (%s) into a source string"):format(tostring(value), valueType))
+end
+
+---
+---Passed a list of values, returns the first non-nil value
+---@vararg any
+---@return any
+---
+function ValueUtil:ReturnFirstNonNil(...)
+    local tbl = table.pack(...)
+    for _, value in pairs(tbl) do
+        if value ~= nil then
+            return value
+        end
+    end
 end
 
 return ValueUtil

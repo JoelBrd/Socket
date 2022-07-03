@@ -33,13 +33,23 @@
 ]=]
 
 --[=[
-    @prop GroupMatchingIcons boolean
+    @prop SortType string
     @within SocketSettings
 
-    Plugs are sorted alphabetically on the widget. If this is `true`, this will be superseded by making sure **Plugs** with the same `.Icon` are next
-    to one another on the widget.
+    Can take a variety of string values to define how Plugs and Groups are sorted on the widget.
 
-    Defaults to `true`
+    **"LayoutOrder"**
+    Uses [Layout Order](/api/PlugDefinition#LayoutOrder) to define sorting. The group with the Plug with the lowest `LayoutOrder` will be at the
+    top of the widget.
+
+    **"Icon"**
+    Will sort Plugs and Groups by their `Icon` using `<`. This results in Plugs and Groups with matching Icons being grouped next to one another.
+
+    **"Name"**
+    Sorts Plugs and Groups alphabetically by name. This behaviour also underlies the other sort types when there isn't a distinct difference (e.g., same
+    `Icon`, same `LayoutOrder`)
+
+    Defaults to `"Name"`
 ]=]
 
 --[=[
