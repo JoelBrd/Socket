@@ -23,7 +23,6 @@ local Logger = require(Utils.Logger) ---@type Logger
 ---@type PlugDefinition
 local plugDefinition = {
     Group = "Core",
-    GroupIcon = "🔌",
     Name = "Load Asset",
     Description = "Will load in an asset with the given Id",
     Icon = "🖨️",

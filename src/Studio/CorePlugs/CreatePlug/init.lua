@@ -22,7 +22,6 @@ local OPEN_ON_LINE = 24
 ---@type PlugDefinition
 local plugDefinition = {
     Group = "Core",
-    GroupIcon = "🔌",
     Name = "Create Plug",
     Description = "Creates a new plug",
     Icon = "🟢",

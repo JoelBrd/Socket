@@ -220,6 +220,21 @@ end
 ---@param plug PlugDefinition
 ---@return PlugDefinition
 function PlugHelper:CleanPlugDefinition(plugScript, plug)
+    -- Disabled
+    if not validateType(plugScript, plug, false, "Disabled", "boolean") then
+        return
+    end
+    plug.Disabled = plug.Disabled or false
+
+    -- Disable some stuff if the plug is disabled!
+    if plug.Disabled then
+        plug.AutoRun = false
+        plug.Name = plug.Name or "Disabled"
+        plug.Function = function() end
+        plug.BindToClose = function() end
+        plug.BindToOpen = function() end
+    end
+
     -- Group
     plug.Group = plug.Group or "No Group"
     if not validateType(plugScript, plug, true, "Group", "string") then

@@ -170,7 +170,9 @@ function RoactMainWidget:Create()
                     plug = plug, ---@type PlugDefinition
                     moduleScript = plugModuleScript,
                 } ---@type RoactMainWidgetProps.GroupInfo
-                table.insert(groupInfo.plugs, plugInfo)
+                if not plug.Disabled then
+                    table.insert(groupInfo.plugs, plugInfo)
+                end
 
                 -- Try populate group icon
                 if plug.GroupIcon and not groupInfo.icon then

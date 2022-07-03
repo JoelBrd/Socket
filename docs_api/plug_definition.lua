@@ -423,3 +423,27 @@
     This function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent
     :::
 ]=]
+
+--[=[
+    @prop Disabled boolean
+    @tag Populated
+    @within PlugDefinition
+
+    If `true`, this Plug will not be displayed on the Widget. It's `Function` will also not be required, nor registered. This renders `AutoRun` useless
+    for this specific [PlugDefinition](/api/PlugDefinition)
+
+    :::tip
+    This can be useful to create a [PlugDefinition](/api/PlugDefinition) solely for defining the aesthetics of a `Group` for organisation purposes.
+
+    ```lua
+        {
+            Group = "Fruity Plugs",
+            GroupIcon = "🍎",
+            GroupColor = Color3.fromRGB(200, 20, 20),
+            Disabled = true,
+        }
+    ```
+    :::
+
+    Defaults to `false`
+]=]
