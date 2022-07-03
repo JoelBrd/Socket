@@ -14,7 +14,7 @@ local Plugs = ServerStorage.SocketPlugin.Plugs
 
 --------------------------------------------------
 -- Constants
-local OPEN_ON_LINE = 29
+local OPEN_ON_LINE = 24
 
 --------------------------------------------------
 -- Members
@@ -30,14 +30,18 @@ local plugDefinition = {
         {
             Type = "string",
             Name = "Name",
-        },
-        {
-            Type = "string",
-            Name = "Group",
+            IsRequired = true,
         },
         {
             Type = "string",
             Name = "Icon",
+            IsRequired = true,
+        },
+    },
+    State = {
+        FieldValues = {
+            Name = "Plug",
+            Icon = "💡",
         },
     },
 }
@@ -46,9 +50,8 @@ local plugDefinition = {
 ---@param plugin Plugin
 plugDefinition.Function = function(plug, plugin)
     -- Get Fields
-    local name = plug:GetFieldValue("Name") or "No Name"
-    local group = plug:GetFieldValue("Group") or "No Group"
-    local icon = plug:GetFieldValue("Icon") or "🔌"
+    local name = plug:GetFieldValue("Name")
+    local icon = plug:GetFieldValue("Icon")
 
     -- Create variables
     local description = ("%s Description"):format(name)
@@ -56,7 +59,7 @@ plugDefinition.Function = function(plug, plugin)
     -- Create plug
     local newPlug = Instance.new("ModuleScript") ---@type ModuleScript
     newPlug.Name = name:gsub(" ", "") -- Remove whitespace
-    newPlug.Source = script.PlugTemplate.Source:format(group, name, icon, description)
+    newPlug.Source = script.PlugTemplate.Source:format(name, icon, description, "%s")
     newPlug.Parent = Plugs
 
     -- Open
