@@ -13,6 +13,7 @@ local Logger = require(Utils.Logger)
 
 local plugDefinition = {
     Name = "%s",
+    Group = "Plugs",
     Icon = "%s",
     Description = "%s",
 }
