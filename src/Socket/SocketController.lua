@@ -245,33 +245,18 @@ function SocketController:SetupPlugActions()
         return false
     end
 
-    -- Listener to the user viewing different scripts; used to trigger "plug changed" events
+    -- Variables for tracking plug scripts
     local cachedActiveScript ---@type Instance
     local plugsFolder = StudioHandler.Folders.Plugs
-    runJanitor:Add(StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
-        local activeScript = StudioService.ActiveScript
-
-        -- Have we just exited a script file?
-        if cachedActiveScript then
-            local isPlugScript = cachedActiveScript:IsDescendantOf(plugsFolder)
-            if isPlugScript then
-                if isPlugScriptAdded(cachedActiveScript) then
-                    -- Changed
-                    changedPlug(cachedActiveScript)
-                else
-                    -- Wasn't in memory
-                    newPlug(cachedActiveScript)
-                end
-            end
-        end
-
-        -- Update cache
-        cachedActiveScript = activeScript
-    end))
 
     ---Had a new module script added that is likely a plug
     ---@param plugScript ModuleScript
     local function newPlugScript(plugScript)
+        -- RETURN: Parent is a module script
+        if plugScript.Parent:IsA("ModuleScript") then
+            return
+        end
+
         newPlug(plugScript)
 
         -- Listen for source changes to update plug
@@ -290,25 +275,47 @@ function SocketController:SetupPlugActions()
 
     -- Grab the plugs already sitting there
     for _, descendant in pairs(plugsFolder:GetDescendants()) do
-        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
+        if descendant:IsA("ModuleScript") then
             newPlugScript(descendant)
         end
     end
 
     -- Hook up listener events for plug files being added/removed
     runJanitor:Add(plugsFolder.DescendantAdded:Connect(function(descendant)
-        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
+        if descendant:IsA("ModuleScript") then
             task.wait() -- May have been added through a Rojo Sync
             newPlugScript(descendant)
         end
     end))
 
     runJanitor:Add(plugsFolder.DescendantRemoving:Connect(function(descendant)
-        if descendant:IsA("ModuleScript") and not descendant.Parent:IsA("ModuleScript") then
+        if descendant:IsA("ModuleScript") then
             if isPlugScriptAdded(descendant) then
                 removedPlug(descendant)
             end
         end
+    end))
+
+    -- Listener to the user viewing different scripts; used to trigger "plug changed" events
+    runJanitor:Add(StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
+        local activeScript = StudioService.ActiveScript
+
+        -- Have we just exited a script file?
+        if cachedActiveScript then
+            local isPlugScript = cachedActiveScript:IsDescendantOf(plugsFolder)
+            if isPlugScript then
+                if isPlugScriptAdded(cachedActiveScript) then
+                    -- Changed
+                    changedPlug(cachedActiveScript)
+                else
+                    -- Wasn't in memory
+                    newPlugScript(cachedActiveScript)
+                end
+            end
+        end
+
+        -- Update cache
+        cachedActiveScript = activeScript
     end))
 end
 
