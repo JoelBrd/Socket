@@ -39,7 +39,7 @@
 
     Defines an icon to put alongside the `Name` of the **Plug**.
 
-    This can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxassetid`
+    This can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`
 
     ```lua
     {
@@ -94,7 +94,7 @@
     Defines an icon to put alongside the name of the `Group` the **Plug** is under. If you have multiple **Plugs** under the same `Group`, `GroupIcon` need only be defined
     on a singular `PlugDefinition`
 
-    This can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxassetid`
+    This can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`
 
     ```lua
     {

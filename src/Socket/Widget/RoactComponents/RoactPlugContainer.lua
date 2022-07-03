@@ -28,7 +28,7 @@ local COLOR_WHITE = Color3.fromRGB(255, 255, 255)
 ---@param str string
 ---@return boolean
 local function couldStringBeIconImageId(str)
-    return str:find("rbxassetid")
+    return str:find("rbxasset")
 end
 
 ---Creates all of the individual lines to populate the PlugContainer
