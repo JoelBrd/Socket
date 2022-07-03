@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="generator" content="Docusaurus v2.0.0-beta.9">
 <title data-react-helmet="true">SocketSettings | Socket</title><meta data-react-helmet="true" property="og:title" content="SocketSettings | Socket"><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="description" content="Global settings for Socket that can be accessed + changed via the widget. This persists across Places, but is unique to a specific user."><meta data-react-helmet="true" property="og:description" content="Global settings for Socket that can be accessed + changed via the widget. This persists across Places, but is unique to a specific user."><meta data-react-helmet="true" property="og:url" content="https://JoelBrd.github.io/Socket/api/SocketSettings"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="shortcut icon" href="/Socket/square_logo_512.png"><link data-react-helmet="true" rel="canonical" href="https://JoelBrd.github.io/Socket/api/SocketSettings"><link data-react-helmet="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/SocketSettings" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/SocketSettings" hreflang="x-default"><link rel="stylesheet" href="/Socket/assets/css/styles.302001c7.css">
-<link rel="preload" href="/Socket/assets/js/runtime~main.35f82672.js" as="script">
-<link rel="preload" href="/Socket/assets/js/main.0d8f63d1.js" as="script">
+<link rel="preload" href="/Socket/assets/js/runtime~main.5037c18c.js" as="script">
+<link rel="preload" href="/Socket/assets/js/main.618240d0.js" as="script">
 </head>
 <body>
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -24,30 +24,43 @@
   user another click.
 </p>
 <p>Defaults to <code>true</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="GroupMatchingIcons"><code style="text-decoration:none">GroupMatchingIcons</code><a aria-hidden="true" class="hash-link" href="#GroupMatchingIcons" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L44"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->GroupMatchingIcons<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="SortType"><code style="text-decoration:none">SortType</code><a aria-hidden="true" class="hash-link" href="#SortType" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L54"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->SortType<!-- -->:<!-- --> </code> <code class="blue_2Afy">string</code></div><div>
+<p>Can take a variety of string values to define how Plugs and Groups are sorted on the widget.</p>
 <p>
-  Plugs are sorted alphabetically on the widget. If this is <code>true</code>, this will be superseded by making sure <strong>Plugs</strong> with the same <code>.Icon</code> are next
-  to one another on the widget.
+  <strong>"LayoutOrder"</strong>
+  Uses <a href="/Socket/api/PlugDefinition#LayoutOrder">Layout Order</a> to define sorting. The group with the Plug with the lowest <code>LayoutOrder</code> will be at the
+  top of the widget.
 </p>
-<p>Defaults to <code>true</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="IgnoreGameProcessedKeybinds"><code style="text-decoration:none">IgnoreGameProcessedKeybinds</code><a aria-hidden="true" class="hash-link" href="#IgnoreGameProcessedKeybinds" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L53"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->IgnoreGameProcessedKeybinds<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+<p>
+  <strong>"Icon"</strong>
+  Will sort Plugs and Groups by their <code>Icon</code> using <code>&#x3C;</code>. This results in Plugs and Groups with matching Icons being grouped next to one another.
+</p>
+<p>
+  <strong>"Name"</strong>
+  Sorts Plugs and Groups alphabetically by name. This behaviour also underlies the other sort types when there isn't a distinct difference (e.g., same
+  <code>Icon</code>, same <code>LayoutOrder</code>)
+</p>
+<p>Defaults to <code>"Name"</code></p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="IgnoreGameProcessedKeybinds"><code style="text-decoration:none">IgnoreGameProcessedKeybinds</code><a aria-hidden="true" class="hash-link" href="#IgnoreGameProcessedKeybinds" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L63"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->IgnoreGameProcessedKeybinds<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>If <code>true</code>, will not discard <a href="https://developer.roblox.com/en-us/api-reference/class/UserInputService#InputBegan" target="_blank">UserInputService#InputBegan</a> events where <code>gameProcessed=true</code>.</p>
 <p>Defaults to <code>false</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableSocketPlugs"><code style="text-decoration:none">EnableSocketPlugs</code><a aria-hidden="true" class="hash-link" href="#EnableSocketPlugs" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L63"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->EnableSocketPlugs<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableSocketPlugs"><code style="text-decoration:none">EnableSocketPlugs</code><a aria-hidden="true" class="hash-link" href="#EnableSocketPlugs" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L73"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->EnableSocketPlugs<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>
   Declares if Socket should automatically add its pre-packaged Plugs. If <code>false</code>, and you delete all the default Plugs, they will not reappear
   when you restart Socket.
 </p>
 <p>Defaults to <code>true</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableSocketPlugsOverwrite"><code style="text-decoration:none">EnableSocketPlugsOverwrite</code><a aria-hidden="true" class="hash-link" href="#EnableSocketPlugsOverwrite" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L73"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->EnableSocketPlugsOverwrite<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableSocketPlugsOverwrite"><code style="text-decoration:none">EnableSocketPlugsOverwrite</code><a aria-hidden="true" class="hash-link" href="#EnableSocketPlugsOverwrite" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L83"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->EnableSocketPlugsOverwrite<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>
   Slightly softer version of <code>EnableSocketPlugs</code>. By default, Socket will delete+add its pre-packaged <strong>Plugs</strong> on startup. This means that any
   user-made changes to the <code>ModuleScripts</code> will be overwritten. Set this to <code>false</code> to disable this behaviour.
 </p>
 <p>Defaults to <code>true</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableAutoRun"><code style="text-decoration:none">EnableAutoRun</code><a aria-hidden="true" class="hash-link" href="#EnableAutoRun" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L82"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->EnableAutoRun<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableAutoRun"><code style="text-decoration:none">EnableAutoRun</code><a aria-hidden="true" class="hash-link" href="#EnableAutoRun" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L92"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->EnableAutoRun<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>If <code>false</code>, will ignore the <code>.AutoRun</code> member in any <a href="/Socket/api/PlugDefinition">PlugDefinition</a></p>
 <p>Defaults to <code>true</code></p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="UseDefaultSettings"><code style="text-decoration:none">UseDefaultSettings</code><a aria-hidden="true" class="hash-link" href="#UseDefaultSettings" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/socket_settings.lua#L99"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>SocketSettings<!-- -->.<!-- -->UseDefaultSettings<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+<p>If <code>true</code>, will reset ALL settings back to their default value (including <code>UseDefaultSettings=false</code>)</p>
 </div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
     &quot;functions&quot;: [],
     &quot;properties&quot;: [
@@ -79,11 +92,11 @@
             }
         },
         {
-            &quot;name&quot;: &quot;GroupMatchingIcons&quot;,
-            &quot;desc&quot;: &quot;Plugs are sorted alphabetically on the widget. If this is `true`, this will be superseded by making sure **Plugs** with the same `.Icon` are next\nto one another on the widget.\n\nDefaults to `true`&quot;,
-            &quot;lua_type&quot;: &quot;boolean&quot;,
+            &quot;name&quot;: &quot;SortType&quot;,
+            &quot;desc&quot;: &quot;Can take a variety of string values to define how Plugs and Groups are sorted on the widget.\n\n**\&quot;LayoutOrder\&quot;**\nUses [Layout Order](/api/PlugDefinition#LayoutOrder) to define sorting. The group with the Plug with the lowest `LayoutOrder` will be at the\ntop of the widget.\n\n**\&quot;Icon\&quot;**\nWill sort Plugs and Groups by their `Icon` using `&lt;`. This results in Plugs and Groups with matching Icons being grouped next to one another.\n\n**\&quot;Name\&quot;**\nSorts Plugs and Groups alphabetically by name. This behaviour also underlies the other sort types when there isn&#x27;t a distinct difference (e.g., same\n`Icon`, same `LayoutOrder`)\n\nDefaults to `\&quot;Name\&quot;`&quot;,
+            &quot;lua_type&quot;: &quot;string&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 44,
+                &quot;line&quot;: 54,
                 &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
             }
         },
@@ -92,7 +105,7 @@
             &quot;desc&quot;: &quot;If `true`, will not discard [UserInputService#InputBegan] events where `gameProcessed=true`.\n\nDefaults to `false`&quot;,
             &quot;lua_type&quot;: &quot;boolean&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 53,
+                &quot;line&quot;: 63,
                 &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
             }
         },
@@ -101,7 +114,7 @@
             &quot;desc&quot;: &quot;Declares if Socket should automatically add its pre-packaged Plugs. If `false`, and you delete all the default Plugs, they will not reappear\nwhen you restart Socket.\n\nDefaults to `true`&quot;,
             &quot;lua_type&quot;: &quot;boolean&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 63,
+                &quot;line&quot;: 73,
                 &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
             }
         },
@@ -110,7 +123,7 @@
             &quot;desc&quot;: &quot;Slightly softer version of `EnableSocketPlugs`. By default, Socket will delete+add its pre-packaged **Plugs** on startup. This means that any\nuser-made changes to the `ModuleScripts` will be overwritten. Set this to `false` to disable this behaviour.\n\nDefaults to `true`&quot;,
             &quot;lua_type&quot;: &quot;boolean&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 73,
+                &quot;line&quot;: 83,
                 &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
             }
         },
@@ -119,7 +132,16 @@
             &quot;desc&quot;: &quot;If `false`, will ignore the `.AutoRun` member in any [PlugDefinition]\n\nDefaults to `true`&quot;,
             &quot;lua_type&quot;: &quot;boolean&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 82,
+                &quot;line&quot;: 92,
+                &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;UseDefaultSettings&quot;,
+            &quot;desc&quot;: &quot;If `true`, will reset ALL settings back to their default value (including `UseDefaultSettings=false`)&quot;,
+            &quot;lua_type&quot;: &quot;boolean&quot;,
+            &quot;source&quot;: {
+                &quot;line&quot;: 99,
                 &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
             }
         }
@@ -131,8 +153,8 @@
         &quot;line&quot;: 6,
         &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
     }
-}</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#EnableAutoRun" class="table-of-contents__link toc-highlight">EnableAutoRun</a></li><li><a href="#EnableSocketPlugs" class="table-of-contents__link toc-highlight">EnableSocketPlugs</a></li><li><a href="#EnableSocketPlugsOverwrite" class="table-of-contents__link toc-highlight">EnableSocketPlugsOverwrite</a></li><li><a href="#Font" class="table-of-contents__link toc-highlight">Font</a></li><li><a href="#GroupMatchingIcons" class="table-of-contents__link toc-highlight">GroupMatchingIcons</a></li><li><a href="#IgnoreGameProcessedKeybinds" class="table-of-contents__link toc-highlight">IgnoreGameProcessedKeybinds</a></li><li><a href="#OpenFieldsByDefault" class="table-of-contents__link toc-highlight">OpenFieldsByDefault</a></li><li><a href="#UIScale" class="table-of-contents__link toc-highlight">UIScale</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 JoelBrd. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/Socket/assets/js/runtime~main.35f82672.js"></script>
-<script src="/Socket/assets/js/main.0d8f63d1.js"></script>
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#EnableAutoRun" class="table-of-contents__link toc-highlight">EnableAutoRun</a></li><li><a href="#EnableSocketPlugs" class="table-of-contents__link toc-highlight">EnableSocketPlugs</a></li><li><a href="#EnableSocketPlugsOverwrite" class="table-of-contents__link toc-highlight">EnableSocketPlugsOverwrite</a></li><li><a href="#Font" class="table-of-contents__link toc-highlight">Font</a></li><li><a href="#IgnoreGameProcessedKeybinds" class="table-of-contents__link toc-highlight">IgnoreGameProcessedKeybinds</a></li><li><a href="#OpenFieldsByDefault" class="table-of-contents__link toc-highlight">OpenFieldsByDefault</a></li><li><a href="#SortType" class="table-of-contents__link toc-highlight">SortType</a></li><li><a href="#UIScale" class="table-of-contents__link toc-highlight">UIScale</a></li><li><a href="#UseDefaultSettings" class="table-of-contents__link toc-highlight">UseDefaultSettings</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 JoelBrd. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/Socket/assets/js/runtime~main.5037c18c.js"></script>
+<script src="/Socket/assets/js/main.618240d0.js"></script>
 </body>
 </html>

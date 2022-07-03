@@ -17,8 +17,8 @@ There are a few `Required` members for a [PlugDefinition] to be valid.
 Many fields are `Populated`, where if it is not defined in your [PlugDefinition], will be auto-filled by Socket with a default value.
 
 There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in your [PlugDefinition] and let them be `Populated` by Socket."><meta data-react-helmet="true" property="og:url" content="https://JoelBrd.github.io/Socket/api/PlugDefinition"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="shortcut icon" href="/Socket/square_logo_512.png"><link data-react-helmet="true" rel="canonical" href="https://JoelBrd.github.io/Socket/api/PlugDefinition"><link data-react-helmet="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/PlugDefinition" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/PlugDefinition" hreflang="x-default"><link rel="stylesheet" href="/Socket/assets/css/styles.302001c7.css">
-<link rel="preload" href="/Socket/assets/js/runtime~main.35f82672.js" as="script">
-<link rel="preload" href="/Socket/assets/js/main.0d8f63d1.js" as="script">
+<link rel="preload" href="/Socket/assets/js/runtime~main.5037c18c.js" as="script">
+<link rel="preload" href="/Socket/assets/js/main.618240d0.js" as="script">
 </head>
 <body>
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -57,7 +57,7 @@ There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in yo
 <p>Defaults to <code>Color.fromRGB(255, 255, 255)</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Icon"><code style="text-decoration:none">Icon</code><a aria-hidden="true" class="hash-link" href="#Icon" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L57"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Icon<!-- -->:<!-- --> </code> <code class="blue_2Afy">string</code></div><div>
 <p>Defines an icon to put alongside the <code>Name</code> of the <strong>Plug</strong>.</p>
-<p>This can either be <code>Text</code> (e.g., Emoji) or an <code>ImageId</code>. <code>ImageIds</code> are recognised by the string containing <code>rbxassetid</code></p>
+<p>This can either be <code>Text</code> (e.g., Emoji) or an <code>ImageId</code>. <code>ImageIds</code> are recognised by the string containing <code>rbxasset</code></p>
 <pre class="language-lua"><code class="language-lua"><span class="token punctuation">{</span>
     Icon <span class="token operator">=</span> <span class="token string">"📂"</span> <span class="token comment">-- Good</span>
     Icon <span class="token operator">=</span> <span class="token string">"My Icon"</span> <span class="token comment">-- Probably too long, but good</span>
@@ -85,7 +85,7 @@ There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in yo
   Defines an icon to put alongside the name of the <code>Group</code> the <strong>Plug</strong> is under. If you have multiple <strong>Plugs</strong> under the same <code>Group</code>, <code>GroupIcon</code> need only be defined
   on a singular <code>PlugDefinition</code>
 </p>
-<p>This can either be <code>Text</code> (e.g., Emoji) or an <code>ImageId</code>. <code>ImageIds</code> are recognised by the string containing <code>rbxassetid</code></p>
+<p>This can either be <code>Text</code> (e.g., Emoji) or an <code>ImageId</code>. <code>ImageIds</code> are recognised by the string containing <code>rbxasset</code></p>
 <pre class="language-lua"><code class="language-lua"><span class="token punctuation">{</span>
     Icon <span class="token operator">=</span> <span class="token string">"📂"</span> <span class="token comment">-- Good</span>
     Icon <span class="token operator">=</span> <span class="token string">"My Icon"</span> <span class="token comment">-- Probably too long, but good</span>
@@ -117,7 +117,11 @@ Plug Description Line 2
 ================ Plug Name (Plug Group) | DESCRIPTION ================
 </code></pre>
 <p>Defaults to <code>"No Description"</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableAutomaticUndo"><code style="text-decoration:none">EnableAutomaticUndo</code><a aria-hidden="true" class="hash-link" href="#EnableAutomaticUndo" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L167"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->EnableAutomaticUndo<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="LayoutOrder"><code style="text-decoration:none">LayoutOrder</code><a aria-hidden="true" class="hash-link" href="#LayoutOrder" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L161"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->LayoutOrder<!-- -->:<!-- --> </code> <code class="blue_2Afy">number</code></div><div>
+<p>Can be used to define the position of where the <em>Plug</em> is rendered on the Widget.</p>
+<p>See <a href="/Socket/api/SocketSettings#SortType">Settings</a></p>
+<p>Defaults to <code>0</code></p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableAutomaticUndo"><code style="text-decoration:none">EnableAutomaticUndo</code><a aria-hidden="true" class="hash-link" href="#EnableAutomaticUndo" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L179"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->EnableAutomaticUndo<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>
   If <code>true</code>, will automatically setup <code>ChangeHistoryService</code> waypoints before and after running the <strong>Plug's</strong> <code>Function</code>. AKA, any changes
   to studio that your <strong>Plug</strong> makes, you can undo with <code>Ctrl+Z</code> or equivalent.
@@ -137,7 +141,7 @@ Plug Description Line 2
   </div>
 </div>
 <p>Defaults to <code>false</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="IgnoreGameProcessedKeybinds"><code style="text-decoration:none">IgnoreGameProcessedKeybinds</code><a aria-hidden="true" class="hash-link" href="#IgnoreGameProcessedKeybinds" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L186"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->IgnoreGameProcessedKeybinds<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="IgnoreGameProcessedKeybinds"><code style="text-decoration:none">IgnoreGameProcessedKeybinds</code><a aria-hidden="true" class="hash-link" href="#IgnoreGameProcessedKeybinds" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L198"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->IgnoreGameProcessedKeybinds<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>Socket uses <a href="https://developer.roblox.com/en-us/api-reference/class/UserInputService#InputBegan" target="_blank">UserInputService#InputBegan</a> for detecting keybinds.</p>
 <pre><code>game:GetService("UserInputService").InputBegan:Connect(function(inputObject, gameProcessedEvent)
     if gameProcessedEvent and not IgnoreGameProcessedKeybinds then
@@ -148,10 +152,10 @@ Plug Description Line 2
 end)
 </code></pre>
 <p>Defaults to <code>false</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="AutoRun"><code style="text-decoration:none">AutoRun</code><a aria-hidden="true" class="hash-link" href="#AutoRun" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L196"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->AutoRun<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="AutoRun"><code style="text-decoration:none">AutoRun</code><a aria-hidden="true" class="hash-link" href="#AutoRun" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L208"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->AutoRun<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>If <code>true</code>, <code>plug.Function</code> will be called when Socket starts. Useful if there is a plug you want to run on startup.</p>
 <p>Defaults to <code>false</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Keybind"><code style="text-decoration:none">Keybind</code><a aria-hidden="true" class="hash-link" href="#Keybind" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L217"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Keybind<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy">Enum.KeyCode</code><code class="purple__nFc">}</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Keybind"><code style="text-decoration:none">Keybind</code><a aria-hidden="true" class="hash-link" href="#Keybind" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L229"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Keybind<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy">Enum.KeyCode</code><code class="purple__nFc">}</code></div><div>
 <p>An array of <code>Enum.KeyCode</code> that can trigger the <strong>Plug</strong> to run.</p>
 <pre class="language-lua"><code class="language-lua"><span class="token punctuation">{</span>
     Keybind <span class="token operator">=</span> <span class="token punctuation">{</span> Enum<span class="token punctuation">.</span>KeyCode<span class="token punctuation">.</span>LeftControl<span class="token punctuation">,</span> Enum<span class="token punctuation">.</span>KeyCode<span class="token punctuation">.</span>J <span class="token punctuation">}</span>
@@ -169,7 +173,7 @@ end)
   </div>
 </div>
 <p>Defaults to <code>{}</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Fields"><code style="text-decoration:none">Fields</code><a aria-hidden="true" class="hash-link" href="#Fields" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L243"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Fields<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugField">PlugField</a></code><code class="purple__nFc">}</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Fields"><code style="text-decoration:none">Fields</code><a aria-hidden="true" class="hash-link" href="#Fields" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L255"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Fields<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugField">PlugField</a></code><code class="purple__nFc">}</code></div><div>
 <p>
   An array of <code>PlugField</code>, which define the different fields the <strong>Plug</strong> has. The order they are defined is the order they will appear
   on the widget.
@@ -189,7 +193,7 @@ end)
 <span class="token punctuation">}</span>    
 </code></pre>
 <p>Defaults to <code>{}</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="FieldChanged"><code style="text-decoration:none">FieldChanged</code><a aria-hidden="true" class="hash-link" href="#FieldChanged" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L273"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->FieldChanged<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/BindableEvent" target="_blank" rel="noopener noreferrer">BindableEvent<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="FieldChanged"><code style="text-decoration:none">FieldChanged</code><a aria-hidden="true" class="hash-link" href="#FieldChanged" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L285"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->FieldChanged<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/BindableEvent" target="_blank" rel="noopener noreferrer">BindableEvent<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
 <p>A <code>BindableEvent</code> to listen to field values being changed on the UI!</p>
 <pre><code>plug.FieldChanged.Event:Connect(function(fieldName, fieldValue)
     print(plug:GetFieldValue(fieldName) == fieldValue)
@@ -201,7 +205,7 @@ end)
   Most cases it will suffice to just read <code>plug:GetFieldValue(fieldName)</code> as and when you need a field value. But sometimes you may want to re-run routines
   after a field value change.
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="State"><code style="text-decoration:none">State</code><a aria-hidden="true" class="hash-link" href="#State" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L334"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->State<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition#PlugState">PlugState</a></code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="State"><code style="text-decoration:none">State</code><a aria-hidden="true" class="hash-link" href="#State" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L346"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->State<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition#PlugState">PlugState</a></code></div><div>
 <p>
   A persistent <code>State</code> of the <strong>Plug</strong> while the Socket plugin is running. We can write to this inside the <code>PlugDefinition</code>, and
   read/write to it in our <code>Function</code> and <code>BindToClose/BindToOpen</code> functions.
@@ -252,10 +256,33 @@ end)
     _Client = {};
 }
 </code></pre>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="RunJanitor"><code style="text-decoration:none">RunJanitor</code><a aria-hidden="true" class="hash-link" href="#RunJanitor" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L344"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->RunJanitor<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/Janitor">Janitor</a></code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="RunJanitor"><code style="text-decoration:none">RunJanitor</code><a aria-hidden="true" class="hash-link" href="#RunJanitor" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L356"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->RunJanitor<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/Janitor">Janitor</a></code></div><div>
 <p>A <a href="https://github.com/howmanysmall/Janitor" target="_blank">Janitor</a> object, intended to be used to cleanup tasks after a plug stops running.</p>
 <p>Is automatically cleaned up when using <code>plug:ToggleIsRunning()</code>, and on <code>BindToClose</code></p>
-</div><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Function"><code style="text-decoration:none">Function</code><a aria-hidden="true" class="hash-link" href="#Function" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#218c74;color:#218c74">Required</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L372"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">Function</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Disabled"><code style="text-decoration:none">Disabled</code><a aria-hidden="true" class="hash-link" href="#Disabled" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L450"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Disabled<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+<p>
+  If <code>true</code>, this Plug will not be displayed on the Widget. It's <code>Function</code> will also not be required, nor registered. This renders <code>AutoRun</code> useless
+  for this specific <a href="/Socket/api/PlugDefinition">PlugDefinition</a>
+</p>
+<div class="admonition admonition-tip alert alert--success">
+  <div class="admonition-heading">
+    <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="12" height="16" viewBox="0 0 12 16">
+          <path d="M6.5 0C3.48 0 1 2.19 1 5c0 .92.55 2.25 1 3 1.34 2.25 1.78 2.78 2 4v1h5v-1c.22-1.22.66-1.75 2-4 .45-.75 1-2.08 1-3 0-2.81-2.48-5-5.5-5zm3.64 7.48c-.25.44-.47.8-.67 1.11-.86 1.41-1.25 2.06-1.45 3.23-.02.05-.02.11-.02.17H5c0-.06 0-.13-.02-.17-.2-1.17-.59-1.83-1.45-3.23-.2-.31-.42-.67-.67-1.11C2.44 6.78 2 5.65 2 5c0-2.2 2.02-4 4.5-4 1.22 0 2.36.42 3.22 1.19C10.55 2.94 11 3.94 11 5c0 .66-.44 1.78-.86 2.48zM4 14h5c-.23 1.14-1.3 2-2.5 2s-2.27-.86-2.5-2z"></path>
+        </svg></span>tip</h5>
+  </div>
+  <div class="admonition-content">
+    <p>This can be useful to create a <a href="/Socket/api/PlugDefinition">PlugDefinition</a> solely for defining the aesthetics of a <code>Group</code> for organisation purposes.</p>
+    <pre class="language-lua"><code class="language-lua">    <span class="token punctuation">{</span>
+        Group <span class="token operator">=</span> <span class="token string">"Fruity Plugs"</span><span class="token punctuation">,</span>
+        GroupIcon <span class="token operator">=</span> <span class="token string">"🍎"</span><span class="token punctuation">,</span>
+        GroupColor <span class="token operator">=</span> Color3<span class="token punctuation">.</span><span class="token function">fromRGB</span><span class="token punctuation">(</span><span class="token number">200</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">,</span> <span class="token number">20</span><span class="token punctuation">)</span><span class="token punctuation">,</span>
+        Disabled <span class="token operator">=</span> <span class="token keyword">true</span><span class="token punctuation">,</span>
+    <span class="token punctuation">}</span>
+</code></pre>
+  </div>
+</div>
+<p>Defaults to <code>false</code></p>
+</div><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Function"><code style="text-decoration:none">Function</code><a aria-hidden="true" class="hash-link" href="#Function" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#218c74;color:#218c74">Required</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L384"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">Function</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>The function that will be called when we Run the <strong>Plug</strong>.</p>
 <div class="admonition admonition-caution alert alert--warning">
   <div class="admonition-heading">
@@ -267,7 +294,7 @@ end)
     <p>This function is not allowed to yield; wrap any yielding routines in a <code>task.spawn</code> or equivalent</p>
   </div>
 </div>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="BindToClose"><code style="text-decoration:none">BindToClose</code><a aria-hidden="true" class="hash-link" href="#BindToClose" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L394"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">BindToClose</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="BindToClose"><code style="text-decoration:none">BindToClose</code><a aria-hidden="true" class="hash-link" href="#BindToClose" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L406"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">BindToClose</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>This is a function that is called when:</p>
 <ol>
   <li>The Socket Plugin is exited</li>
@@ -290,7 +317,7 @@ end)
   2) <code>plug.State.IsRunning = false</code>
   3) <code>plug.RunJanitor:Cleanup()</code>
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="BindToOpen"><code style="text-decoration:none">BindToOpen</code><a aria-hidden="true" class="hash-link" href="#BindToOpen" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L414"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">BindToOpen</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="BindToOpen"><code style="text-decoration:none">BindToOpen</code><a aria-hidden="true" class="hash-link" href="#BindToOpen" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L426"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">BindToOpen</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>This is a function that is called when the Socket plugin is started! This has some rare use cases.</p>
 <p>
   For the most part, Socket is really good at calling <code>BindToClose</code> when it is needed, but there are some Roblox limitations.
@@ -309,11 +336,11 @@ end)
     <p>This function is not allowed to yield; wrap any yielding routines in a <code>task.spawn</code> or equivalent</p>
   </div>
 </div>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="GetFieldValue"><code style="text-decoration:none">GetFieldValue</code><a aria-hidden="true" class="hash-link" href="#GetFieldValue" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L255"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">GetFieldValue</code><code>(</code><code>fieldName<!-- -->: </code><code class="blue_2Afy">string</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="GetFieldValue"><code style="text-decoration:none">GetFieldValue</code><a aria-hidden="true" class="hash-link" href="#GetFieldValue" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L267"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">GetFieldValue</code><code>(</code><code>fieldName<!-- -->: </code><code class="blue_2Afy">string</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Sugar for</p>
 <pre class="language-lua"><code class="language-lua">plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>FieldValues<span class="token punctuation">[</span>fieldName<span class="token punctuation">]</span>
 </code></pre>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="ToggleIsRunning"><code style="text-decoration:none">ToggleIsRunning</code><a aria-hidden="true" class="hash-link" href="#ToggleIsRunning" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L358"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">ToggleIsRunning</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="ToggleIsRunning"><code style="text-decoration:none">ToggleIsRunning</code><a aria-hidden="true" class="hash-link" href="#ToggleIsRunning" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L370"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">ToggleIsRunning</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Sugar for</p>
 <pre class="language-lua"><code class="language-lua">plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>IsRunning <span class="token operator">=</span> <span class="token keyword">not</span> plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>IsRunning
 <span class="token keyword">if</span> <span class="token keyword">not</span> plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>IsRunning <span class="token keyword">then</span>
@@ -338,7 +365,7 @@ end)
                 &quot;Read-Only&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 255,
+                &quot;line&quot;: 267,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -352,7 +379,7 @@ end)
                 &quot;Read-Only&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 358,
+                &quot;line&quot;: 370,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -377,7 +404,7 @@ end)
                 &quot;Required&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 372,
+                &quot;line&quot;: 384,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -399,7 +426,7 @@ end)
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;static&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 394,
+                &quot;line&quot;: 406,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -421,7 +448,7 @@ end)
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;static&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 414,
+                &quot;line&quot;: 426,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         }
@@ -453,7 +480,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;Icon&quot;,
-            &quot;desc&quot;: &quot;Defines an icon to put alongside the `Name` of the **Plug**.\n\nThis can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxassetid`\n\n```lua\n{\n    Icon = \&quot;📂\&quot; -- Good\n    Icon = \&quot;My Icon\&quot; -- Probably too long, but good\n    Icon = \&quot;\&quot; -- Bit boring, but good\n    Icon = \&quot;rbxassetid://9553550332\&quot; -- Good ImageId\n    Icon = \&quot;https://www.roblox.com/library/9553550338/\&quot; -- Bad ImageId (Website)\n    Icon = \&quot;http://www.roblox.com/asset/?id=9553550332\&quot; -- Bad ImageId (Decal)\n}\n```\n\nDefaults to `\&quot;❓\&quot;`&quot;,
+            &quot;desc&quot;: &quot;Defines an icon to put alongside the `Name` of the **Plug**.\n\nThis can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`\n\n```lua\n{\n    Icon = \&quot;📂\&quot; -- Good\n    Icon = \&quot;My Icon\&quot; -- Probably too long, but good\n    Icon = \&quot;\&quot; -- Bit boring, but good\n    Icon = \&quot;rbxassetid://9553550332\&quot; -- Good ImageId\n    Icon = \&quot;https://www.roblox.com/library/9553550338/\&quot; -- Bad ImageId (Website)\n    Icon = \&quot;http://www.roblox.com/asset/?id=9553550332\&quot; -- Bad ImageId (Decal)\n}\n```\n\nDefaults to `\&quot;❓\&quot;`&quot;,
             &quot;lua_type&quot;: &quot;string&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -501,7 +528,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;GroupIcon&quot;,
-            &quot;desc&quot;: &quot;Defines an icon to put alongside the name of the `Group` the **Plug** is under. If you have multiple **Plugs** under the same `Group`, `GroupIcon` need only be defined\non a singular `PlugDefinition`\n\nThis can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxassetid`\n\n```lua\n{\n    Icon = \&quot;📂\&quot; -- Good\n    Icon = \&quot;My Icon\&quot; -- Probably too long, but good\n    Icon = \&quot;\&quot; -- Bit boring, but good\n    Icon = \&quot;rbxassetid://9553550332\&quot; -- Good ImageId\n    Icon = \&quot;https://www.roblox.com/library/9553550338/\&quot; -- Bad ImageId (Website)\n    Icon = \&quot;http://www.roblox.com/asset/?id=9553550332\&quot; -- Bad ImageId (Decal)\n}\n```\n\nDefaults to `\&quot;❓\&quot;`&quot;,
+            &quot;desc&quot;: &quot;Defines an icon to put alongside the name of the `Group` the **Plug** is under. If you have multiple **Plugs** under the same `Group`, `GroupIcon` need only be defined\non a singular `PlugDefinition`\n\nThis can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`\n\n```lua\n{\n    Icon = \&quot;📂\&quot; -- Good\n    Icon = \&quot;My Icon\&quot; -- Probably too long, but good\n    Icon = \&quot;\&quot; -- Bit boring, but good\n    Icon = \&quot;rbxassetid://9553550332\&quot; -- Good ImageId\n    Icon = \&quot;https://www.roblox.com/library/9553550338/\&quot; -- Bad ImageId (Website)\n    Icon = \&quot;http://www.roblox.com/asset/?id=9553550332\&quot; -- Bad ImageId (Decal)\n}\n```\n\nDefaults to `\&quot;❓\&quot;`&quot;,
             &quot;lua_type&quot;: &quot;string&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -536,6 +563,18 @@ end)
             }
         },
         {
+            &quot;name&quot;: &quot;LayoutOrder&quot;,
+            &quot;desc&quot;: &quot;Can be used to define the position of where the *Plug* is rendered on the Widget.\n\nSee [Settings](/api/SocketSettings#SortType)\n\nDefaults to `0`&quot;,
+            &quot;lua_type&quot;: &quot;number&quot;,
+            &quot;tags&quot;: [
+                &quot;Populated&quot;
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 161,
+                &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
+            }
+        },
+        {
             &quot;name&quot;: &quot;EnableAutomaticUndo&quot;,
             &quot;desc&quot;: &quot;If `true`, will automatically setup `ChangeHistoryService` waypoints before and after running the **Plug&#x27;s** `Function`. AKA, any changes\nto studio that your **Plug** makes, you can undo with `Ctrl+Z` or equivalent.\n\nYou can obviously set this to `false` (or don&#x27;t declare the field) if you want to write your own implementation.\n\n:::tip\nWhen you run \&quot;Undo\&quot; in Studio, it will undo the last change under the `DataModel` (`game`). If, for example, your **Plug** just prints to the output (and doesn&#x27;t\nmake any changes to the `DataModel`) it will undo the last change unrelated to your **Plug**\n:::\n\nDefaults to `false`&quot;,
             &quot;lua_type&quot;: &quot;boolean&quot;,
@@ -543,7 +582,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 167,
+                &quot;line&quot;: 179,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -555,7 +594,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 186,
+                &quot;line&quot;: 198,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -567,7 +606,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 196,
+                &quot;line&quot;: 208,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -579,7 +618,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 217,
+                &quot;line&quot;: 229,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -591,7 +630,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 243,
+                &quot;line&quot;: 255,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -603,7 +642,7 @@ end)
                 &quot;Read-Only&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 273,
+                &quot;line&quot;: 285,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -615,7 +654,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 334,
+                &quot;line&quot;: 346,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -627,7 +666,19 @@ end)
                 &quot;Read-Only&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 344,
+                &quot;line&quot;: 356,
+                &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
+            }
+        },
+        {
+            &quot;name&quot;: &quot;Disabled&quot;,
+            &quot;desc&quot;: &quot;If `true`, this Plug will not be displayed on the Widget. It&#x27;s `Function` will also not be required, nor registered. This renders `AutoRun` useless\nfor this specific [PlugDefinition](/api/PlugDefinition)\n\n:::tip\nThis can be useful to create a [PlugDefinition](/api/PlugDefinition) solely for defining the aesthetics of a `Group` for organisation purposes.\n\n```lua\n    {\n        Group = \&quot;Fruity Plugs\&quot;,\n        GroupIcon = \&quot;🍎\&quot;,\n        GroupColor = Color3.fromRGB(200, 20, 20),\n        Disabled = true,\n    }\n```\n:::\n\nDefaults to `false`&quot;,
+            &quot;lua_type&quot;: &quot;boolean&quot;,
+            &quot;tags&quot;: [
+                &quot;Populated&quot;
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 450,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         }
@@ -670,8 +721,8 @@ end)
         &quot;line&quot;: 12,
         &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
     }
-}</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#PlugState" class="table-of-contents__link toc-highlight">PlugState</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#AutoRun" class="table-of-contents__link toc-highlight">AutoRun</a></li><li><a href="#Description" class="table-of-contents__link toc-highlight">Description</a></li><li><a href="#EnableAutomaticUndo" class="table-of-contents__link toc-highlight">EnableAutomaticUndo</a></li><li><a href="#FieldChanged" class="table-of-contents__link toc-highlight">FieldChanged</a></li><li><a href="#Fields" class="table-of-contents__link toc-highlight">Fields</a></li><li><a href="#Group" class="table-of-contents__link toc-highlight">Group</a></li><li><a href="#GroupColor" class="table-of-contents__link toc-highlight">GroupColor</a></li><li><a href="#GroupIcon" class="table-of-contents__link toc-highlight">GroupIcon</a></li><li><a href="#GroupIconColor" class="table-of-contents__link toc-highlight">GroupIconColor</a></li><li><a href="#Icon" class="table-of-contents__link toc-highlight">Icon</a></li><li><a href="#IconColor" class="table-of-contents__link toc-highlight">IconColor</a></li><li><a href="#IgnoreGameProcessedKeybinds" class="table-of-contents__link toc-highlight">IgnoreGameProcessedKeybinds</a></li><li><a href="#Keybind" class="table-of-contents__link toc-highlight">Keybind</a></li><li><a href="#Name" class="table-of-contents__link toc-highlight">Name</a></li><li><a href="#NameColor" class="table-of-contents__link toc-highlight">NameColor</a></li><li><a href="#RunJanitor" class="table-of-contents__link toc-highlight">RunJanitor</a></li><li><a href="#State" class="table-of-contents__link toc-highlight">State</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#GetFieldValue" class="table-of-contents__link toc-highlight">:GetFieldValue</a></li><li><a href="#ToggleIsRunning" class="table-of-contents__link toc-highlight">:ToggleIsRunning</a></li><li><a href="#BindToClose" class="table-of-contents__link toc-highlight">.BindToClose</a></li><li><a href="#BindToOpen" class="table-of-contents__link toc-highlight">.BindToOpen</a></li><li><a href="#Function" class="table-of-contents__link toc-highlight">.Function</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 JoelBrd. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/Socket/assets/js/runtime~main.35f82672.js"></script>
-<script src="/Socket/assets/js/main.0d8f63d1.js"></script>
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#PlugState" class="table-of-contents__link toc-highlight">PlugState</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#AutoRun" class="table-of-contents__link toc-highlight">AutoRun</a></li><li><a href="#Description" class="table-of-contents__link toc-highlight">Description</a></li><li><a href="#Disabled" class="table-of-contents__link toc-highlight">Disabled</a></li><li><a href="#EnableAutomaticUndo" class="table-of-contents__link toc-highlight">EnableAutomaticUndo</a></li><li><a href="#FieldChanged" class="table-of-contents__link toc-highlight">FieldChanged</a></li><li><a href="#Fields" class="table-of-contents__link toc-highlight">Fields</a></li><li><a href="#Group" class="table-of-contents__link toc-highlight">Group</a></li><li><a href="#GroupColor" class="table-of-contents__link toc-highlight">GroupColor</a></li><li><a href="#GroupIcon" class="table-of-contents__link toc-highlight">GroupIcon</a></li><li><a href="#GroupIconColor" class="table-of-contents__link toc-highlight">GroupIconColor</a></li><li><a href="#Icon" class="table-of-contents__link toc-highlight">Icon</a></li><li><a href="#IconColor" class="table-of-contents__link toc-highlight">IconColor</a></li><li><a href="#IgnoreGameProcessedKeybinds" class="table-of-contents__link toc-highlight">IgnoreGameProcessedKeybinds</a></li><li><a href="#Keybind" class="table-of-contents__link toc-highlight">Keybind</a></li><li><a href="#LayoutOrder" class="table-of-contents__link toc-highlight">LayoutOrder</a></li><li><a href="#Name" class="table-of-contents__link toc-highlight">Name</a></li><li><a href="#NameColor" class="table-of-contents__link toc-highlight">NameColor</a></li><li><a href="#RunJanitor" class="table-of-contents__link toc-highlight">RunJanitor</a></li><li><a href="#State" class="table-of-contents__link toc-highlight">State</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#GetFieldValue" class="table-of-contents__link toc-highlight">:GetFieldValue</a></li><li><a href="#ToggleIsRunning" class="table-of-contents__link toc-highlight">:ToggleIsRunning</a></li><li><a href="#BindToClose" class="table-of-contents__link toc-highlight">.BindToClose</a></li><li><a href="#BindToOpen" class="table-of-contents__link toc-highlight">.BindToOpen</a></li><li><a href="#Function" class="table-of-contents__link toc-highlight">.Function</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 JoelBrd. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/Socket/assets/js/runtime~main.5037c18c.js"></script>
+<script src="/Socket/assets/js/main.618240d0.js"></script>
 </body>
 </html>
