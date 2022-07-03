@@ -4,16 +4,16 @@ sidebar_position: 3
 
 # Adding Your First Plug
 
-If you've got this far, let's assume that your interested in adding some **Plugs** of your own to help improve your developer workflow! 
+If you've got this far, let's assume that your interested in adding some Plugs of your own to help improve your developer workflow! 
 
-## Creating a new **Plug**
+## Creating a new Plug
 
-Let's make use of one of our Core **Plugs**, **Create Plug** to create your first plug 
+Let's make use of one of our Core Plugs, **Create Plug** to create your first plug 
 ![image](/create_plug.png)
 
 This creates a `ModuleScript` in the `SocketPlugin.Plugs` directory
 :::info
-You can create folders in this directory to help organise your **Plugs**; but the `Group` of a **Plug** is defined within the `ModuleScript` itself
+You can create folders in this directory to help organise your Plugs; but the `Group` of a Plug is defined within the `ModuleScript` itself
 :::
 
 You'll get a `ModuleScript` with a `Source` similar to:
@@ -75,7 +75,7 @@ Try editing some of these fields, and see how the *Widget* updates! Keep an eye 
 
 ## Creating our code
 
-We now have a fresh **Plug**, and have played around with how it appears on the *Widget*. Lets take a look at the tools we have when defining our [Function](/api/PlugDefinition#Function)
+We now have a fresh Plug, and have played around with how it appears on the *Widget*. Lets take a look at the tools we have when defining our [Function](/api/PlugDefinition#Function)
 
 ### Parameters
 
@@ -86,12 +86,12 @@ We now have a fresh **Plug**, and have played around with how it appears on the 
 
 ### Logging
 
-You'll notice in the template **Plug** that gets created, a required `Logger` file. This gives us access to:
+You'll notice in the template Plug that gets created, a required `Logger` file. This gives us access to:
 ```lua
 Logger:PlugInfo(plug, "Hello!") -- <==> print(("[%s %s] %s"):format(plug.Icon or "", plug.Name, "Hello!"))
 Logger:PlugWarn(plug, "Uh Oh!") -- <==> warn(("[%s %s] %s"):format(plug.Icon or "", plug.Name, "Hello!"))
 ```
-This is just a nice way to print to the output, and show the **Plug** scope it came from. This is the same API used for when **Socket** detects an issue with a **Plug** and wants to inform the user (e.g., a required Field is missing its value)
+This is just a nice way to print to the output, and show the Plug scope it came from. This is the same API used for when **Socket** detects an issue with a Plug and wants to inform the user (e.g., a required Field is missing its value)
 
 ### Using `plug` Parameter
 
@@ -99,7 +99,7 @@ You can reference any members of `plug` (see [PlugDefinition](/api/PlugDefinitio
 
 #### `plug.State.IsRunning` & `plug:ToggleIsRunning()`
 
-We may want to have a **Plug** that has a toggleable routine; aka we can turn it on and off. We can change `plug.State.IsRunning` to indicate on the widget if the plug is running or not. Check out the API [here](/api/PlugDefinition#ToggleIsRunning)
+We may want to have a Plug that has a toggleable routine; aka we can turn it on and off. We can change `plug.State.IsRunning` to indicate on the widget if the plug is running or not. Check out the API [here](/api/PlugDefinition#ToggleIsRunning)
 
 #### `plug.State.FieldValues`
 
@@ -150,7 +150,7 @@ A nice trick we can do is if we want to declare a default value for a Field, we 
 
 ### BindToClose
 
-Imagine we have a **Plug** that is running routines (`IsRunning=true`), but we then delete the `ModuleScript` for that **Plug**, or we close the [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin)? We could still have code running that would've normally been stopped by toggling the **Plug**. This is where [BindToClose](/api/PlugDefinition#BindToClose) comes in.
+Imagine we have a Plug that is running routines (`IsRunning=true`), but we then delete the `ModuleScript` for that Plug, or we close the [Plugin](https://developer.roblox.com/en-us/api-reference/class/Plugin)? We could still have code running that would've normally been stopped by toggling the Plug. This is where [BindToClose](/api/PlugDefinition#BindToClose) comes in.
 
 Example:
 ```lua

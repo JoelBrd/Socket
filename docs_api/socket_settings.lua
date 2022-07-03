@@ -75,7 +75,7 @@
     @prop EnableSocketPlugsOverwrite boolean
     @within SocketSettings
 
-    Slightly softer version of `EnableSocketPlugs`. By default, Socket will delete+add its pre-packaged **Plugs** on startup. This means that any
+    Slightly softer version of `EnableSocketPlugs`. By default, Socket will delete+add its pre-packaged Plugs on startup. This means that any
     user-made changes to the `ModuleScripts` will be overwritten. Set this to `false` to disable this behaviour.
 
     Defaults to `true`

@@ -5,7 +5,7 @@ sidebar_position: 4
 # Examples
 ## Example 1 | Midas Touch Plug
 
-Lets go through an example here by creating a **Plug** that makes parts look golden.
+Lets go through an example here by creating a Plug that makes parts look golden.
 
 ### Create the Plug
 
@@ -63,7 +63,7 @@ local plugDefinition = {
 
 ### v1
 
-The **Plug** currently doesn't do anything, other than print a silly message to the output window. Lets make it so when we run the **Plug**, it will make any parts that we have selected turn golden:
+The Plug currently doesn't do anything, other than print a silly message to the output window. Lets make it so when we run the Plug, it will make any parts that we have selected turn golden:
 ```lua
 ---
 ---Midas Touch
@@ -159,8 +159,8 @@ I'm also not super happy with it always being the same color; lets add 2 color f
 #### Real time
 
 Finally, I don't want to have to click Run, or use a Keybind, to make a part gold. I want to
-1. Make the **Plug** toggleable
-2. Whenever the **Plug** is running, any parts I select will turn to gold in real time.
+1. Make the Plug toggleable
+2. Whenever the Plug is running, any parts I select will turn to gold in real time.
 3. Define routines so they'll get cleaned up safely
 
 Lets write some code to make this happen..

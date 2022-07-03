@@ -1,7 +1,7 @@
 --[=[
     @class PlugDefinition
     
-    This is how we define the behaviour of a **Plug**.
+    This is how we define the behaviour of a Plug.
 
     There are a few `Required` members for a [PlugDefinition] to be valid.
 
@@ -15,7 +15,7 @@
     @tag Required
     @within PlugDefinition
 
-    Declares the name that will appear on the Widget for the **Plug**.
+    Declares the name that will appear on the Widget for the Plug.
     
     :::caution
     Longer names will be less readable on the Widget, depending on a user's resolution
@@ -27,7 +27,7 @@
     @tag Populated
     @within PlugDefinition
 
-    Give your **Plug** a pretty color on the Widget!
+    Give your Plug a pretty color on the Widget!
 
     Defaults to `Color.fromRGB(255, 255, 255)`
 ]=]
@@ -37,7 +37,7 @@
     @tag Populated
     @within PlugDefinition
 
-    Defines an icon to put alongside the `Name` of the **Plug**.
+    Defines an icon to put alongside the `Name` of the Plug.
 
     This can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`
 
@@ -60,7 +60,7 @@
     @tag Populated
     @within PlugDefinition
 
-    Give your **Plug** icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input
+    Give your Plug icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input
 
     Defaults to `Color.fromRGB(255, 255, 255)`
 ]=]
@@ -70,7 +70,7 @@
     @tag Populated
     @within PlugDefinition
 
-    The group that the **Plug** belongs to. Any plugs with a matching `Group` value will be grouped together on the Widget
+    The group that the Plug belongs to. Any plugs with a matching `Group` value will be grouped together on the Widget
 
     Defaults to `"No Group"`
 ]=]
@@ -80,7 +80,7 @@
     @tag Populated
     @within PlugDefinition
 
-    Give the `Group` text a pretty color on the Widget! If you have multiple **Plugs** under the same `Group`, `GroupColor` need only be defined
+    Give the `Group` text a pretty color on the Widget! If you have multiple Plugs under the same `Group`, `GroupColor` need only be defined
     on a singular `PlugDefinition`.
 
     Defaults to `Color.fromRGB(255, 255, 255)`
@@ -91,7 +91,7 @@
     @tag Populated
     @within PlugDefinition
 
-    Defines an icon to put alongside the name of the `Group` the **Plug** is under. If you have multiple **Plugs** under the same `Group`, `GroupIcon` need only be defined
+    Defines an icon to put alongside the name of the `Group` the Plug is under. If you have multiple Plugs under the same `Group`, `GroupIcon` need only be defined
     on a singular `PlugDefinition`
 
     This can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`
@@ -115,7 +115,7 @@
     @tag Populated
     @within PlugDefinition
 
-    Give your **Plug** icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input. If you have multiple **Plugs** under the 
+    Give your Plug icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input. If you have multiple Plugs under the 
     same `Group`, `GroupIconColor` need only be defined on a singular `PlugDefinition`
 
     Defaults to `Color.fromRGB(255, 255, 255)`
@@ -126,7 +126,7 @@
     @tag Populated
     @within PlugDefinition
 
-    Any and all information pertaining to this specific **Plug**. This can be as long as you like as it appears in the output.
+    Any and all information pertaining to this specific Plug. This can be as long as you like as it appears in the output.
 
     ```lua
     {
@@ -152,7 +152,7 @@
     @tag Populated
     @within PlugDefinition
 
-    Can be used to define the position of where the *Plug* is rendered on the Widget.
+    Can be used to define the position of where the Plug is rendered on the Widget.
 
     See [Settings](/api/SocketSettings#SortType)
 
@@ -165,13 +165,13 @@
     @within PlugDefinition
 
     If `true`, will automatically setup `ChangeHistoryService` waypoints before and after running the **Plug's** `Function`. AKA, any changes
-    to studio that your **Plug** makes, you can undo with `Ctrl+Z` or equivalent.
+    to studio that your Plug makes, you can undo with `Ctrl+Z` or equivalent.
 
     You can obviously set this to `false` (or don't declare the field) if you want to write your own implementation.
 
     :::tip
-    When you run "Undo" in Studio, it will undo the last change under the `DataModel` (`game`). If, for example, your **Plug** just prints to the output (and doesn't
-    make any changes to the `DataModel`) it will undo the last change unrelated to your **Plug**
+    When you run "Undo" in Studio, it will undo the last change under the `DataModel` (`game`). If, for example, your Plug just prints to the output (and doesn't
+    make any changes to the `DataModel`) it will undo the last change unrelated to your Plug
     :::
 
     Defaults to `false`
@@ -211,7 +211,7 @@
     @tag Populated
     @within PlugDefinition
 
-    An array of `Enum.KeyCode` that can trigger the **Plug** to run.
+    An array of `Enum.KeyCode` that can trigger the Plug to run.
     ```lua
     {
         Keybind = { Enum.KeyCode.LeftControl, Enum.KeyCode.J }
@@ -232,7 +232,7 @@
     @tag Populated
     @within PlugDefinition
 
-    An array of `PlugField`, which define the different fields the **Plug** has. The order they are defined is the order they will appear
+    An array of `PlugField`, which define the different fields the Plug has. The order they are defined is the order they will appear
     on the widget.
     ```lua
     {
@@ -288,7 +288,7 @@
     @tag Populated
     @within PlugDefinition
 
-    A persistent `State` of the **Plug** while the Socket plugin is running. We can write to this inside the `PlugDefinition`, and
+    A persistent `State` of the Plug while the Socket plugin is running. We can write to this inside the `PlugDefinition`, and
     read/write to it in our `Function` and `BindToClose/BindToOpen` functions.
 
     We can declare default values for fields:
@@ -375,7 +375,7 @@
     @tag Required
     @within PlugDefinition
 
-    The function that will be called when we Run the **Plug**.
+    The function that will be called when we Run the Plug.
     
     :::caution
     This function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent
@@ -390,9 +390,9 @@
 
     This is a function that is called when:
     1. The Socket Plugin is exited
-    2. The **Plug** is removed while the Socket Plugin is running
+    2. The Plug is removed while the Socket Plugin is running
 
-    Use this to clean anything up instantiated by the **Plug**
+    Use this to clean anything up instantiated by the Plug
     
     :::caution
     This function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent
