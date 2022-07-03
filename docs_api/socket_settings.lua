@@ -79,3 +79,10 @@
 
     Defaults to `true`
 ]=]
+
+--[=[
+    @prop UseDefaultSettings boolean
+    @within SocketSettings
+
+    If `true`, will reset ALL settings back to their default value (including `UseDefaultSettings=false`)
+]=]

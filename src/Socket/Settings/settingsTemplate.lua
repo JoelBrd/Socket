@@ -14,6 +14,7 @@
 ---@field IgnoreGameProcessedKeybinds boolean If true, will register keybinds assigned to plugs even if registered by other areas of Studio (applies to ALL plugs). Note: Some keybinds are impossible to hear (e.g., Ctrl+C)
 ---@field OpenFieldsByDefault boolean If true, all `Fields` inside plugs will be toggled open on startup
 ---@field UIScale number Size of UI elements on the widget
+---@field UseDefaultSettings boolean If set to true, will reset all settings back to their default values.
 
 --------------------------------------------------
 -- Members

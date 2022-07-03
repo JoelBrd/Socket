@@ -15,6 +15,7 @@ local settings = {
     EnableSocketPlugs = true,
     EnableSocketPlugsOverwrite = true,
     EnableAutoRun = true,
+    UseDefaultSettings = false,
 }
 
 return settings

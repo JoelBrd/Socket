@@ -122,6 +122,11 @@ function SocketSettings:OpenSettings()
             -- Update our cache
             PluginHandler:SetSetting(PluginConstants.Setting, newSettings)
 
+            -- OVERRIDE: Has default settings been enabled?
+            if SocketSettings:GetSetting("UseDefaultSettings") == true then
+                PluginHandler:SetSetting(PluginConstants.Setting, TableUtil:DeepCopy(defaultSettings))
+            end
+
             -- Refresh widget
             WidgetHandler:Refresh()
 
