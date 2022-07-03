@@ -4,26 +4,26 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="generator" content="Docusaurus v2.0.0-beta.9">
-<title data-react-helmet="true">PlugDefinition | Socket</title><meta data-react-helmet="true" property="og:title" content="PlugDefinition | Socket"><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="description" content="This is how we define the behaviour of a **Plug**.
+<title data-react-helmet="true">PlugDefinition | Socket</title><meta data-react-helmet="true" property="og:title" content="PlugDefinition | Socket"><meta data-react-helmet="true" name="twitter:card" content="summary_large_image"><meta data-react-helmet="true" name="description" content="This is how we define the behaviour of a Plug.
 
 There are a few `Required` members for a [PlugDefinition] to be valid.
 
 Many fields are `Populated`, where if it is not defined in your [PlugDefinition], will be auto-filled by Socket with a default value.
 
-There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in your [PlugDefinition] and let them be `Populated` by Socket."><meta data-react-helmet="true" property="og:description" content="This is how we define the behaviour of a **Plug**.
+There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in your [PlugDefinition] and let them be `Populated` by Socket."><meta data-react-helmet="true" property="og:description" content="This is how we define the behaviour of a Plug.
 
 There are a few `Required` members for a [PlugDefinition] to be valid.
 
 Many fields are `Populated`, where if it is not defined in your [PlugDefinition], will be auto-filled by Socket with a default value.
 
 There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in your [PlugDefinition] and let them be `Populated` by Socket."><meta data-react-helmet="true" property="og:url" content="https://JoelBrd.github.io/Socket/api/PlugDefinition"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="shortcut icon" href="/Socket/square_logo_512.png"><link data-react-helmet="true" rel="canonical" href="https://JoelBrd.github.io/Socket/api/PlugDefinition"><link data-react-helmet="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/PlugDefinition" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/PlugDefinition" hreflang="x-default"><link rel="stylesheet" href="/Socket/assets/css/styles.302001c7.css">
-<link rel="preload" href="/Socket/assets/js/runtime~main.5037c18c.js" as="script">
-<link rel="preload" href="/Socket/assets/js/main.618240d0.js" as="script">
+<link rel="preload" href="/Socket/assets/js/runtime~main.638921db.js" as="script">
+<link rel="preload" href="/Socket/assets/js/main.8887b58d.js" as="script">
 </head>
 <body>
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
 <div><a href="#" class="skipToContent_1oUP">Skip to main content</a></div><nav class="navbar navbar--fixed-top"><div class="navbar__inner"><div class="navbar__items"><button aria-label="Navigation bar toggle" class="navbar__toggle clean-btn" type="button" tabindex="0"><svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path stroke="currentColor" stroke-linecap="round" stroke-miterlimit="10" stroke-width="2" d="M4 7h22M4 15h22M4 23h22"></path></svg></button><a class="navbar__brand" href="/Socket/"><b class="navbar__title">Socket</b></a><a class="navbar__item navbar__link" href="/Socket/docs/intro">Docs</a><a aria-current="page" class="navbar__item navbar__link navbar__link--active" href="/Socket/api/">API</a></div><div class="navbar__items navbar__items--right"><a href="https://www.roblox.com/library/9988470603/Socket" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link"><span>Roblox<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_3J9K"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></span></a><a href="https://github.com/JoelBrd/Socket" target="_blank" rel="noopener noreferrer" class="navbar__item navbar__link"><span>GitHub<svg width="13.5" height="13.5" aria-hidden="true" viewBox="0 0 24 24" class="iconExternalLink_3J9K"><path fill="currentColor" d="M21 13v10h-21v-19h12v2h-10v15h17v-8h2zm3-12h-10.988l4.035 4-6.977 7.07 2.828 2.828 6.977-7.07 4.125 4.172v-11z"></path></svg></span></a><div class="toggle_71bT toggle_3Zt9 toggleDisabled_3cF-"><div class="toggleTrack_32Fl" role="button" tabindex="-1"><div class="toggleTrackCheck_3lV7"><span class="toggleIcon_O4iE">🌜</span></div><div class="toggleTrackX_S2yS"><span class="toggleIcon_O4iE">🌞</span></div><div class="toggleTrackThumb_xI_Z"></div></div><input type="checkbox" class="toggleScreenReader_28Tw" aria-label="Switch between dark and light mode"></div><div class="navbar__search"><span aria-label="expand searchbar" role="button" class="search-icon" tabindex="0"></span><input type="search" id="search_input_react" placeholder="Press S to Search..." aria-label="Search" class="navbar__search-input search-bar"></div></div></div><div role="presentation" class="navbar-sidebar__backdrop"></div></nav><div class="main-wrapper docPageContainer_2Kz0"><div class="docPage_1bdk"><div class="docSidebarContainer_1ykS"><div class="sidebar_15mo"><nav class="menu thin-scrollbar menu_Bmed"><ul class="theme-doc-sidebar-menu menu__list"><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link menu__link--active" aria-current="page" href="/Socket/api/PlugDefinition">​Plug​Definition</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Socket/api/PlugField">​Plug​Field</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Socket/api/SocketSettings">​Socket​Settings</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Socket/api/InstanceUtil">​Instance​Util</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Socket/api/Janitor">​Janitor</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Socket/api/Logger">​Logger</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Socket/api/Promise">​Promise</a></li><li class="theme-doc-sidebar-item-link theme-doc-sidebar-item-link-level-1 menu__list-item"><a class="menu__link" href="/Socket/api/RaycastUtil">​Raycast​Util</a></li></ul></nav><button type="button" title="Collapse sidebar" aria-label="Collapse sidebar" class="button button--secondary button--outline collapseSidebarButton_1CGd"><svg width="20" height="20" aria-hidden="true" class="collapseSidebarButtonIcon_3E-R"><g fill="#7a7a7a"><path d="M9.992 10.023c0 .2-.062.399-.172.547l-4.996 7.492a.982.982 0 01-.828.454H1c-.55 0-1-.453-1-1 0-.2.059-.403.168-.551l4.629-6.942L.168 3.078A.939.939 0 010 2.528c0-.548.45-.997 1-.997h2.996c.352 0 .649.18.828.45L9.82 9.472c.11.148.172.347.172.55zm0 0"></path><path d="M19.98 10.023c0 .2-.058.399-.168.547l-4.996 7.492a.987.987 0 01-.828.454h-3c-.547 0-.996-.453-.996-1 0-.2.059-.403.168-.551l4.625-6.942-4.625-6.945a.939.939 0 01-.168-.55 1 1 0 01.996-.997h3c.348 0 .649.18.828.45l4.996 7.492c.11.148.168.347.168.55zm0 0"></path></g></svg></button></div></div><main class="docMainContainer_28N5"><div class="container padding-vert--lg"><div class="row"><div class="col docItemCol_3WPG"><div class="docItemContainer_3XDu"><article><div class="member_qHIL markdown"><div class="tocCollapsible_1PrD theme-doc-toc-mobile tocMobile_3ryM"><button type="button" class="clean-btn tocCollapsibleButton_2O1e">On this page</button></div><header><h1 class="docTitle_1ddc" style="text-decoration:none"><span style="display:inline-block">Plug</span><span style="display:inline-block">Definition</span></h1><div class="luaClassTags_2Zrs"></div><div>
-<p>This is how we define the behaviour of a <strong>Plug</strong>.</p>
+<p>This is how we define the behaviour of a Plug.</p>
 <p>There are a few <code>Required</code> members for a <a href="/Socket/api/PlugDefinition">PlugDefinition</a> to be valid.</p>
 <p>Many fields are <code>Populated</code>, where if it is not defined in your <a href="/Socket/api/PlugDefinition">PlugDefinition</a>, will be auto-filled by Socket with a default value.</p>
 <p>There are some <code>Read-Only</code> fields, that you'll want to avoid defining in your <a href="/Socket/api/PlugDefinition">PlugDefinition</a> and let them be <code>Populated</code> by Socket.</p>
@@ -41,7 +41,7 @@ There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in yo
   keys that Socket uses (fields defined here), expect mayhem and tears!
 </p>
 </div><h2 class="anchor anchorWithStickyNavbar_31ik" id="properties">Properties<a aria-hidden="true" class="hash-link" href="#properties" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Name"><code style="text-decoration:none">Name</code><a aria-hidden="true" class="hash-link" href="#Name" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#218c74;color:#218c74">Required</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L24"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Name<!-- -->:<!-- --> </code> <code class="blue_2Afy">string</code></div><div>
-<p>Declares the name that will appear on the Widget for the <strong>Plug</strong>.</p>
+<p>Declares the name that will appear on the Widget for the Plug.</p>
 <div class="admonition admonition-caution alert alert--warning">
   <div class="admonition-heading">
     <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -53,10 +53,10 @@ There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in yo
   </div>
 </div>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="NameColor"><code style="text-decoration:none">NameColor</code><a aria-hidden="true" class="hash-link" href="#NameColor" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L34"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->NameColor<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Color3" target="_blank" rel="noopener noreferrer">Color3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
-<p>Give your <strong>Plug</strong> a pretty color on the Widget!</p>
+<p>Give your Plug a pretty color on the Widget!</p>
 <p>Defaults to <code>Color.fromRGB(255, 255, 255)</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Icon"><code style="text-decoration:none">Icon</code><a aria-hidden="true" class="hash-link" href="#Icon" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L57"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Icon<!-- -->:<!-- --> </code> <code class="blue_2Afy">string</code></div><div>
-<p>Defines an icon to put alongside the <code>Name</code> of the <strong>Plug</strong>.</p>
+<p>Defines an icon to put alongside the <code>Name</code> of the Plug.</p>
 <p>This can either be <code>Text</code> (e.g., Emoji) or an <code>ImageId</code>. <code>ImageIds</code> are recognised by the string containing <code>rbxasset</code></p>
 <pre class="language-lua"><code class="language-lua"><span class="token punctuation">{</span>
     Icon <span class="token operator">=</span> <span class="token string">"📂"</span> <span class="token comment">-- Good</span>
@@ -69,20 +69,20 @@ There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in yo
 </code></pre>
 <p>Defaults to <code>"❓"</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="IconColor"><code style="text-decoration:none">IconColor</code><a aria-hidden="true" class="hash-link" href="#IconColor" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L67"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->IconColor<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Color3" target="_blank" rel="noopener noreferrer">Color3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
-<p>Give your <strong>Plug</strong> icon a pretty color on the Widget! Applies to <code>TextColor3</code> or <code>ImageColor3</code>, depending on <code>Icon</code> input</p>
+<p>Give your Plug icon a pretty color on the Widget! Applies to <code>TextColor3</code> or <code>ImageColor3</code>, depending on <code>Icon</code> input</p>
 <p>Defaults to <code>Color.fromRGB(255, 255, 255)</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Group"><code style="text-decoration:none">Group</code><a aria-hidden="true" class="hash-link" href="#Group" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L77"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Group<!-- -->:<!-- --> </code> <code class="blue_2Afy">string</code></div><div>
-<p>The group that the <strong>Plug</strong> belongs to. Any plugs with a matching <code>Group</code> value will be grouped together on the Widget</p>
+<p>The group that the Plug belongs to. Any plugs with a matching <code>Group</code> value will be grouped together on the Widget</p>
 <p>Defaults to <code>"No Group"</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="GroupColor"><code style="text-decoration:none">GroupColor</code><a aria-hidden="true" class="hash-link" href="#GroupColor" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L88"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->GroupColor<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Color3" target="_blank" rel="noopener noreferrer">Color3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
 <p>
-  Give the <code>Group</code> text a pretty color on the Widget! If you have multiple <strong>Plugs</strong> under the same <code>Group</code>, <code>GroupColor</code> need only be defined
+  Give the <code>Group</code> text a pretty color on the Widget! If you have multiple Plugs under the same <code>Group</code>, <code>GroupColor</code> need only be defined
   on a singular <code>PlugDefinition</code>.
 </p>
 <p>Defaults to <code>Color.fromRGB(255, 255, 255)</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="GroupIcon"><code style="text-decoration:none">GroupIcon</code><a aria-hidden="true" class="hash-link" href="#GroupIcon" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L112"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->GroupIcon<!-- -->:<!-- --> </code> <code class="blue_2Afy">string</code></div><div>
 <p>
-  Defines an icon to put alongside the name of the <code>Group</code> the <strong>Plug</strong> is under. If you have multiple <strong>Plugs</strong> under the same <code>Group</code>, <code>GroupIcon</code> need only be defined
+  Defines an icon to put alongside the name of the <code>Group</code> the Plug is under. If you have multiple Plugs under the same <code>Group</code>, <code>GroupIcon</code> need only be defined
   on a singular <code>PlugDefinition</code>
 </p>
 <p>This can either be <code>Text</code> (e.g., Emoji) or an <code>ImageId</code>. <code>ImageIds</code> are recognised by the string containing <code>rbxasset</code></p>
@@ -98,12 +98,12 @@ There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in yo
 <p>Defaults to <code>"❓"</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="GroupIconColor"><code style="text-decoration:none">GroupIconColor</code><a aria-hidden="true" class="hash-link" href="#GroupIconColor" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L123"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->GroupIconColor<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Color3" target="_blank" rel="noopener noreferrer">Color3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
 <p>
-  Give your <strong>Plug</strong> icon a pretty color on the Widget! Applies to <code>TextColor3</code> or <code>ImageColor3</code>, depending on <code>Icon</code> input. If you have multiple <strong>Plugs</strong> under the
+  Give your Plug icon a pretty color on the Widget! Applies to <code>TextColor3</code> or <code>ImageColor3</code>, depending on <code>Icon</code> input. If you have multiple Plugs under the
   same <code>Group</code>, <code>GroupIconColor</code> need only be defined on a singular <code>PlugDefinition</code>
 </p>
 <p>Defaults to <code>Color.fromRGB(255, 255, 255)</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Description"><code style="text-decoration:none">Description</code><a aria-hidden="true" class="hash-link" href="#Description" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L149"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Description<!-- -->:<!-- --> </code> <code class="blue_2Afy">string</code></div><div>
-<p>Any and all information pertaining to this specific <strong>Plug</strong>. This can be as long as you like as it appears in the output.</p>
+<p>Any and all information pertaining to this specific Plug. This can be as long as you like as it appears in the output.</p>
 <pre class="language-lua"><code class="language-lua"><span class="token punctuation">{</span>
     Description <span class="token operator">=</span> <span class="token string">"Plug Description Line 1\nPlug Description Line 2"</span>
 <span class="token punctuation">}</span>
@@ -118,13 +118,13 @@ Plug Description Line 2
 </code></pre>
 <p>Defaults to <code>"No Description"</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="LayoutOrder"><code style="text-decoration:none">LayoutOrder</code><a aria-hidden="true" class="hash-link" href="#LayoutOrder" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L161"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->LayoutOrder<!-- -->:<!-- --> </code> <code class="blue_2Afy">number</code></div><div>
-<p>Can be used to define the position of where the <em>Plug</em> is rendered on the Widget.</p>
+<p>Can be used to define the position of where the Plug is rendered on the Widget.</p>
 <p>See <a href="/Socket/api/SocketSettings#SortType">Settings</a></p>
 <p>Defaults to <code>0</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableAutomaticUndo"><code style="text-decoration:none">EnableAutomaticUndo</code><a aria-hidden="true" class="hash-link" href="#EnableAutomaticUndo" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L179"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->EnableAutomaticUndo<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>
   If <code>true</code>, will automatically setup <code>ChangeHistoryService</code> waypoints before and after running the <strong>Plug's</strong> <code>Function</code>. AKA, any changes
-  to studio that your <strong>Plug</strong> makes, you can undo with <code>Ctrl+Z</code> or equivalent.
+  to studio that your Plug makes, you can undo with <code>Ctrl+Z</code> or equivalent.
 </p>
 <p>You can obviously set this to <code>false</code> (or don't declare the field) if you want to write your own implementation.</p>
 <div class="admonition admonition-tip alert alert--success">
@@ -135,8 +135,8 @@ Plug Description Line 2
   </div>
   <div class="admonition-content">
     <p>
-      When you run "Undo" in Studio, it will undo the last change under the <code>DataModel</code> (<code>game</code>). If, for example, your <strong>Plug</strong> just prints to the output (and doesn't
-      make any changes to the <code>DataModel</code>) it will undo the last change unrelated to your <strong>Plug</strong>
+      When you run "Undo" in Studio, it will undo the last change under the <code>DataModel</code> (<code>game</code>). If, for example, your Plug just prints to the output (and doesn't
+      make any changes to the <code>DataModel</code>) it will undo the last change unrelated to your Plug
     </p>
   </div>
 </div>
@@ -156,7 +156,7 @@ end)
 <p>If <code>true</code>, <code>plug.Function</code> will be called when Socket starts. Useful if there is a plug you want to run on startup.</p>
 <p>Defaults to <code>false</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Keybind"><code style="text-decoration:none">Keybind</code><a aria-hidden="true" class="hash-link" href="#Keybind" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L229"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Keybind<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy">Enum.KeyCode</code><code class="purple__nFc">}</code></div><div>
-<p>An array of <code>Enum.KeyCode</code> that can trigger the <strong>Plug</strong> to run.</p>
+<p>An array of <code>Enum.KeyCode</code> that can trigger the Plug to run.</p>
 <pre class="language-lua"><code class="language-lua"><span class="token punctuation">{</span>
     Keybind <span class="token operator">=</span> <span class="token punctuation">{</span> Enum<span class="token punctuation">.</span>KeyCode<span class="token punctuation">.</span>LeftControl<span class="token punctuation">,</span> Enum<span class="token punctuation">.</span>KeyCode<span class="token punctuation">.</span>J <span class="token punctuation">}</span>
 <span class="token punctuation">}</span>    
@@ -175,7 +175,7 @@ end)
 <p>Defaults to <code>{}</code></p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Fields"><code style="text-decoration:none">Fields</code><a aria-hidden="true" class="hash-link" href="#Fields" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L255"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Fields<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugField">PlugField</a></code><code class="purple__nFc">}</code></div><div>
 <p>
-  An array of <code>PlugField</code>, which define the different fields the <strong>Plug</strong> has. The order they are defined is the order they will appear
+  An array of <code>PlugField</code>, which define the different fields the Plug has. The order they are defined is the order they will appear
   on the widget.
 </p>
 <pre class="language-lua"><code class="language-lua"><span class="token punctuation">{</span>
@@ -207,7 +207,7 @@ end)
 </p>
 </div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="State"><code style="text-decoration:none">State</code><a aria-hidden="true" class="hash-link" href="#State" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L346"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->State<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition#PlugState">PlugState</a></code></div><div>
 <p>
-  A persistent <code>State</code> of the <strong>Plug</strong> while the Socket plugin is running. We can write to this inside the <code>PlugDefinition</code>, and
+  A persistent <code>State</code> of the Plug while the Socket plugin is running. We can write to this inside the <code>PlugDefinition</code>, and
   read/write to it in our <code>Function</code> and <code>BindToClose/BindToOpen</code> functions.
 </p>
 <p>We can declare default values for fields:</p>
@@ -283,7 +283,7 @@ end)
 </div>
 <p>Defaults to <code>false</code></p>
 </div><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Function"><code style="text-decoration:none">Function</code><a aria-hidden="true" class="hash-link" href="#Function" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#218c74;color:#218c74">Required</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L384"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">Function</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
-<p>The function that will be called when we Run the <strong>Plug</strong>.</p>
+<p>The function that will be called when we Run the Plug.</p>
 <div class="admonition admonition-caution alert alert--warning">
   <div class="admonition-heading">
     <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -298,9 +298,9 @@ end)
 <p>This is a function that is called when:</p>
 <ol>
   <li>The Socket Plugin is exited</li>
-  <li>The <strong>Plug</strong> is removed while the Socket Plugin is running</li>
+  <li>The Plug is removed while the Socket Plugin is running</li>
 </ol>
-<p>Use this to clean anything up instantiated by the <strong>Plug</strong></p>
+<p>Use this to clean anything up instantiated by the Plug</p>
 <div class="admonition admonition-caution alert alert--warning">
   <div class="admonition-heading">
     <h5><span class="admonition-icon"><svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16">
@@ -385,7 +385,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;Function&quot;,
-            &quot;desc&quot;: &quot;The function that will be called when we Run the **Plug**.\n\n:::caution\nThis function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent\n:::&quot;,
+            &quot;desc&quot;: &quot;The function that will be called when we Run the Plug.\n\n:::caution\nThis function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent\n:::&quot;,
             &quot;params&quot;: [
                 {
                     &quot;name&quot;: &quot;plug&quot;,
@@ -410,7 +410,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;BindToClose&quot;,
-            &quot;desc&quot;: &quot;This is a function that is called when:\n1. The Socket Plugin is exited\n2. The **Plug** is removed while the Socket Plugin is running\n\nUse this to clean anything up instantiated by the **Plug**\n\n:::caution\nThis function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent\n:::\n\nOrder of operations:\n1) `BindToClose` is called\n2) `plug.State.IsRunning = false`\n3) `plug.RunJanitor:Cleanup()`&quot;,
+            &quot;desc&quot;: &quot;This is a function that is called when:\n1. The Socket Plugin is exited\n2. The Plug is removed while the Socket Plugin is running\n\nUse this to clean anything up instantiated by the Plug\n\n:::caution\nThis function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent\n:::\n\nOrder of operations:\n1) `BindToClose` is called\n2) `plug.State.IsRunning = false`\n3) `plug.RunJanitor:Cleanup()`&quot;,
             &quot;params&quot;: [
                 {
                     &quot;name&quot;: &quot;plug&quot;,
@@ -456,7 +456,7 @@ end)
     &quot;properties&quot;: [
         {
             &quot;name&quot;: &quot;Name&quot;,
-            &quot;desc&quot;: &quot;Declares the name that will appear on the Widget for the **Plug**.\n\n:::caution\nLonger names will be less readable on the Widget, depending on a user&#x27;s resolution\n:::&quot;,
+            &quot;desc&quot;: &quot;Declares the name that will appear on the Widget for the Plug.\n\n:::caution\nLonger names will be less readable on the Widget, depending on a user&#x27;s resolution\n:::&quot;,
             &quot;lua_type&quot;: &quot;string&quot;,
             &quot;tags&quot;: [
                 &quot;Required&quot;
@@ -468,7 +468,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;NameColor&quot;,
-            &quot;desc&quot;: &quot;Give your **Plug** a pretty color on the Widget!\n\nDefaults to `Color.fromRGB(255, 255, 255)`&quot;,
+            &quot;desc&quot;: &quot;Give your Plug a pretty color on the Widget!\n\nDefaults to `Color.fromRGB(255, 255, 255)`&quot;,
             &quot;lua_type&quot;: &quot;Color3&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -480,7 +480,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;Icon&quot;,
-            &quot;desc&quot;: &quot;Defines an icon to put alongside the `Name` of the **Plug**.\n\nThis can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`\n\n```lua\n{\n    Icon = \&quot;📂\&quot; -- Good\n    Icon = \&quot;My Icon\&quot; -- Probably too long, but good\n    Icon = \&quot;\&quot; -- Bit boring, but good\n    Icon = \&quot;rbxassetid://9553550332\&quot; -- Good ImageId\n    Icon = \&quot;https://www.roblox.com/library/9553550338/\&quot; -- Bad ImageId (Website)\n    Icon = \&quot;http://www.roblox.com/asset/?id=9553550332\&quot; -- Bad ImageId (Decal)\n}\n```\n\nDefaults to `\&quot;❓\&quot;`&quot;,
+            &quot;desc&quot;: &quot;Defines an icon to put alongside the `Name` of the Plug.\n\nThis can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`\n\n```lua\n{\n    Icon = \&quot;📂\&quot; -- Good\n    Icon = \&quot;My Icon\&quot; -- Probably too long, but good\n    Icon = \&quot;\&quot; -- Bit boring, but good\n    Icon = \&quot;rbxassetid://9553550332\&quot; -- Good ImageId\n    Icon = \&quot;https://www.roblox.com/library/9553550338/\&quot; -- Bad ImageId (Website)\n    Icon = \&quot;http://www.roblox.com/asset/?id=9553550332\&quot; -- Bad ImageId (Decal)\n}\n```\n\nDefaults to `\&quot;❓\&quot;`&quot;,
             &quot;lua_type&quot;: &quot;string&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -492,7 +492,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;IconColor&quot;,
-            &quot;desc&quot;: &quot;Give your **Plug** icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input\n\nDefaults to `Color.fromRGB(255, 255, 255)`&quot;,
+            &quot;desc&quot;: &quot;Give your Plug icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input\n\nDefaults to `Color.fromRGB(255, 255, 255)`&quot;,
             &quot;lua_type&quot;: &quot;Color3&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -504,7 +504,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;Group&quot;,
-            &quot;desc&quot;: &quot;The group that the **Plug** belongs to. Any plugs with a matching `Group` value will be grouped together on the Widget\n\nDefaults to `\&quot;No Group\&quot;`&quot;,
+            &quot;desc&quot;: &quot;The group that the Plug belongs to. Any plugs with a matching `Group` value will be grouped together on the Widget\n\nDefaults to `\&quot;No Group\&quot;`&quot;,
             &quot;lua_type&quot;: &quot;string&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -516,7 +516,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;GroupColor&quot;,
-            &quot;desc&quot;: &quot;Give the `Group` text a pretty color on the Widget! If you have multiple **Plugs** under the same `Group`, `GroupColor` need only be defined\non a singular `PlugDefinition`.\n\nDefaults to `Color.fromRGB(255, 255, 255)`&quot;,
+            &quot;desc&quot;: &quot;Give the `Group` text a pretty color on the Widget! If you have multiple Plugs under the same `Group`, `GroupColor` need only be defined\non a singular `PlugDefinition`.\n\nDefaults to `Color.fromRGB(255, 255, 255)`&quot;,
             &quot;lua_type&quot;: &quot;Color3&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -528,7 +528,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;GroupIcon&quot;,
-            &quot;desc&quot;: &quot;Defines an icon to put alongside the name of the `Group` the **Plug** is under. If you have multiple **Plugs** under the same `Group`, `GroupIcon` need only be defined\non a singular `PlugDefinition`\n\nThis can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`\n\n```lua\n{\n    Icon = \&quot;📂\&quot; -- Good\n    Icon = \&quot;My Icon\&quot; -- Probably too long, but good\n    Icon = \&quot;\&quot; -- Bit boring, but good\n    Icon = \&quot;rbxassetid://9553550332\&quot; -- Good ImageId\n    Icon = \&quot;https://www.roblox.com/library/9553550338/\&quot; -- Bad ImageId (Website)\n    Icon = \&quot;http://www.roblox.com/asset/?id=9553550332\&quot; -- Bad ImageId (Decal)\n}\n```\n\nDefaults to `\&quot;❓\&quot;`&quot;,
+            &quot;desc&quot;: &quot;Defines an icon to put alongside the name of the `Group` the Plug is under. If you have multiple Plugs under the same `Group`, `GroupIcon` need only be defined\non a singular `PlugDefinition`\n\nThis can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`\n\n```lua\n{\n    Icon = \&quot;📂\&quot; -- Good\n    Icon = \&quot;My Icon\&quot; -- Probably too long, but good\n    Icon = \&quot;\&quot; -- Bit boring, but good\n    Icon = \&quot;rbxassetid://9553550332\&quot; -- Good ImageId\n    Icon = \&quot;https://www.roblox.com/library/9553550338/\&quot; -- Bad ImageId (Website)\n    Icon = \&quot;http://www.roblox.com/asset/?id=9553550332\&quot; -- Bad ImageId (Decal)\n}\n```\n\nDefaults to `\&quot;❓\&quot;`&quot;,
             &quot;lua_type&quot;: &quot;string&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -540,7 +540,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;GroupIconColor&quot;,
-            &quot;desc&quot;: &quot;Give your **Plug** icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input. If you have multiple **Plugs** under the \nsame `Group`, `GroupIconColor` need only be defined on a singular `PlugDefinition`\n\nDefaults to `Color.fromRGB(255, 255, 255)`&quot;,
+            &quot;desc&quot;: &quot;Give your Plug icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input. If you have multiple Plugs under the \nsame `Group`, `GroupIconColor` need only be defined on a singular `PlugDefinition`\n\nDefaults to `Color.fromRGB(255, 255, 255)`&quot;,
             &quot;lua_type&quot;: &quot;Color3&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -552,7 +552,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;Description&quot;,
-            &quot;desc&quot;: &quot;Any and all information pertaining to this specific **Plug**. This can be as long as you like as it appears in the output.\n\n```lua\n{\n    Description = \&quot;Plug Description Line 1\\nPlug Description Line 2\&quot;\n}\n```\n\nOutput:\n```\n================ Plug Name (Plug Group) | DESCRIPTION ================ \n\nPlug Description Line 1\nPlug Description Line 2\n\n================ Plug Name (Plug Group) | DESCRIPTION ================\n```\n\nDefaults to `\&quot;No Description\&quot;`&quot;,
+            &quot;desc&quot;: &quot;Any and all information pertaining to this specific Plug. This can be as long as you like as it appears in the output.\n\n```lua\n{\n    Description = \&quot;Plug Description Line 1\\nPlug Description Line 2\&quot;\n}\n```\n\nOutput:\n```\n================ Plug Name (Plug Group) | DESCRIPTION ================ \n\nPlug Description Line 1\nPlug Description Line 2\n\n================ Plug Name (Plug Group) | DESCRIPTION ================\n```\n\nDefaults to `\&quot;No Description\&quot;`&quot;,
             &quot;lua_type&quot;: &quot;string&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -564,7 +564,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;LayoutOrder&quot;,
-            &quot;desc&quot;: &quot;Can be used to define the position of where the *Plug* is rendered on the Widget.\n\nSee [Settings](/api/SocketSettings#SortType)\n\nDefaults to `0`&quot;,
+            &quot;desc&quot;: &quot;Can be used to define the position of where the Plug is rendered on the Widget.\n\nSee [Settings](/api/SocketSettings#SortType)\n\nDefaults to `0`&quot;,
             &quot;lua_type&quot;: &quot;number&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -576,7 +576,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;EnableAutomaticUndo&quot;,
-            &quot;desc&quot;: &quot;If `true`, will automatically setup `ChangeHistoryService` waypoints before and after running the **Plug&#x27;s** `Function`. AKA, any changes\nto studio that your **Plug** makes, you can undo with `Ctrl+Z` or equivalent.\n\nYou can obviously set this to `false` (or don&#x27;t declare the field) if you want to write your own implementation.\n\n:::tip\nWhen you run \&quot;Undo\&quot; in Studio, it will undo the last change under the `DataModel` (`game`). If, for example, your **Plug** just prints to the output (and doesn&#x27;t\nmake any changes to the `DataModel`) it will undo the last change unrelated to your **Plug**\n:::\n\nDefaults to `false`&quot;,
+            &quot;desc&quot;: &quot;If `true`, will automatically setup `ChangeHistoryService` waypoints before and after running the **Plug&#x27;s** `Function`. AKA, any changes\nto studio that your Plug makes, you can undo with `Ctrl+Z` or equivalent.\n\nYou can obviously set this to `false` (or don&#x27;t declare the field) if you want to write your own implementation.\n\n:::tip\nWhen you run \&quot;Undo\&quot; in Studio, it will undo the last change under the `DataModel` (`game`). If, for example, your Plug just prints to the output (and doesn&#x27;t\nmake any changes to the `DataModel`) it will undo the last change unrelated to your Plug\n:::\n\nDefaults to `false`&quot;,
             &quot;lua_type&quot;: &quot;boolean&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -612,7 +612,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;Keybind&quot;,
-            &quot;desc&quot;: &quot;An array of `Enum.KeyCode` that can trigger the **Plug** to run.\n```lua\n{\n    Keybind = { Enum.KeyCode.LeftControl, Enum.KeyCode.J }\n}    \n```\n\n:::tip\nWill not work if any of the inputs have `gameProcessedEvent` set to true. See: [UserInputService]\n\nTo disable this, see [TODO]\n:::\n\nDefaults to `{}`&quot;,
+            &quot;desc&quot;: &quot;An array of `Enum.KeyCode` that can trigger the Plug to run.\n```lua\n{\n    Keybind = { Enum.KeyCode.LeftControl, Enum.KeyCode.J }\n}    \n```\n\n:::tip\nWill not work if any of the inputs have `gameProcessedEvent` set to true. See: [UserInputService]\n\nTo disable this, see [TODO]\n:::\n\nDefaults to `{}`&quot;,
             &quot;lua_type&quot;: &quot;{Enum.KeyCode}&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -624,7 +624,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;Fields&quot;,
-            &quot;desc&quot;: &quot;An array of `PlugField`, which define the different fields the **Plug** has. The order they are defined is the order they will appear\non the widget.\n```lua\n{\n    Fields = { \n        {\n            Name = \&quot;Amount\&quot;;\n            Type = \&quot;number\&quot;;\n            IsRequired = true;\n        },\n        {\n            Name = \&quot;Title\&quot;;\n            Type = \&quot;string\&quot;;\n        }\n    }\n}    \n```\n\nDefaults to `{}`&quot;,
+            &quot;desc&quot;: &quot;An array of `PlugField`, which define the different fields the Plug has. The order they are defined is the order they will appear\non the widget.\n```lua\n{\n    Fields = { \n        {\n            Name = \&quot;Amount\&quot;;\n            Type = \&quot;number\&quot;;\n            IsRequired = true;\n        },\n        {\n            Name = \&quot;Title\&quot;;\n            Type = \&quot;string\&quot;;\n        }\n    }\n}    \n```\n\nDefaults to `{}`&quot;,
             &quot;lua_type&quot;: &quot;{PlugField}&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -648,7 +648,7 @@ end)
         },
         {
             &quot;name&quot;: &quot;State&quot;,
-            &quot;desc&quot;: &quot;A persistent `State` of the **Plug** while the Socket plugin is running. We can write to this inside the `PlugDefinition`, and\nread/write to it in our `Function` and `BindToClose/BindToOpen` functions.\n\nWe can declare default values for fields:\n```lua\n{\n    Fields = {\n        {\n            Name = \&quot;Size\&quot;;\n            Type = \&quot;Vector3\&quot;;\n        }\n    }\n    State = {\n        FieldValues = {\n            Size = Vector3.new(2, 2, 2); -- Will automatically appear on the Widget\n        }\n    }\n}\n```\n\nWe can also access `IsRunning`:\n```lua\nlocal Heartbeat = game:GetService(\&quot;RunService\&quot;).Heartbeat\n\n-- PlugDefinition that, when running, will print the time since the last frame\n{\n    Function = function(plug, plugin)\n        -- Toggle running state\n        plug:ToggleIsRunning()\n\n        -- Get Variables\n        local timer = plug.State.FieldValues.Timer\n        local isRunning = plug.State.IsRunning\n    \n        if isRunning then\n            -- Add to our RunJanitor\n            -- Automatically gets cleaned up when we toggle IsRunning to false via ToggleIsRunning\n            -- Also gets cleaned up when BindToClose is called\n            plug.RunJanitor:Add(Heartbeat:Connect(function(dt)\n                Logger:PlugInfo(plug, (\&quot;dt: %f\&quot;))\n            end))\n        end\n    end\n}\n```\n\nDefaults to\n```\n{\n    FieldValues = {};\n    _Server = {};\n    _Client = {};\n}\n```&quot;,
+            &quot;desc&quot;: &quot;A persistent `State` of the Plug while the Socket plugin is running. We can write to this inside the `PlugDefinition`, and\nread/write to it in our `Function` and `BindToClose/BindToOpen` functions.\n\nWe can declare default values for fields:\n```lua\n{\n    Fields = {\n        {\n            Name = \&quot;Size\&quot;;\n            Type = \&quot;Vector3\&quot;;\n        }\n    }\n    State = {\n        FieldValues = {\n            Size = Vector3.new(2, 2, 2); -- Will automatically appear on the Widget\n        }\n    }\n}\n```\n\nWe can also access `IsRunning`:\n```lua\nlocal Heartbeat = game:GetService(\&quot;RunService\&quot;).Heartbeat\n\n-- PlugDefinition that, when running, will print the time since the last frame\n{\n    Function = function(plug, plugin)\n        -- Toggle running state\n        plug:ToggleIsRunning()\n\n        -- Get Variables\n        local timer = plug.State.FieldValues.Timer\n        local isRunning = plug.State.IsRunning\n    \n        if isRunning then\n            -- Add to our RunJanitor\n            -- Automatically gets cleaned up when we toggle IsRunning to false via ToggleIsRunning\n            -- Also gets cleaned up when BindToClose is called\n            plug.RunJanitor:Add(Heartbeat:Connect(function(dt)\n                Logger:PlugInfo(plug, (\&quot;dt: %f\&quot;))\n            end))\n        end\n    end\n}\n```\n\nDefaults to\n```\n{\n    FieldValues = {};\n    _Server = {};\n    _Client = {};\n}\n```&quot;,
             &quot;lua_type&quot;: &quot;PlugState&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
@@ -716,13 +716,13 @@ end)
         }
     ],
     &quot;name&quot;: &quot;PlugDefinition&quot;,
-    &quot;desc&quot;: &quot;This is how we define the behaviour of a **Plug**.\n\nThere are a few `Required` members for a [PlugDefinition] to be valid.\n\nMany fields are `Populated`, where if it is not defined in your [PlugDefinition], will be auto-filled by Socket with a default value.\n\nThere are some `Read-Only` fields, that you&#x27;ll want to avoid defining in your [PlugDefinition] and let them be `Populated` by Socket.&quot;,
+    &quot;desc&quot;: &quot;This is how we define the behaviour of a Plug.\n\nThere are a few `Required` members for a [PlugDefinition] to be valid.\n\nMany fields are `Populated`, where if it is not defined in your [PlugDefinition], will be auto-filled by Socket with a default value.\n\nThere are some `Read-Only` fields, that you&#x27;ll want to avoid defining in your [PlugDefinition] and let them be `Populated` by Socket.&quot;,
     &quot;source&quot;: {
         &quot;line&quot;: 12,
         &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
     }
 }</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#PlugState" class="table-of-contents__link toc-highlight">PlugState</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#AutoRun" class="table-of-contents__link toc-highlight">AutoRun</a></li><li><a href="#Description" class="table-of-contents__link toc-highlight">Description</a></li><li><a href="#Disabled" class="table-of-contents__link toc-highlight">Disabled</a></li><li><a href="#EnableAutomaticUndo" class="table-of-contents__link toc-highlight">EnableAutomaticUndo</a></li><li><a href="#FieldChanged" class="table-of-contents__link toc-highlight">FieldChanged</a></li><li><a href="#Fields" class="table-of-contents__link toc-highlight">Fields</a></li><li><a href="#Group" class="table-of-contents__link toc-highlight">Group</a></li><li><a href="#GroupColor" class="table-of-contents__link toc-highlight">GroupColor</a></li><li><a href="#GroupIcon" class="table-of-contents__link toc-highlight">GroupIcon</a></li><li><a href="#GroupIconColor" class="table-of-contents__link toc-highlight">GroupIconColor</a></li><li><a href="#Icon" class="table-of-contents__link toc-highlight">Icon</a></li><li><a href="#IconColor" class="table-of-contents__link toc-highlight">IconColor</a></li><li><a href="#IgnoreGameProcessedKeybinds" class="table-of-contents__link toc-highlight">IgnoreGameProcessedKeybinds</a></li><li><a href="#Keybind" class="table-of-contents__link toc-highlight">Keybind</a></li><li><a href="#LayoutOrder" class="table-of-contents__link toc-highlight">LayoutOrder</a></li><li><a href="#Name" class="table-of-contents__link toc-highlight">Name</a></li><li><a href="#NameColor" class="table-of-contents__link toc-highlight">NameColor</a></li><li><a href="#RunJanitor" class="table-of-contents__link toc-highlight">RunJanitor</a></li><li><a href="#State" class="table-of-contents__link toc-highlight">State</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#GetFieldValue" class="table-of-contents__link toc-highlight">:GetFieldValue</a></li><li><a href="#ToggleIsRunning" class="table-of-contents__link toc-highlight">:ToggleIsRunning</a></li><li><a href="#BindToClose" class="table-of-contents__link toc-highlight">.BindToClose</a></li><li><a href="#BindToOpen" class="table-of-contents__link toc-highlight">.BindToOpen</a></li><li><a href="#Function" class="table-of-contents__link toc-highlight">.Function</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 JoelBrd. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/Socket/assets/js/runtime~main.5037c18c.js"></script>
-<script src="/Socket/assets/js/main.618240d0.js"></script>
+<script src="/Socket/assets/js/runtime~main.638921db.js"></script>
+<script src="/Socket/assets/js/main.8887b58d.js"></script>
 </body>
 </html>
