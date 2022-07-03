@@ -110,7 +110,7 @@ function Logger:PlugInfo(plug, ...)
     end
 
     local icon = plug.Icon and not string.find(plug.Icon, "rbxasset") and plug.Icon or ""
-    print(("[%s %s] %s"):format(icon, plug.Name, concatVars(...)))
+    print(("[%s %s]"):format(icon, plug.Name), ...)
 end
 
 ---
@@ -126,7 +126,7 @@ function Logger:PlugWarn(plug, ...)
     end
 
     local icon = plug.Icon and not string.find(plug.Icon, "rbxasset") and plug.Icon or ""
-    warn(("[%s %s] %s"):format(icon, plug.Name, concatVars(...)))
+    warn(("[%s %s]"):format(icon, plug.Name), ...)
 end
 
 ---
@@ -140,7 +140,7 @@ function Logger:Trace(...)
         return
     end
 
-    print(writeSourceOutput(Logger.Level.TRACE, ...))
+    print(writeSourceOutput(Logger.Level.TRACE), ...)
 end
 
 ---
@@ -154,7 +154,7 @@ function Logger:Info(...)
         return
     end
 
-    print(writeSourceOutput(Logger.Level.INFO, ...))
+    print(writeSourceOutput(Logger.Level.INFO), ...)
 end
 
 ---
@@ -168,7 +168,7 @@ function Logger:Warn(...)
         return
     end
 
-    warn(writeSourceOutput(Logger.Level.WARN, ...))
+    warn(writeSourceOutput(Logger.Level.WARN), ...)
 end
 
 ---

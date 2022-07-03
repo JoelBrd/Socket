@@ -49,6 +49,7 @@ plugDefinition.Function = function(plug, _)
     end)
     if not success then
         Logger:PlugWarn(plug, ("Error loading asset %d (%s)"):format(id, err))
+        return
     end
 
     -- Place model
