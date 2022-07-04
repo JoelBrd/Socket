@@ -17,8 +17,8 @@ There are a few `Required` members for a [PlugDefinition] to be valid.
 Many fields are `Populated`, where if it is not defined in your [PlugDefinition], will be auto-filled by Socket with a default value.
 
 There are some `Read-Only` fields, that you&#x27;ll want to avoid defining in your [PlugDefinition] and let them be `Populated` by Socket."><meta data-react-helmet="true" property="og:url" content="https://JoelBrd.github.io/Socket/api/PlugDefinition"><meta data-react-helmet="true" name="docusaurus_locale" content="en"><meta data-react-helmet="true" name="docusaurus_tag" content="default"><link data-react-helmet="true" rel="shortcut icon" href="/Socket/square_logo_512.png"><link data-react-helmet="true" rel="canonical" href="https://JoelBrd.github.io/Socket/api/PlugDefinition"><link data-react-helmet="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/PlugDefinition" hreflang="en"><link data-react-helmet="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/PlugDefinition" hreflang="x-default"><link rel="stylesheet" href="/Socket/assets/css/styles.302001c7.css">
-<link rel="preload" href="/Socket/assets/js/runtime~main.14470159.js" as="script">
-<link rel="preload" href="/Socket/assets/js/main.7f59c5b3.js" as="script">
+<link rel="preload" href="/Socket/assets/js/runtime~main.b09d1503.js" as="script">
+<link rel="preload" href="/Socket/assets/js/main.72a0ddf0.js" as="script">
 </head>
 <body>
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -117,11 +117,14 @@ Plug Description Line 2
 ================ Plug Name (Plug Group) | DESCRIPTION ================
 </code></pre>
 <p>Defaults to <code>"No Description"</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="LayoutOrder"><code style="text-decoration:none">LayoutOrder</code><a aria-hidden="true" class="hash-link" href="#LayoutOrder" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L161"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->LayoutOrder<!-- -->:<!-- --> </code> <code class="blue_2Afy">number</code></div><div>
-<p>Can be used to define the position of where the Plug is rendered on the Widget.</p>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="LayoutOrder"><code style="text-decoration:none">LayoutOrder</code><a aria-hidden="true" class="hash-link" href="#LayoutOrder" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L162"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->LayoutOrder<!-- -->:<!-- --> </code> <code class="blue_2Afy">number</code></div><div>
+<p>
+  Can be used to define the position of where the Plug is rendered on the Widget. Higher numbers are rendered further down the widget. Works very much the same
+  as <code>LayoutOrder</code> on Roblox Instances.
+</p>
 <p>See <a href="/Socket/api/SocketSettings#SortType">Settings</a></p>
 <p>Defaults to <code>0</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableAutomaticUndo"><code style="text-decoration:none">EnableAutomaticUndo</code><a aria-hidden="true" class="hash-link" href="#EnableAutomaticUndo" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L179"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->EnableAutomaticUndo<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="EnableAutomaticUndo"><code style="text-decoration:none">EnableAutomaticUndo</code><a aria-hidden="true" class="hash-link" href="#EnableAutomaticUndo" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L180"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->EnableAutomaticUndo<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>
   If <code>true</code>, will automatically setup <code>ChangeHistoryService</code> waypoints before and after running the <strong>Plug's</strong> <code>Function</code>. AKA, any changes
   to studio that your Plug makes, you can undo with <code>Ctrl+Z</code> or equivalent.
@@ -141,7 +144,7 @@ Plug Description Line 2
   </div>
 </div>
 <p>Defaults to <code>false</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="IgnoreGameProcessedKeybinds"><code style="text-decoration:none">IgnoreGameProcessedKeybinds</code><a aria-hidden="true" class="hash-link" href="#IgnoreGameProcessedKeybinds" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L198"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->IgnoreGameProcessedKeybinds<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="IgnoreGameProcessedKeybinds"><code style="text-decoration:none">IgnoreGameProcessedKeybinds</code><a aria-hidden="true" class="hash-link" href="#IgnoreGameProcessedKeybinds" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L199"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->IgnoreGameProcessedKeybinds<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>Socket uses <a href="https://developer.roblox.com/en-us/api-reference/class/UserInputService#InputBegan" target="_blank">UserInputService#InputBegan</a> for detecting keybinds.</p>
 <pre><code>game:GetService("UserInputService").InputBegan:Connect(function(inputObject, gameProcessedEvent)
     if gameProcessedEvent and not IgnoreGameProcessedKeybinds then
@@ -152,10 +155,10 @@ Plug Description Line 2
 end)
 </code></pre>
 <p>Defaults to <code>false</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="AutoRun"><code style="text-decoration:none">AutoRun</code><a aria-hidden="true" class="hash-link" href="#AutoRun" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L208"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->AutoRun<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="AutoRun"><code style="text-decoration:none">AutoRun</code><a aria-hidden="true" class="hash-link" href="#AutoRun" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L209"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->AutoRun<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>If <code>true</code>, <code>plug.Function</code> will be called when Socket starts. Useful if there is a plug you want to run on startup.</p>
 <p>Defaults to <code>false</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Keybind"><code style="text-decoration:none">Keybind</code><a aria-hidden="true" class="hash-link" href="#Keybind" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L229"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Keybind<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy">Enum.KeyCode</code><code class="purple__nFc">}</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Keybind"><code style="text-decoration:none">Keybind</code><a aria-hidden="true" class="hash-link" href="#Keybind" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L230"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Keybind<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy">Enum.KeyCode</code><code class="purple__nFc">}</code></div><div>
 <p>An array of <code>Enum.KeyCode</code> that can trigger the Plug to run.</p>
 <pre class="language-lua"><code class="language-lua"><span class="token punctuation">{</span>
     Keybind <span class="token operator">=</span> <span class="token punctuation">{</span> Enum<span class="token punctuation">.</span>KeyCode<span class="token punctuation">.</span>LeftControl<span class="token punctuation">,</span> Enum<span class="token punctuation">.</span>KeyCode<span class="token punctuation">.</span>J <span class="token punctuation">}</span>
@@ -173,7 +176,7 @@ end)
   </div>
 </div>
 <p>Defaults to <code>{}</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Fields"><code style="text-decoration:none">Fields</code><a aria-hidden="true" class="hash-link" href="#Fields" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L255"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Fields<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugField">PlugField</a></code><code class="purple__nFc">}</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Fields"><code style="text-decoration:none">Fields</code><a aria-hidden="true" class="hash-link" href="#Fields" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L256"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Fields<!-- -->:<!-- --> </code> <code class="purple__nFc">{</code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugField">PlugField</a></code><code class="purple__nFc">}</code></div><div>
 <p>
   An array of <code>PlugField</code>, which define the different fields the Plug has. The order they are defined is the order they will appear
   on the widget.
@@ -193,7 +196,7 @@ end)
 <span class="token punctuation">}</span>    
 </code></pre>
 <p>Defaults to <code>{}</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="FieldChanged"><code style="text-decoration:none">FieldChanged</code><a aria-hidden="true" class="hash-link" href="#FieldChanged" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L286"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->FieldChanged<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/BindableEvent" target="_blank" rel="noopener noreferrer">BindableEvent<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="FieldChanged"><code style="text-decoration:none">FieldChanged</code><a aria-hidden="true" class="hash-link" href="#FieldChanged" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L287"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->FieldChanged<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/BindableEvent" target="_blank" rel="noopener noreferrer">BindableEvent<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
 <p>A <code>BindableEvent</code> to listen to field values being changed on the UI!</p>
 <pre><code>plug.FieldChanged.Event:Connect(function(fieldName, fieldValue)
     print(plug:GetFieldValue(fieldName) == fieldValue)
@@ -205,7 +208,7 @@ end)
   Most cases it will suffice to just read <code>plug:GetFieldValue(fieldName)</code> as and when you need a field value. But sometimes you may want to re-run routines
   after a field value change.
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="State"><code style="text-decoration:none">State</code><a aria-hidden="true" class="hash-link" href="#State" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L347"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->State<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition#PlugState">PlugState</a></code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="State"><code style="text-decoration:none">State</code><a aria-hidden="true" class="hash-link" href="#State" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L346"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->State<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition#PlugState">PlugState</a></code></div><div>
 <p>
   A persistent <code>State</code> of the Plug while the Socket plugin is running. We can write to this inside the <code>PlugDefinition</code>, and
   read/write to it in our <code>Function</code> and <code>BindToClose/BindToOpen</code> functions.
@@ -233,12 +236,9 @@ end)
     Function <span class="token operator">=</span> <span class="token keyword">function</span><span class="token punctuation">(</span>plug<span class="token punctuation">,</span> plugin<span class="token punctuation">)</span>
         <span class="token comment">-- Toggle running state</span>
         plug<span class="token punctuation">:</span><span class="token function">ToggleIsRunning</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
-
-        <span class="token comment">-- Get Variables</span>
-        <span class="token keyword">local</span> timer <span class="token operator">=</span> plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>FieldValues<span class="token punctuation">.</span>Timer
-        <span class="token keyword">local</span> isRunning <span class="token operator">=</span> plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>IsRunning
     
-        <span class="token keyword">if</span> isRunning <span class="token keyword">then</span>
+        <span class="token comment">-- Running routine</span>
+        <span class="token keyword">if</span> plug<span class="token punctuation">:</span><span class="token function">IsRunning</span><span class="token punctuation">(</span><span class="token punctuation">)</span> <span class="token keyword">then</span>
             <span class="token comment">-- Add to our RunJanitor</span>
             <span class="token comment">-- Automatically gets cleaned up when we toggle IsRunning to false via ToggleIsRunning</span>
             <span class="token comment">-- Also gets cleaned up when BindToClose is called</span>
@@ -252,14 +252,15 @@ end)
 <p>Defaults to</p>
 <pre><code>{
     FieldValues = {};
+    IsRunning = false;
     _Server = {};
     _Client = {};
 }
 </code></pre>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="RunJanitor"><code style="text-decoration:none">RunJanitor</code><a aria-hidden="true" class="hash-link" href="#RunJanitor" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L357"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->RunJanitor<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/Janitor">Janitor</a></code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="RunJanitor"><code style="text-decoration:none">RunJanitor</code><a aria-hidden="true" class="hash-link" href="#RunJanitor" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L356"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->RunJanitor<!-- -->:<!-- --> </code> <code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/Janitor">Janitor</a></code></div><div>
 <p>A <a href="https://github.com/howmanysmall/Janitor" target="_blank">Janitor</a> object, intended to be used to cleanup tasks after a plug stops running.</p>
 <p>Is automatically cleaned up when using <code>plug:ToggleIsRunning()</code>, and on <code>BindToClose</code></p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Disabled"><code style="text-decoration:none">Disabled</code><a aria-hidden="true" class="hash-link" href="#Disabled" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L465"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Disabled<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Disabled"><code style="text-decoration:none">Disabled</code><a aria-hidden="true" class="hash-link" href="#Disabled" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Populated</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L464"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.<!-- -->Disabled<!-- -->:<!-- --> </code> <code class="blue_2Afy">boolean</code></div><div>
 <p>
   If <code>true</code>, this Plug will not be displayed on the Widget. It's <code>Function</code> will also not be required, nor registered. This renders <code>AutoRun</code> useless
   for this specific <a href="/Socket/api/PlugDefinition">PlugDefinition</a>
@@ -282,7 +283,7 @@ end)
   </div>
 </div>
 <p>Defaults to <code>false</code></p>
-</div><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Function"><code style="text-decoration:none">Function</code><a aria-hidden="true" class="hash-link" href="#Function" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#218c74;color:#218c74">Required</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L399"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">Function</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+</div><h2 class="anchor anchorWithStickyNavbar_31ik" id="functions">Functions<a aria-hidden="true" class="hash-link" href="#functions" title="Direct link to heading">​</a></h2><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="Function"><code style="text-decoration:none">Function</code><a aria-hidden="true" class="hash-link" href="#Function" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#218c74;color:#218c74">Required</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L398"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">Function</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>The function that will be called when we Run the Plug.</p>
 <div class="admonition admonition-caution alert alert--warning">
   <div class="admonition-heading">
@@ -294,7 +295,7 @@ end)
     <p>This function is not allowed to yield; wrap any yielding routines in a <code>task.spawn</code> or equivalent</p>
   </div>
 </div>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="BindToClose"><code style="text-decoration:none">BindToClose</code><a aria-hidden="true" class="hash-link" href="#BindToClose" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L421"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">BindToClose</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="BindToClose"><code style="text-decoration:none">BindToClose</code><a aria-hidden="true" class="hash-link" href="#BindToClose" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L420"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">BindToClose</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>This is a function that is called when:</p>
 <ol>
   <li>The Socket Plugin is exited</li>
@@ -317,7 +318,7 @@ end)
   2) <code>plug.State.IsRunning = false</code>
   3) <code>plug.RunJanitor:Cleanup()</code>
 </p>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="BindToOpen"><code style="text-decoration:none">BindToOpen</code><a aria-hidden="true" class="hash-link" href="#BindToOpen" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L441"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">BindToOpen</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="BindToOpen"><code style="text-decoration:none">BindToOpen</code><a aria-hidden="true" class="hash-link" href="#BindToOpen" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L440"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->.</code><code class="green_3LnD">BindToOpen</code><code>(</code><div class="inset_2cJr"><div><code>plug<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="/Socket/api/PlugDefinition">PlugDefinition</a></code><code>,</code></div><div><code>plugin<!-- -->: </code><code class="blue_2Afy"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/class/Plugin" target="_blank" rel="noopener noreferrer">Plugin<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div></div><code>) → </code><code>(</code><code>)</code></div><div>
 <p>This is a function that is called when the Socket plugin is started! This has some rare use cases.</p>
 <p>
   For the most part, Socket is really good at calling <code>BindToClose</code> when it is needed, but there are some Roblox limitations.
@@ -336,18 +337,18 @@ end)
     <p>This function is not allowed to yield; wrap any yielding routines in a <code>task.spawn</code> or equivalent</p>
   </div>
 </div>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="GetFieldValue"><code style="text-decoration:none">GetFieldValue</code><a aria-hidden="true" class="hash-link" href="#GetFieldValue" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L268"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">GetFieldValue</code><code>(</code><code>fieldName<!-- -->: </code><code class="blue_2Afy">string</code><code>) → </code><code class="blue_2Afy">any</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="GetFieldValue"><code style="text-decoration:none">GetFieldValue</code><a aria-hidden="true" class="hash-link" href="#GetFieldValue" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L269"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">GetFieldValue</code><code>(</code><code>fieldName<!-- -->: </code><code class="blue_2Afy">string</code><code>) → </code><code class="blue_2Afy">any</code></div><div>
 <p>Sugar for</p>
 <pre class="language-lua"><code class="language-lua">plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>FieldValues<span class="token punctuation">[</span>fieldName<span class="token punctuation">]</span>
 </code></pre>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="ToggleIsRunning"><code style="text-decoration:none">ToggleIsRunning</code><a aria-hidden="true" class="hash-link" href="#ToggleIsRunning" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L371"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">ToggleIsRunning</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="ToggleIsRunning"><code style="text-decoration:none">ToggleIsRunning</code><a aria-hidden="true" class="hash-link" href="#ToggleIsRunning" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L370"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">ToggleIsRunning</code><code>(</code><code>) → </code><code>(</code><code>)</code></div><div>
 <p>Sugar for</p>
 <pre class="language-lua"><code class="language-lua">plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>IsRunning <span class="token operator">=</span> <span class="token keyword">not</span> plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>IsRunning
 <span class="token keyword">if</span> <span class="token keyword">not</span> plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>IsRunning <span class="token keyword">then</span>
     plug<span class="token punctuation">.</span>RunJanitor<span class="token punctuation">:</span><span class="token function">Cleanup</span><span class="token punctuation">(</span><span class="token punctuation">)</span>
 <span class="token keyword">end</span>
 </code></pre>
-</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="IsRunning"><code style="text-decoration:none">IsRunning</code><a aria-hidden="true" class="hash-link" href="#IsRunning" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L385"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">IsRunning</code><code>(</code><code>) → </code><code class="blue_2Afy">boolean</code></div><div>
+</div><div class="divider_3z1R"></div><h3 class="anchor anchorWithStickyNavbar_31ik" id="IsRunning"><code style="text-decoration:none">IsRunning</code><a aria-hidden="true" class="hash-link" href="#IsRunning" title="Direct link to heading">​</a></h3><span class="docTag_3qMS" style="border-color:#79b473;color:#79b473">Read-Only</span><div class="repositoryDetailsContainer_1UH0"><a class="sourceButton_2aE5" href="https://github.com/JoelBrd/Socket/blob/master/docs_api/plug_definition.lua#L384"><div class="sourceButtonText_monK">&lt;/&gt;</div></a></div><div class="memberString_P8-X"><code>PlugDefinition<!-- -->:</code><code class="green_3LnD">IsRunning</code><code>(</code><code>) → </code><code class="blue_2Afy">boolean</code></div><div>
 <p>Returns true if the Plug is running (<code>plug.State.IsRunning == true</code>). False otherwise.</p>
 <p>Sugar for</p>
 <pre class="language-lua"><code class="language-lua">plug<span class="token punctuation">.</span>State<span class="token punctuation">.</span>IsRunning
@@ -375,7 +376,7 @@ end)
                 &quot;Read-Only&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 268,
+                &quot;line&quot;: 269,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -389,7 +390,7 @@ end)
                 &quot;Read-Only&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 371,
+                &quot;line&quot;: 370,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -408,7 +409,7 @@ end)
                 &quot;Read-Only&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 385,
+                &quot;line&quot;: 384,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -433,7 +434,7 @@ end)
                 &quot;Required&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 399,
+                &quot;line&quot;: 398,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -455,7 +456,7 @@ end)
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;static&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 421,
+                &quot;line&quot;: 420,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -477,7 +478,7 @@ end)
             &quot;returns&quot;: [],
             &quot;function_type&quot;: &quot;static&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 441,
+                &quot;line&quot;: 440,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         }
@@ -593,13 +594,13 @@ end)
         },
         {
             &quot;name&quot;: &quot;LayoutOrder&quot;,
-            &quot;desc&quot;: &quot;Can be used to define the position of where the Plug is rendered on the Widget.\n\nSee [Settings](/api/SocketSettings#SortType)\n\nDefaults to `0`&quot;,
+            &quot;desc&quot;: &quot;Can be used to define the position of where the Plug is rendered on the Widget. Higher numbers are rendered further down the widget. Works very much the same\nas `LayoutOrder` on Roblox Instances.\n\nSee [Settings](/api/SocketSettings#SortType)\n\nDefaults to `0`&quot;,
             &quot;lua_type&quot;: &quot;number&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 161,
+                &quot;line&quot;: 162,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -611,7 +612,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 179,
+                &quot;line&quot;: 180,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -623,7 +624,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 198,
+                &quot;line&quot;: 199,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -635,7 +636,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 208,
+                &quot;line&quot;: 209,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -647,7 +648,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 229,
+                &quot;line&quot;: 230,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -659,7 +660,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 255,
+                &quot;line&quot;: 256,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -671,19 +672,19 @@ end)
                 &quot;Read-Only&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 286,
+                &quot;line&quot;: 287,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
         {
             &quot;name&quot;: &quot;State&quot;,
-            &quot;desc&quot;: &quot;A persistent `State` of the Plug while the Socket plugin is running. We can write to this inside the `PlugDefinition`, and\nread/write to it in our `Function` and `BindToClose/BindToOpen` functions.\n\nWe can declare default values for fields:\n```lua\n{\n    Fields = {\n        {\n            Name = \&quot;Size\&quot;;\n            Type = \&quot;Vector3\&quot;;\n        }\n    }\n    State = {\n        FieldValues = {\n            Size = Vector3.new(2, 2, 2); -- Will automatically appear on the Widget\n        }\n    }\n}\n```\n\nWe can also access `IsRunning`:\n```lua\nlocal Heartbeat = game:GetService(\&quot;RunService\&quot;).Heartbeat\n\n-- PlugDefinition that, when running, will print the time since the last frame\n{\n    Function = function(plug, plugin)\n        -- Toggle running state\n        plug:ToggleIsRunning()\n\n        -- Get Variables\n        local timer = plug.State.FieldValues.Timer\n        local isRunning = plug.State.IsRunning\n    \n        if isRunning then\n            -- Add to our RunJanitor\n            -- Automatically gets cleaned up when we toggle IsRunning to false via ToggleIsRunning\n            -- Also gets cleaned up when BindToClose is called\n            plug.RunJanitor:Add(Heartbeat:Connect(function(dt)\n                Logger:PlugInfo(plug, (\&quot;dt: %f\&quot;))\n            end))\n        end\n    end\n}\n```\n\nDefaults to\n```\n{\n    FieldValues = {};\n    _Server = {};\n    _Client = {};\n}\n```&quot;,
+            &quot;desc&quot;: &quot;A persistent `State` of the Plug while the Socket plugin is running. We can write to this inside the `PlugDefinition`, and\nread/write to it in our `Function` and `BindToClose/BindToOpen` functions.\n\nWe can declare default values for fields:\n```lua\n{\n    Fields = {\n        {\n            Name = \&quot;Size\&quot;;\n            Type = \&quot;Vector3\&quot;;\n        }\n    }\n    State = {\n        FieldValues = {\n            Size = Vector3.new(2, 2, 2); -- Will automatically appear on the Widget\n        }\n    }\n}\n```\n\nWe can also access `IsRunning`:\n```lua\nlocal Heartbeat = game:GetService(\&quot;RunService\&quot;).Heartbeat\n\n-- PlugDefinition that, when running, will print the time since the last frame\n{\n    Function = function(plug, plugin)\n        -- Toggle running state\n        plug:ToggleIsRunning()\n    \n        -- Running routine\n        if plug:IsRunning() then\n            -- Add to our RunJanitor\n            -- Automatically gets cleaned up when we toggle IsRunning to false via ToggleIsRunning\n            -- Also gets cleaned up when BindToClose is called\n            plug.RunJanitor:Add(Heartbeat:Connect(function(dt)\n                Logger:PlugInfo(plug, (\&quot;dt: %f\&quot;))\n            end))\n        end\n    end\n}\n```\n\nDefaults to\n```\n{\n    FieldValues = {};\n    IsRunning = false;\n    _Server = {};\n    _Client = {};\n}\n```&quot;,
             &quot;lua_type&quot;: &quot;PlugState&quot;,
             &quot;tags&quot;: [
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 347,
+                &quot;line&quot;: 346,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -695,7 +696,7 @@ end)
                 &quot;Read-Only&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 357,
+                &quot;line&quot;: 356,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         },
@@ -707,7 +708,7 @@ end)
                 &quot;Populated&quot;
             ],
             &quot;source&quot;: {
-                &quot;line&quot;: 465,
+                &quot;line&quot;: 464,
                 &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
             }
         }
@@ -751,7 +752,7 @@ end)
         &quot;path&quot;: &quot;docs_api/plug_definition.lua&quot;
     }
 }</pre></details></div><div class="col col--3"><div class="tableOfContents_35-E thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a><ul><li><a href="#PlugState" class="table-of-contents__link toc-highlight">PlugState</a></li></ul></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#AutoRun" class="table-of-contents__link toc-highlight">AutoRun</a></li><li><a href="#Description" class="table-of-contents__link toc-highlight">Description</a></li><li><a href="#Disabled" class="table-of-contents__link toc-highlight">Disabled</a></li><li><a href="#EnableAutomaticUndo" class="table-of-contents__link toc-highlight">EnableAutomaticUndo</a></li><li><a href="#FieldChanged" class="table-of-contents__link toc-highlight">FieldChanged</a></li><li><a href="#Fields" class="table-of-contents__link toc-highlight">Fields</a></li><li><a href="#Group" class="table-of-contents__link toc-highlight">Group</a></li><li><a href="#GroupColor" class="table-of-contents__link toc-highlight">GroupColor</a></li><li><a href="#GroupIcon" class="table-of-contents__link toc-highlight">GroupIcon</a></li><li><a href="#GroupIconColor" class="table-of-contents__link toc-highlight">GroupIconColor</a></li><li><a href="#Icon" class="table-of-contents__link toc-highlight">Icon</a></li><li><a href="#IconColor" class="table-of-contents__link toc-highlight">IconColor</a></li><li><a href="#IgnoreGameProcessedKeybinds" class="table-of-contents__link toc-highlight">IgnoreGameProcessedKeybinds</a></li><li><a href="#Keybind" class="table-of-contents__link toc-highlight">Keybind</a></li><li><a href="#LayoutOrder" class="table-of-contents__link toc-highlight">LayoutOrder</a></li><li><a href="#Name" class="table-of-contents__link toc-highlight">Name</a></li><li><a href="#NameColor" class="table-of-contents__link toc-highlight">NameColor</a></li><li><a href="#RunJanitor" class="table-of-contents__link toc-highlight">RunJanitor</a></li><li><a href="#State" class="table-of-contents__link toc-highlight">State</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a><ul><li><a href="#GetFieldValue" class="table-of-contents__link toc-highlight">:GetFieldValue</a></li><li><a href="#IsRunning" class="table-of-contents__link toc-highlight">:IsRunning</a></li><li><a href="#ToggleIsRunning" class="table-of-contents__link toc-highlight">:ToggleIsRunning</a></li><li><a href="#BindToClose" class="table-of-contents__link toc-highlight">.BindToClose</a></li><li><a href="#BindToOpen" class="table-of-contents__link toc-highlight">.BindToOpen</a></li><li><a href="#Function" class="table-of-contents__link toc-highlight">.Function</a></li></ul></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2022 JoelBrd. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/Socket/assets/js/runtime~main.14470159.js"></script>
-<script src="/Socket/assets/js/main.7f59c5b3.js"></script>
+<script src="/Socket/assets/js/runtime~main.b09d1503.js"></script>
+<script src="/Socket/assets/js/main.72a0ddf0.js"></script>
 </body>
 </html>
