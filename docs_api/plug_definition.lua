@@ -152,7 +152,8 @@
     @tag Populated
     @within PlugDefinition
 
-    Can be used to define the position of where the Plug is rendered on the Widget.
+    Can be used to define the position of where the Plug is rendered on the Widget. Higher numbers are rendered further down the widget. Works very much the same
+    as `LayoutOrder` on Roblox Instances.
 
     See [Settings](/api/SocketSettings#SortType)
 
@@ -318,12 +319,9 @@
         Function = function(plug, plugin)
             -- Toggle running state
             plug:ToggleIsRunning()
-
-            -- Get Variables
-            local timer = plug.State.FieldValues.Timer
-            local isRunning = plug.State.IsRunning
         
-            if isRunning then
+            -- Running routine
+            if plug:IsRunning() then
                 -- Add to our RunJanitor
                 -- Automatically gets cleaned up when we toggle IsRunning to false via ToggleIsRunning
                 -- Also gets cleaned up when BindToClose is called
@@ -339,6 +337,7 @@
     ```
     {
         FieldValues = {};
+        IsRunning = false;
         _Server = {};
         _Client = {};
     }

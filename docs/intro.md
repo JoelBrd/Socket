@@ -21,17 +21,17 @@ This interface is much nicer, don't you think?
 
 ![image](/widget_interface.png)
 
-**Socket** is a macro manager; we can pre-define code, and run it via the Run buttons on the Widget. There is functionality to run these *"macros"* via a keybind,
+**Socket** is a macro manager; we can pre-define code, and run it via the Run buttons on the Widget. There is functionality to run these macros via a keybind,
 we can define fields values for our macros to use and more.
 
-There are other tools out there that provide this *"macro manager"* functionality, so why use **Socket**?
+There are other tools out there that provide this *macro manager* functionality, so why use **Socket**?
 
 ## Why Socket?
 :::info
 The desire to create Socket came from wanting a plugin that could have the functionality of multiple plugins. You could just add multiple buttons to the plugin toolbar,
-but this doesn't scale well. Introducing Socket!
+but this doesn't scale well. Socket aims to solve this issue, and to be a diverse tool for power users.
 
-We call individual macros "Plugs", as a Plug will Plug-in to a Socket IRL
+The name Socket came from the idea of real-world sockets, where you put a plug into a socket. Hence, we actually call macros "Plugs". I think of Socket as one of those extension cables that you can plug into the wall, and has multiple sockets with room for many plugs to be plugged in!
 :::
 
 ### Organisation
@@ -51,7 +51,7 @@ While the **Socket** plugin adheres to your Studio theme, you can customise each
 * Default State
 * UI Scaling
 
-![image](/widget_customised.png) ![image](/settings.png)
+![image](/widget_customised.png)
 
 ### Uses ModuleScripts
 
@@ -64,9 +64,9 @@ The way you define Plugs and add/remove/change them is via `ModuleScripts`! Ther
 
 ### Ergonomics
 
-Want to give some instructions on how to use your Plug incase your distributing it, or plan to use it 2 weeks from now? You can add a [Description](/api/PlugDefinition#Description) that can be easily viewed in 1 Click via the Widget.
+Want to give some instructions on how to use your Plug incase your distributing it, or plan to use it again? You can add a [Description](/api/PlugDefinition#Description) that can be easily viewed in 1 Click via the Widget.
 
-Whenever you make a change to a Plug, it will automatically update the Widget. If any changes break the integrity of the `ModuleScript`, **you will be warned!**
+Whenever you make a change to a Plug, it will automatically update the Widget. If any changes break the integrity of the `ModuleScript`, **you will be warned** in the output window!
 
 It can be cumbersome to make changes whenever you want to alter the functionality of your Plug - `Fields` come to the rescue! You can define field values on the Widget that can then be read from instantly in your Plug [Function](/api/PlugDefinition#Function)
 

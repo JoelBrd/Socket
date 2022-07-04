@@ -283,6 +283,7 @@ function PlugHelper:CleanPlugDefinition(plugScript, plug)
         return
     end
     plug.State = plug.State or {}
+    plug.State.IsRunning = false
     plug.State.FieldValues = plug.State.FieldValues or {}
     plug.State._Server = plug.State._Server or {}
     plug.State._Client = plug.State._Client or {}
