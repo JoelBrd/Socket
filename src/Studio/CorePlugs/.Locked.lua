@@ -27,7 +27,7 @@ local FieldsUtil = require(Utils.FieldsUtil) ---@type FieldsUtil
 local COLLISION_GROUP_NAME = "SocketLocked"
 local DEFAULT_COLLISION_GROUP_ID = 0
 local RAYCAST_DISTANCE = 1000
-local DO_TRACE = false
+local DO_TRACE = true
 local RAYCAST_PARAMS = RaycastParams.new()
 RAYCAST_PARAMS.CollisionGroup = COLLISION_GROUP_NAME
 local EPSILON = 0.01
@@ -353,28 +353,29 @@ local function manageHighlighting(plug)
 end
 
 ---@param plug PlugDefinition
+local function toggle(plug)
+    if not plug.State.IsToggled then
+        plug.State.IsToggled = true
+        for _, lockedPart in pairs(plug.State.LockedParts) do
+            lockedPart.Locked = false
+            lockedPart.CollisionGroupId = DEFAULT_COLLISION_GROUP_ID
+        end
+    else
+        for _, lockedPart in pairs(plug.State.LockedParts) do
+            lockedPart.Locked = true
+            lockedPart.CollisionGroupId = plug.State.CollisionGroupId
+        end
+        plug.State.IsToggled = false
+    end
+
+    ChangeHistoryService:SetWaypoint("Toggled Locked")
+    trace(plug, ("Toggled Locked Parts: %s"):format(tostring(plug.State.IsToggled)))
+end
+
+---@param plug PlugDefinition
 local function listenForToggleInput(plug)
     -- Read state
     local toggleKeybind = plug:GetFieldValue("Toggle Keybind")
-
-    local function toggle()
-        if not plug.State.IsToggled then
-            plug.State.IsToggled = true
-            for _, lockedPart in pairs(plug.State.LockedParts) do
-                lockedPart.Locked = false
-                lockedPart.CollisionGroupId = DEFAULT_COLLISION_GROUP_ID
-            end
-        else
-            for _, lockedPart in pairs(plug.State.LockedParts) do
-                lockedPart.Locked = true
-                lockedPart.CollisionGroupId = plug.State.CollisionGroupId
-            end
-            plug.State.IsToggled = false
-        end
-
-        ChangeHistoryService:SetWaypoint("Toggled Locked")
-        trace(plug, ("Toggled Locked Parts: %s"):format(tostring(plug.State.IsToggled)))
-    end
 
     plug.RunJanitor:Add(UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
         -- RETURN: gameProcessedEvent
@@ -384,15 +385,16 @@ local function listenForToggleInput(plug)
 
         local isToggleKeybind = inputObject.KeyCode.Name == toggleKeybind
         if isToggleKeybind then
-            toggle()
+            toggle(plug)
         end
     end))
 end
 
 ---@param plug PlugDefinition
 local function stoppedRunning(plug)
-    plug.State.IsRunning = false
-    plug.State.IsToggled = false
+    if plug.State.IsToggled then
+        toggle(plug)
+    end
 
     for _, descendant in pairs(game.Workspace:GetDescendants()) do
         if descendant:IsA("BasePart") then
