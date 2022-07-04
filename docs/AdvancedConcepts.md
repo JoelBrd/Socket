@@ -4,7 +4,7 @@ sidebar_position: 5
 
 # Advanced Concepts
 
-You may wish to create some Plugs that have rather complex functionality and Socket tries it's best to give you the tools you need. Socket was developed
+You may wish to create some Plugs that have rather complex functionality. Socket tries its best to give you the tools you need. Socket was developed
 alongside some non-trivial Plugs which helped flesh out what may be needed, but there may still be some stuff missing - either from oversight, or lack of Roblox
 support.
 
@@ -25,7 +25,7 @@ This may cause unintended behaviour in Team Create, as the same code may be bein
 :::
 
 ## Group Aesthetics
-For organisation purposes, you may not like having one [PlugDefinition](/api/PlugDefinition) defining the aesthetics of the Group it is under. Check out [Disabled](/api/PlugDefinition#Disabled) for more information
+For organisation purposes, you may not like having a random [PlugDefinition](/api/PlugDefinition) defining the aesthetics of the Group it is under. Check out [Disabled](/api/PlugDefinition#Disabled) for more information
 
 ## Undo/Redo
 You have to option to add [EnableAutomaticUndo](/api/PlugDefinition#EnableAutomaticUndo), so if running your Plug makes any changes they can be undone. Your Plug may
@@ -44,7 +44,7 @@ Plug stops running. See [RunJanitor](/api/PlugDefinition#RunJanitor) for more de
 
 #### BindToClose
 When we have a toggleable Plug, that can be turned on/off (indicated on the Widget by a green "Running" button), it's could be messy while it is running. We could
-clean stuff up when we click the Run button again (calls [Function](/api/PlugDefinition#Function)), but what if we close Socket or delete the [ModuleScript] linked
+clean stuff up when we click the Run button again (calls [Function](/api/PlugDefinition#Function)), but what if we close Socket or delete the ModuleScript linked
 to that Plug? In these cases, [BindToClose](/api/PlugDefinition#BindToClose) should always be utilised for cleaning stuff up for edge cases.
 
 #### BindToOpen
@@ -57,4 +57,4 @@ put safety routines to ensure any mess from a bad session end is cleaned up. For
 [CollectionService](https://developer.roblox.com/en-us/api-reference/class/CollectionService) to tag Instances that it has made changes to.
 
 ## TeamCreate
-Socket was designed to try accomodate for TeamCreate, with multiple team members using Socket at the same time. [InstanceUtil](/api/InstanceUtil) has some *very* useful methods for accomodating for this. Take a look at "Dot to Dot" and the heirachy of Instances it creates in `game.Workspace`.
+Socket was designed to try accomodate for Team Create, with multiple team members using Socket at the same time. [InstanceUtil](/api/InstanceUtil) has some *very* useful methods for accomodating for this. Take a look at "Dot to Dot" and the heirachy of Instances it creates in `game.Workspace`.
