@@ -4,10 +4,6 @@ sidebar_position: 1
 
 # Introduction
 
-## Content
-
-- [Installation guide](/docs/Installation)
-
 ## What is Socket?
 
 **Socket** is a Roblox plugin that allows us to easily run code in Roblox Studio.
