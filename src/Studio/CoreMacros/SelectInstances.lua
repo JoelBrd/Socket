@@ -57,6 +57,10 @@ local macroDefinition = {
             Type = "boolean",
         },
         {
+            Name = "Attribute Name",
+            Type = "string",
+        },
+        {
             Name = "Exact Match",
             Type = "boolean",
         },
@@ -97,21 +101,41 @@ local function didFindFirstChild(parent, name, recurseChildren, exactMatch, case
     return false
 end
 
+---@param instance Instance
+---@param name string
+---@param exactMatch boolean
+---@param caseSensitive boolean
+---@return boolean
+local function hasAttribute(instance, name, exactMatch, caseSensitive)
+    local attributes = instance:GetAttributes() ---@type table<string, any>
+    for attributeName, _ in pairs(attributes) do
+        attributeName = caseSensitive and attributeName or attributeName:upper()
+        local doesMatch = exactMatch and attributeName == name or string.find(attributeName, name)
+        if doesMatch then
+            return true
+        end
+    end
+
+    return false
+end
+
 ---@param instances Instance[]
 ---@param name string|nil
 ---@param className string|nil
 ---@param childName string|nil
+---@param attributeName string|nil
 ---@param recurseChildren boolean
 ---@param exactMatch boolean
 ---@param caseSensitive boolean
 ---@param maxAmount number|nil
 ---@return Instances[]
-local function search(instances, name, className, childName, recurseChildren, exactMatch, caseSensitive, maxAmount)
+local function search(instances, name, className, childName, attributeName, recurseChildren, exactMatch, caseSensitive, maxAmount)
     local results = {}
 
     -- Transform data
     name = name and (caseSensitive and name or name:upper())
     childName = childName and (caseSensitive and childName or childName:upper())
+    attributeName = attributeName and (caseSensitive and attributeName or attributeName:upper())
 
     -- Loop instance descendants
     for _, instance in pairs(instances) do
@@ -120,11 +144,15 @@ local function search(instances, name, className, childName, recurseChildren, ex
             local descendantName = caseSensitive and descendant.Name or descendant.Name:upper()
 
             -- Check if an eligible instance
-            local hasMatchingName = not name or (exactMatch and descendantName == name or string.find(descendantName, name))
+            local hasMatchingName = not name
+                or (exactMatch and descendantName == name or string.find(descendantName, name)) and true
+                or false
             local hasMatchingChildOfName = not childName
                 or didFindFirstChild(descendant, childName, recurseChildren, exactMatch, caseSensitive)
             local hasMatchingClassName = not className or descendant:IsA(className)
-            if hasMatchingName and hasMatchingClassName and hasMatchingChildOfName then
+            local hasMatchingAttributeName = not attributeName or hasAttribute(descendant, attributeName, exactMatch, caseSensitive)
+
+            if hasMatchingName and hasMatchingChildOfName and hasMatchingClassName and hasMatchingAttributeName then
                 table.insert(results, descendant)
             end
 
@@ -152,15 +180,27 @@ macroDefinition.Function = function(macro, plugin)
     local name = macro:GetFieldValue("Name")
     local className = macro:GetFieldValue("ClassName")
     local childName = macro:GetFieldValue("Child Name")
+    local attributeName = macro:GetFieldValue("Attribute Name")
     local recurseChildren = macro:GetFieldValue("Recurse Children") and true or false
     local exactMatch = macro:GetFieldValue("Exact Match") and true or false
     local caseSensitive = macro:GetFieldValue("Case Sensitive") and true or false
     local maxAmount = macro:GetFieldValue("Max Amount")
 
     -- Search
-    local results = search(selectedInstances, name, className, childName, recurseChildren, exactMatch, caseSensitive, maxAmount)
+    local results = search(
+        selectedInstances,
+        name,
+        className,
+        childName,
+        attributeName,
+        recurseChildren,
+        exactMatch,
+        caseSensitive,
+        maxAmount
+    )
 
     -- Select
+    Selection:Set(results)
     Selection:Set(results)
 
     -- Log
