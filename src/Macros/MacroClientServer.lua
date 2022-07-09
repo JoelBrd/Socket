@@ -42,8 +42,7 @@ function MacroClientServer:RunTransfer()
     elseif IS_CLIENT then
         -- Wrap in pcall so "WaitForChild" infinite yield message doesn't appear in output
         local clonedDirectoryFolder = pcall(function()
-            return game.ReplicatedStorage:FindFirstChild(CLONED_DIRECTORY_FOLDER_NAME)
-                or game.ReplicatedStorage:WaitForChild(CLONED_DIRECTORY_FOLDER_NAME)
+            return game.ReplicatedStorage:WaitForChild(CLONED_DIRECTORY_FOLDER_NAME)
         end)
 
         -- Clear client
