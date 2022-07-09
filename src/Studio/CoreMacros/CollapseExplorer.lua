@@ -49,6 +49,7 @@ local macroDefinition = {
     Group = "Core",
     Icon = "🌂",
     Description = description,
+    EnableAutomaticUndo = true,
 }
 
 macroDefinition.Function = function(macro, plugin)
