@@ -40,8 +40,10 @@ function MacroClientServer:RunTransfer()
         directoryFolderClone.Name = CLONED_DIRECTORY_FOLDER_NAME
         directoryFolderClone.Parent = game.ReplicatedStorage
     elseif IS_CLIENT then
-        local clonedDirectoryFolder = game.ReplicatedStorage:FindFirstChild(CLONED_DIRECTORY_FOLDER_NAME)
-            or game.ReplicatedStorage:WaitForChild(CLONED_DIRECTORY_FOLDER_NAME)
+        -- Wrap in pcall so "WaitForChild" infinite yield message doesn't appear in output
+        local clonedDirectoryFolder = pcall(function()
+            return game.ReplicatedStorage:WaitForChild(CLONED_DIRECTORY_FOLDER_NAME)
+        end)
 
         -- Clear client
         for _, macro in pairs(StudioHandler.Folders.Macros:GetChildren()) do
