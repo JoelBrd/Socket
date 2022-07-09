@@ -27,16 +27,17 @@ There are other tools out there that provide this *macro manager* functionality,
 The desire to create Socket came from wanting a plugin that could have the functionality of multiple plugins. You could just add multiple buttons to the plugin toolbar,
 but this doesn't scale well. Socket aims to solve this issue, and to be a diverse tool for power users.
 
-The name Socket came from the idea of real-world sockets, where you put a plug into a socket. Hence, we actually call macros "Plugs". I think of Socket as one of those extension cables that you can plug into the wall, and has multiple sockets with room for many plugs to be plugged in!
+The name Socket came from the idea of real-world sockets, where you put a plug into a socket. You can have an extension cable that can have multiple plugs plugged in -
+word play off "Plugin".
 :::
 
 ### Organisation
 
-**Socket** allows you to organise your Plugs into different groups, and easily view/access/run them. It mirrors the functionality of the *Explorer* tab with it's layout and ability to expand/collapse objects. You can also *search* through your Plugs to find what you're looking for in an instant.
+**Socket** allows you to organise your Macros into different groups, and easily view/access/run them. It mirrors the functionality of the *Explorer* tab with it's layout and ability to expand/collapse objects. You can also *search* through your Macros to find what you're looking for in an instant.
 
 ### Customisation
 
-While the **Socket** plugin adheres to your Studio theme, you can customise each **Group** and Plug as well as general settings!
+While the **Socket** plugin adheres to your Studio theme, you can customise each **Group** and Macro as well as general settings!
 * Names
 * Icons (`Text` and `ImageId`)
 * Colors (`TextColor3` and `ImageColor3`)
@@ -51,35 +52,35 @@ While the **Socket** plugin adheres to your Studio theme, you can customise each
 
 ### Uses ModuleScripts
 
-The way you define Plugs and add/remove/change them is via `ModuleScripts`! There is a `game.ServerStorage.SocketPlugin` directory where you can place multiple Plugs and any *utility* `ModuleScripts`.
-* Easy management of your Plugs through both the Widget and *Explorer* tab
-* Reroute logic to *Util* files that multiple Plugs can access
+The way you define Macros and add/remove/change them is via `ModuleScripts`! There is a `game.ServerStorage.SocketPlugin` directory where you can place multiple Macros and any *utility* `ModuleScripts`.
+* Easy management of your Macros through both the Widget and *Explorer* tab
+* Reroute logic to *Util* files that multiple Macros can access
 * Use the Roblox Studio script editor to write your code
-* Easily share Plugs between all team members on *Team Create*
-* Sync your Plugs via [Rojo](https://rojo.space/) (!!!)
+* Easily share Macros between all team members on *Team Create*
+* Sync your Macros via [Rojo](https://rojo.space/) (!!!)
 
 ### Ergonomics
 
-Want to give some instructions on how to use your Plug incase your distributing it, or plan to use it again? You can add a [Description](/api/PlugDefinition#Description) that can be easily viewed in 1 Click via the Widget.
+Want to give some instructions on how to use your Macro incase your distributing it, or plan to use it again? You can add a [Description](/api/MacroDefinition#Description) that can be easily viewed in 1 Click via the Widget.
 
-Whenever you make a change to a Plug, it will automatically update the Widget. If any changes break the integrity of the `ModuleScript`, **you will be warned** in the output window!
+Whenever you make a change to a Macro, it will automatically update the Widget. If any changes break the integrity of the `ModuleScript`, **you will be warned** in the output window!
 
-It can be cumbersome to make changes whenever you want to alter the functionality of your Plug - `Fields` come to the rescue! You can define field values on the Widget that can then be read from instantly in your Plug [Function](/api/PlugDefinition#Function)
+It can be cumbersome to make changes whenever you want to alter the functionality of your Macro - `Fields` come to the rescue! You can define field values on the Widget that can then be read from instantly in your Macro [Function](/api/MacroDefinition#Function)
 
 ### Automation
 
 There is an obvious hint at automation with any kind of *"macro manager"*, but with **Socket** specifically:
-* 1 Click to run any of your Plugs
-* Define a *Keybind* to run a Plug without using the Widget!
-* Toggleable Plugs to turn routines on/off as you please
+* 1 Click to run any of your Macros
+* Define a *Keybind* to run a Macro without using the Widget!
+* Toggleable Macros to turn routines on/off as you please
 
-**Toggleable Plugs** (See: [PlugState](/api/PlugDefinition#PlugState))
+**Toggleable Macros** (See: [MacroState](/api/MacroDefinition#MacroState))
 
 ![image](/hello_world_off.png) -> ![image](/hello_world_on.png)
 
 ### Server/Client Runners
 
-When playtesting, you have the option to run your Plugs on the *Server* or *Client*. Super useful for checking `Client -> Server` security.
+When playtesting, you have the option to run your Macros on the *Server* or *Client*. Super useful for checking `Client -> Server` security.
 
 ![image](/server_client.png)
 
