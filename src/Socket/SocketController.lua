@@ -23,9 +23,9 @@ local SocketConstants ---@type SocketConstants
 local Logger ---@type Logger
 local SocketRoduxStoreController ---@type SocketRoduxStoreController
 local WidgetHandler ---@type WidgetHandler
-local PlugConstants ---@type PlugConstants
-local PlugHelper ---@type PlugHelper
-local PlugClientServer ---@type PlugClientServer
+local MacroConstants ---@type MacroConstants
+local MacroHelper ---@type MacroHelper
+local MacroClientServer ---@type MacroClientServer
 local SocketSettings ---@type SocketSettings
 local PluginHandler ---@type PluginHandler
 local InstanceUtil ---@type InstanceUtil
@@ -61,7 +61,7 @@ function SocketController:Run()
 
     -- Setup rodux store actions
     SocketController:SetupStudioActions()
-    SocketController:SetupPlugActions()
+    SocketController:SetupMacroActions()
 
     -- Tell the widget handler its go time
     WidgetHandler:Run()
@@ -71,17 +71,17 @@ function SocketController:Run()
 
     -- One time server/client setup
     if IS_RUNNING then
-        PlugClientServer:RunTransfer()
-        PlugClientServer:SetupCommunication()
+        MacroClientServer:RunTransfer()
+        MacroClientServer:SetupCommunication()
     end
 
-    -- Bind to open on our plugs
-    local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
+    -- Bind to open on our macros
+    local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.MACROS].Groups
     for _, groupInfo in pairs(groups) do
-        for _, plugInfo in pairs(groupInfo.Plugs) do
-            local plug = plugInfo.Plug ---@type PlugDefinition
-            if plug.BindToOpen then
-                plug.BindToOpen(plug, PluginHandler:GetPlugin())
+        for _, macroInfo in pairs(groupInfo.Macros) do
+            local macro = macroInfo.Macro ---@type MacroDefinition
+            if macro.BindToOpen then
+                macro.BindToOpen(macro, PluginHandler:GetPlugin())
             end
         end
     end
@@ -102,15 +102,15 @@ function SocketController:GetStore()
 end
 
 ---
----Gets the currently stored PlugDefiniton from the passed plugScript
----@param plugScript ModuleScript
----@return PlugDefinition
+---Gets the currently stored MacroDefiniton from the passed macroScript
+---@param macroScript ModuleScript
+---@return MacroDefinition
 ---
-function SocketController:GetPlug(plugScript)
-    for _, groupInfo in pairs(roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups) do
-        for somePlugScript, somePlugInfo in pairs(groupInfo.Plugs) do
-            if somePlugScript == plugScript then
-                return somePlugInfo.Plug
+function SocketController:GetMacro(macroScript)
+    for _, groupInfo in pairs(roduxStore:getState()[SocketConstants.RoduxStoreKey.MACROS].Groups) do
+        for someMacroScript, someMacroInfo in pairs(groupInfo.Macros) do
+            if someMacroScript == macroScript then
+                return someMacroInfo.Macro
             end
         end
     end
@@ -145,38 +145,38 @@ local function tryCloneRequire(moduleScript)
 end
 
 ---
----Runs the logic for manipulating our RoduxStore from the Plug files in studio.
+---Runs the logic for manipulating our RoduxStore from the Macro files in studio.
 ---Called once per Run().
 ---
-function SocketController:SetupPlugActions()
-    ---Applies changes to our store after a plug has been changed
+function SocketController:SetupMacroActions()
+    ---Applies changes to our store after a macro has been changed
     ---@param moduleScript ModuleScript
-    local function changedPlug(moduleScript)
+    local function changedMacro(moduleScript)
         local requiredClone = tryCloneRequire(moduleScript)
-        local plugDefinition = requiredClone and PlugHelper:CleanPlugDefinition(moduleScript, requiredClone)
-        if plugDefinition then
+        local macroDefinition = requiredClone and MacroHelper:CleanMacroDefinition(moduleScript, requiredClone)
+        if macroDefinition then
             -- Update RoduxStore
             ---@type RoduxAction
             local action = {
-                type = SocketConstants.RoduxActionType.PLUGS.UPDATE_PLUG,
+                type = SocketConstants.RoduxActionType.MACROS.UPDATE_MACRO,
                 data = {
-                    plug = plugDefinition,
+                    macro = macroDefinition,
                     script = moduleScript,
                 },
             }
             roduxStore:dispatch(action)
         else
             -- Had an issue; the user has likely done something wrong
-            local currentPlugDefinition = SocketController:GetPlug(moduleScript)
-            if currentPlugDefinition then
-                currentPlugDefinition._isBroken = true
+            local currentMacroDefinition = SocketController:GetMacro(moduleScript)
+            if currentMacroDefinition then
+                currentMacroDefinition._isBroken = true
 
                 -- Update RoduxStore
                 ---@type RoduxAction
                 local action = {
-                    type = SocketConstants.RoduxActionType.PLUGS.UPDATE_PLUG,
+                    type = SocketConstants.RoduxActionType.MACROS.UPDATE_MACRO,
                     data = {
-                        plug = currentPlugDefinition,
+                        macro = currentMacroDefinition,
                         script = moduleScript,
                     },
                 }
@@ -185,17 +185,17 @@ function SocketController:SetupPlugActions()
         end
     end
 
-    ---Applies changes to our store after a plug has been removed
+    ---Applies changes to our store after a macro has been removed
     ---@param moduleScript ModuleScript
-    local function removedPlug(moduleScript)
+    local function removedMacro(moduleScript)
         -- Run Bind to close
-        local plug = SocketController:GetPlug(moduleScript)
-        plug._BindToClose(plug, PluginHandler:GetPlugin())
+        local macro = SocketController:GetMacro(moduleScript)
+        macro._BindToClose(macro, PluginHandler:GetPlugin())
 
         -- Update RoduxStore
         ---@type RoduxAction
         local action = {
-            type = SocketConstants.RoduxActionType.PLUGS.REMOVE_PLUG,
+            type = SocketConstants.RoduxActionType.MACROS.REMOVE_MACRO,
             data = {
                 script = moduleScript,
             },
@@ -203,18 +203,18 @@ function SocketController:SetupPlugActions()
         roduxStore:dispatch(action)
     end
 
-    ---Applies changes to our store after a plug has been added
+    ---Applies changes to our store after a macro has been added
     ---@param moduleScript ModuleScript
-    local function newPlug(moduleScript)
+    local function newMacro(moduleScript)
         local requiredClone = tryCloneRequire(moduleScript)
-        local plugDefinition = requiredClone and PlugHelper:CleanPlugDefinition(moduleScript, requiredClone)
-        if plugDefinition then
+        local macroDefinition = requiredClone and MacroHelper:CleanMacroDefinition(moduleScript, requiredClone)
+        if macroDefinition then
             -- Update RoduxStore
             ---@type RoduxAction
             local action = {
-                type = SocketConstants.RoduxActionType.PLUGS.ADD_PLUG,
+                type = SocketConstants.RoduxActionType.MACROS.ADD_MACRO,
                 data = {
-                    plug = plugDefinition,
+                    macro = macroDefinition,
                     script = moduleScript,
                     isFieldsOpen = SocketSettings:GetSetting("OpenFieldsByDefault"),
                 },
@@ -222,21 +222,21 @@ function SocketController:SetupPlugActions()
             roduxStore:dispatch(action)
 
             -- Auto run?
-            local doRun = plugDefinition.AutoRun and SocketSettings:GetSetting("EnableAutoRun")
+            local doRun = macroDefinition.AutoRun and SocketSettings:GetSetting("EnableAutoRun")
             if doRun then
-                PlugHelper:RunPlug(plugDefinition)
+                MacroHelper:RunMacro(macroDefinition)
             end
         end
     end
 
-    ---Returns true if this plugScript is added to our store
-    ---@param plugScript ModuleScript
+    ---Returns true if this macroScript is added to our store
+    ---@param macroScript ModuleScript
     ---@return boolean
-    local function isPlugScriptAdded(plugScript)
-        local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
+    local function isMacroScriptAdded(macroScript)
+        local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.MACROS].Groups
         for _, groupInfo in pairs(groups) do
-            for somePlugScript, _ in pairs(groupInfo.Plugs) do
-                if somePlugScript == plugScript then
+            for someMacroScript, _ in pairs(groupInfo.Macros) do
+                if someMacroScript == macroScript then
                     return true
                 end
             end
@@ -245,71 +245,71 @@ function SocketController:SetupPlugActions()
         return false
     end
 
-    -- Variables for tracking plug scripts
+    -- Variables for tracking macro scripts
     local cachedActiveScript ---@type Instance
-    local plugsFolder = StudioHandler.Folders.Plugs
+    local macrosFolder = StudioHandler.Folders.Macros
 
-    ---Had a new module script added that is likely a plug
-    ---@param plugScript ModuleScript
-    local function newPlugScript(plugScript)
+    ---Had a new module script added that is likely a macro
+    ---@param macroScript ModuleScript
+    local function newMacroScript(macroScript)
         -- RETURN: Parent is a module script
-        if plugScript.Parent:IsA("ModuleScript") then
+        if macroScript.Parent:IsA("ModuleScript") then
             return
         end
 
-        newPlug(plugScript)
+        newMacro(macroScript)
 
-        -- Listen for source changes to update plug
-        runJanitor:Add(plugScript.Changed:Connect(function(property)
-            if property == "Source" and cachedActiveScript ~= plugScript then
-                if isPlugScriptAdded(plugScript) then
+        -- Listen for source changes to update macro
+        runJanitor:Add(macroScript.Changed:Connect(function(property)
+            if property == "Source" and cachedActiveScript ~= macroScript then
+                if isMacroScriptAdded(macroScript) then
                     -- Changed
-                    changedPlug(plugScript)
+                    changedMacro(macroScript)
                 else
                     -- Wasn't in memory
-                    newPlug(plugScript)
+                    newMacro(macroScript)
                 end
             end
         end))
     end
 
-    -- Grab the plugs already sitting there
-    for _, descendant in pairs(plugsFolder:GetDescendants()) do
+    -- Grab the macros already sitting there
+    for _, descendant in pairs(macrosFolder:GetDescendants()) do
         if descendant:IsA("ModuleScript") then
-            newPlugScript(descendant)
+            newMacroScript(descendant)
         end
     end
 
-    -- Hook up listener events for plug files being added/removed
-    runJanitor:Add(plugsFolder.DescendantAdded:Connect(function(descendant)
+    -- Hook up listener events for macro files being added/removed
+    runJanitor:Add(macrosFolder.DescendantAdded:Connect(function(descendant)
         if descendant:IsA("ModuleScript") then
             task.wait() -- May have been added through a Rojo Sync
-            newPlugScript(descendant)
+            newMacroScript(descendant)
         end
     end))
 
-    runJanitor:Add(plugsFolder.DescendantRemoving:Connect(function(descendant)
+    runJanitor:Add(macrosFolder.DescendantRemoving:Connect(function(descendant)
         if descendant:IsA("ModuleScript") then
-            if isPlugScriptAdded(descendant) then
-                removedPlug(descendant)
+            if isMacroScriptAdded(descendant) then
+                removedMacro(descendant)
             end
         end
     end))
 
-    -- Listener to the user viewing different scripts; used to trigger "plug changed" events
+    -- Listener to the user viewing different scripts; used to trigger "macro changed" events
     runJanitor:Add(StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
         local activeScript = StudioService.ActiveScript
 
         -- Have we just exited a script file?
         if cachedActiveScript then
-            local isPlugScript = cachedActiveScript:IsDescendantOf(plugsFolder)
-            if isPlugScript then
-                if isPlugScriptAdded(cachedActiveScript) then
+            local isMacroScript = cachedActiveScript:IsDescendantOf(macrosFolder)
+            if isMacroScript then
+                if isMacroScriptAdded(cachedActiveScript) then
                     -- Changed
-                    changedPlug(cachedActiveScript)
+                    changedMacro(cachedActiveScript)
                 else
                     -- Wasn't in memory
-                    newPlugScript(cachedActiveScript)
+                    newMacroScript(cachedActiveScript)
                 end
             end
         end
@@ -346,7 +346,7 @@ function SocketController:SetupStudioActions()
 end
 
 ---
----Listens to users input to detect whether to run plugs via keybind
+---Listens to users input to detect whether to run macros via keybind
 ---
 function SocketController:SetupKeybindHooks()
     -- Track keys being held down
@@ -363,18 +363,18 @@ function SocketController:SetupKeybindHooks()
 
         -- Does this equate a keybind?
         local state = roduxStore:getState()
-        local groups = state[SocketConstants.RoduxStoreKey.PLUGS].Groups
+        local groups = state[SocketConstants.RoduxStoreKey.MACROS].Groups
         for _, groupInfo in pairs(groups) do
-            for _, plugInfo in pairs(groupInfo.Plugs) do
-                local plug = plugInfo.Plug ---@type PlugDefinition
+            for _, macroInfo in pairs(groupInfo.Macros) do
+                local macro = macroInfo.Macro ---@type MacroDefinition
 
-                -- See if we have all held keys in this plug
-                local totalKeyCodes = #plug.Keybind
+                -- See if we have all held keys in this macro
+                local totalKeyCodes = #macro.Keybind
                 local hasKeybind = totalKeyCodes > 0
                 if hasKeybind then
                     local matchingKeyCodes = 0
-                    local allowGameProcessedEventKeyCodes = doIgnoreGameProcessedKeybinds or plug.IgnoreGameProcessedKeybinds
-                    for _, someKeyCode in pairs(plug.Keybind) do
+                    local allowGameProcessedEventKeyCodes = doIgnoreGameProcessedKeybinds or macro.IgnoreGameProcessedKeybinds
+                    for _, someKeyCode in pairs(macro.Keybind) do
                         if heldKeys[someKeyCode] == false or heldKeys[someKeyCode] and allowGameProcessedEventKeyCodes then
                             matchingKeyCodes = matchingKeyCodes + 1
                         end
@@ -382,8 +382,8 @@ function SocketController:SetupKeybindHooks()
 
                     -- Huzzah!
                     if totalKeyCodes == matchingKeyCodes then
-                        -- Run Plug Function
-                        PlugHelper:RunPlug(plug)
+                        -- Run Macro Function
+                        MacroHelper:RunMacro(macro)
 
                         -- Stop
                         return
@@ -413,12 +413,12 @@ function SocketController:Stop()
     end
     isRunning = false
 
-    -- Bind to close on our plugs
-    local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.PLUGS].Groups
+    -- Bind to close on our macros
+    local groups = roduxStore:getState()[SocketConstants.RoduxStoreKey.MACROS].Groups
     for _, groupInfo in pairs(groups) do
-        for _, plugInfo in pairs(groupInfo.Plugs) do
-            local plug = plugInfo.Plug ---@type PlugDefinition
-            plug._BindToClose(plug, PluginHandler:GetPlugin())
+        for _, macroInfo in pairs(groupInfo.Macros) do
+            local macro = macroInfo.Macro ---@type MacroDefinition
+            macro._BindToClose(macro, PluginHandler:GetPlugin())
         end
     end
 
@@ -444,9 +444,9 @@ function SocketController:FrameworkInit()
     Logger = PluginFramework:Require("Logger")
     SocketRoduxStoreController = PluginFramework:Require("SocketRoduxStoreController")
     WidgetHandler = PluginFramework:Require("WidgetHandler")
-    PlugConstants = PluginFramework:Require("PlugConstants")
-    PlugHelper = PluginFramework:Require("PlugHelper")
-    PlugClientServer = PluginFramework:Require("PlugClientServer")
+    MacroConstants = PluginFramework:Require("MacroConstants")
+    MacroHelper = PluginFramework:Require("MacroHelper")
+    MacroClientServer = PluginFramework:Require("MacroClientServer")
     SocketSettings = PluginFramework:Require("SocketSettings")
     PluginHandler = PluginFramework:Require("PluginHandler")
     InstanceUtil = PluginFramework:Require("InstanceUtil")

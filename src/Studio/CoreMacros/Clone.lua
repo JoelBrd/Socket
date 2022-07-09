@@ -20,8 +20,8 @@ local Logger = require(Utils.Logger) ---@type Logger
 --------------------------------------------------
 -- Members
 
----@type PlugDefinition
-local plugDefinition = {
+---@type MacroDefinition
+local macroDefinition = {
     Group = "Core",
     Name = "Clone",
     Description = "Clones the selected instance(s) under the same directories",
@@ -33,8 +33,8 @@ local plugDefinition = {
     Function = nil,
 }
 
----@param plug PlugDefinition
-plugDefinition.Function = function(plug, _)
+---@param macro MacroDefinition
+macroDefinition.Function = function(macro, _)
     -- RETURN: No selection
     local instances = Selection:Get()
     if not instances[1] then
@@ -53,8 +53,8 @@ plugDefinition.Function = function(plug, _)
 
     Selection:Set(clones)
 
-    -- Logs to output, with the trace of this plug.
-    Logger:PlugInfo(plug, ("Cloned %d instances. %s"):format(#instances, outputMsg))
+    -- Logs to output, with the trace of this macro.
+    Logger:MacroInfo(macro, ("Cloned %d instances. %s"):format(#instances, outputMsg))
 end
 
-return plugDefinition
+return macroDefinition

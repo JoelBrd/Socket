@@ -13,7 +13,7 @@ local RoactBottomBar = {}
 -- Dependencies
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local Roact ---@type Roact
-local RoactPlugContainer ---@type RoactPlugContainer
+local RoactMacroContainer ---@type RoactMacroContainer
 local RoactSearchBar ---@type RoactSearchBar
 local WidgetConstants ---@type WidgetConstants
 local SocketController ---@type SocketController
@@ -93,7 +93,7 @@ end
 ---
 function RoactBottomBar:FrameworkInit()
     Roact = PluginFramework:Require("Roact")
-    RoactPlugContainer = PluginFramework:Require("RoactPlugContainer")
+    RoactMacroContainer = PluginFramework:Require("RoactMacroContainer")
     RoactSearchBar = PluginFramework:Require("RoactSearchBar")
     WidgetConstants = PluginFramework:Require("WidgetConstants")
     SocketController = PluginFramework:Require("SocketController")

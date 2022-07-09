@@ -27,8 +27,8 @@ description = ("%s\n%s"):format(description, "Child Name: Instance is eligible i
 description = ("%s\n%s"):format(description, "Recurse Children: Defines `recurse` boolean value used in :FindFirstChild()")
 description = ("%s\n%s"):format(description, "Max Amount: Will not select any instances more than this")
 
----@type PlugDefinition
-local plugDefinition = {
+---@type MacroDefinition
+local macroDefinition = {
     Group = "Core", ---@type string
     Name = "Select Instances",
     Icon = "❇️",
@@ -55,7 +55,7 @@ local plugDefinition = {
             Name = "Max Amount",
             Type = "number",
         },
-    }, ---@type PlugField[]
+    }, ---@type MacroField[]
 }
 
 ---@param instances Instance[]
@@ -89,22 +89,22 @@ local function search(instances, name, className, childName, recurseChildren, ma
     return results
 end
 
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@param plugin Plugin
-plugDefinition.Function = function(plug, plugin)
+macroDefinition.Function = function(macro, plugin)
     -- Get Selection
     local selectedInstances = Selection:Get()
     if #selectedInstances == 0 then
-        Logger:PlugWarn(plug, "Please select atleast 1 instance to search in")
+        Logger:MacroWarn(macro, "Please select atleast 1 instance to search in")
         return
     end
 
     -- Get State
-    local name = plug:GetFieldValue("Name")
-    local className = plug:GetFieldValue("ClassName")
-    local childName = plug:GetFieldValue("Child Name")
-    local recurseChildren = plug:GetFieldValue("Recurse Children") and true or false
-    local maxAmount = plug:GetFieldValue("Max Amount")
+    local name = macro:GetFieldValue("Name")
+    local className = macro:GetFieldValue("ClassName")
+    local childName = macro:GetFieldValue("Child Name")
+    local recurseChildren = macro:GetFieldValue("Recurse Children") and true or false
+    local maxAmount = macro:GetFieldValue("Max Amount")
 
     -- Search
     local results = search(selectedInstances, name, className, childName, recurseChildren, maxAmount)
@@ -113,7 +113,7 @@ plugDefinition.Function = function(plug, plugin)
     Selection:Set(results)
 
     -- Log
-    Logger:PlugInfo(plug, ("Selected %d eligible instances"):format(#results))
+    Logger:MacroInfo(macro, ("Selected %d eligible instances"):format(#results))
 end
 
-return plugDefinition
+return macroDefinition

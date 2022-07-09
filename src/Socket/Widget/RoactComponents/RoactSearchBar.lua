@@ -42,7 +42,7 @@ function RoactSearchBar:Get(props)
         -- Send action with new text
         ---@type RoduxAction
         local action = {
-            type = SocketConstants.RoduxActionType.PLUGS.SEARCH_TEXT,
+            type = SocketConstants.RoduxActionType.MACROS.SEARCH_TEXT,
             data = {
                 text = text,
             },

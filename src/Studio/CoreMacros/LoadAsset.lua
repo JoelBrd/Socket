@@ -20,8 +20,8 @@ local Logger = require(Utils.Logger) ---@type Logger
 --------------------------------------------------
 -- Members
 
----@type PlugDefinition
-local plugDefinition = {
+---@type MacroDefinition
+local macroDefinition = {
     Group = "Core",
     Name = "Load Asset",
     Description = "Will load in an asset with the given Id",
@@ -36,10 +36,10 @@ local plugDefinition = {
     },
 }
 
----@param plug PlugDefinition
-plugDefinition.Function = function(plug, _)
+---@param macro MacroDefinition
+macroDefinition.Function = function(macro, _)
     -- Grabs the field values
-    local id = plug:GetFieldValue("Id")
+    local id = macro:GetFieldValue("Id")
 
     -- Load Model
     local model ---@type Model
@@ -47,7 +47,7 @@ plugDefinition.Function = function(plug, _)
         model = InsertService:LoadAsset(id)
     end)
     if not success then
-        Logger:PlugWarn(plug, ("Error loading asset %d (%s)"):format(id, err))
+        Logger:MacroWarn(macro, ("Error loading asset %d (%s)"):format(id, err))
         return
     end
 
@@ -55,7 +55,7 @@ plugDefinition.Function = function(plug, _)
     model.Name = ("Asset (%d)"):format(id)
     model.Parent = game.Workspace
 
-    Logger:PlugInfo(plug, ("Inserted Asset %d (%s)"):format(id, model:GetFullName()))
+    Logger:MacroInfo(macro, ("Inserted Asset %d (%s)"):format(id, model:GetFullName()))
 end
 
-return plugDefinition
+return macroDefinition

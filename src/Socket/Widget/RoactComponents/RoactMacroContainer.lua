@@ -1,9 +1,9 @@
 ---
----Roact stuff for all the plugs
+---Roact stuff for all the macros
 ---
----@class RoactPlugContainer
+---@class RoactMacroContainer
 ---
-local RoactPlugContainer = {}
+local RoactMacroContainer = {}
 
 --------------------------------------------------
 -- Types
@@ -15,7 +15,7 @@ local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---
 local Roact ---@type Roact
 local RoactRodux ---@type RoactRodux
 local SocketConstants ---@type SocketConstants
-local RoactPlugLines ---@type RoactPlugLines
+local RoactMacroLines ---@type RoactMacroLines
 local WidgetConstants ---@type WidgetConstants
 
 --------------------------------------------------
@@ -31,7 +31,7 @@ local function couldStringBeIconImageId(str)
     return str:find("rbxasset")
 end
 
----Creates all of the individual lines to populate the PlugContainer
+---Creates all of the individual lines to populate the MacroContainer
 ---@param props table
 ---@return RoactFragment
 local function createLinesFragment(props)
@@ -51,11 +51,11 @@ local function createLinesFragment(props)
             increaseLayoutOrder()
             local groupElementName = ("Group_%s"):format(groupInfo.name)
             local groupIcon = groupInfo.icon or WidgetConstants.Icons.Unknown
-            elements[groupElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
+            elements[groupElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Group, {
                 name = groupInfo.name,
                 nameColor = groupInfo.nameColor,
                 isOpen = groupInfo.isOpen,
-                totalPlugs = #groupInfo.plugs,
+                totalMacros = #groupInfo.macros,
                 icon = groupIcon,
                 iconColor = groupInfo.iconColor or COLOR_WHITE,
                 isIconImageId = couldStringBeIconImageId(groupIcon),
@@ -64,49 +64,53 @@ local function createLinesFragment(props)
             })
 
             if groupInfo.isOpen then
-                -- Create plugs
-                for _, plugInfo in pairs(groupInfo.plugs) do
-                    if plugInfo.isVisible then
-                        -- Create plug line
+                -- Create macros
+                for _, macroInfo in pairs(groupInfo.macros) do
+                    if macroInfo.isVisible then
+                        -- Create macro line
                         increaseLayoutOrder()
-                        local plugElementName = ("Group_%s_Plug_%s"):format(groupInfo.name, plugInfo.name)
-                        local plugIcon = plugInfo.plug.Icon or WidgetConstants.Icons.Unknown
-                        elements[plugElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Plug, {
-                            name = plugInfo.name,
-                            nameColor = plugInfo.plug.NameColor,
-                            isOpen = plugInfo.isOpen,
-                            icon = plugIcon,
-                            iconColor = plugInfo.plug.IconColor or COLOR_WHITE,
-                            isIconImageId = couldStringBeIconImageId(plugIcon),
+                        local macroElementName = ("Group_%s_Macro_%s"):format(groupInfo.name, macroInfo.name)
+                        local macroIcon = macroInfo.macro.Icon or WidgetConstants.Icons.Unknown
+                        elements[macroElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Macro, {
+                            name = macroInfo.name,
+                            nameColor = macroInfo.macro.NameColor,
+                            isOpen = macroInfo.isOpen,
+                            icon = macroIcon,
+                            iconColor = macroInfo.macro.IconColor or COLOR_WHITE,
+                            isIconImageId = couldStringBeIconImageId(macroIcon),
                             layoutOrder = layoutOrderCount,
                             scale = scale,
-                            plug = plugInfo.plug,
-                            plugScript = plugInfo.moduleScript,
-                            isBroken = plugInfo.isBroken,
+                            macro = macroInfo.macro,
+                            macroScript = macroInfo.moduleScript,
+                            isBroken = macroInfo.isBroken,
                         })
 
                         -- Create child lines
-                        if plugInfo.isOpen then
+                        if macroInfo.isOpen then
                             -- Create fields line
                             increaseLayoutOrder()
-                            local hasFields = #plugInfo.plug.Fields > 0
-                            local fieldsElementName = ("Group_%s_Plug_%s_Fields"):format(groupInfo.name, plugInfo.name)
-                            elements[fieldsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Fields, {
-                                isOpen = plugInfo.isFieldsOpen,
-                                plugScript = plugInfo.moduleScript,
+                            local hasFields = #macroInfo.macro.Fields > 0
+                            local fieldsElementName = ("Group_%s_Macro_%s_Fields"):format(groupInfo.name, macroInfo.name)
+                            elements[fieldsElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Fields, {
+                                isOpen = macroInfo.isFieldsOpen,
+                                macroScript = macroInfo.moduleScript,
                                 hasFields = hasFields,
                                 layoutOrder = layoutOrderCount,
                                 scale = scale,
                             })
 
                             -- Create individual fields
-                            if hasFields and plugInfo.isFieldsOpen then
-                                for _, field in pairs(plugInfo.plug.Fields) do
+                            if hasFields and macroInfo.isFieldsOpen then
+                                for _, field in pairs(macroInfo.macro.Fields) do
                                     increaseLayoutOrder()
-                                    local fieldElementName = ("Group_%s_Plug_%s_Field_%s"):format(groupInfo.name, plugInfo.name, field.Name)
-                                    elements[fieldElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Field, {
+                                    local fieldElementName = ("Group_%s_Macro_%s_Field_%s"):format(
+                                        groupInfo.name,
+                                        macroInfo.name,
+                                        field.Name
+                                    )
+                                    elements[fieldElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Field, {
                                         field = field,
-                                        plug = plugInfo.plug,
+                                        macro = macroInfo.macro,
                                         layoutOrder = layoutOrderCount,
                                         scale = scale,
                                     })
@@ -115,21 +119,21 @@ local function createLinesFragment(props)
 
                             -- Create keybind line
                             increaseLayoutOrder()
-                            local keybindElementName = ("Group_%s_Plug_%s_Keybind"):format(groupInfo.name, plugInfo.name)
-                            elements[keybindElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
-                                keybind = plugInfo.plug.Keybind or {},
+                            local keybindElementName = ("Group_%s_Macro_%s_Keybind"):format(groupInfo.name, macroInfo.name)
+                            elements[keybindElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
+                                keybind = macroInfo.macro.Keybind or {},
                                 layoutOrder = layoutOrderCount,
                                 scale = scale,
                             })
 
                             -- Create setting line
                             increaseLayoutOrder()
-                            local settingsElementName = ("Group_%s_Plug_%s_Settings"):format(groupInfo.name, plugInfo.name)
-                            elements[settingsElementName] = RoactPlugLines:Get(WidgetConstants.RoactWidgetLine.Type.Settings, {
-                                moduleScript = plugInfo.moduleScript,
+                            local settingsElementName = ("Group_%s_Macro_%s_Settings"):format(groupInfo.name, macroInfo.name)
+                            elements[settingsElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Settings, {
+                                moduleScript = macroInfo.moduleScript,
                                 layoutOrder = layoutOrderCount,
                                 scale = scale,
-                                plug = plugInfo.plug,
+                                macro = macroInfo.macro,
                             })
                         end
                     end
@@ -154,7 +158,7 @@ end
 ---@param props table
 ---@return RoactElement
 ---
-function RoactPlugContainer:Get(props)
+function RoactMacroContainer:Get(props)
     return Roact.createElement("ScrollingFrame", {
         BackgroundTransparency = 1,
         Size = UDim2.fromScale(1, 1),
@@ -182,11 +186,11 @@ end
 ---
 ---Asynchronously called with all other FrameworkInit()
 ---
-function RoactPlugContainer:FrameworkInit()
+function RoactMacroContainer:FrameworkInit()
     Roact = PluginFramework:Require("Roact")
     RoactRodux = PluginFramework:Require("RoactRodux")
     SocketConstants = PluginFramework:Require("SocketConstants")
-    RoactPlugLines = PluginFramework:Require("RoactPlugLines")
+    RoactMacroLines = PluginFramework:Require("RoactMacroLines")
     WidgetConstants = PluginFramework:Require("WidgetConstants")
 end
 
@@ -195,6 +199,6 @@ end
 ---
 ---Synchronously called, one after the other, with all other FrameworkStart()
 ---
-function RoactPlugContainer:FrameworkStart() end
+function RoactMacroContainer:FrameworkStart() end
 
-return RoactPlugContainer
+return RoactMacroContainer

@@ -15,8 +15,8 @@ local settings = {
     OpenFieldsByDefault = true,
     SortType = "Name",
     IgnoreGameProcessedKeybinds = false,
-    EnableSocketPlugs = true,
-    EnableSocketPlugsOverwrite = true,
+    EnableSocketMacros = true,
+    EnableSocketMacrosOverwrite = true,
     EnableAutoRun = true,
     UseDefaultSettings = false,
 }

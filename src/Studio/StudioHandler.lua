@@ -21,7 +21,7 @@ local SocketSettings ---@type SocketSettings
 -- Constants
 local DIRECTORY_FOLDER_PARENT = game:GetService("ServerStorage")
 local DIRECTORY_FOLDER_NAME = "SocketPlugin"
-local PLUGS_FOLDER_NAME = "Plugs"
+local MACROS_FOLDER_NAME = "Macros"
 local UTILS_FOLDER_NAME = "Utils"
 local IS_RUNNING = RunService:IsRunning()
 local IS_CLIENT = RunService:IsClient()
@@ -30,7 +30,7 @@ local IS_CLIENT = RunService:IsClient()
 -- Members
 StudioHandler.Folders = {
     Directory = nil, ---@type Configuration
-    Plugs = nil, ---@type Folder
+    Macros = nil, ---@type Folder
     Utils = nil, ---@type Folder
 }
 
@@ -50,14 +50,14 @@ function StudioHandler:ValidateStructure()
     end
     StudioHandler.Folders.Directory = directoryFolder
 
-    -- Plugs
-    local plugsFolder = directoryFolder:FindFirstChild(PLUGS_FOLDER_NAME)
-    if not plugsFolder then
-        plugsFolder = Instance.new("Folder")
-        plugsFolder.Name = PLUGS_FOLDER_NAME
-        plugsFolder.Parent = directoryFolder
+    -- Macros
+    local macrosFolder = directoryFolder:FindFirstChild(MACROS_FOLDER_NAME)
+    if not macrosFolder then
+        macrosFolder = Instance.new("Folder")
+        macrosFolder.Name = MACROS_FOLDER_NAME
+        macrosFolder.Parent = directoryFolder
     end
-    StudioHandler.Folders.Plugs = plugsFolder
+    StudioHandler.Folders.Macros = macrosFolder
 
     -- Utils
     local utilsFolder = directoryFolder:FindFirstChild(UTILS_FOLDER_NAME)
@@ -92,43 +92,43 @@ function StudioHandler:ValidateStructure()
     end
 
     --------------------------------------------------
-    -- POPULATE CORE PLUGS
+    -- POPULATE CORE MACROS
 
     -- Create Folder
-    local corePlugsFolder = plugsFolder:FindFirstChild("Core")
-    if not corePlugsFolder then
-        corePlugsFolder = Instance.new("Folder") ---@type Folder
-        corePlugsFolder.Name = "Core"
-        corePlugsFolder.Parent = plugsFolder
+    local coreMacrosFolder = macrosFolder:FindFirstChild("Core")
+    if not coreMacrosFolder then
+        coreMacrosFolder = Instance.new("Folder") ---@type Folder
+        coreMacrosFolder.Name = "Core"
+        coreMacrosFolder.Parent = macrosFolder
     end
 end
 
 ---
----Ensures our core plugs are initiated
+---Ensures our core macros are initiated
 ---
-function StudioHandler:ValidatePlugs()
-    local corePlugsFolder = StudioHandler.Folders.Plugs.Core
+function StudioHandler:ValidateMacros()
+    local coreMacrosFolder = StudioHandler.Folders.Macros.Core
 
-    -- Copy over core plugs UNLESS we're running on client (`PlugClientServer` handles this) (or got something disabled)
-    local doEnableCorePlugs = SocketSettings:GetSetting("EnableSocketPlugs")
-    local doEnableCorePlugsOverwrite = SocketSettings:GetSetting("EnableSocketPlugsOverwrite")
-    if not (IS_RUNNING and IS_CLIENT) and doEnableCorePlugs then
-        local internalCorePlugsFolder = script.Parent.CorePlugs
-        local plugsModuleScripts = internalCorePlugsFolder:GetChildren() ---@type ModuleScript[]
-        for _, moduleScript in pairs(plugsModuleScripts) do
-            local matchingStudioInstance = corePlugsFolder:FindFirstChild(moduleScript.Name) ---@type ModuleScript
-            if doEnableCorePlugsOverwrite then
+    -- Copy over core macros UNLESS we're running on client (`MacroClientServer` handles this) (or got something disabled)
+    local doEnableCoreMacros = SocketSettings:GetSetting("EnableSocketMacros")
+    local doEnableCoreMacrosOverwrite = SocketSettings:GetSetting("EnableSocketMacrosOverwrite")
+    if not (IS_RUNNING and IS_CLIENT) and doEnableCoreMacros then
+        local internalCoreMacrosFolder = script.Parent.CoreMacros
+        local macrosModuleScripts = internalCoreMacrosFolder:GetChildren() ---@type ModuleScript[]
+        for _, moduleScript in pairs(macrosModuleScripts) do
+            local matchingStudioInstance = coreMacrosFolder:FindFirstChild(moduleScript.Name) ---@type ModuleScript
+            if doEnableCoreMacrosOverwrite then
                 -- Destroy matching instance
                 if matchingStudioInstance then
                     matchingStudioInstance:Destroy()
                 end
 
                 if moduleScript:IsA("ModuleScript") then
-                    moduleScript:Clone().Parent = corePlugsFolder
+                    moduleScript:Clone().Parent = coreMacrosFolder
                 end
             elseif not matchingStudioInstance then
                 if moduleScript:IsA("ModuleScript") then
-                    moduleScript:Clone().Parent = corePlugsFolder
+                    moduleScript:Clone().Parent = coreMacrosFolder
                 end
             end
         end

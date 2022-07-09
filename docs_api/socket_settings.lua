@@ -26,7 +26,7 @@
     @prop OpenFieldsByDefault boolean
     @within SocketSettings
 
-    The widget uses toggle arrows to show/hide information. If `true`, the "Fields" sections inside plugs will be open by default. Just saves the
+    The widget uses toggle arrows to show/hide information. If `true`, the "Fields" sections inside macros will be open by default. Just saves the
     user another click.
 
     Defaults to `true`
@@ -36,17 +36,17 @@
     @prop SortType string
     @within SocketSettings
 
-    Can take a variety of string values to define how Plugs and Groups are sorted on the widget.
+    Can take a variety of string values to define how Macros and Groups are sorted on the widget.
 
     **"LayoutOrder"**
-    Uses [Layout Order](/api/PlugDefinition#LayoutOrder) to define sorting. The group with the Plug with the lowest `LayoutOrder` will be at the
+    Uses [Layout Order](/api/MacroDefinition#LayoutOrder) to define sorting. The group with the Macro with the lowest `LayoutOrder` will be at the
     top of the widget.
 
     **"Icon"**
-    Will sort Plugs and Groups by their `Icon` using `<`. This results in Plugs and Groups with matching Icons being grouped next to one another.
+    Will sort Macros and Groups by their `Icon` using `<`. This results in Macros and Groups with matching Icons being grouped next to one another.
 
     **"Name"**
-    Sorts Plugs and Groups alphabetically by name. This behaviour also underlies the other sort types when there isn't a distinct difference (e.g., same
+    Sorts Macros and Groups alphabetically by name. This behaviour also underlies the other sort types when there isn't a distinct difference (e.g., same
     `Icon`, same `LayoutOrder`)
 
     Defaults to `"Name"`
@@ -62,20 +62,20 @@
 ]=]
 
 --[=[
-    @prop EnableSocketPlugs boolean
+    @prop EnableSocketMacros boolean
     @within SocketSettings
 
-    Declares if Socket should automatically add its pre-packaged Plugs. If `false`, and you delete all the default Plugs, they will not reappear
+    Declares if Socket should automatically add its pre-packaged Macros. If `false`, and you delete all the default Macros, they will not reappear
     when you restart Socket.
 
     Defaults to `true`
 ]=]
 
 --[=[
-    @prop EnableSocketPlugsOverwrite boolean
+    @prop EnableSocketMacrosOverwrite boolean
     @within SocketSettings
 
-    Slightly softer version of `EnableSocketPlugs`. By default, Socket will delete+add its pre-packaged Plugs on startup. This means that any
+    Slightly softer version of `EnableSocketMacros`. By default, Socket will delete+add its pre-packaged Macros on startup. This means that any
     user-made changes to the `ModuleScripts` will be overwritten. Set this to `false` to disable this behaviour.
 
     Defaults to `true`
@@ -85,7 +85,7 @@
     @prop EnableAutoRun boolean
     @within SocketSettings
 
-    If `false`, will ignore the `.AutoRun` member in any [PlugDefinition]
+    If `false`, will ignore the `.AutoRun` member in any [MacroDefinition]
 
     Defaults to `true`
 ]=]

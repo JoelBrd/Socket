@@ -1,5 +1,5 @@
 ---
--- Plug
+-- Macro
 ---
 
 --------------------------------------------------
@@ -11,15 +11,15 @@ local Logger = require(Utils.Logger)
 --------------------------------------------------
 -- Members
 
-local plugDefinition = {
+local macroDefinition = {
     Name = "%s",
-    Group = "Plugs",
+    Group = "Macros",
     Icon = "%s",
     Description = "%s",
 }
 
-plugDefinition.Function = function(plug, plugin)
-    Logger:PlugInfo(plug, ("Hello %s!"):format(plug.Name))
+macroDefinition.Function = function(macro, plugin)
+    Logger:MacroInfo(macro, ("Hello %s!"):format(macro.Name))
     --[[
         ...
         Your Logic Here
@@ -27,4 +27,4 @@ plugDefinition.Function = function(plug, plugin)
     ]]
 end
 
-return plugDefinition
+return macroDefinition

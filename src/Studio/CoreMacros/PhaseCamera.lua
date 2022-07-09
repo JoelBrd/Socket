@@ -20,8 +20,8 @@ local RaycastUtil = require(Utils.RaycastUtil) ---@type RaycastUtil
 --------------------------------------------------
 -- Members
 
----@type PlugDefinition
-local plugDefinition = {
+---@type MacroDefinition
+local macroDefinition = {
     Group = "Core",
     Name = "Phase Camera",
     Description = "Will teleport the camera to the world position of the mouse.\n`Distance` Field is how far from the camera a point can be registered.",
@@ -42,10 +42,10 @@ local plugDefinition = {
     },
 }
 
----@param plug PlugDefinition
-plugDefinition.Function = function(plug, _)
+---@param macro MacroDefinition
+macroDefinition.Function = function(macro, _)
     -- Read Fields
-    local distance = plug:GetFieldValue("Distance")
+    local distance = macro:GetFieldValue("Distance")
 
     -- Get Camera
     local camera = game.Workspace.CurrentCamera
@@ -58,8 +58,8 @@ plugDefinition.Function = function(plug, _)
         camera.CFrame = camera.CFrame - camera.CFrame.Position + position - camera.CFrame.LookVector
         camera.Focus = camera.CFrame + camera.CFrame.LookVector
     else
-        Logger:PlugWarn(plug, "Could not teleport camera; no hit found.")
+        Logger:MacroWarn(macro, "Could not teleport camera; no hit found.")
     end
 end
 
-return plugDefinition
+return macroDefinition

@@ -48,8 +48,8 @@ description = ("%s%s"):format(
 )
 description = ("%s%s"):format(description, "these changes will not be detected (to aid performance)")
 
----@type PlugDefinition
-local plugDefinition = {
+---@type MacroDefinition
+local macroDefinition = {
     Group = "Core", ---@type string
     Name = ".Locked",
     Icon = "🔒",
@@ -104,16 +104,16 @@ local plugDefinition = {
 --===
 --================================================================================================================================================
 
-local function trace(plug, ...)
+local function trace(macro, ...)
     if not DO_TRACE then
         return
     end
 
-    Logger:PlugInfo(plug, ...)
+    Logger:MacroInfo(macro, ...)
 end
 
----@param plug PlugDefinition
-local function verify(plug)
+---@param macro MacroDefinition
+local function verify(macro)
     -- Assume the worst and that we crashed. Reset any locked parts we had.
     local taggedInstances = CollectionService:GetTagged(trackingTag) ---@type BasePart[]
     for _, instance in pairs(taggedInstances) do
@@ -124,13 +124,13 @@ local function verify(plug)
 
     -- Log
     if #taggedInstances > 0 then
-        Logger:PlugWarn(plug, "Looks like .Locked was running when the place was saved/closed... all fixed now!")
+        Logger:MacroWarn(macro, "Looks like .Locked was running when the place was saved/closed... all fixed now!")
     end
 end
 
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@return number
-local function setupCollisionGroup(plug)
+local function setupCollisionGroup(macro)
     -- Get Collision groups
     local collisionGroups = PhysicsService:GetCollisionGroups()
     local names = {}
@@ -155,19 +155,19 @@ local function setupCollisionGroup(plug)
     PhysicsService:CollisionGroupSetCollidable(COLLISION_GROUP_NAME, COLLISION_GROUP_NAME, true)
 
     -- Set id
-    plug.State.CollisionGroupId = id
+    macro.State.CollisionGroupId = id
 end
 
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@param instance Instance
-local function manageCollisionsForBasePart(plug, instance)
+local function manageCollisionsForBasePart(macro, instance)
     -- RETURN: Toggled
-    if plug.State.IsToggled then
+    if macro.State.IsToggled then
         return
     end
 
     -- Get state
-    local isRunning = plug:IsRunning()
+    local isRunning = macro:IsRunning()
 
     -- Add/Remove from our collision group
     local doAdd = false
@@ -175,46 +175,46 @@ local function manageCollisionsForBasePart(plug, instance)
     if isRunning then
         doAdd = instance:IsDescendantOf(game.Workspace) and instance.Locked and instance.CollisionGroupId == DEFAULT_COLLISION_GROUP_ID
         doRemove = ((not instance:IsDescendantOf(game.Workspace) and instance.Locked) or not instance.Locked)
-            and instance.CollisionGroupId == plug.State.CollisionGroupId
+            and instance.CollisionGroupId == macro.State.CollisionGroupId
     else
-        doRemove = instance.CollisionGroupId == plug.State.CollisionGroupId
+        doRemove = instance.CollisionGroupId == macro.State.CollisionGroupId
     end
 
     if doAdd then
-        instance.CollisionGroupId = plug.State.CollisionGroupId
+        instance.CollisionGroupId = macro.State.CollisionGroupId
         CollectionService:AddTag(instance, trackingTag)
-        table.insert(plug.State.LockedParts, instance)
-        trace(plug, ("Added %s"):format(instance:GetFullName()))
+        table.insert(macro.State.LockedParts, instance)
+        trace(macro, ("Added %s"):format(instance:GetFullName()))
     elseif doRemove then
         instance.CollisionGroupId = DEFAULT_COLLISION_GROUP_ID
         CollectionService:RemoveTag(instance, trackingTag)
-        local index = table.find(plug.State.LockedParts, instance)
+        local index = table.find(macro.State.LockedParts, instance)
         if index then
             instance.Locked = true
-            table.remove(plug.State.LockedParts, index)
+            table.remove(macro.State.LockedParts, index)
         end
-        trace(plug, ("Removed %s"):format(instance:GetFullName()))
+        trace(macro, ("Removed %s"):format(instance:GetFullName()))
     end
 end
 
----Runs routines to keep track of locked instances and bring them into the scope of the plug
----@param plug PlugDefinition
-local function trackLockedInstances(plug)
+---Runs routines to keep track of locked instances and bring them into the scope of the macro
+---@param macro MacroDefinition
+local function trackLockedInstances(macro)
     -- Read/Init state
-    local doUseSelection = plug:GetFieldValue("Use Selection")
-    if doUseSelection and not plug.State.SelectionJanitor then
+    local doUseSelection = macro:GetFieldValue("Use Selection")
+    if doUseSelection and not macro.State.SelectionJanitor then
         -- Create Janitor
-        plug.State.SelectionJanitor = Janitor.new() ---@type Janitor
-        plug.RunJanitor:Add(plug.State.SelectionJanitor, "Cleanup")
+        macro.State.SelectionJanitor = Janitor.new() ---@type Janitor
+        macro.RunJanitor:Add(macro.State.SelectionJanitor, "Cleanup")
     end
-    plug.State.LockedParts = {}
+    macro.State.LockedParts = {}
 
     ---Tracks the .Locked property of this instance changing + manages it
     ---@param instance Instance
     ---@return RBXScriptConnection
     local function trackLockedProperty(instance)
         return instance:GetPropertyChangedSignal("Locked"):Connect(function()
-            manageCollisionsForBasePart(plug, instance)
+            manageCollisionsForBasePart(macro, instance)
         end)
     end
 
@@ -225,36 +225,36 @@ local function trackLockedInstances(plug)
             return
         end
 
-        manageCollisionsForBasePart(plug, instance)
+        manageCollisionsForBasePart(macro, instance)
 
         local connection = trackLockedProperty(instance)
         if doUseSelection then
-            plug.State.SelectionJanitor:Add(connection)
+            macro.State.SelectionJanitor:Add(connection)
         else
-            plug.RunJanitor:Add(connection)
+            macro.RunJanitor:Add(connection)
         end
     end
 
     ---@param instances Instance[]
     local function selectionChanged(instances)
-        plug.State.SelectionJanitor:Cleanup()
+        macro.State.SelectionJanitor:Cleanup()
 
         for _, instance in pairs(instances) do
             inspectInstance(instance)
         end
     end
 
-    plug.RunJanitor:Add(game.Workspace.DescendantAdded:Connect(function(descendant)
+    macro.RunJanitor:Add(game.Workspace.DescendantAdded:Connect(function(descendant)
         inspectInstance(descendant)
     end))
 
-    plug.RunJanitor:Add(game.Workspace.DescendantRemoving:Connect(function(descendant)
+    macro.RunJanitor:Add(game.Workspace.DescendantRemoving:Connect(function(descendant)
         inspectInstance(descendant)
     end))
 
     -- Setup listening to .Locked changes
     if doUseSelection then
-        plug.RunJanitor:Add(Selection.SelectionChanged:Connect(function()
+        macro.RunJanitor:Add(Selection.SelectionChanged:Connect(function()
             selectionChanged(Selection:Get())
         end))
     end
@@ -266,18 +266,18 @@ local function trackLockedInstances(plug)
 end
 
 ---Manages the highlighlight of locked parts
----@param plug PlugDefinition
-local function manageHighlighting(plug)
+---@param macro MacroDefinition
+local function manageHighlighting(macro)
     -- Read state
-    local doHighlight = plug:GetFieldValue("Do Highlight")
-    local highlightColor = plug:GetFieldValue("Color")
-    local highlightThickness = plug:GetFieldValue("Thickness")
-    local highlightTransparency = plug:GetFieldValue("Transparency")
+    local doHighlight = macro:GetFieldValue("Do Highlight")
+    local highlightColor = macro:GetFieldValue("Color")
+    local highlightThickness = macro:GetFieldValue("Thickness")
+    local highlightTransparency = macro:GetFieldValue("Transparency")
     if not doHighlight then
         return
     end
 
-    plug.State.SelectionBoxes = {}
+    macro.State.SelectionBoxes = {}
 
     ---@return SelectionBox
     local function createSelection()
@@ -292,7 +292,7 @@ local function manageHighlighting(plug)
     end
 
     local renderDebounce = false
-    plug.RunJanitor:Add(RunService.RenderStepped:Connect(function()
+    macro.RunJanitor:Add(RunService.RenderStepped:Connect(function()
         -- RETURN: Debounce
         if renderDebounce then
             return
@@ -308,9 +308,9 @@ local function manageHighlighting(plug)
 
         -- Iterate raycast
         local lockedParts = {}
-        local isToggled = plug.State.IsToggled
+        local isToggled = macro.State.IsToggled
         if isToggled then
-            lockedParts = plug.State.LockedParts
+            lockedParts = macro.State.LockedParts
         else
             local origin = camera.CFrame.Position
             while true do
@@ -335,49 +335,49 @@ local function manageHighlighting(plug)
 
         -- Manage SelectionBoxes
         for i, lockedPart in pairs(lockedParts) do
-            local selection = plug.State.SelectionBoxes[i]
+            local selection = macro.State.SelectionBoxes[i]
             if not selection then
                 selection = createSelection()
-                table.insert(plug.State.SelectionBoxes, selection)
+                table.insert(macro.State.SelectionBoxes, selection)
             end
             selection.Adornee = lockedPart
             selection.SurfaceTransparency = isToggled and 0.7 or 1
         end
-        for j = #plug.State.SelectionBoxes, #lockedParts + 1, -1 do
-            InstanceUtil:ClearInstance(plug.State.SelectionBoxes[j], true)
-            table.remove(plug.State.SelectionBoxes, j)
+        for j = #macro.State.SelectionBoxes, #lockedParts + 1, -1 do
+            InstanceUtil:ClearInstance(macro.State.SelectionBoxes[j], true)
+            table.remove(macro.State.SelectionBoxes, j)
         end
 
         renderDebounce = false
     end))
 end
 
----@param plug PlugDefinition
-local function toggle(plug)
-    if not plug.State.IsToggled then
-        plug.State.IsToggled = true
-        for _, lockedPart in pairs(plug.State.LockedParts) do
+---@param macro MacroDefinition
+local function toggle(macro)
+    if not macro.State.IsToggled then
+        macro.State.IsToggled = true
+        for _, lockedPart in pairs(macro.State.LockedParts) do
             lockedPart.Locked = false
             lockedPart.CollisionGroupId = DEFAULT_COLLISION_GROUP_ID
         end
     else
-        for _, lockedPart in pairs(plug.State.LockedParts) do
+        for _, lockedPart in pairs(macro.State.LockedParts) do
             lockedPart.Locked = true
-            lockedPart.CollisionGroupId = plug.State.CollisionGroupId
+            lockedPart.CollisionGroupId = macro.State.CollisionGroupId
         end
-        plug.State.IsToggled = false
+        macro.State.IsToggled = false
     end
 
     ChangeHistoryService:SetWaypoint("Toggled Locked")
-    trace(plug, ("Toggled Locked Parts: %s"):format(tostring(plug.State.IsToggled)))
+    trace(macro, ("Toggled Locked Parts: %s"):format(tostring(macro.State.IsToggled)))
 end
 
----@param plug PlugDefinition
-local function listenForToggleInput(plug)
+---@param macro MacroDefinition
+local function listenForToggleInput(macro)
     -- Read state
-    local toggleKeybind = plug:GetFieldValue("Toggle Keybind")
+    local toggleKeybind = macro:GetFieldValue("Toggle Keybind")
 
-    plug.RunJanitor:Add(UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
+    macro.RunJanitor:Add(UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
         -- RETURN: gameProcessedEvent
         if gameProcessedEvent then
             return
@@ -385,67 +385,67 @@ local function listenForToggleInput(plug)
 
         local isToggleKeybind = inputObject.KeyCode.Name == toggleKeybind
         if isToggleKeybind then
-            toggle(plug)
+            toggle(macro)
         end
     end))
 end
 
----@param plug PlugDefinition
-local function stoppedRunning(plug)
-    if plug.State.IsToggled then
-        toggle(plug)
+---@param macro MacroDefinition
+local function stoppedRunning(macro)
+    if macro.State.IsToggled then
+        toggle(macro)
     end
 
     for _, descendant in pairs(game.Workspace:GetDescendants()) do
         if descendant:IsA("BasePart") then
-            manageCollisionsForBasePart(plug, descendant)
+            manageCollisionsForBasePart(macro, descendant)
         end
     end
 
-    for _, selectionBox in pairs(plug.State.SelectionBoxes) do
+    for _, selectionBox in pairs(macro.State.SelectionBoxes) do
         InstanceUtil:ClearInstance(selectionBox, true)
     end
-    plug.State.SelectionBoxes = nil
+    macro.State.SelectionBoxes = nil
 end
 
 --================================================================================================================================================
 --===
 --================================================================================================================================================
 
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@param plugin Plugin
-plugDefinition.BindToOpen = function(plug, plugin)
+macroDefinition.BindToOpen = function(macro, plugin)
     -- Ensure nothing bad was left from .Locked in a previous session
-    verify(plug)
+    verify(macro)
 end
 
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@param plugin Plugin
-plugDefinition.Function = function(plug, plugin)
+macroDefinition.Function = function(macro, plugin)
     -- Toggle Running
-    plug:ToggleIsRunning()
+    macro:ToggleIsRunning()
 
     -- Get state
-    local isRunning = plug:IsRunning()
+    local isRunning = macro:IsRunning()
 
     -- Run Routines
     if isRunning then
-        setupCollisionGroup(plug)
-        trackLockedInstances(plug)
-        manageHighlighting(plug)
-        listenForToggleInput(plug)
+        setupCollisionGroup(macro)
+        trackLockedInstances(macro)
+        manageHighlighting(macro)
+        listenForToggleInput(macro)
     else
-        stoppedRunning(plug)
+        stoppedRunning(macro)
     end
 end
 
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@param plugin Plugin
-plugDefinition.BindToClose = function(plug, plugin)
-    if plug:IsRunning() then
-        plug:ToggleIsRunning()
-        stoppedRunning(plug)
+macroDefinition.BindToClose = function(macro, plugin)
+    if macro:IsRunning() then
+        macro:ToggleIsRunning()
+        stoppedRunning(macro)
     end
 end
 
-return plugDefinition
+return macroDefinition

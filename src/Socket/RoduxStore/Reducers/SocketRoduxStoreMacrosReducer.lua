@@ -1,9 +1,9 @@
 ---
----Reducer for actions pertaining to adding/changing/removing plugs
+---Reducer for actions pertaining to adding/changing/removing macros
 ---
----@class SocketRoduxStorePlugsReducer
+---@class SocketRoduxStoreMacrosReducer
 ---
-local SocketRoduxStorePlugsReducer = {}
+local SocketRoduxStoreMacrosReducer = {}
 
 --------------------------------------------------
 -- Types
@@ -27,19 +27,19 @@ local SocketController ---@type SocketController
 ---
 ---@return RoduxReducer
 ---
-function SocketRoduxStorePlugsReducer:Get()
+function SocketRoduxStoreMacrosReducer:Get()
     return Rodux.createReducer({
         Groups = {},
         SearchText = "",
     }, {
 
-        ---Add a plug to the widget
+        ---Add a macro to the widget
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.PLUGS.ADD_PLUG] = function(state, action)
+        [SocketConstants.RoduxActionType.MACROS.ADD_MACRO] = function(state, action)
             -- Read Action
-            local plug = action.data.plug ---@type PlugDefinition
-            local plugScript = action.data.script
+            local macro = action.data.macro ---@type MacroDefinition
+            local macroScript = action.data.script
             local isFieldsOpen = action.data.isFieldsOpen
 
             -- Recreate state
@@ -51,19 +51,19 @@ function SocketRoduxStorePlugsReducer:Get()
                 newState.Groups[groupName] = groupData
             end
 
-            -- Ensure group for this plug exists
-            local plugGroup = plug.Group
-            newState.Groups[plugGroup] = newState.Groups[plugGroup]
+            -- Ensure group for this macro exists
+            local macroGroup = macro.Group
+            newState.Groups[macroGroup] = newState.Groups[macroGroup]
                 or {
-                    Plugs = {},
+                    Macros = {},
                     UIState = {
                         IsOpen = false,
                     },
                 }
 
-            -- Add plug to group
-            newState.Groups[plugGroup].Plugs[plugScript] = {
-                Plug = plug,
+            -- Add macro to group
+            newState.Groups[macroGroup].Macros[macroScript] = {
+                Macro = macro,
                 UIState = {
                     IsOpen = false,
                     IsFieldsOpen = isFieldsOpen,
@@ -73,13 +73,13 @@ function SocketRoduxStorePlugsReducer:Get()
             return newState
         end,
 
-        ---Update a plug in the widget
+        ---Update a macro in the widget
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.PLUGS.UPDATE_PLUG] = function(state, action)
+        [SocketConstants.RoduxActionType.MACROS.UPDATE_MACRO] = function(state, action)
             -- Read Action
-            local plug = action.data.plug ---@type PlugDefinition
-            local plugScript = action.data.script
+            local macro = action.data.macro ---@type MacroDefinition
+            local macroScript = action.data.script
 
             -- Recreate state
             local newState = {
@@ -90,55 +90,55 @@ function SocketRoduxStorePlugsReducer:Get()
                 newState.Groups[groupName] = groupData
             end
 
-            -- Read stored version of this plug
-            local storedPlug ---@type PlugDefinition
+            -- Read stored version of this macro
+            local storedMacro ---@type MacroDefinition
             local storedUIState ---@type table
             for _, groupData in pairs(newState.Groups) do
-                for somePlugScript, somePlugInfo in pairs(groupData.Plugs) do
-                    if somePlugScript == plugScript then
-                        storedPlug = somePlugInfo.Plug
-                        storedUIState = somePlugInfo.UIState
-                        groupData.Plugs[somePlugScript] = nil
+                for someMacroScript, someMacroInfo in pairs(groupData.Macros) do
+                    if someMacroScript == macroScript then
+                        storedMacro = someMacroInfo.Macro
+                        storedUIState = someMacroInfo.UIState
+                        groupData.Macros[someMacroScript] = nil
                         break
                     end
                 end
 
-                if storedPlug then
+                if storedMacro then
                     break
                 end
             end
 
-            -- Update new plug from stored version
-            plug.State = storedPlug.State
-            local plugGroup = plug.Group
+            -- Update new macro from stored version
+            macro.State = storedMacro.State
+            local macroGroup = macro.Group
 
-            -- Update plug in group
-            newState.Groups[plugGroup] = newState.Groups[plugGroup]
+            -- Update macro in group
+            newState.Groups[macroGroup] = newState.Groups[macroGroup]
                 or {
-                    Plugs = {},
+                    Macros = {},
                     UIState = {
                         IsOpen = false,
                     },
                 }
-            newState.Groups[plugGroup].Plugs[plugScript] = {
-                Plug = plug,
+            newState.Groups[macroGroup].Macros[macroScript] = {
+                Macro = macro,
                 UIState = storedUIState,
             }
 
             -- Clear old group if needed (.Group may have changed)
-            if TableUtil:Size(newState.Groups[storedPlug.Group].Plugs) == 0 then
-                newState.Groups[storedPlug.Group] = nil
+            if TableUtil:Size(newState.Groups[storedMacro.Group].Macros) == 0 then
+                newState.Groups[storedMacro.Group] = nil
             end
 
             return newState
         end,
 
-        ---Remove a plug from the widget
+        ---Remove a macro from the widget
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.PLUGS.REMOVE_PLUG] = function(state, action)
+        [SocketConstants.RoduxActionType.MACROS.REMOVE_MACRO] = function(state, action)
             -- Read Action
-            local plugScript = action.data.script
+            local macroScript = action.data.script
 
             -- Recreate state
             local newState = {
@@ -149,25 +149,25 @@ function SocketRoduxStorePlugsReducer:Get()
                 newState.Groups[groupName] = groupData
             end
 
-            -- Get stored plug + clear
-            local clearedPlug = false
+            -- Get stored macro + clear
+            local clearedMacro = false
             for _, groupData in pairs(newState.Groups) do
-                for somePlugScript, somePlugInfo in pairs(groupData.Plugs) do
-                    if somePlugScript == plugScript then
-                        groupData.Plugs[somePlugScript] = nil
-                        clearedPlug = somePlugInfo.Plug
+                for someMacroScript, someMacroInfo in pairs(groupData.Macros) do
+                    if someMacroScript == macroScript then
+                        groupData.Macros[someMacroScript] = nil
+                        clearedMacro = someMacroInfo.Macro
                         break
                     end
                 end
 
-                if clearedPlug then
+                if clearedMacro then
                     break
                 end
             end
 
             -- Clear old group if needed (.Group may have changed)
-            local groupName = clearedPlug.Group
-            if TableUtil:Size(newState.Groups[groupName].Plugs) == 0 then
+            local groupName = clearedMacro.Group
+            if TableUtil:Size(newState.Groups[groupName].Macros) == 0 then
                 newState.Groups[groupName] = nil
             end
 
@@ -177,7 +177,7 @@ function SocketRoduxStorePlugsReducer:Get()
         ---Show/Hide group children from the widget
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.PLUGS.TOGGLE_GROUP_VISIBILITY] = function(state, action)
+        [SocketConstants.RoduxActionType.MACROS.TOGGLE_GROUP_VISIBILITY] = function(state, action)
             -- Read Action
             local group = action.data.group ---@type string
 
@@ -200,12 +200,12 @@ function SocketRoduxStorePlugsReducer:Get()
             return newState
         end,
 
-        ---Show/Hide plug children from the widget
+        ---Show/Hide macro children from the widget
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.PLUGS.TOGGLE_PLUG_VISIBILITY] = function(state, action)
+        [SocketConstants.RoduxActionType.MACROS.TOGGLE_MACRO_VISIBILITY] = function(state, action)
             -- Read Action
-            local plugScript = action.data.script
+            local macroScript = action.data.script
 
             -- Recreate state
             local newState = {
@@ -216,11 +216,11 @@ function SocketRoduxStorePlugsReducer:Get()
                 newState.Groups[groupName] = groupData
             end
 
-            -- Toggle visibility for specified plug
+            -- Toggle visibility for specified macro
             for _, groupData in pairs(newState.Groups) do
-                for somePlugScript, somePlugInfo in pairs(groupData.Plugs) do
-                    if somePlugScript == plugScript then
-                        somePlugInfo.UIState.IsOpen = not somePlugInfo.UIState.IsOpen
+                for someMacroScript, someMacroInfo in pairs(groupData.Macros) do
+                    if someMacroScript == macroScript then
+                        someMacroInfo.UIState.IsOpen = not someMacroInfo.UIState.IsOpen
                         return newState
                     end
                 end
@@ -229,12 +229,12 @@ function SocketRoduxStorePlugsReducer:Get()
             return newState
         end,
 
-        ---Show/Hide plug fields children from the widget
+        ---Show/Hide macro fields children from the widget
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.PLUGS.TOGGLE_FIELDS_VISIBILITY] = function(state, action)
+        [SocketConstants.RoduxActionType.MACROS.TOGGLE_FIELDS_VISIBILITY] = function(state, action)
             -- Read Action
-            local plugScript = action.data.script
+            local macroScript = action.data.script
 
             -- Recreate state
             local newState = {
@@ -245,11 +245,11 @@ function SocketRoduxStorePlugsReducer:Get()
                 newState.Groups[groupName] = groupData
             end
 
-            -- Toggle visibility for specified plug
+            -- Toggle visibility for specified macro
             for _, groupData in pairs(newState.Groups) do
-                for somePlugScript, somePlugInfo in pairs(groupData.Plugs) do
-                    if somePlugScript == plugScript then
-                        somePlugInfo.UIState.IsFieldsOpen = not somePlugInfo.UIState.IsFieldsOpen
+                for someMacroScript, someMacroInfo in pairs(groupData.Macros) do
+                    if someMacroScript == macroScript then
+                        someMacroInfo.UIState.IsFieldsOpen = not someMacroInfo.UIState.IsFieldsOpen
                         return newState
                     end
                 end
@@ -261,7 +261,7 @@ function SocketRoduxStorePlugsReducer:Get()
         ---Update search text
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.PLUGS.SEARCH_TEXT] = function(state, action)
+        [SocketConstants.RoduxActionType.MACROS.SEARCH_TEXT] = function(state, action)
             -- Read Action
             local text = action.data.text
 
@@ -280,7 +280,7 @@ function SocketRoduxStorePlugsReducer:Get()
         ---Refreshes the UI, makes no changes to state
         ---@param state RoduxState
         ---@param action RoduxAction
-        [SocketConstants.RoduxActionType.PLUGS.REFRESH] = function(state, action)
+        [SocketConstants.RoduxActionType.MACROS.REFRESH] = function(state, action)
             -- Recreate state
             local newState = {
                 Groups = {},
@@ -296,7 +296,7 @@ function SocketRoduxStorePlugsReducer:Get()
 end
 
 ---@private
-function SocketRoduxStorePlugsReducer:FrameworkInit()
+function SocketRoduxStoreMacrosReducer:FrameworkInit()
     Rodux = PluginFramework:Require("Rodux")
     SocketConstants = PluginFramework:Require("SocketConstants")
     TableUtil = PluginFramework:Require("TableUtil")
@@ -304,6 +304,6 @@ function SocketRoduxStorePlugsReducer:FrameworkInit()
 end
 
 ---@private
-function SocketRoduxStorePlugsReducer:FrameworkStart() end
+function SocketRoduxStoreMacrosReducer:FrameworkStart() end
 
-return SocketRoduxStorePlugsReducer
+return SocketRoduxStoreMacrosReducer

@@ -98,35 +98,35 @@ local function writeSourceOutput(loggerLevel, ...)
 end
 
 ---
----[] A plug wants to show console information
+---[] A macro wants to show console information
 ---
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@vararg any
 ---
-function Logger:PlugInfo(plug, ...)
+function Logger:MacroInfo(macro, ...)
     -- RETURN: Disabled
     if not Logger.Level.INFO.Enabled then
         return
     end
 
-    local icon = plug.Icon and not string.find(plug.Icon, "rbxasset") and plug.Icon or ""
-    print(("[%s %s]"):format(icon, plug.Name), ...)
+    local icon = macro.Icon and not string.find(macro.Icon, "rbxasset") and macro.Icon or ""
+    print(("[%s %s]"):format(icon, macro.Name), ...)
 end
 
 ---
----[] A plug wants to warn
+---[] A macro wants to warn
 ---
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@vararg any
 ---
-function Logger:PlugWarn(plug, ...)
+function Logger:MacroWarn(macro, ...)
     -- RETURN: Disabled
     if not Logger.Level.WARN.Enabled then
         return
     end
 
-    local icon = plug.Icon and not string.find(plug.Icon, "rbxasset") and plug.Icon or ""
-    warn(("[%s %s]"):format(icon, plug.Name), ...)
+    local icon = macro.Icon and not string.find(macro.Icon, "rbxasset") and macro.Icon or ""
+    warn(("[%s %s]"):format(icon, macro.Name), ...)
 end
 
 ---
