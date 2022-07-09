@@ -12,23 +12,23 @@ local Logger = require(Utils.Logger)
 --------------------------------------------------
 -- Members
 
----@param plugDefinition PlugDefinition
-local plugDefinition = {
+---@param macroDefinition MacroDefinition
+local macroDefinition = {
     Name = "Get Full Name",
     Group = "Core",
     Icon = "🤏",
     Description = "Prints the FullName of the selected instance(s)",
 }
 
-plugDefinition.Function = function(plug, plugin)
+macroDefinition.Function = function(macro, plugin)
     local instances = Selection:Get()
     if #instances == 0 then
-        Logger:PlugWarn(plug, "Please select atleast one instance")
+        Logger:MacroWarn(macro, "Please select atleast one instance")
     end
 
     for _, instance in pairs(instances) do
-        Logger:PlugInfo(plug, instance:GetFullName())
+        Logger:MacroInfo(macro, instance:GetFullName())
     end
 end
 
-return plugDefinition
+return macroDefinition

@@ -19,17 +19,17 @@ local SocketConstants = {}
 SocketConstants.ShowDebugUI = false
 
 SocketConstants.RoduxStoreKey = {
-    PLUGS = "PLUGS",
+    MACROS = "MACROS",
     STUDIO = "STUDIO",
 } ---@type RoduxStoreKey[]
 
 SocketConstants.RoduxActionType = {
-    PLUGS = {
-        ADD_PLUG = "ADD_PLUG",
-        UPDATE_PLUG = "UPDATE_PLUG",
-        REMOVE_PLUG = "REMOVE_PLUG",
+    MACROS = {
+        ADD_MACRO = "ADD_MACRO",
+        UPDATE_MACRO = "UPDATE_MACRO",
+        REMOVE_MACRO = "REMOVE_MACRO",
         TOGGLE_GROUP_VISIBILITY = "TOGGLE_GROUP_VISIBILITY",
-        TOGGLE_PLUG_VISIBILITY = "TOGGLE_PLUG_VISIBILITY",
+        TOGGLE_MACRO_VISIBILITY = "TOGGLE_MACRO_VISIBILITY",
         TOGGLE_FIELDS_VISIBILITY = "TOGGLE_FIELDS_VISIBILITY",
         SEARCH_TEXT = "SEARCH_TEXT",
         REFRESH = "REFRESH",

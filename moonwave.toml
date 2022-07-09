@@ -1,6 +1,6 @@
 classOrder = [
-    "PlugDefinition",
-    "PlugField",
+    "MacroDefinition",
+    "MacroField",
     "SocketSettings",
 ]
 

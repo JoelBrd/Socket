@@ -7,8 +7,8 @@
 ]=]
 
 --[=[
-    @method PlugInfo
-    @param plug PlugDefinition
+    @method MacroInfo
+    @param macro MacroDefinition
     @param ... any
     @within Logger
 
@@ -16,12 +16,12 @@
 ]=]
 
 --[=[
-    @method PlugWarn
-    @param plug PlugDefinition
+    @method MacroWarn
+    @param macro MacroDefinition
     @param ... any
     @within Logger
 
-    For informing the user that an issue with a plug has occured
+    For informing the user that an issue with a macro has occured
 ]=]
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -29,11 +29,11 @@
 --[=[
     @class InstanceUtil
 
-    A Util object that gives some nice methods for when a plug needs to create instances + place them somewhere in the workspace. It places instances
+    A Util object that gives some nice methods for when a macro needs to create instances + place them somewhere in the workspace. It places instances
     under a Socket folder, under this specific user - useful for Team Create!
 
     Instances parented using this class will be automatically cleaned up when Socket closes (but only for the specific user in Team Create). You may still want to have a `BindToClose` implementation,
-    depending on what your plug does and if you need to handle cases where the plugin isn't closed properly (e.g., Studio crash)
+    depending on what your macro does and if you need to handle cases where the plugin isn't closed properly (e.g., Studio crash)
 
     This can be required under `game.ServerStorage.SocketPlugin.Utils.InstanceUtil`
 ]=]
@@ -73,7 +73,7 @@
 
     Sends a raycast from our camera to the point our mouse is at in the world.
 
-    `checkAllCollisionGroups=true` will make sure we raycast against parts that don't collide with the `"Default"` Collision Group (see the ".Locked" plug)
+    `checkAllCollisionGroups=true` will make sure we raycast against parts that don't collide with the `"Default"` Collision Group (see the ".Locked" macro)
 ]=]
 
 --[=[
@@ -87,7 +87,7 @@
 
     Does a bog standard raycast.
 
-    `checkAllCollisionGroups=true` will make sure we raycast against parts that don't collide with the `"Default"` Collision Group (see the ".Locked" plug)
+    `checkAllCollisionGroups=true` will make sure we raycast against parts that don't collide with the `"Default"` Collision Group (see the ".Locked" macro)
 ]=]
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------

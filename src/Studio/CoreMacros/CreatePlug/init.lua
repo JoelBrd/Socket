@@ -1,5 +1,5 @@
 ---
----Creates a new plug
+---Creates a new macro
 ---
 
 --------------------------------------------------
@@ -10,7 +10,7 @@
 -- Dependencies
 local Selection = game:GetService("Selection") ---@type Selection
 local ServerStorage = game:GetService("ServerStorage") ---@type ServerStorage
-local Plugs = ServerStorage.SocketPlugin.Plugs
+local Macros = ServerStorage.SocketPlugin.Macros
 
 --------------------------------------------------
 -- Constants
@@ -19,11 +19,11 @@ local OPEN_ON_LINE = 24
 --------------------------------------------------
 -- Members
 
----@type PlugDefinition
-local plugDefinition = {
+---@type MacroDefinition
+local macroDefinition = {
     Group = "Core",
-    Name = "Create Plug",
-    Description = "Creates a new plug",
+    Name = "Create Macro",
+    Description = "Creates a new macro",
     Icon = "🟢",
     Fields = {
         {
@@ -39,31 +39,31 @@ local plugDefinition = {
     },
     State = {
         FieldValues = {
-            Name = "Plug",
+            Name = "Macro",
             Icon = "💡",
         },
     },
 }
 
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@param plugin Plugin
-plugDefinition.Function = function(plug, plugin)
+macroDefinition.Function = function(macro, plugin)
     -- Get Fields
-    local name = plug:GetFieldValue("Name")
-    local icon = plug:GetFieldValue("Icon")
+    local name = macro:GetFieldValue("Name")
+    local icon = macro:GetFieldValue("Icon")
 
     -- Create variables
     local description = ("%s Description"):format(name)
 
-    -- Create plug
-    local newPlug = Instance.new("ModuleScript") ---@type ModuleScript
-    newPlug.Name = name:gsub(" ", "") -- Remove whitespace
-    newPlug.Source = script.PlugTemplate.Source:format(name, icon, description, "%s")
-    newPlug.Parent = Plugs
+    -- Create macro
+    local newMacro = Instance.new("ModuleScript") ---@type ModuleScript
+    newMacro.Name = name:gsub(" ", "") -- Remove whitespace
+    newMacro.Source = script.MacroTemplate.Source:format(name, icon, description, "%s")
+    newMacro.Parent = Macros
 
     -- Open
-    plugin:OpenScript(newPlug, OPEN_ON_LINE)
-    Selection:Set({ newPlug })
+    plugin:OpenScript(newMacro, OPEN_ON_LINE)
+    Selection:Set({ newMacro })
 end
 
-return plugDefinition
+return macroDefinition

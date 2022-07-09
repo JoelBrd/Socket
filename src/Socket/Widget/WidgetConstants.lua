@@ -20,7 +20,7 @@ WidgetConstants.RoactWidgetLine = {}
 
 WidgetConstants.RoactWidgetLine.Type = {
     Group = "Group",
-    Plug = "Plug",
+    Macro = "Macro",
     Keybind = "Keybind",
     Settings = "Settings",
     Fields = "Fields",
@@ -29,7 +29,7 @@ WidgetConstants.RoactWidgetLine.Type = {
 
 WidgetConstants.RoactWidgetLine.Indent = {
     Group = 0,
-    Plug = 1,
+    Macro = 1,
     Keybind = 2,
     Settings = 2,
     Fields = 2,
@@ -44,8 +44,8 @@ WidgetConstants.RoactWidgetLine.Pixel = {
     RunButtonWidth = 70,
     BottomPaddingHeight = 4,
     IconDetailsPadding = 2,
-    PlugTextButtonPadding = 4,
-    PlugRunButtonsPadding = 4,
+    MacroTextButtonPadding = 4,
+    MacroRunButtonsPadding = 4,
     FieldTitleTextBoxPadding = 4,
 }
 

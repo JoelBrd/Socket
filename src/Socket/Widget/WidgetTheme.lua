@@ -57,13 +57,13 @@ WidgetTheme.Indexes = {
         },
         Text = mainText,
     },
-    PlugLines = {
+    MacroLines = {
         Arrow = {
             Dark = Color3.fromRGB(180, 180, 180),
             Light = Color3.fromRGB(30, 30, 30),
         },
         Text = mainText,
-        Plug = {
+        Macro = {
             Text = popText,
             RunButton = {
                 Dark = Color3.fromRGB(230, 230, 230),

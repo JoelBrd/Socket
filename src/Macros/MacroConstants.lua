@@ -1,14 +1,14 @@
 ---
 ---Contains Constants relating to plugins.
 ---
----@class PlugConstants
+---@class MacroConstants
 ---
-local PlugConstants = {}
+local MacroConstants = {}
 
 --------------------------------------------------
 -- Types
 
----@class PlugDefinition
+---@class MacroDefinition
 ---@field Group string
 ---@field GroupColor Color3
 ---@field GroupIcon string
@@ -19,38 +19,38 @@ local PlugConstants = {}
 ---@field IconColor Color3
 ---@field Description string
 ---@field LayoutOrder number
----@field State PlugState
+---@field State MacroState
 ---@field EnableAutomaticUndo boolean
 ---@field IgnoreGameProcessedKeybinds boolean
 ---@field AutoRun boolean
 ---@field Keybind Enum.KeyCode[]
----@field Fields PlugField[]
+---@field Fields MacroField[]
 ---@field FieldChanged BindableEvent Fired with (fieldName, fieldValue)
 ---@field RunJanitor Janitor
----@field ToggleIsRunning fun(plug:PlugDefinition)
----@field IsRunning fun(plug:PlugDefinition):boolean
----@field GetFieldValue fun(plug:PlugDefinition, fieldName:string)
----@field Function fun(plug:PlugDefinition)
----@field BindToClose fun(plug:PlugDefinition) Called when plugin is closed, or plug is removed from state
----@field BindToOpen fun(plug:PlugDefinition) Called when plugin is started
----@field Disabled boolean If true, will not show this Plug on the widget.
----@field _BindToClose fun(plug:PlugDefinition) Wraps BindToClose plus some internal stuff (e.g., IsRunning=false)
+---@field ToggleIsRunning fun(macro:MacroDefinition)
+---@field IsRunning fun(macro:MacroDefinition):boolean
+---@field GetFieldValue fun(macro:MacroDefinition, fieldName:string)
+---@field Function fun(macro:MacroDefinition)
+---@field BindToClose fun(macro:MacroDefinition) Called when plugin is closed, or macro is removed from state
+---@field BindToOpen fun(macro:MacroDefinition) Called when plugin is started
+---@field Disabled boolean If true, will not show this Macro on the widget.
+---@field _BindToClose fun(macro:MacroDefinition) Wraps BindToClose plus some internal stuff (e.g., IsRunning=false)
 ---@field _script ModuleScript
 ---@field _isBroken boolean
 
----@class PlugState
----@field FieldValues table<PlugField, any>
+---@class MacroState
+---@field FieldValues table<MacroField, any>
 ---@field IsRunning boolean|nil
----@field _Server PlugState
----@field _Client PlugState
+---@field _Server MacroState
+---@field _Client MacroState
 
----@class PlugField
----@field Type PlugFieldType
+---@class MacroField
+---@field Type MacroFieldType
 ---@field Name string
 ---@field IsRequired boolean
 ---@field Validator fun(value:any):string
 
----@class PlugFieldType
+---@class MacroFieldType
 ---@field Name string
 ---@field Icon string
 ---@field Validate fun(value:string):any|nil
@@ -72,7 +72,7 @@ local function commaValue(number)
     return left .. (num:reverse():gsub("(%d%d%d)", "%1,"):reverse()) .. right
 end
 
-PlugConstants.FieldType = {
+MacroConstants.FieldType = {
     number = {
         Name = "number",
         Icon = "#️⃣",
@@ -135,6 +135,6 @@ PlugConstants.FieldType = {
             return ("%d, %d, %d"):format(value.X, value.Y, value.Z)
         end,
     },
-} ---@type table<string, PlugFieldType>
+} ---@type table<string, MacroFieldType>
 
-return PlugConstants
+return MacroConstants

@@ -41,8 +41,8 @@ local function keybindValidator(keyCodeName)
     end
 end
 
----@type PlugDefinition
-local plugDefinition = {
+---@type MacroDefinition
+local macroDefinition = {
     Group = "Core", ---@type string
     Name = "Dot To Dot",
     Icon = "🌠",
@@ -75,7 +75,7 @@ local plugDefinition = {
             Type = "boolean",
             IsRequired = true,
         },
-    }, ---@type PlugField[]
+    }, ---@type MacroField[]
     State = {
         FieldValues = {
             ["Confirm Keybind"] = "Y",
@@ -85,24 +85,24 @@ local plugDefinition = {
             ["Recurse"] = true,
         },
         IsRunning = false,
-    }, ---@type PlugState
+    }, ---@type MacroState
 }
 
 --================================================================================================================================================
 --===
 --================================================================================================================================================
 
----@param plug PlugDefinition
-local function init(plug)
+---@param macro MacroDefinition
+local function init(macro)
     -- Create node directory
     local nodeDirectory = Instance.new("Folder") ---@type Folder
     nodeDirectory.Name = "DrawLinesNodes"
     InstanceUtil:IntroduceInstance(nodeDirectory)
-    plug.State.NodeDirectory = nodeDirectory
+    macro.State.NodeDirectory = nodeDirectory
 end
 
----@param plug PlugDefinition
-local function placeNode(plug)
+---@param macro MacroDefinition
+local function placeNode(macro)
     -- Get position to place
     local raycastResult = RaycastUtil:RaycastMouse(RAYCAST_LENGTH, nil, true)
     if not raycastResult then
@@ -114,9 +114,9 @@ local function placeNode(plug)
     local node = Instance.new("Part") ---@type Part
     node.Size = Vector3.new(1, 1, 1)
     node.Shape = Enum.PartType.Ball
-    node.Name = ("%d"):format(#plug.State.NodeDirectory:GetChildren() + 1)
+    node.Name = ("%d"):format(#macro.State.NodeDirectory:GetChildren() + 1)
     node.Position = position
-    node.Parent = plug.State.NodeDirectory
+    node.Parent = macro.State.NodeDirectory
 
     local highlight = Instance.new("Highlight") ---@type Highlight
     highlight.Adornee = node
@@ -140,16 +140,16 @@ local function placeNode(plug)
     uiStroke.Thickness = 3
     uiStroke.Parent = textLabel
 
-    plug.RunJanitor:Add(node)
+    macro.RunJanitor:Add(node)
 end
 
----@param plug PlugDefinition
-local function drawLines(plug)
+---@param macro MacroDefinition
+local function drawLines(macro)
     -- Read state
-    local partSize = plug.State.FieldValues["Part Size"]
-    local partColor = plug.State.FieldValues["Part Color"]
-    local doRecurse = plug.State.FieldValues.Recurse
-    local nodeDirectory = plug.State.NodeDirectory
+    local partSize = macro.State.FieldValues["Part Size"]
+    local partColor = macro.State.FieldValues["Part Color"]
+    local doRecurse = macro.State.FieldValues.Recurse
+    local nodeDirectory = macro.State.NodeDirectory
 
     ---@param pos0 Vector3
     ---@param pos1 Vector3
@@ -208,31 +208,31 @@ local function drawLines(plug)
     end
 end
 
----@param plug PlugDefinition
-local function stopRunning(plug)
-    InstanceUtil:ClearInstance(plug.State.NodeDirectory, true)
+---@param macro MacroDefinition
+local function stopRunning(macro)
+    InstanceUtil:ClearInstance(macro.State.NodeDirectory, true)
 end
 
 --================================================================================================================================================
 --===
 --================================================================================================================================================
 
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@param plugin Plugin
-plugDefinition.Function = function(plug, plugin)
-    plug:ToggleIsRunning()
+macroDefinition.Function = function(macro, plugin)
+    macro:ToggleIsRunning()
 
     -- Read state
-    local isRunning = plug:IsRunning()
-    local confirmKeybind = plug.State.FieldValues["Confirm Keybind"]
-    local placeKeybind = plug.State.FieldValues["Place Keybind"]
+    local isRunning = macro:IsRunning()
+    local confirmKeybind = macro.State.FieldValues["Confirm Keybind"]
+    local placeKeybind = macro.State.FieldValues["Place Keybind"]
 
     if isRunning then
-        init(plug)
+        init(macro)
         ChangeHistoryService:SetWaypoint("DrawLines Init")
 
         -- Listen to User Input
-        plug.RunJanitor:Add(UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
+        macro.RunJanitor:Add(UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
             -- RETURN: gameProcessedEvent
             if gameProcessedEvent then
                 return
@@ -241,7 +241,7 @@ plugDefinition.Function = function(plug, plugin)
             -- Place
             local isPlaceKeybind = inputObject.KeyCode.Name == placeKeybind
             if isPlaceKeybind then
-                placeNode(plug)
+                placeNode(macro)
                 ChangeHistoryService:SetWaypoint("DrawLines Node 1")
                 return
             end
@@ -249,23 +249,23 @@ plugDefinition.Function = function(plug, plugin)
             -- Place
             local isConfirmKeybind = inputObject.KeyCode.Name == confirmKeybind
             if isConfirmKeybind then
-                drawLines(plug)
+                drawLines(macro)
                 ChangeHistoryService:SetWaypoint("DrawLines Lines 1")
                 return
             end
         end))
     else
-        stopRunning(plug)
+        stopRunning(macro)
     end
 end
 
----@param plug PlugDefinition
+---@param macro MacroDefinition
 ---@param plugin Plugin
-plugDefinition.BindToClose = function(plug, plugin)
-    if plug:IsRunning() then
-        plug:ToggleIsRunning()
-        stopRunning(plug)
+macroDefinition.BindToClose = function(macro, plugin)
+    if macro:IsRunning() then
+        macro:ToggleIsRunning()
+        stopRunning(macro)
     end
 end
 
-return plugDefinition
+return macroDefinition

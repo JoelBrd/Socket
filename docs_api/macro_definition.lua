@@ -1,21 +1,21 @@
 --[=[
-    @class PlugDefinition
+    @class MacroDefinition
     
-    This is how we define the behaviour of a Plug.
+    This is how we define the behaviour of a Macro.
 
-    There are a few `Required` members for a [PlugDefinition] to be valid.
+    There are a few `Required` members for a [MacroDefinition] to be valid.
 
-    Many fields are `Populated`, where if it is not defined in your [PlugDefinition], will be auto-filled by Socket with a default value.
+    Many fields are `Populated`, where if it is not defined in your [MacroDefinition], will be auto-filled by Socket with a default value.
     
-    There are some `Read-Only` fields, that you'll want to avoid defining in your [PlugDefinition] and let them be `Populated` by Socket.
+    There are some `Read-Only` fields, that you'll want to avoid defining in your [MacroDefinition] and let them be `Populated` by Socket.
 ]=]
 
 --[=[
     @prop Name string
     @tag Required
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Declares the name that will appear on the Widget for the Plug.
+    Declares the name that will appear on the Widget for the Macro.
     
     :::caution
     Longer names will be less readable on the Widget, depending on a user's resolution
@@ -25,9 +25,9 @@
 --[=[
     @prop NameColor Color3
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Give your Plug a pretty color on the Widget!
+    Give your Macro a pretty color on the Widget!
 
     Defaults to `Color.fromRGB(255, 255, 255)`
 ]=]
@@ -35,9 +35,9 @@
 --[=[
     @prop Icon string
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Defines an icon to put alongside the `Name` of the Plug.
+    Defines an icon to put alongside the `Name` of the Macro.
 
     This can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`
 
@@ -58,9 +58,9 @@
 --[=[
     @prop IconColor Color3
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Give your Plug icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input
+    Give your Macro icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input
 
     Defaults to `Color.fromRGB(255, 255, 255)`
 ]=]
@@ -68,9 +68,9 @@
 --[=[
     @prop Group string
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    The group that the Plug belongs to. Any plugs with a matching `Group` value will be grouped together on the Widget
+    The group that the Macro belongs to. Any macros with a matching `Group` value will be grouped together on the Widget
 
     Defaults to `"No Group"`
 ]=]
@@ -78,10 +78,10 @@
 --[=[
     @prop GroupColor Color3
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Give the `Group` text a pretty color on the Widget! If you have multiple Plugs under the same `Group`, `GroupColor` need only be defined
-    on a singular `PlugDefinition`.
+    Give the `Group` text a pretty color on the Widget! If you have multiple Macros under the same `Group`, `GroupColor` need only be defined
+    on a singular `MacroDefinition`.
 
     Defaults to `Color.fromRGB(255, 255, 255)`
 ]=]
@@ -89,10 +89,10 @@
 --[=[
     @prop GroupIcon string
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Defines an icon to put alongside the name of the `Group` the Plug is under. If you have multiple Plugs under the same `Group`, `GroupIcon` need only be defined
-    on a singular `PlugDefinition`
+    Defines an icon to put alongside the name of the `Group` the Macro is under. If you have multiple Macros under the same `Group`, `GroupIcon` need only be defined
+    on a singular `MacroDefinition`
 
     This can either be `Text` (e.g., Emoji) or an `ImageId`. `ImageIds` are recognised by the string containing `rbxasset`
 
@@ -113,10 +113,10 @@
 --[=[
     @prop GroupIconColor Color3
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Give your Plug icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input. If you have multiple Plugs under the 
-    same `Group`, `GroupIconColor` need only be defined on a singular `PlugDefinition`
+    Give your Macro icon a pretty color on the Widget! Applies to `TextColor3` or `ImageColor3`, depending on `Icon` input. If you have multiple Macros under the 
+    same `Group`, `GroupIconColor` need only be defined on a singular `MacroDefinition`
 
     Defaults to `Color.fromRGB(255, 255, 255)`
 ]=]
@@ -124,24 +124,24 @@
 --[=[
     @prop Description string
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Any and all information pertaining to this specific Plug. This can be as long as you like as it appears in the output.
+    Any and all information pertaining to this specific Macro. This can be as long as you like as it appears in the output.
 
     ```lua
     {
-        Description = "Plug Description Line 1\nPlug Description Line 2"
+        Description = "Macro Description Line 1\nMacro Description Line 2"
     }
     ```
     
     Output:
     ```
-    ================ Plug Name (Plug Group) | DESCRIPTION ================ 
+    ================ Macro Name (Macro Group) | DESCRIPTION ================ 
 
-    Plug Description Line 1
-    Plug Description Line 2
+    Macro Description Line 1
+    Macro Description Line 2
 
-    ================ Plug Name (Plug Group) | DESCRIPTION ================
+    ================ Macro Name (Macro Group) | DESCRIPTION ================
     ```
 
     Defaults to `"No Description"`
@@ -150,9 +150,9 @@
 --[=[
     @prop LayoutOrder number
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Can be used to define the position of where the Plug is rendered on the Widget. Higher numbers are rendered further down the widget. Works very much the same
+    Can be used to define the position of where the Macro is rendered on the Widget. Higher numbers are rendered further down the widget. Works very much the same
     as `LayoutOrder` on Roblox Instances.
 
     See [Settings](/api/SocketSettings#SortType)
@@ -163,16 +163,16 @@
 --[=[
     @prop EnableAutomaticUndo boolean
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    If `true`, will automatically setup `ChangeHistoryService` waypoints before and after running the **Plug's** `Function`. AKA, any changes
-    to studio that your Plug makes, you can undo with `Ctrl+Z` or equivalent.
+    If `true`, will automatically setup `ChangeHistoryService` waypoints before and after running the **Macro's** `Function`. AKA, any changes
+    to studio that your Macro makes, you can undo with `Ctrl+Z` or equivalent.
 
     You can obviously set this to `false` (or don't declare the field) if you want to write your own implementation.
 
     :::tip
-    When you run "Undo" in Studio, it will undo the last change under the `DataModel` (`game`). If, for example, your Plug just prints to the output (and doesn't
-    make any changes to the `DataModel`) it will undo the last change unrelated to your Plug
+    When you run "Undo" in Studio, it will undo the last change under the `DataModel` (`game`). If, for example, your Macro just prints to the output (and doesn't
+    make any changes to the `DataModel`) it will undo the last change unrelated to your Macro
     :::
 
     Defaults to `false`
@@ -181,7 +181,7 @@
 --[=[
     @prop IgnoreGameProcessedKeybinds boolean
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
     Socket uses [UserInputService#InputBegan] for detecting keybinds.
     ```
@@ -200,9 +200,9 @@
 --[=[
     @prop AutoRun boolean
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    If `true`, `plug.Function` will be called when Socket starts. Useful if there is a plug you want to run on startup.
+    If `true`, `macro.Function` will be called when Socket starts. Useful if there is a macro you want to run on startup.
 
     Defaults to `false`
 ]=]
@@ -210,9 +210,9 @@
 --[=[
     @prop Keybind {Enum.KeyCode}
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    An array of `Enum.KeyCode` that can trigger the Plug to run.
+    An array of `Enum.KeyCode` that can trigger the Macro to run.
     ```lua
     {
         Keybind = { Enum.KeyCode.LeftControl, Enum.KeyCode.J }
@@ -229,11 +229,11 @@
 ]=]
 
 --[=[
-    @prop Fields {PlugField}
+    @prop Fields {MacroField}
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    An array of `PlugField`, which define the different fields the Plug has. The order they are defined is the order they will appear
+    An array of `MacroField`, which define the different fields the Macro has. The order they are defined is the order they will appear
     on the widget.
     ```lua
     {
@@ -259,38 +259,38 @@
     @param fieldName string
     @return any
     @tag Read-Only
-    @within PlugDefinition
+    @within MacroDefinition
 
     Sugar for
     ```lua
-    plug.State.FieldValues[fieldName]
+    macro.State.FieldValues[fieldName]
     ```
 ]=]
 
 --[=[
     @prop FieldChanged BindableEvent
     @tag Read-Only
-    @within PlugDefinition
+    @within MacroDefinition
 
     A `BindableEvent` to listen to field values being changed on the UI!
     ```
-    plug.FieldChanged.Event:Connect(function(fieldName, fieldValue)
-        print(plug:GetFieldValue(fieldName) == fieldValue)
+    macro.FieldChanged.Event:Connect(function(fieldName, fieldValue)
+        print(macro:GetFieldValue(fieldName) == fieldValue)
     end)
 
     -- Output: true
     ```
 
-    Most cases it will suffice to just read `plug:GetFieldValue(fieldName)` as and when you need a field value. But sometimes you may want to re-run routines
+    Most cases it will suffice to just read `macro:GetFieldValue(fieldName)` as and when you need a field value. But sometimes you may want to re-run routines
     after a field value change.
 ]=]
 
 --[=[
-    @prop State PlugState
+    @prop State MacroState
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    A persistent `State` of the Plug while the Socket plugin is running. We can write to this inside the `PlugDefinition`, and
+    A persistent `State` of the Macro while the Socket plugin is running. We can write to this inside the `MacroDefinition`, and
     read/write to it in our `Function` and `BindToClose/BindToOpen` functions.
 
     We can declare default values for fields:
@@ -314,19 +314,19 @@
     ```lua
     local Heartbeat = game:GetService("RunService").Heartbeat
 
-    -- PlugDefinition that, when running, will print the time since the last frame
+    -- MacroDefinition that, when running, will print the time since the last frame
     {
-        Function = function(plug, plugin)
+        Function = function(macro, plugin)
             -- Toggle running state
-            plug:ToggleIsRunning()
+            macro:ToggleIsRunning()
         
             -- Running routine
-            if plug:IsRunning() then
+            if macro:IsRunning() then
                 -- Add to our RunJanitor
                 -- Automatically gets cleaned up when we toggle IsRunning to false via ToggleIsRunning
                 -- Also gets cleaned up when BindToClose is called
-                plug.RunJanitor:Add(Heartbeat:Connect(function(dt)
-                    Logger:PlugInfo(plug, ("dt: %f"))
+                macro.RunJanitor:Add(Heartbeat:Connect(function(dt)
+                    Logger:MacroInfo(macro, ("dt: %f"))
                 end))
             end
         end
@@ -347,23 +347,23 @@
 --[=[
     @prop RunJanitor Janitor
     @tag Read-Only
-    @within PlugDefinition
+    @within MacroDefinition
 
-    A [Janitor](https://github.com/howmanysmall/Janitor) object, intended to be used to cleanup tasks after a plug stops running.
+    A [Janitor](https://github.com/howmanysmall/Janitor) object, intended to be used to cleanup tasks after a macro stops running.
 
-    Is automatically cleaned up when using `plug:ToggleIsRunning()`, and on `BindToClose`
+    Is automatically cleaned up when using `macro:ToggleIsRunning()`, and on `BindToClose`
 ]=]
 
 --[=[
     @method ToggleIsRunning
     @tag Read-Only
-    @within PlugDefinition
+    @within MacroDefinition
 
     Sugar for
     ```lua
-    plug.State.IsRunning = not plug.State.IsRunning
-    if not plug.State.IsRunning then
-        plug.RunJanitor:Cleanup()
+    macro.State.IsRunning = not macro.State.IsRunning
+    if not macro.State.IsRunning then
+        macro.RunJanitor:Cleanup()
     end
     ```
 ]=]
@@ -372,24 +372,24 @@
     @method IsRunning
     @return boolean
     @tag Read-Only
-    @within PlugDefinition
+    @within MacroDefinition
 
-    Returns true if the Plug is running (`plug.State.IsRunning == true`). False otherwise.
+    Returns true if the Macro is running (`macro.State.IsRunning == true`). False otherwise.
 
     Sugar for
     ```lua
-    plug.State.IsRunning
+    macro.State.IsRunning
     ```
 ]=]
 
 --[=[
     @function Function
-    @param plug PlugDefinition
+    @param macro MacroDefinition
     @param plugin Plugin
     @tag Required
-    @within PlugDefinition
+    @within MacroDefinition
 
-    The function that will be called when we Run the Plug.
+    The function that will be called when we Run the Macro.
     
     :::caution
     This function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent
@@ -398,15 +398,15 @@
 
 --[=[
     @function BindToClose
-    @param plug PlugDefinition
+    @param macro MacroDefinition
     @param plugin Plugin
-    @within PlugDefinition
+    @within MacroDefinition
 
     This is a function that is called when:
     1. The Socket Plugin is exited
-    2. The Plug is removed while the Socket Plugin is running
+    2. The Macro is removed while the Socket Plugin is running
 
-    Use this to clean anything up instantiated by the Plug
+    Use this to clean anything up instantiated by the Macro
     
     :::caution
     This function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent
@@ -414,24 +414,24 @@
 
     Order of operations:
     1) `BindToClose` is called
-    2) `plug.State.IsRunning = false`
-    3) `plug.RunJanitor:Cleanup()`
+    2) `macro.State.IsRunning = false`
+    3) `macro.RunJanitor:Cleanup()`
 ]=]
 
 --[=[
     @function BindToOpen
-    @param plug PlugDefinition
+    @param macro MacroDefinition
     @param plugin Plugin
-    @within PlugDefinition
+    @within MacroDefinition
 
     This is a function that is called when the Socket plugin is started! This has some rare use cases.
 
     For the most part, Socket is really good at calling `BindToClose` when it is needed, but there are some Roblox limitations.
-    Imagine we have a plug that makes significant changes in `game.Workspace` (e.g., changes the `Color3` of part(s)). If Roblox Studio
-    is suddenly closed, or crashes, it's possible the changes the plug made will be saved, but the "stopping" logic is never run. `BindToOpen` can
+    Imagine we have a macro that makes significant changes in `game.Workspace` (e.g., changes the `Color3` of part(s)). If Roblox Studio
+    is suddenly closed, or crashes, it's possible the changes the macro made will be saved, but the "stopping" logic is never run. `BindToOpen` can
     be used to run checks to cleanup any mess left from the previous session. This is more a failsafe than a requirement, but can save headaches!
 
-    For a good example use-case, see the Socket Core Plug `.Locked`
+    For a good example use-case, see the Socket Core Macro `.Locked`
 
     :::caution
     This function is not allowed to yield; wrap any yielding routines in a `task.spawn` or equivalent
@@ -441,17 +441,17 @@
 --[=[
     @prop Disabled boolean
     @tag Populated
-    @within PlugDefinition
+    @within MacroDefinition
 
-    If `true`, this Plug will not be displayed on the Widget. It's `Function` will also not be required, nor registered. This renders `AutoRun` useless
-    for this specific [PlugDefinition](/api/PlugDefinition)
+    If `true`, this Macro will not be displayed on the Widget. It's `Function` will also not be required, nor registered. This renders `AutoRun` useless
+    for this specific [MacroDefinition](/api/MacroDefinition)
 
     :::tip
-    This can be useful to create a [PlugDefinition](/api/PlugDefinition) solely for defining the aesthetics of a `Group` for organisation purposes.
+    This can be useful to create a [MacroDefinition](/api/MacroDefinition) solely for defining the aesthetics of a `Group` for organisation purposes.
 
     ```lua
         {
-            Group = "Fruity Plugs",
+            Group = "Fruity Macros",
             GroupIcon = "🍎",
             GroupColor = Color3.fromRGB(200, 20, 20),
             Disabled = true,

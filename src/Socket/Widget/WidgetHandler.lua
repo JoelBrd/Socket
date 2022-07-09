@@ -82,13 +82,13 @@ function WidgetHandler:Run()
 end
 
 ---
----Refreshes the PLUGS store, and hence the widget
+---Refreshes the MACROS store, and hence the widget
 ---
 function WidgetHandler:Refresh()
     -- Update RoduxStore
     ---@type RoduxAction
     local action = {
-        type = SocketConstants.RoduxActionType.PLUGS.REFRESH,
+        type = SocketConstants.RoduxActionType.MACROS.REFRESH,
         data = {},
     }
     SocketController:GetStore():dispatch(action)

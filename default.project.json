@@ -15,8 +15,8 @@
           "Plugin": {
             "$path": "src/Plugin"
           },
-          "Plugs": {
-            "$path": "src/Plugs"
+          "Macros": {
+            "$path": "src/Macros"
           },
           "Studio": {
             "$path": "src/Studio"

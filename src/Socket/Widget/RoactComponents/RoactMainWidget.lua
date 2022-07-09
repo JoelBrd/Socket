@@ -15,22 +15,22 @@ local RoactMainWidget = {}
 ---@field iconColor Color3
 ---@field isOpen boolean
 ---@field isVisible boolean
----@field plugs RoactMainWidgetProps.PlugInfo[]
+---@field macros RoactMainWidgetProps.MacroInfo[]
 
----@class RoactMainWidgetProps.PlugInfo
+---@class RoactMainWidgetProps.MacroInfo
 ---@field name string
 ---@field isOpen boolean
 ---@field isFieldsOpen boolean
 ---@field isBroken boolean
 ---@field isVisible boolean
----@field plug PlugDefinition
+---@field macro MacroDefinition
 ---@field moduleScript ModuleScript
 
 --------------------------------------------------
 -- Dependencies
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
 local Roact ---@type Roact
-local RoactPlugContainer ---@type RoactPlugContainer
+local RoactMacroContainer ---@type RoactMacroContainer
 local RoactSearchBar ---@type RoactSearchBar
 local WidgetConstants ---@type WidgetConstants
 local SocketController ---@type SocketController
@@ -60,7 +60,7 @@ end
 ---
 function RoactMainWidget:Create()
     --------------------------------------------------
-    -- Create PlugContainer
+    -- Create MacroContainer
     MainWidget = Roact.Component:extend("MainWidget")
 
     function MainWidget:render()
@@ -94,7 +94,7 @@ function RoactMainWidget:Create()
                         scale = scale,
                     }),
                 }),
-                PlugHolder = Roact.createElement("Frame", {
+                MacroHolder = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
                     LayoutOrder = 2,
                     Size = UDim2.new(
@@ -104,7 +104,7 @@ function RoactMainWidget:Create()
                         -(WidgetConstants.SearchBar.Pixel.LineHeight * scale + WidgetConstants.BottomBar.Pixel.LineHeight * scale)
                     ),
                 }, {
-                    PlugContainer = RoactPlugContainer:Get(self.props),
+                    MacroContainer = RoactMacroContainer:Get(self.props),
                 }),
                 BottomHolder = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
@@ -133,8 +133,8 @@ function RoactMainWidget:Create()
 
         -- Construct groups
         local groups = {} ---@type RoactMainWidgetProps.GroupInfo[]
-        local plugsState = state[SocketConstants.RoduxStoreKey.PLUGS]
-        local stateGroups = plugsState.Groups
+        local macrosState = state[SocketConstants.RoduxStoreKey.MACROS]
+        local stateGroups = macrosState.Groups
         for groupName, groupChild in pairs(stateGroups) do
             -- Create group info
             local groupInfo = {
@@ -144,61 +144,61 @@ function RoactMainWidget:Create()
                 iconColor = nil,
                 isOpen = groupChild.UIState.IsOpen,
                 isVisible = true,
-                plugs = {}, ---@type RoactMainWidgetProps.GroupInfo[]
+                macros = {}, ---@type RoactMainWidgetProps.GroupInfo[]
             } ---@type RoactMainWidgetProps.GroupInfo
             table.insert(groups, groupInfo)
 
-            -- Construct plugs
-            for plugModuleScript, plugChild in pairs(groupChild.Plugs) do
+            -- Construct macros
+            for macroModuleScript, macroChild in pairs(groupChild.Macros) do
                 -- Search for duplicate names
-                local plug = plugChild.Plug ---@type PlugDefinition
+                local macro = macroChild.Macro ---@type MacroDefinition
                 local duplicateCount = 0
-                for _, somePlugInfo in pairs(groupInfo.plugs) do
-                    if somePlugInfo.plug.Name == plug.Name then
+                for _, someMacroInfo in pairs(groupInfo.macros) do
+                    if someMacroInfo.macro.Name == macro.Name then
                         duplicateCount = duplicateCount + 1
                     end
                 end
 
-                -- Create plug info
-                local name = duplicateCount == 0 and plug.Name or ("%s (%d)"):format(plug.Name, duplicateCount)
-                local plugInfo = {
+                -- Create macro info
+                local name = duplicateCount == 0 and macro.Name or ("%s (%d)"):format(macro.Name, duplicateCount)
+                local macroInfo = {
                     name = name,
-                    isOpen = plugChild.UIState.IsOpen,
-                    isFieldsOpen = plugChild.UIState.IsFieldsOpen,
-                    isBroken = plug._isBroken and true or false,
+                    isOpen = macroChild.UIState.IsOpen,
+                    isFieldsOpen = macroChild.UIState.IsFieldsOpen,
+                    isBroken = macro._isBroken and true or false,
                     isVisible = true,
-                    plug = plug, ---@type PlugDefinition
-                    moduleScript = plugModuleScript,
+                    macro = macro, ---@type MacroDefinition
+                    moduleScript = macroModuleScript,
                 } ---@type RoactMainWidgetProps.GroupInfo
-                if not plug.Disabled then
-                    table.insert(groupInfo.plugs, plugInfo)
+                if not macro.Disabled then
+                    table.insert(groupInfo.macros, macroInfo)
                 end
 
                 -- Try populate group icon
-                if plug.GroupIcon and not groupInfo.icon then
-                    groupInfo.icon = plug.GroupIcon
+                if macro.GroupIcon and not groupInfo.icon then
+                    groupInfo.icon = macro.GroupIcon
                 end
-                if plug.GroupIconColor and not groupInfo.iconColor then
-                    groupInfo.iconColor = plug.GroupIconColor
+                if macro.GroupIconColor and not groupInfo.iconColor then
+                    groupInfo.iconColor = macro.GroupIconColor
                 end
-                if plug.GroupColor and not groupInfo.nameColor then
-                    groupInfo.nameColor = plug.GroupColor
+                if macro.GroupColor and not groupInfo.nameColor then
+                    groupInfo.nameColor = macro.GroupColor
                 end
             end
 
-            -- Sort plugs
-            ---@param plugInfo0 RoactMainWidgetProps.PlugInfo
-            ---@param plugInfo1 RoactMainWidgetProps.PlugInfo
-            local function plugsSort(plugInfo0, plugInfo1)
-                if sortType == "LayoutOrder" and (plugInfo0.plug.LayoutOrder ~= plugInfo1.plug.LayoutOrder) then
-                    return (plugInfo0.plug.LayoutOrder or 0) < (plugInfo1.plug.LayoutOrder or 0)
-                elseif sortType == "Icon" and (plugInfo0.plug.Icon ~= plugInfo1.plug.Icon) then
-                    return (plugInfo0.plug.Icon or "") < (plugInfo1.plug.Icon or "")
+            -- Sort macros
+            ---@param macroInfo0 RoactMainWidgetProps.MacroInfo
+            ---@param macroInfo1 RoactMainWidgetProps.MacroInfo
+            local function macrosSort(macroInfo0, macroInfo1)
+                if sortType == "LayoutOrder" and (macroInfo0.macro.LayoutOrder ~= macroInfo1.macro.LayoutOrder) then
+                    return (macroInfo0.macro.LayoutOrder or 0) < (macroInfo1.macro.LayoutOrder or 0)
+                elseif sortType == "Icon" and (macroInfo0.macro.Icon ~= macroInfo1.macro.Icon) then
+                    return (macroInfo0.macro.Icon or "") < (macroInfo1.macro.Icon or "")
                 end
 
-                return plugInfo0.name < plugInfo1.name
+                return macroInfo0.name < macroInfo1.name
             end
-            table.sort(groupInfo.plugs, plugsSort)
+            table.sort(groupInfo.macros, macrosSort)
         end
 
         -- Sort groups
@@ -206,15 +206,15 @@ function RoactMainWidget:Create()
         ---@param groupInfo1 RoactMainWidgetProps.GroupInfo
         local function groupsSort(groupInfo0, groupInfo1)
             if sortType == "LayoutOrder" then
-                -- Calculate lowest layout order from plugs in each group
+                -- Calculate lowest layout order from macros in each group
                 local lowestLayoutOrder0
-                for _, plugInfo in pairs(groupInfo0.plugs) do
-                    local layoutOrder = plugInfo.plug.LayoutOrder
+                for _, macroInfo in pairs(groupInfo0.macros) do
+                    local layoutOrder = macroInfo.macro.LayoutOrder
                     lowestLayoutOrder0 = lowestLayoutOrder0 and lowestLayoutOrder0 < layoutOrder and lowestLayoutOrder0 or layoutOrder
                 end
                 local lowestLayoutOrder1
-                for _, plugInfo in pairs(groupInfo1.plugs) do
-                    local layoutOrder = plugInfo.plug.LayoutOrder
+                for _, macroInfo in pairs(groupInfo1.macros) do
+                    local layoutOrder = macroInfo.macro.LayoutOrder
                     lowestLayoutOrder1 = lowestLayoutOrder1 and lowestLayoutOrder1 < layoutOrder and lowestLayoutOrder1 or layoutOrder
                 end
                 if lowestLayoutOrder0 ~= lowestLayoutOrder1 then
@@ -229,19 +229,19 @@ function RoactMainWidget:Create()
         table.sort(groups, groupsSort)
 
         -- Filter visibility from searchText
-        local searchText = plugsState.SearchText ---@type string
+        local searchText = macrosState.SearchText ---@type string
         local searchTextUpper = searchText:upper()
         if searchText:len() > 0 then
             for _, groupInfo in pairs(groups) do
                 local groupHasGoodName = string.find(groupInfo.name:upper(), searchTextUpper) and true or false
-                local groupHasGoodPlug = false
-                for _, plugInfo in pairs(groupInfo.plugs) do
-                    local plugHasGoodName = string.find(plugInfo.name:upper(), searchTextUpper) and true or false
-                    plugInfo.isVisible = plugHasGoodName or groupHasGoodName
-                    groupHasGoodPlug = groupHasGoodPlug or plugHasGoodName
+                local groupHasGoodMacro = false
+                for _, macroInfo in pairs(groupInfo.macros) do
+                    local macroHasGoodName = string.find(macroInfo.name:upper(), searchTextUpper) and true or false
+                    macroInfo.isVisible = macroHasGoodName or groupHasGoodName
+                    groupHasGoodMacro = groupHasGoodMacro or macroHasGoodName
                 end
-                groupInfo.isVisible = groupHasGoodName or groupHasGoodPlug
-                groupInfo.isOpen = groupInfo.isOpen or groupHasGoodPlug -- Open up the group if it found plugs inside it.
+                groupInfo.isVisible = groupHasGoodName or groupHasGoodMacro
+                groupInfo.isOpen = groupInfo.isOpen or groupHasGoodMacro -- Open up the group if it found macros inside it.
             end
         end
 
@@ -262,7 +262,7 @@ end
 ---
 function RoactMainWidget:FrameworkInit()
     Roact = PluginFramework:Require("Roact")
-    RoactPlugContainer = PluginFramework:Require("RoactPlugContainer")
+    RoactMacroContainer = PluginFramework:Require("RoactMacroContainer")
     RoactSearchBar = PluginFramework:Require("RoactSearchBar")
     WidgetConstants = PluginFramework:Require("WidgetConstants")
     SocketController = PluginFramework:Require("SocketController")

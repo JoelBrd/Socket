@@ -3,13 +3,13 @@ sidebar_position: 4
 ---
 
 # Examples
-## Example 1 | Midas Touch Plug
+## Example 1 | Midas Touch Macro
 
-Lets go through an example here by creating a Plug that makes parts look golden.
+Lets go through an example here by creating a Macro that makes parts look golden.
 
-### Create the Plug
+### Create the Macro
 
-We'll start off by placing a `ModuleScript` at `game.ServerStorage.SocketPlugin.Plugs.MidasTouch`:
+We'll start off by placing a `ModuleScript` at `game.ServerStorage.SocketPlugin.Macros.MidasTouch`:
 ```lua
 ---
 ---Midas Touch
@@ -24,17 +24,17 @@ local Logger = require(Utils.Logger)
 --------------------------------------------------
 -- Members
 
-local plugDefinition = {
+local macroDefinition = {
     Group = "Golden",
     Name = "Midas Touch",
     Description = "Makes parts gold",
 }
 
-plugDefinition.Function = function(plug, plugin)
-    Logger:PlugInfo(plug, "I command you to make parts golden!")
+macroDefinition.Function = function(macro, plugin)
+    Logger:MacroInfo(macro, "I command you to make parts golden!")
 end
 
-return plugDefinition
+return macroDefinition
 
 ```
 **Result:**
@@ -45,7 +45,7 @@ return plugDefinition
 
 This is looking a touch bland on our Widget, lets juice it up a bit.
 ```lua
-local plugDefinition = {
+local macroDefinition = {
 	Group = "Golden",
 	GroupColor = Color3.fromRGB(255, 180, 0),
 	GroupIcon = "👑",
@@ -60,7 +60,7 @@ local plugDefinition = {
 
 ### v1
 
-The Plug currently doesn't do anything, other than print a silly message to the output window. Lets make it so when we run the Plug, it will make any parts that we have selected turn golden:
+The Macro currently doesn't do anything, other than print a silly message to the output window. Lets make it so when we run the Macro, it will make any parts that we have selected turn golden:
 ```lua
 ---
 ---Midas Touch
@@ -80,7 +80,7 @@ local COLOR_GOLD = Color3.fromRGB(255, 180, 0)
 --------------------------------------------------
 -- Members
 
-local plugDefinition = {
+local macroDefinition = {
 	Group = "Golden",
 	GroupColor = COLOR_GOLD,
 	GroupIcon = "👑",
@@ -89,7 +89,7 @@ local plugDefinition = {
 	Description = "Converts any parts we have selected turn to gold",
 }
 
-plugDefinition.Function = function(plug, plugin)
+macroDefinition.Function = function(macro, plugin)
 	-- Get our selected instances, and filter out any non-BaseParts
 	local selectedInstances = Selection:Get()
 	local parts = {}
@@ -106,10 +106,10 @@ plugDefinition.Function = function(plug, plugin)
 	end
 
 	-- Log
-    Logger:PlugInfo(plug, ("I encrusted %d parts with gold!"):format(#parts))
+    Logger:MacroInfo(macro, ("I encrusted %d parts with gold!"):format(#parts))
 end
 
-return plugDefinition
+return macroDefinition
 
 ```
 **Cool!**
@@ -156,8 +156,8 @@ I'm also not super happy with it always being the same color; lets add 2 color f
 #### Real time
 
 Finally, I don't want to have to click Run, or use a Keybind, to make a part gold. I want to
-1. Make the Plug toggleable
-2. Whenever the Plug is running, any parts I select will turn to gold in real time.
+1. Make the Macro toggleable
+2. Whenever the Macro is running, any parts I select will turn to gold in real time.
 3. Define routines so they'll get cleaned up safely
 
 Lets write some code to make this happen..
@@ -180,7 +180,7 @@ local COLOR_GOLD = Color3.fromRGB(255, 180, 0)
 --------------------------------------------------
 -- Members
 
-local plugDefinition = {
+local macroDefinition = {
 	Group = "Golden",
 	GroupColor = COLOR_GOLD,
 	GroupIcon = "👑",
@@ -202,21 +202,21 @@ local plugDefinition = {
 	},
 }
 
-plugDefinition.Function = function(plug, plugin)
+macroDefinition.Function = function(macro, plugin)
 	-- Toggle running
-    plug:ToggleIsRunning()
+    macro:ToggleIsRunning()
 
     -- RETURN: Not running
-    if not plug:IsRunning() then
+    if not macro:IsRunning() then
         return
     end
 	
 	-- Get Variables
-	local colorA = plug:GetFieldValue("ColorA")
-	local colorB = plug:GetFieldValue("ColorB")
+	local colorA = macro:GetFieldValue("ColorA")
+	local colorB = macro:GetFieldValue("ColorB")
 
     -- Setup Loop
-    plug.RunJanitor:Add(Selection.SelectionChanged:Connect(function()
+    macro.RunJanitor:Add(Selection.SelectionChanged:Connect(function()
 		-- Get our selected instances, and filter out any non-parts
 		local selectedInstances = Selection:Get()
 		local parts = {}
@@ -233,12 +233,12 @@ plugDefinition.Function = function(plug, plugin)
 		end
 		
 		if #parts > 0 then
-			Logger:PlugInfo(plug, ("I encrusted %d parts with gold!"):format(#parts))
+			Logger:MacroInfo(macro, ("I encrusted %d parts with gold!"):format(#parts))
 		end
 	end))
 end
 
-return plugDefinition
+return macroDefinition
 ```
 **Fantastic <3**
 

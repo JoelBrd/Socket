@@ -1,5 +1,5 @@
 ---
----Utility for Plug Fields
+---Utility for Macro Fields
 ---
 ---@class FieldsUtil
 ---

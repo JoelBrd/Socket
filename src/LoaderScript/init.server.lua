@@ -25,7 +25,7 @@ local librariesDirectory = sharedDirectory.Libraries.Packages
 local utilsDirectory = sharedDirectory.Utils
 local classesDirectory = sharedDirectory.Classes
 local pluginDirectory = pluginFrameworkScript.Plugin
-local plugsDirectory = pluginFrameworkScript.Plugs
+local macrosDirectory = pluginFrameworkScript.Macros
 local studioDirectory = pluginFrameworkScript.Studio
 local socketDirectory = pluginFrameworkScript.Socket
 
@@ -38,7 +38,7 @@ local function setupFramework()
     PluginFramework:AddCustomModule("RoactRodux", librariesDirectory["roact-rodux"])
 
     -- General files
-    PluginFramework:Load(utilsDirectory, classesDirectory, pluginDirectory, plugsDirectory, studioDirectory, socketDirectory)
+    PluginFramework:Load(utilsDirectory, classesDirectory, pluginDirectory, macrosDirectory, studioDirectory, socketDirectory)
 end
 
 local function grabDependencies()

@@ -1,9 +1,9 @@
 ---
----Contains the different lines for our PlugContainer
+---Contains the different lines for our MacroContainer
 ---
----@class RoactPlugLines
+---@class RoactMacroLines
 ---
-local RoactPlugLines = {}
+local RoactMacroLines = {}
 
 --------------------------------------------------
 -- Types
@@ -20,9 +20,9 @@ local Logger ---@type Logger
 local PluginHandler ---@type PluginHandler
 local RoactButton ---@type RoactButton
 local SocketController ---@type SocketController
-local PlugHelper ---@type PlugHelper
+local MacroHelper ---@type MacroHelper
 local SocketSettings ---@type SocketSettings
-local PlugConstants ---@type PlugConstants
+local MacroConstants ---@type MacroConstants
 local WidgetTheme ---@type WidgetTheme
 
 --------------------------------------------------
@@ -63,7 +63,7 @@ local function createLine(props)
             Roact.createElement("ImageButton", {
                 BackgroundTransparency = 1,
                 Size = UDim2.fromScale(1, 1),
-                ImageColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Arrow),
+                ImageColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Arrow),
                 Image = WidgetConstants.Images.Arrow,
                 Rotation = isOpen and 90 or 0,
 
@@ -150,7 +150,7 @@ local function getGroup(props)
     local name = props.name ---@type string
     local nameColor = props.nameColor ---@type Color3
     local isOpen = props.isOpen ---@type boolean
-    local totalPlugs = props.totalPlugs ---@type number
+    local totalMacros = props.totalMacros ---@type number
     local icon = props.icon ---@type string
     local iconColor = props.iconColor ---@type Color3
     local isIconImageId = props.isIconImageId ---@type boolean
@@ -169,8 +169,8 @@ local function getGroup(props)
             BackgroundTransparency = 1,
             TextScaled = true,
             Font = SocketSettings:GetSetting("Font"),
-            Text = ("%s (%d)"):format(name, totalPlugs),
-            TextColor3 = nameColor or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
+            Text = ("%s (%d)"):format(name, totalMacros),
+            TextColor3 = nameColor or WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Text),
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
         }),
@@ -184,7 +184,7 @@ local function getGroup(props)
         -- Send action
         ---@type RoduxAction
         local action = {
-            type = SocketConstants.RoduxActionType.PLUGS.TOGGLE_GROUP_VISIBILITY,
+            type = SocketConstants.RoduxActionType.MACROS.TOGGLE_GROUP_VISIBILITY,
             data = {
                 group = name,
             },
@@ -208,7 +208,7 @@ end
 
 ---@param props table
 ---@return RoactElement
-local function getPlug(props)
+local function getMacro(props)
     -- Read props
     local name = props.name ---@type string
     local nameColor = props.nameColor ---@type Color3
@@ -217,8 +217,8 @@ local function getPlug(props)
     local iconColor = props.iconColor ---@type Color3
     local isIconImageId = props.isIconImageId ---@type boolean
     local layoutOrder = props.layoutOrder ---@type number
-    local plug = props.plug ---@type PlugDefinition
-    local plugScript = props.plugScript ---@type ModuleScript
+    local macro = props.macro ---@type MacroDefinition
+    local macroScript = props.macroScript ---@type ModuleScript
     local scale = props.scale ---@type number
     local isBroken = props.isBroken ---@type boolean
 
@@ -228,12 +228,12 @@ local function getPlug(props)
         local isStudioRunning = SocketController:IsRunning()
         if isStudioRunning and not isBroken then
             -- Get variables
-            local isServerRunning = plug.State._Server.IsRunning and true or false
-            local isClientRunning = plug.State._Client.IsRunning and true or false
+            local isServerRunning = macro.State._Server.IsRunning and true or false
+            local isClientRunning = macro.State._Client.IsRunning and true or false
             local textLabelXOffset = -(
                     WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth * 2
-                    + WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding
-                    + WidgetConstants.RoactWidgetLine.Pixel.PlugRunButtonsPadding
+                    + WidgetConstants.RoactWidgetLine.Pixel.MacroTextButtonPadding
+                    + WidgetConstants.RoactWidgetLine.Pixel.MacroRunButtonsPadding
                 )
 
             return Roact.createFragment({
@@ -245,12 +245,12 @@ local function getPlug(props)
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    TextColor3 = nameColor or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
+                    TextColor3 = nameColor or WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Macro.Text),
                 }),
                 Padding = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
                     LayoutOrder = 2,
-                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding, 1, 0),
+                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.MacroTextButtonPadding, 1, 0),
                 }),
                 RunServerButtonHolder = Roact.createElement("Frame", {
                     LayoutOrder = 3,
@@ -260,19 +260,19 @@ local function getPlug(props)
                     RoactButton:Get({
                         text = "Server",
                         color = isServerRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
-                            WidgetTheme.Indexes.PlugLines.Plug.RunButton
+                            WidgetTheme.Indexes.MacroLines.Macro.RunButton
                         ),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
-                            PlugHelper:RunPlugAt(plug, true, false)
+                            MacroHelper:RunMacroAt(macro, true, false)
                         end,
                     }),
                 }),
                 PaddingButtons = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
                     LayoutOrder = 4,
-                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.PlugRunButtonsPadding, 1, 0),
+                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.MacroRunButtonsPadding, 1, 0),
                 }),
                 RunClientButtonHolder = Roact.createElement("Frame", {
                     LayoutOrder = 5,
@@ -282,21 +282,21 @@ local function getPlug(props)
                     RoactButton:Get({
                         text = "Client",
                         color = isClientRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
-                            WidgetTheme.Indexes.PlugLines.Plug.RunButton
+                            WidgetTheme.Indexes.MacroLines.Macro.RunButton
                         ),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
-                            PlugHelper:RunPlugAt(plug, false, true)
+                            MacroHelper:RunMacroAt(macro, false, true)
                         end,
                     }),
                 }),
             })
         else
             -- Get variables
-            local isRunning = plug:IsRunning()
+            local isRunning = macro:IsRunning()
             local textLabelXOffset = -(
-                    WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth + WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding
+                    WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth + WidgetConstants.RoactWidgetLine.Pixel.MacroTextButtonPadding
                 )
 
             ---@return RoactElement
@@ -308,18 +308,18 @@ local function getPlug(props)
                         Font = SocketSettings:GetSetting("Font"),
                         Text = WidgetConstants.Icons.Warning,
                         Size = UDim2.fromScale(1, 1),
-                        TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
+                        TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Macro.Text),
                     })
                 else
                     return RoactButton:Get({
                         text = isRunning and "Running" or "Run",
                         color = isRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
-                            WidgetTheme.Indexes.PlugLines.Plug.RunButton
+                            WidgetTheme.Indexes.MacroLines.Macro.RunButton
                         ),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
-                            PlugHelper:RunPlug(plug)
+                            MacroHelper:RunMacro(macro)
                         end,
                     })
                 end
@@ -334,12 +334,12 @@ local function getPlug(props)
                     Text = name,
                     Size = UDim2.new(1, textLabelXOffset, 1, 0),
                     TextXAlignment = Enum.TextXAlignment.Left,
-                    TextColor3 = nameColor or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Plug.Text),
+                    TextColor3 = nameColor or WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Macro.Text),
                 }),
                 Padding = Roact.createElement("Frame", {
                     BackgroundTransparency = 1,
                     LayoutOrder = 2,
-                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.PlugTextButtonPadding, 1, 0),
+                    Size = UDim2.new(0, WidgetConstants.RoactWidgetLine.Pixel.MacroTextButtonPadding, 1, 0),
                 }),
                 RunButtonHolder = Roact.createElement("Frame", {
                     LayoutOrder = 3,
@@ -377,9 +377,9 @@ local function getPlug(props)
         -- Send action
         ---@type RoduxAction
         local action = {
-            type = SocketConstants.RoduxActionType.PLUGS.TOGGLE_PLUG_VISIBILITY,
+            type = SocketConstants.RoduxActionType.MACROS.TOGGLE_MACRO_VISIBILITY,
             data = {
-                script = plugScript,
+                script = macroScript,
             },
         }
         roduxStore:dispatch(action)
@@ -387,7 +387,7 @@ local function getPlug(props)
 
     -- Return line
     return createLine({
-        indent = WidgetConstants.RoactWidgetLine.Indent.Plug,
+        indent = WidgetConstants.RoactWidgetLine.Indent.Macro,
         isOpen = isOpen,
         icon = icon,
         iconColor = iconColor,
@@ -434,7 +434,7 @@ local function getKeybind(props)
             Text = "Keybind",
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
-            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
+            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Text),
         }),
         KeybindLabel = Roact.createElement("TextLabel", {
             LayoutOrder = 2,
@@ -444,7 +444,7 @@ local function getKeybind(props)
             Text = keybindString,
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Right,
-            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
+            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Text),
         }),
     })
 
@@ -464,7 +464,7 @@ local function getSettings(props)
     -- Read props
     local layoutOrder = props.layoutOrder ---@type number
     local moduleScript = props.moduleScript ---@type ModuleScript
-    local plug = props.plug ---@type PlugDefinition
+    local macro = props.macro ---@type MacroDefinition
     local scale = props.scale ---@type number
 
     -- Create Details
@@ -493,7 +493,7 @@ local function getSettings(props)
                 text = "View Source",
                 color = Color3.fromRGB(255, 244, 160),
                 activatedCallback = function()
-                    PlugHelper:ViewSource(moduleScript)
+                    MacroHelper:ViewSource(moduleScript)
                 end,
             }),
         }),
@@ -506,7 +506,7 @@ local function getSettings(props)
                 text = "Description",
                 color = Color3.fromRGB(111, 182, 230),
                 activatedCallback = function()
-                    PlugHelper:ShowDescription(plug)
+                    MacroHelper:ShowDescription(macro)
                 end,
             }),
         }),
@@ -529,7 +529,7 @@ local function getFields(props)
     local hasFields = props.hasFields ---@type boolean
     local isOpen = props.isOpen ---@type boolean
     local layoutOrder = props.layoutOrder ---@type number
-    local plugScript = props.plugScript ---@type ModuleScript
+    local macroScript = props.macroScript ---@type ModuleScript
     local scale = props.scale ---@type number
 
     -- Update open status (only show arrow if there are fields)
@@ -550,7 +550,7 @@ local function getFields(props)
             TextScaled = true,
             Font = SocketSettings:GetSetting("Font"),
             Text = "Fields",
-            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
+            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Text),
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Left,
         }),
@@ -564,9 +564,9 @@ local function getFields(props)
         -- Send action
         ---@type RoduxAction
         local action = {
-            type = SocketConstants.RoduxActionType.PLUGS.TOGGLE_FIELDS_VISIBILITY,
+            type = SocketConstants.RoduxActionType.MACROS.TOGGLE_FIELDS_VISIBILITY,
             data = {
-                script = plugScript,
+                script = macroScript,
             },
         }
         roduxStore:dispatch(action)
@@ -588,8 +588,8 @@ end
 ---@return RoactElement
 local function getField(props)
     -- Read props
-    local field = props.field ---@type PlugField
-    local plug = props.plug ---@type PlugDefinition
+    local field = props.field ---@type MacroField
+    local macro = props.macro ---@type MacroDefinition
     local layoutOrder = props.layoutOrder ---@type number
     local scale = props.scale ---@type number
 
@@ -599,23 +599,23 @@ local function getField(props)
         -- Clear
         local text = instance.Text
         if text:len() == 0 then
-            PlugHelper:ClearField(plug, field)
+            MacroHelper:ClearField(macro, field)
             return
         end
 
         -- Try update
-        local finalValue, didUpdate = PlugHelper:UpdateField(plug, field, text)
+        local finalValue, didUpdate = MacroHelper:UpdateField(macro, field, text)
         if not didUpdate then
             instance.Text = finalValue and field.Type.ToString(finalValue) or ""
         end
     end
 
     -- Get current value
-    local currentValue = plug.State.FieldValues[field.Name]
+    local currentValue = macro.State.FieldValues[field.Name]
     local stringValue = currentValue ~= nil and field.Type.ToString(currentValue) or ""
 
     -- Custom behaviour
-    local color = field.Type == PlugConstants.FieldType.Color3 and currentValue
+    local color = field.Type == MacroConstants.FieldType.Color3 and currentValue
     local doColor = color and true or false
 
     -- Padding
@@ -642,7 +642,7 @@ local function getField(props)
             Text = field.Name,
             Size = UDim2.new(0.5, -paddingPixel / 2, 1, 0),
             TextXAlignment = Enum.TextXAlignment.Left,
-            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Text),
+            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Text),
         }),
         Padding = Roact.createElement("Frame", {
             BackgroundTransparency = 1,
@@ -660,10 +660,10 @@ local function getField(props)
             }),
             TextBox = Roact.createElement("TextBox", {
                 Font = SocketSettings:GetSetting("Font"),
-                PlaceholderColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Field.PlaceholderText),
+                PlaceholderColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Field.PlaceholderText),
                 PlaceholderText = field.Type.Name,
                 Text = stringValue,
-                TextColor3 = doColor and COLOR_WHITE or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Field.Text),
+                TextColor3 = doColor and COLOR_WHITE or WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Field.Text),
                 TextScaled = true,
                 TextStrokeTransparency = doColor and 0.4 or 1,
                 BackgroundTransparency = 1,
@@ -673,7 +673,7 @@ local function getField(props)
                 [Roact.Event.FocusLost] = onFocusLost,
             }),
             Backing = Roact.createElement("Frame", {
-                BackgroundColor3 = doColor and color or WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Field.Backing),
+                BackgroundColor3 = doColor and color or WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Field.Backing),
                 Size = UDim2.fromScale(1, 1),
             }, {
                 UICorner = Roact.createElement("UICorner", {
@@ -681,7 +681,7 @@ local function getField(props)
                 }),
                 UIStroke = Roact.createElement("UIStroke", {
                     ApplyStrokeMode = Enum.ApplyStrokeMode.Contextual,
-                    Color = WidgetTheme:GetColor(WidgetTheme.Indexes.PlugLines.Field.Stroke),
+                    Color = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Field.Stroke),
                     LineJoinMode = Enum.LineJoinMode.Round,
                     Thickness = 2,
                     Transparency = 0.2,
@@ -705,7 +705,7 @@ end
 ---@param props table
 ---@return RoactElement
 ---
-function RoactPlugLines:Get(lineType, props)
+function RoactMacroLines:Get(lineType, props)
     local getter = gettersByLineType[lineType]
     if not getter then
         Logger:Error(("No getter defined for line type %q"):format(lineType))
@@ -719,7 +719,7 @@ end
 ---
 ---Asynchronously called with all other FrameworkInit()
 ---
-function RoactPlugLines:FrameworkInit()
+function RoactMacroLines:FrameworkInit()
     Roact = PluginFramework:Require("Roact")
     RoactRodux = PluginFramework:Require("RoactRodux")
     SocketConstants = PluginFramework:Require("SocketConstants")
@@ -728,9 +728,9 @@ function RoactPlugLines:FrameworkInit()
     PluginHandler = PluginFramework:Require("PluginHandler")
     RoactButton = PluginFramework:Require("RoactButton")
     SocketController = PluginFramework:Require("SocketController")
-    PlugHelper = PluginFramework:Require("PlugHelper")
+    MacroHelper = PluginFramework:Require("MacroHelper")
     SocketSettings = PluginFramework:Require("SocketSettings")
-    PlugConstants = PluginFramework:Require("PlugConstants")
+    MacroConstants = PluginFramework:Require("MacroConstants")
     WidgetTheme = PluginFramework:Require("WidgetTheme")
 end
 
@@ -739,13 +739,13 @@ end
 ---
 ---Synchronously called, one after the other, with all other FrameworkStart()
 ---
-function RoactPlugLines:FrameworkStart()
+function RoactMacroLines:FrameworkStart()
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Group] = getGroup
-    gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Plug] = getPlug
+    gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Macro] = getMacro
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Keybind] = getKeybind
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Settings] = getSettings
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Fields] = getFields
     gettersByLineType[WidgetConstants.RoactWidgetLine.Type.Field] = getField
 end
 
-return RoactPlugLines
+return RoactMacroLines
