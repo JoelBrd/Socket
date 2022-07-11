@@ -4,6 +4,7 @@
 
 --------------------------------------------------
 -- Dependencies
+local Selection = game:GetService("Selection") ---@type Selection
 local ServerStorage = game:GetService("ServerStorage")
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
 local Logger = require(Utils.Logger)
@@ -33,6 +34,8 @@ local TOP_CLASS_NAMES = {
 local IGNORE_CLASS_NAMES = {
     "Terrain",
     "Camera",
+    "StarterCharacterScripts",
+    "StarterPlayerScripts",
 }
 
 --------------------------------------------------
@@ -41,8 +44,9 @@ local IGNORE_CLASS_NAMES = {
 local description = "Collapses all instances in explorer so nothing is 'Open'. This works by setting Parent=nil and then reparenting."
 description = ("%s %s"):format(
     description,
-    "This does not break the integrity of anything core to Roblox Studio, but ensure other macros/code/plugins are disabled as this may cause unintended effects"
+    "This does not break the integrity of anything core to Roblox Studio, but ensure other macros/code/plugins are disabled as this may cause unintended effects."
 )
+description = ("%s\n%s"):format("Select instances in the explorer window to only collapse specific paths.")
 
 local macroDefinition = {
     Name = "Collapse Explorer",
@@ -53,12 +57,20 @@ local macroDefinition = {
 }
 
 macroDefinition.Function = function(macro, plugin)
-    -- Grab top level instances to collapse
+    -- Cache for top level instances
     local topInstances = {} ---@type Instance[]
-    for _, className in pairs(TOP_CLASS_NAMES) do
-        local instance = game:FindFirstChildOfClass(className)
-        if instance then
-            table.insert(topInstances, instance)
+
+    -- Check selection
+    local selectedInstances = Selection:Get()
+    if #selectedInstances > 0 then
+        topInstances = selectedInstances
+    else
+        -- Grab top level workspace Classes
+        for _, className in pairs(TOP_CLASS_NAMES) do
+            local instance = game:FindFirstChildOfClass(className)
+            if instance then
+                table.insert(topInstances, instance)
+            end
         end
     end
 
