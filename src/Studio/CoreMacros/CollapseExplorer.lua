@@ -46,7 +46,7 @@ description = ("%s %s"):format(
     description,
     "This does not break the integrity of anything core to Roblox Studio, but ensure other macros/code/plugins are disabled as this may cause unintended effects."
 )
-description = ("%s\n%s"):format("Select instances in the explorer window to only collapse specific paths.")
+description = ("%s\n%s"):format(description, "Select instances in the explorer window to only collapse specific paths.")
 
 local macroDefinition = {
     Name = "Collapse Explorer",
