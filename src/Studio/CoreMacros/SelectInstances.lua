@@ -92,7 +92,7 @@ local function didFindFirstChild(parent, name, recurseChildren, exactMatch, case
     local options = recurseChildren and parent:GetDescendants() or parent:GetChildren()
     for _, option in pairs(options) do
         local optionName = caseSensitive and option.Name or option.Name:upper()
-        local doesMatch = exactMatch and optionName == name or string.find(optionName, name)
+        local doesMatch = (exactMatch and optionName == name) or (not exactMatch and string.find(optionName, name) and true) or false
         if doesMatch then
             return true
         end
@@ -110,7 +110,7 @@ local function hasAttribute(instance, name, exactMatch, caseSensitive)
     local attributes = instance:GetAttributes() ---@type table<string, any>
     for attributeName, _ in pairs(attributes) do
         attributeName = caseSensitive and attributeName or attributeName:upper()
-        local doesMatch = exactMatch and attributeName == name or string.find(attributeName, name)
+        local doesMatch = (exactMatch and attributeName == name) or (not exactMatch and string.find(attributeName, name) and true)
         if doesMatch then
             return true
         end
@@ -145,7 +145,8 @@ local function search(instances, name, className, childName, attributeName, recu
 
             -- Check if an eligible instance
             local hasMatchingName = not name
-                or (exactMatch and descendantName == name or string.find(descendantName, name)) and true
+                or (exactMatch and descendantName == name)
+                or (not exactMatch and string.find(descendantName, name) and true)
                 or false
             local hasMatchingChildOfName = not childName
                 or didFindFirstChild(descendant, childName, recurseChildren, exactMatch, caseSensitive)
@@ -187,17 +188,8 @@ macroDefinition.Function = function(macro, plugin)
     local maxAmount = macro:GetFieldValue("Max Amount")
 
     -- Search
-    local results = search(
-        selectedInstances,
-        name,
-        className,
-        childName,
-        attributeName,
-        recurseChildren,
-        exactMatch,
-        caseSensitive,
-        maxAmount
-    )
+    local results =
+        search(selectedInstances, name, className, childName, attributeName, recurseChildren, exactMatch, caseSensitive, maxAmount)
 
     -- Select
     Selection:Set(results)
