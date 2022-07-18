@@ -358,7 +358,7 @@ function MacroHelper:CleanMacroDefinition(macroScript, macro)
     local fieldNames = {}
     for _, field in pairs(macro.Fields) do
         if typeof(field) ~= "table" then
-            ("Macro %s `Fields` must contain tables, with entries `Name` and `Type` (%s)"):format(
+            ("Macro %s `Fields` must contain tables, atleast with entries `Name` and `Type` (%s)"):format(
                 macroScript.Name,
                 macroScript:GetFullName()
             )
@@ -375,7 +375,7 @@ function MacroHelper:CleanMacroDefinition(macroScript, macro)
             return
         end
 
-        local fieldTypeId = tostring(field.Type)
+        local fieldTypeId = field.Type
         local fieldType = MacroConstants.FieldType[fieldTypeId]
         if not fieldType then
             Logger:Warn(("Field %q has invalid field type %q (%s)"):format(field.Name, fieldTypeId, macroScript:GetFullName()))
@@ -390,7 +390,33 @@ function MacroHelper:CleanMacroDefinition(macroScript, macro)
             return
         end
 
-        field.Type = fieldType
+        local validator = field.Validator
+        if validator ~= nil and typeof(validator) ~= "function" then
+            Logger:Warn(
+                ("Macro %s has a field with invalid `Validator` (function) (%s)"):format(macroScript.Name, macroScript:GetFullName())
+            )
+            return
+        end
+
+        local defaultValue = macro.State.FieldValues[fieldName]
+        if defaultValue ~= nil then
+            local success, result = pcall(function()
+                return MacroConstants.FieldType[fieldTypeId].Validate(defaultValue)
+            end)
+            if not success or result == nil then
+                Logger:Warn(
+                    ("Macro %s Field %s has a bad default value set. Field has type %s, default value is %q (%s) (%s)"):format(
+                        macroScript.Name,
+                        fieldName,
+                        fieldTypeId,
+                        tostring(defaultValue),
+                        tostring(result),
+                        macroScript:GetFullName()
+                    )
+                )
+                return
+            end
+        end
     end
 
     -- FieldChanged Event

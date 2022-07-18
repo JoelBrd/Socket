@@ -87,11 +87,13 @@ MacroConstants.FieldType = {
         Name = "boolean",
         Icon = "🅱️",
         Validate = function(value)
-            if value == "true" or value == "t" then
+            value = tostring(value)
+
+            if string.find("TRUE", value:upper()) then
                 return true
             end
 
-            if value == "false" or value == "f" then
+            if string.find("FALSE", value:upper()) then
                 return false
             end
         end,
@@ -103,7 +105,7 @@ MacroConstants.FieldType = {
         Name = "string",
         Icon = "📝",
         Validate = function(value)
-            return value
+            return tostring(value)
         end,
         ToString = function(value)
             return value
@@ -113,6 +115,11 @@ MacroConstants.FieldType = {
         Name = "Color3",
         Icon = "🌈",
         Validate = function(value)
+            if typeof(value) == "Color3" then
+                return value
+            end
+            value = tostring(value)
+
             local r, g, b = value:match(PATTERN_3_VALUES)
             if r and g and b then
                 return Color3.fromRGB(math.clamp(r, 0, 255), math.clamp(g, 0, 255), math.clamp(b, 0, 255))
@@ -126,6 +133,11 @@ MacroConstants.FieldType = {
         Name = "Vector3",
         Icon = "↗️",
         Validate = function(value)
+            if typeof(value) == "Vector3" then
+                return value
+            end
+            value = tostring(value)
+
             local x, y, z = value:match(PATTERN_3_VALUES)
             if x and y and z then
                 return Vector3.new(x, y, z)
