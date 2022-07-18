@@ -417,6 +417,8 @@ function MacroHelper:CleanMacroDefinition(macroScript, macro)
                 return
             end
         end
+
+        field.Type = fieldType
     end
 
     -- FieldChanged Event
