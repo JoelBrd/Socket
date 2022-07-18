@@ -154,6 +154,14 @@ function SocketController:SetupMacroActions()
     local function changedMacro(moduleScript)
         local requiredClone = tryCloneRequire(moduleScript)
         local macroDefinition = requiredClone and MacroHelper:CleanMacroDefinition(moduleScript, requiredClone)
+
+        -- Stop it running if needed
+        local currentMacroDefinition = SocketController:GetMacro(moduleScript)
+        if currentMacroDefinition then
+            currentMacroDefinition._BindToClose(currentMacroDefinition, PluginHandler:GetPlugin())
+        end
+
+        -- Update Store
         if macroDefinition then
             -- Update RoduxStore
             ---@type RoduxAction
