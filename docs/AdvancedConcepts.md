@@ -58,3 +58,37 @@ put safety routines to ensure any mess from a bad session end is cleaned up. For
 
 ## TeamCreate
 Socket was designed to try accomodate for Team Create, with multiple team members using Socket at the same time. [InstanceUtil](/api/InstanceUtil) has some *very* useful methods for accomodating for this. Take a look at "Dot to Dot" and the heirachy of Instances it creates in `game.Workspace`.
+
+## SoftRequire
+Whilst developing macros, you may find the use for a Util file - maybe you have multiple macros that use the same logic. It makes sense to compartmentalise this logic into a single Util file, and using `require()` in your macros. The issue with using `require()` is that all calls will uses the cached value from the first `require()`.
+
+If a first version of our Util is this:
+```
+-- Util
+local Util = {
+    a = 1
+}
+
+return Util
+
+-- Macro
+local Util = require(Util)
+print(Util) -- Output: { a = 1 }
+```
+
+Any future `require()` calls will still give the old cached value:
+```
+-- Util
+local Util = {
+    a = 1
+    b = 2
+}
+
+return Util
+
+-- Macro
+local Util = require(Util)
+print(Util) -- Output: { a = 1 }
+```
+
+Using `SoftRequire` allows us to always have the most up to date version of the Util file.
