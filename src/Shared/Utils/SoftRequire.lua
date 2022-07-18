@@ -1,3 +1,10 @@
+---
+---SoftRequire
+---
+---@class SoftRequire
+---
+local SoftRequire = {}
+
 ---Passed a ModuleScript, will require a Clone() of it.
 ---This has the benefit of softRequire(moduleScript) ~= softRequire(moduleScript), whereas require(moduleScript) == require(moduleScript).
 ---This gets round the cached value that require() uses.
@@ -5,11 +12,11 @@
 ---same studio session
 ---@param moduleScript ModuleScript
 ---@return table
-local function softRequire(moduleScript)
+function SoftRequire:Require(moduleScript)
     local clonedScript = moduleScript:Clone()
     local result = require(clonedScript)
     clonedScript:Destroy()
     return result
 end
 
-return softRequire()
+return SoftRequire

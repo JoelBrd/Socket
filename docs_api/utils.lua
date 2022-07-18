@@ -95,11 +95,11 @@
 --[=[
     @class SoftRequire
 
-    A Util that returns a function softRequire:
+    A Util file to help require ModuleScripts and work around cached values.
 ]=]
 
 --[=[
-    @function softRequire
+    @method Require
     @param moduleScript ModuleScript
     @return table
     @within SoftRequire
