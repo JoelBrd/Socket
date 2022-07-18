@@ -15,7 +15,7 @@ dependencies = []
 [[package]]
 name = "joelm/socket"
 version = "0.1.0"
-dependencies = [["janitor", "howmanysmall/janitor@1.14.1"], ["promise", "evaera/promise@4.0.0"], ["roact", "roblox/roact@1.4.2"], ["roact-rodux", "roblox/roact-rodux@0.3.0"], ["rodux", "roblox/rodux@3.0.0"], ["testez", "roblox/testez@0.4.1"]]
+dependencies = [["janitor", "howmanysmall/janitor@1.14.1"], ["promise", "evaera/promise@4.0.0"], ["roact", "roblox/roact@1.4.2"], ["roact-rodux", "roblox/roact-rodux@0.3.0"], ["rodux", "roblox/rodux@3.0.0"]]
 
 [[package]]
 name = "roblox/roact"
@@ -30,9 +30,4 @@ dependencies = [["Roact", "roblox/roact@1.4.2"], ["Rodux", "roblox/rodux@3.0.0"]
 [[package]]
 name = "roblox/rodux"
 version = "3.0.0"
-dependencies = []
-
-[[package]]
-name = "roblox/testez"
-version = "0.4.1"
 dependencies = []

@@ -34,7 +34,6 @@ local function setupFramework()
     -- Libraries
     PluginFramework:AddCustomModule("Roact", librariesDirectory.roact)
     PluginFramework:AddCustomModule("Rodux", librariesDirectory.rodux)
-    PluginFramework:AddCustomModule("TestEZ", librariesDirectory.testez)
     PluginFramework:AddCustomModule("RoactRodux", librariesDirectory["roact-rodux"])
 
     -- General files
