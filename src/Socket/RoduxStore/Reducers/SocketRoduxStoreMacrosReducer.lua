@@ -292,6 +292,36 @@ function SocketRoduxStoreMacrosReducer:Get()
 
             return newState
         end,
+
+        ---Enables/Disables a macro's Keybind
+        ---@param state RoduxState
+        ---@param action RoduxAction
+        [SocketConstants.RoduxActionType.MACROS.TOGGLE_KEYBIND] = function(state, action)
+            -- Read Action
+            local macroScript = action.data.script
+
+            -- Recreate state
+            local newState = {
+                Groups = {},
+                SearchText = state.SearchText,
+            }
+            for groupName, groupData in pairs(state.Groups) do
+                newState.Groups[groupName] = groupData
+            end
+
+            -- Toggle visibility for specified macro
+            for _, groupData in pairs(newState.Groups) do
+                for someMacroScript, someMacroInfo in pairs(groupData.Macros) do
+                    if someMacroScript == macroScript then
+                        local macro = someMacroInfo.Macro
+                        macro.State.IsKeybindDisabled = not macro.State.IsKeybindDisabled
+                        return newState
+                    end
+                end
+            end
+
+            return newState
+        end,
     })
 end
 

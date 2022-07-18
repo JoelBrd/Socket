@@ -182,6 +182,24 @@ function MacroHelper:ViewSource(macroScript)
     Selection:Set({ macroScript })
 end
 
+---
+---@param macroScript ModuleScript
+---
+function MacroHelper:ToggleKeybind(macroScript)
+    -- Get Store
+    local roduxStore = SocketController:GetStore()
+
+    -- Send action
+    ---@type RoduxAction
+    local action = {
+        type = SocketConstants.RoduxActionType.MACROS.TOGGLE_KEYBIND,
+        data = {
+            script = macroScript,
+        },
+    }
+    roduxStore:dispatch(action)
+end
+
 ---Checks the type of a macro member is correct.
 ---Returns true if good.
 ---@param macro MacroDefinition
@@ -298,6 +316,7 @@ function MacroHelper:CleanMacroDefinition(macroScript, macro)
     macro.State = macro.State or {}
     macro.State.IsRunning = false
     macro.State.FieldValues = macro.State.FieldValues or {}
+    macro.State.IsKeybindDisabled = false
     macro.State._Server = macro.State._Server or {}
     macro.State._Client = macro.State._Client or {}
 

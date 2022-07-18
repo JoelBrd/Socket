@@ -404,18 +404,25 @@ end
 local function getKeybind(props)
     -- Read props
     local keybind = props.keybind ---@type Enum.KeyCode[]
+    local isDisabled = props.isDisabled ---@type boolean
     local layoutOrder = props.layoutOrder ---@type number
     local scale = props.scale ---@type number
 
     -- Create keybind string
     local keybindString ---@type string
-    if #keybind > 0 then
+    local keybindColor ---@type Color3
+    if isDisabled then
+        keybindString = "Disabled"
+        keybindColor = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.DisabledText)
+    elseif #keybind > 0 then
         keybindString = keybind[1].Name
         for i = 2, #keybind do
             keybindString = ("%s + %s"):format(keybindString, keybind[i].Name)
         end
+        keybindColor = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Text)
     else
         keybindString = "None"
+        keybindColor = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Text)
     end
 
     -- Create Details
@@ -444,7 +451,7 @@ local function getKeybind(props)
             Text = keybindString,
             Size = UDim2.fromScale(1, 1),
             TextXAlignment = Enum.TextXAlignment.Right,
-            TextColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Text),
+            TextColor3 = keybindColor,
         }),
     })
 
@@ -486,11 +493,11 @@ local function getSettings(props)
         }),
         ViewSourceHolder = Roact.createElement("Frame", {
             LayoutOrder = 1,
-            Size = UDim2.fromScale(0.5, 1),
+            Size = UDim2.fromScale(0.25, 1),
             BackgroundTransparency = 1,
         }, {
             RoactButton:Get({
-                text = "View Source",
+                text = "Source",
                 color = Color3.fromRGB(255, 244, 160),
                 activatedCallback = function()
                     MacroHelper:ViewSource(moduleScript)
@@ -499,14 +506,27 @@ local function getSettings(props)
         }),
         DescriptionHolder = Roact.createElement("Frame", {
             LayoutOrder = 2,
-            Size = UDim2.fromScale(0.5, 1),
+            Size = UDim2.fromScale(0.35, 1),
             BackgroundTransparency = 1,
         }, {
             RoactButton:Get({
                 text = "Description",
-                color = Color3.fromRGB(111, 182, 230),
+                color = Color3.fromRGB(140, 194, 230),
                 activatedCallback = function()
                     MacroHelper:ShowDescription(macro)
+                end,
+            }),
+        }),
+        ToggleKeybindHolder = Roact.createElement("Frame", {
+            LayoutOrder = 3,
+            Size = UDim2.fromScale(0.4, 1),
+            BackgroundTransparency = 1,
+        }, {
+            RoactButton:Get({
+                text = "Toggle Keybind",
+                color = Color3.fromRGB(184, 146, 255),
+                activatedCallback = function()
+                    MacroHelper:ToggleKeybind(moduleScript)
                 end,
             }),
         }),

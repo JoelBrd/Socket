@@ -103,6 +103,7 @@
     @interface MacroState
     @field FieldValues table<MacroField.Name,any> -- Where we can read the values in our fields from
     @field IsRunning boolean|nil -- Use this variable to toggle the state of a Macro (updates the UI)
+    @field IsKeybindDisabled boolean|nil -- An internal variable for declaring whether a keybind has been disabled or not
     @field _Server MacroState -- Socket-only (used for communcicating Server/Client in Accurate Play Solo)
     @field _Client MacroState -- Socket-only (used for communcicating Server/Client in Accurate Play Solo)
     @within MacroDefinition

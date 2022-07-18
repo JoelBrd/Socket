@@ -381,9 +381,14 @@ function SocketController:SetupKeybindHooks()
                     end
 
                     -- Huzzah!
-                    if totalKeyCodes == matchingKeyCodes then
+                    local isMatchingKeybind = totalKeyCodes == matchingKeyCodes
+                    local hasKeybindEnabled = not macro.State.IsKeybindDisabled
+                    if isMatchingKeybind and hasKeybindEnabled then
                         -- Run Macro Function
                         MacroHelper:RunMacro(macro)
+
+                        -- Clear heldKeys
+                        heldKeys = {}
 
                         -- Stop
                         return

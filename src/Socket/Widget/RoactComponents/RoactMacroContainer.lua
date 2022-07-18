@@ -122,6 +122,7 @@ local function createLinesFragment(props)
                             local keybindElementName = ("Group_%s_Macro_%s_Keybind"):format(groupInfo.name, macroInfo.name)
                             elements[keybindElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
                                 keybind = macroInfo.macro.Keybind or {},
+                                isDisabled = macroInfo.macro.State.IsKeybindDisabled,
                                 layoutOrder = layoutOrderCount,
                                 scale = scale,
                             })

@@ -27,6 +27,11 @@ local mainText = {
     Dark = Color3.fromRGB(225, 225, 225),
     Light = Color3.fromRGB(40, 40, 40),
 }
+local disabledText = {
+    --GuideColor = Enum.StudioStyleGuideColor.MainText,
+    Dark = Color3.fromRGB(190, 0, 0),
+    Light = Color3.fromRGB(190, 0, 0),
+}
 local popText = {
     --GuideColor = Enum.StudioStyleGuideColor.MainText,
     Dark = Color3.fromRGB(235, 235, 235),
@@ -63,6 +68,7 @@ WidgetTheme.Indexes = {
             Light = Color3.fromRGB(30, 30, 30),
         },
         Text = mainText,
+        DisabledText = disabledText,
         Macro = {
             Text = popText,
             RunButton = {

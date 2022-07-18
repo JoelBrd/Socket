@@ -33,6 +33,7 @@ SocketConstants.RoduxActionType = {
         TOGGLE_FIELDS_VISIBILITY = "TOGGLE_FIELDS_VISIBILITY",
         SEARCH_TEXT = "SEARCH_TEXT",
         REFRESH = "REFRESH",
+        TOGGLE_KEYBIND = "TOGGLE_KEYBIND",
     },
     STUDIO = {
         IS_RUNNING = "IS_RUNNING",
