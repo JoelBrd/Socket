@@ -25,6 +25,7 @@ local PluginHandler ---@type PluginHandler
 local StudioHandler ---@type StudioHandler
 local MacroClientServer ---@type MacroClientServer
 local Janitor ---@type Janitor
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -211,6 +212,18 @@ local function validateType(macroScript, macro, isRequired, key, type)
     return true
 end
 
+---Given a keybind, ensures it matches the clients OS
+---@param keybind Enum.KeyCode[]
+local function translateKeybindToOs(keybind)
+    local osType = SocketSettings:GetSetting("OSType")
+    local macKeyCodes = MacroConstants.MacKeyCodes
+    local keycodeMap = osType == "Mac" and macKeyCodes.WindowsToMac or macKeyCodes.MacToWindows
+
+    for k, keyCode in pairs(keybind) do
+        keybind[k] = keycodeMap[keyCode] or keyCode
+    end
+end
+
 ---Will clean up a macro definiton direct from require().
 ---Injects expected data structures.
 ---Ensures inputted data is valid.
@@ -316,6 +329,7 @@ function MacroHelper:CleanMacroDefinition(macroScript, macro)
             return
         end
     end
+    translateKeybindToOs(macro.Keybind)
 
     -- Fields
     macro.Fields = macro.Fields or {}
@@ -466,6 +480,7 @@ function MacroHelper:FrameworkInit()
     StudioHandler = PluginFramework:Require("StudioHandler")
     MacroClientServer = PluginFramework:Require("MacroClientServer")
     Janitor = PluginFramework:Require("Janitor")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---

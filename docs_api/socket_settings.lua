@@ -53,6 +53,21 @@
 ]=]
 
 --[=[
+    @prop OSType string
+    @within SocketSettings
+
+    Can take a variety of string values to define the OS you are on. This is useful to translate the Ctrl/Cmd keybinds across OS types.
+
+    **"Windows"**
+    Converts `Enum.KeyCode.LeftMeta` and `Enum.KeyCode.RightMeta` to `Enum.KeyCode.LeftControl` and `Enum.KeyCode.RightControl`
+
+    **"Mac"**
+    Converts `Enum.KeyCode.LeftControl` and `Enum.KeyCode.RightControl` to `Enum.KeyCode.LeftMeta` and `Enum.KeyCode.RightMeta`
+
+    Defaults to `"Windows"`
+]=]
+
+--[=[
     @prop IgnoreGameProcessedKeybinds boolean
     @within SocketSettings
 

@@ -137,4 +137,15 @@ MacroConstants.FieldType = {
     },
 } ---@type table<string, MacroFieldType>
 
+MacroConstants.MacKeyCodes = {
+    WindowsToMac = {
+        [Enum.KeyCode.LeftControl] = Enum.KeyCode.LeftMeta,
+        [Enum.KeyCode.RightControl] = Enum.KeyCode.RightMeta,
+    },
+    MacToWindows = {
+        [Enum.KeyCode.LeftMeta] = Enum.KeyCode.LeftControl,
+        [Enum.KeyCode.RightMeta] = Enum.KeyCode.RightControl,
+    },
+}
+
 return MacroConstants

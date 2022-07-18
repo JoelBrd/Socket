@@ -4,6 +4,7 @@
 
 -- Constants
 local SORT_TYPES = { "Name", "LayoutOrder", "Icon" }
+local OS_TYPES = { "Windows", "Mac" }
 
 --------------------------------------------------
 -- Members
@@ -19,6 +20,7 @@ local settings = {
     EnableSocketMacrosOverwrite = true,
     EnableAutoRun = true,
     UseDefaultSettings = false,
+    OSType = "Windows",
 }
 
 ---@type table<string, fun(value:any):string|nil>
@@ -31,6 +33,11 @@ local validationFunctions = {
     SortType = function(value)
         if not table.find(SORT_TYPES, value) then
             return ("Bad SortType. Good SortTypes: %s"):format(table.concat(SORT_TYPES, ", "))
+        end
+    end,
+    OSType = function(value)
+        if not table.find(OS_TYPES, value) then
+            return ("Bad OSType. Good OStype: %s"):format(table.concat(SORT_TYPES, ", "))
         end
     end,
 }

@@ -38,5 +38,5 @@ Please see the [Rojo Docs](https://rojo.space/docs/v7/) on how to do this
 #### (4) Compile the plugin
 
 1. Select `game.ServerScriptService.SocketPlugin` **and** `game.ServerScriptService.SocketPlugin.PluginFramework`
-2. Right Click -> Save as Local Plugin
+2. Right Click `game.ServerScriptService.SocketPlugin` -> Save as Local Plugin
 3. After selecting a name and saving, **Socket** should appear on your plugin toolbar!
