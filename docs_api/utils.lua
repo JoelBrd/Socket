@@ -93,6 +93,28 @@
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
 --[=[
+    @class SoftRequire
+
+    A Util that returns a function softRequire:
+]=]
+
+--[=[
+    @function softRequire
+    @param moduleScript ModuleScript
+    @return table
+    @within SoftRequire
+
+    Passed a ModuleScript, will require a Clone() of it. This has the benefit of `softRequire(moduleScript) ~= softRequire(moduleScript)`, 
+    whereas `require(moduleScript) == require(moduleScript)`. This gets round the cached value that require() uses.
+
+    This is beneficial, as during development you may be constantly updating your Util files. After a macro uses `require()` on a Util, any further
+    `require()` calls will use a cached value from the first call. This gets round this issue, and allows us for our macros to always have access to
+    the most up to date version of our Util files.
+]=]
+
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+
+--[=[
     @class Promise
 
     See [Promise](https://eryn.io/roblox-lua-promise/)
