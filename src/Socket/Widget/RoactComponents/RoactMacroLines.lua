@@ -624,10 +624,8 @@ local function getField(props)
         end
 
         -- Try update
-        local finalValue, didUpdate = MacroHelper:UpdateField(macro, field, text)
-        if not didUpdate then
-            instance.Text = finalValue and field.Type.ToString(finalValue) or ""
-        end
+        local finalValue, _ = MacroHelper:UpdateField(macro, field, text)
+        instance.Text = finalValue and field.Type.ToString(finalValue) or ""
     end
 
     -- Get current value
