@@ -116,19 +116,29 @@ function StudioHandler:ValidateMacros()
         local internalCoreMacrosFolder = script.Parent.CoreMacros
         local macrosModuleScripts = internalCoreMacrosFolder:GetChildren() ---@type ModuleScript[]
         for _, moduleScript in pairs(macrosModuleScripts) do
-            local matchingStudioInstance = coreMacrosFolder:FindFirstChild(moduleScript.Name) ---@type ModuleScript
-            if doEnableCoreMacrosOverwrite then
-                -- Destroy matching instance
-                if matchingStudioInstance then
-                    matchingStudioInstance:Destroy()
-                end
+            if moduleScript:IsA("ModuleScript") then
+                local matchingStudioInstance = coreMacrosFolder:FindFirstChild(moduleScript.Name) ---@type ModuleScript
+                if doEnableCoreMacrosOverwrite then
+                    -- Do we *need* to overwrite? Lets compare the sources.
+                    local existingSource = matchingStudioInstance
+                        and matchingStudioInstance:IsA("ModuleScript")
+                        and matchingStudioInstance.Source
+                    local currentSource = moduleScript.Source
 
-                if moduleScript:IsA("ModuleScript") then
-                    moduleScript:Clone().Parent = coreMacrosFolder
-                end
-            elseif not matchingStudioInstance then
-                if moduleScript:IsA("ModuleScript") then
-                    moduleScript:Clone().Parent = coreMacrosFolder
+                    if existingSource ~= currentSource then
+                        -- Destroy matching instance
+                        if matchingStudioInstance then
+                            matchingStudioInstance:Destroy()
+                        end
+
+                        if moduleScript:IsA("ModuleScript") then
+                            moduleScript:Clone().Parent = coreMacrosFolder
+                        end
+                    end
+                elseif not matchingStudioInstance then
+                    if moduleScript:IsA("ModuleScript") then
+                        moduleScript:Clone().Parent = coreMacrosFolder
+                    end
                 end
             end
         end
