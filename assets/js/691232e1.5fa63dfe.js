@@ -1,0 +1,1 @@
+"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[693],{73654:function(e){e.exports=JSON.parse('{"functions":[],"properties":[],"types":[],"name":"Promise","desc":"See [Promise](https://eryn.io/roblox-lua-promise/)","source":{"line":122,"path":"docs_api/utils.lua"}}')}}]);
