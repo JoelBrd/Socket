@@ -1,10 +1,14 @@
-<div align="center">
-    <h1>Socket</h1>
-    <p>A macro manager plugin for Roblox</p>
-	<img src=".moonwave/static/square_logo.png" alt="Socket" height="150" />
-	<br>
-	<p><a href="https://joelbrd.github.io/Socket/">View Documentation</a></p>
-	<br>
-	<h2>Contributing</h2>
-	<p>Interested in contributing? You can! Socket accepts new PRs and filing Issues. Check out the contribution section on the docs c:</p>
-</div>
+![Socket Logo](.moonwave/static/square_logo.png)
+[View Documentation](https://joelbrd.github.io/Socket/)
+
+# Socket
+
+[![license](https://img.shields.io/github/license/JoelBrd/Socket)](https://github.com/JoelBrd/Socket/blob/main/LICENSE)
+
+Socket is a powerful Macro Manager for Roblox, with ergonomics + customisability in mind. 
+
+All information (installation, usage etc..) can be found [here](https://joelbrd.github.io/Socket/)
+
+## Contributing
+
+Contributions are very welcome! Please check out the information regarding contributing [here](https://joelbrd.github.io/Socket/docs/Contributing)
