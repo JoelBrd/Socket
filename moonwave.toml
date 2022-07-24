@@ -1,6 +1,7 @@
 classOrder = [
     "MacroDefinition",
     "MacroField",
+    "MacroFieldType",
     "SocketSettings",
 ]
 

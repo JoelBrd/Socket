@@ -233,7 +233,7 @@
     @tag Populated
     @within MacroDefinition
 
-    An array of `MacroField`, which define the different fields the Macro has. The order they are defined is the order they will appear
+    An array of [MacroField], which define the different fields the Macro has. The order they are defined is the order they will appear
     on the widget.
     ```lua
     {

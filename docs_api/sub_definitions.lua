@@ -9,7 +9,7 @@
     @tag Required
     @within MacroField
 
-    The type of data this field will take (e.g., `"number"`)
+    The type of data this field will take (e.g., `"number"`). See [MacroFieldType#Name] for the options available!
 ]=]
 
 --[=[
@@ -52,50 +52,50 @@
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
--- --[=[
---     @class MacroFieldType
+--[=[
+    @class MacroFieldType
 
---     A data structure to define the different types of macro fields.
--- ]=]
+    A data structure to define the different types of macro fields.
+]=]
 
--- --[=[
---     @prop Name string
---     @within MacroFieldType
+--[=[
+    @prop Name string
+    @within MacroFieldType
 
---     The string that should be referenced inside a `MacroDefinition` for a `MacroField`'s `MacroFieldType`
+    The string that should be referenced inside a `MacroDefinition` for a `MacroField's` `MacroFieldType`
 
---     Socket comes with the following types:
---     ```
---     "string"|"number"|"boolean"|"Color3"|"Vector3"
---     ```
+    Socket comes with the following types:
+    ```
+    "string"|"number"|"boolean"|"Color3"|"Vector3"
+    ```
 
---     There is currently no support for adding new types (unless you fork the repo and develop your own)
--- ]=]
+    There is currently no support for adding new types (unless you fork the repo and develop your own)
+]=]
 
--- --[=[
---     @prop Icon string
---     @within MacroFieldType
+--[=[
+    @prop Icon string
+    @within MacroFieldType
 
---     A small string/emoji
--- ]=]
+    A small string/emoji
+]=]
 
--- --[=[
---     @function Validate
---     @param value string
---     @return any|nil
---     @within MacroFieldType
+--[=[
+    @function Validate
+    @param value string
+    @return any|nil
+    @within MacroFieldType
 
---     Takes an input value, and returns a type-safe version. Can return nil if there is nothing we can do with it.
--- ]=]
+    Takes an input value, and returns a type-safe version. Can return nil if there is nothing we can do with it.
+]=]
 
--- --[=[
---     @function ToString
---     @param value any
---     @return string
---     @within MacroFieldType
+--[=[
+    @function ToString
+    @param value any
+    @return string
+    @within MacroFieldType
 
---     Takes a type-safe value, and returns it as a string that can be put into the field `TextBox` on the UI.
--- ]=]
+    Takes a type-safe value, and returns it as a string that can be put into the field `TextBox` on the UI.
+]=]
 
 -----------------------------------------------------------------------------------------------------------------------------------------------------
 
