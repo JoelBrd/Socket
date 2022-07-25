@@ -12,6 +12,7 @@ local PluginConstants ---@type PluginConstants
 local Logger ---@type Logger
 local StudioHandler ---@type StudioHandler
 local SocketController ---@type SocketController
+local ImageUtil ---@type ImageUtil
 
 --------------------------------------------------
 -- Types
@@ -24,7 +25,7 @@ local PLUGIN_NAME = "Socket"
 local TOOLBAR_NAME = PLUGIN_NAME
 local TOOLBAR_BUTTON_TITLE = "Open"
 local TOOLBAR_BUTTON_DESCRIPTION = "Opens the Socket widget"
-local TOOLBAR_LOGO_ICON = "rbxassetid://9988462830"
+local TOOLBAR_LOGO_ICON = nil ---@type string
 
 local WIDGET_NAME = PLUGIN_NAME
 local WIDGET_INFO = DockWidgetPluginGuiInfo.new(
@@ -230,6 +231,7 @@ function PluginHandler:FrameworkInit()
     Logger = PluginFramework:Require("Logger")
     StudioHandler = PluginFramework:Require("StudioHandler")
     SocketController = PluginFramework:Require("SocketController")
+    ImageUtil = PluginFramework:Require("ImageUtil")
 end
 
 ---
@@ -237,6 +239,8 @@ end
 ---
 ---Synchronously called, one after the other, with all other FrameworkStart()
 ---
-function PluginHandler:FrameworkStart() end
+function PluginHandler:FrameworkStart()
+    TOOLBAR_LOGO_ICON = ImageUtil.Images.Icon
+end
 
 return PluginHandler

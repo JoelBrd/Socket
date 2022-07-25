@@ -17,7 +17,7 @@ local ImageUtil = {}
 -- Constants
 ImageUtil.Images = {
     Icon = {
-        Socket = "rbxassetid://8754658166",
+        Socket = "rbxassetid://10357801026",
     },
 }
 

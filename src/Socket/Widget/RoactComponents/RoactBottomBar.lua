@@ -63,7 +63,7 @@ function RoactBottomBar:Get()
                 }),
                 SettingsButton = RoactButton:Get({
                     text = "Settings",
-                    color = Color3.fromRGB(208, 138, 255),
+                    color = WidgetTheme:GetColor(WidgetTheme.Indexes.BottomBar.SettingsButton),
                     activatedCallback = function()
                         SocketSettings:OpenSettings()
                     end,

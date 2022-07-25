@@ -22,6 +22,8 @@ local Logger ---@type Logger
 --------------------------------------------------
 -- Constants
 
+local COLOR_ORANGE = Color3.fromRGB(214, 148, 0)
+
 local mainText = {
     --GuideColor = Enum.StudioStyleGuideColor.MainText,
     Dark = Color3.fromRGB(225, 225, 225),
@@ -91,8 +93,12 @@ WidgetTheme.Indexes = {
     },
     BottomBar = {
         Divider = {
-            Dark = Color3.fromRGB(180, 180, 180),
-            Light = Color3.fromRGB(30, 30, 30),
+            Dark = COLOR_ORANGE,
+            Light = COLOR_ORANGE,
+        },
+        SettingsButton = {
+            Dark = COLOR_ORANGE,
+            Light = COLOR_ORANGE,
         },
         Version = mainText,
     },
