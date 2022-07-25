@@ -1,1 +1,0 @@
-"use strict";(self.webpackChunkdocs=self.webpackChunkdocs||[]).push([[891],{15973:function(s){s.exports=JSON.parse('{"functions":[],"properties":[],"types":[],"name":"Janitor","desc":"See [Janitor](https://github.com/howmanysmall/Janitor)","source":{"line":128,"path":"docs_api/utils.lua"}}')}}]);
