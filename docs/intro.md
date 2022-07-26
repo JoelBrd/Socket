@@ -6,6 +6,8 @@ sidebar_position: 1
 
 ## What is Socket?
 
+ - [Watch a video explaining what Socket is!](https://www.youtube.com/watch?v=efscriUvuCk&ab_channel=JoelBrd)
+
 **Socket** is a Roblox plugin that allows us to easily run code in Roblox Studio.
 
 #### Why do I need **Socket** when I have the **Command Line**?
