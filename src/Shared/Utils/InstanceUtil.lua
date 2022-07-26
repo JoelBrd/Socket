@@ -121,7 +121,7 @@ function InstanceUtil:WaitForChild(parent, instanceName, recursive, timeout)
     -- Checker Loop
     while true do
         -- Get Instance
-        local child = parent:FindFindFirstChild(instanceName, recursive)
+        local child = parent:FindFirstChild(instanceName, recursive)
         if child then
             return child
         end
