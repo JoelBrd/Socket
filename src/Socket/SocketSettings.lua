@@ -31,6 +31,7 @@ local TEMPLATE_SOURCE_SETTINGS_LINE = "local settings = {}"
 local defaultSettings ---@type SocketSettings
 local validationFunctions ---@type table
 local settingsTemplateFile ---@type ModuleScript
+local isValidated = false
 
 ---
 ---Cleans the table of passed settings; syncs with default values, ensures correct types and runs any validation functions.
@@ -126,6 +127,9 @@ function SocketSettings:ValidateSettings()
 
     -- Store
     PluginHandler:SetSetting(PluginConstants.Setting, storedSettings)
+
+    -- Cache Action
+    isValidated = true
 end
 
 ---
@@ -134,6 +138,11 @@ end
 ---@return any
 ---
 function SocketSettings:GetSetting(settingName)
+    -- Ensure validated
+    while not isValidated do
+        task.wait()
+    end
+
     local storedSettings = PluginHandler:GetSetting(PluginConstants.Setting)
     local settingValue = storedSettings[settingName]
 
