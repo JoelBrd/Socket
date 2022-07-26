@@ -21,11 +21,9 @@ local ImageUtil ---@type ImageUtil
 --------------------------------------------------
 -- Constants
 local PLUGIN_NAME = "Socket"
-
 local TOOLBAR_NAME = PLUGIN_NAME
 local TOOLBAR_BUTTON_TITLE = "Open"
 local TOOLBAR_BUTTON_DESCRIPTION = "Opens the Socket widget"
-local TOOLBAR_LOGO_ICON = nil ---@type string
 
 local WIDGET_NAME = PLUGIN_NAME
 local WIDGET_INFO = DockWidgetPluginGuiInfo.new(
@@ -73,7 +71,7 @@ function PluginHandler:Load(passedPlugin)
     --------------------------------------------------
     -- Create button on the plugin toolbar
     toolbar = plugin:CreateToolbar(TOOLBAR_NAME)
-    toolbarButton = toolbar:CreateButton(TOOLBAR_BUTTON_TITLE, TOOLBAR_BUTTON_DESCRIPTION, TOOLBAR_LOGO_ICON)
+    toolbarButton = toolbar:CreateButton(TOOLBAR_BUTTON_TITLE, TOOLBAR_BUTTON_DESCRIPTION, ImageUtil.Images.Icon.Socket)
 
     toolbarButton.Click:Connect(function()
         self:ToolbarButtonClicked()
@@ -239,8 +237,6 @@ end
 ---
 ---Synchronously called, one after the other, with all other FrameworkStart()
 ---
-function PluginHandler:FrameworkStart()
-    TOOLBAR_LOGO_ICON = ImageUtil.Images.Icon
-end
+function PluginHandler:FrameworkStart() end
 
 return PluginHandler
