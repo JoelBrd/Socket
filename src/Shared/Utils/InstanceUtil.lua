@@ -11,6 +11,7 @@ local InstanceUtil = {}
 
 --------------------------------------------------
 -- Dependencies
+local RunService = game:GetService("RunService") ---@type RunService
 local ChangeHistoryService = game:GetService("ChangeHistoryService") ---@type ChangeHistoryService
 local StudioService = game:GetService("StudioService") ---@type StudioService
 local Logger = require(script.Parent.Logger)
@@ -102,6 +103,36 @@ function InstanceUtil:Cleanup()
 
     if workspaceDirectory and #workspaceDirectory:GetChildren() == 0 then
         workspaceDirectory:Destroy()
+    end
+end
+
+---
+---WaitForChild, but silenty!
+---@param parent Instance
+---@param instanceName string
+---@param recursive boolean
+---@param timeout number|nil
+---
+function InstanceUtil:WaitForChild(parent, instanceName, recursive, timeout)
+    -- Setup params
+    local startTick = tick()
+    timeout = timeout or math.huge
+
+    -- Checker Loop
+    while true do
+        -- Get Instance
+        local child = parent:FindFindFirstChild(instanceName, recursive)
+        if child then
+            return child
+        end
+
+        -- Timeout
+        if tick() > (startTick + timeout) then
+            return
+        end
+
+        -- Yield
+        task.wait()
     end
 end
 

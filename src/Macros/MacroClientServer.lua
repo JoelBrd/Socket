@@ -17,6 +17,7 @@ local StudioHandler ---@type StudioHandler
 local Logger ---@type Logger
 local SocketController ---@type SocketController
 local MacroHelper ---@type MacroHelper
+local InstanceUtil ---@type InstanceUtil
 
 --------------------------------------------------
 -- Constants
@@ -40,10 +41,7 @@ function MacroClientServer:RunTransfer()
         directoryFolderClone.Name = CLONED_DIRECTORY_FOLDER_NAME
         directoryFolderClone.Parent = game.ReplicatedStorage
     elseif IS_CLIENT then
-        -- Wrap in pcall so "WaitForChild" infinite yield message doesn't appear in output
-        local _, clonedDirectoryFolder = pcall(function()
-            return game.ReplicatedStorage:WaitForChild(CLONED_DIRECTORY_FOLDER_NAME)
-        end)
+        local clonedDirectoryFolder = InstanceUtil:WaitForChild(game.ReplicatedStorage, CLONED_DIRECTORY_FOLDER_NAME)
 
         -- Clear client
         for _, macro in pairs(StudioHandler.Folders.Macros:GetChildren()) do
@@ -163,6 +161,7 @@ function MacroClientServer:FrameworkInit()
     SocketController = PluginFramework:Require("SocketController")
     Logger = PluginFramework:Require("Logger")
     MacroHelper = PluginFramework:Require("MacroHelper")
+    InstanceUtil = PluginFramework:Require("InstanceUtil")
 end
 
 ---
@@ -170,8 +169,6 @@ end
 ---
 ---Synchronously called, one after the other, with all other FrameworkStart()
 ---
-function MacroClientServer:FrameworkStart()
-    -- TODO Logic here
-end
+function MacroClientServer:FrameworkStart() end
 
 return MacroClientServer
