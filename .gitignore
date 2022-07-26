@@ -56,7 +56,8 @@ notes.txt
 node_modules
 build
 
-# Temp
+# Directories
 Documents/**
 oldsrc/**
 srcCopy/**
+Media/**
