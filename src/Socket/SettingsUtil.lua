@@ -69,7 +69,6 @@ function SettingsUtil:Deserialize(savedSettings)
         local settingType = typeof(defaultValue)
         if settingType then
             local deserializationFunction = TYPE_FUNCTIONS[settingType] and TYPE_FUNCTIONS[settingType].Deserialize
-            print(settingName, settingValue, "| ", defaultValue, settingType, deserializationFunction)
             deserializedSettings[settingName] = deserializationFunction and deserializationFunction(settingValue, defaultValue)
                 or settingValue
         end

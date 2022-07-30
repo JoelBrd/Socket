@@ -223,7 +223,6 @@ local function getMacro(props)
     local scale = props.scale ---@type number
     local isBroken = props.isBroken ---@type boolean
     local isLocalMacro = props.isLocalMacro ---@type boolean
-    print(isLocalMacro, props)
 
     -- Create fragment based on studio state
     ---@return RoactFragment
