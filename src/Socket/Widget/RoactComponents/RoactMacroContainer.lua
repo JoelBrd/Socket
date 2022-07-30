@@ -83,6 +83,7 @@ local function createLinesFragment(props)
                             macro = macroInfo.macro,
                             macroScript = macroInfo.moduleScript,
                             isBroken = macroInfo.isBroken,
+                            isLocalMacro = macroInfo.isLocalMacro,
                         })
 
                         -- Create child lines

@@ -26,6 +26,7 @@ local StudioHandler ---@type StudioHandler
 local MacroClientServer ---@type MacroClientServer
 local Janitor ---@type Janitor
 local SocketSettings ---@type SocketSettings
+local LocalMacros ---@type LocalMacros
 
 --------------------------------------------------
 -- Constants
@@ -335,6 +336,10 @@ function MacroHelper:CleanMacroDefinition(macroScript, macro)
         return
     end
 
+    -- IsLocalMacro
+    macro.IsLocalMacro = macroScript:IsDescendantOf(LocalMacros:GetOurDirectory()) and true or false
+    print(macroScript, macro.IsLocalMacro)
+
     -- Keybind
     macro.Keybind = macro.Keybind or {}
     if not validateType(macroScript, macro, false, "Keybind", "table") then
@@ -528,6 +533,7 @@ function MacroHelper:FrameworkInit()
     MacroClientServer = PluginFramework:Require("MacroClientServer")
     Janitor = PluginFramework:Require("Janitor")
     SocketSettings = PluginFramework:Require("SocketSettings")
+    LocalMacros = PluginFramework:Require("LocalMacros")
 end
 
 ---

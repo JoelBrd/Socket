@@ -47,6 +47,7 @@ local function createLine(props)
     local detailsContainer = props.detailsContainer ---@type RoactElement
     local layoutOrder = props.layoutOrder ---@type number
     local scale = props.scale ---@type number
+    local arrowColor = props.arrowColor ---@type Color3
 
     -- Calculate sizing
     local iconDetailsPaddingPixel = WidgetConstants.RoactWidgetLine.Pixel.IconDetailsPadding * scale
@@ -63,7 +64,7 @@ local function createLine(props)
             Roact.createElement("ImageButton", {
                 BackgroundTransparency = 1,
                 Size = UDim2.fromScale(1, 1),
-                ImageColor3 = WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Arrow),
+                ImageColor3 = arrowColor or WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Arrow),
                 Image = WidgetConstants.Images.Arrow,
                 Rotation = isOpen and 90 or 0,
 
@@ -221,6 +222,8 @@ local function getMacro(props)
     local macroScript = props.macroScript ---@type ModuleScript
     local scale = props.scale ---@type number
     local isBroken = props.isBroken ---@type boolean
+    local isLocalMacro = props.isLocalMacro ---@type boolean
+    print(isLocalMacro, props)
 
     -- Create fragment based on studio state
     ---@return RoactFragment
@@ -394,6 +397,7 @@ local function getMacro(props)
         isIconImageId = isIconImageId,
         detailsContainer = detailsContainer,
         onArrowClick = onArrowClick,
+        arrowColor = isLocalMacro and SocketSettings:GetSetting("LocalMacroColor"),
         layoutOrder = layoutOrder,
         scale = scale,
     })
