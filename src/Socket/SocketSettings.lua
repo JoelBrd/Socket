@@ -22,6 +22,7 @@ local StudioHandler ---@type StudioHandler
 local SocketController ---@type SocketController
 local WidgetHandler ---@type WidgetHandler
 local StudioUtil ---@type StudioUtil
+local SettingsUtil ---@type SettingsUtil
 
 --------------------------------------------------
 -- Constants
@@ -29,6 +30,7 @@ local TEMPLATE_SOURCE_SETTINGS_LINE = "local settings = {}"
 
 --------------------------------------------------
 -- Members
+local cachedLoadedSettings ---@type SocketSettings
 local defaultSettings ---@type SocketSettings
 local validationFunctions ---@type table
 local settingsTemplateFile ---@type ModuleScript
@@ -60,38 +62,16 @@ function SocketSettings:CleanSettings(settings)
         local defaultType = typeof(defaultValue)
         local setType = typeof(setValue)
         if defaultType ~= setType then
-            -- SPECIAL CASE: Convert string to EnumType
-            local isEnumItem = defaultType == "EnumItem"
-            if isEnumItem then
-                local success, result = pcall(function()
-                    return Enum[tostring(defaultValue.EnumType)][setValue]
-                end)
-                if success then
-                    settings[settingName] = result
-                    setValue = result
-                else
-                    Logger:Warn(
-                        ("Issue with Setting %s:%s. Not a valid EnumType %q. New value: %q"):format(
-                            settingName,
-                            tostring(setValue),
-                            defaultValue.EnumType,
-                            tostring(overrideValue)
-                        )
-                    )
-                    settings[settingName] = overrideValue
-                end
-            else
-                Logger:Warn(
-                    ("Issue with Setting %s:%s. Expected type %q, got %q. New value: %q"):format(
-                        settingName,
-                        tostring(setValue),
-                        defaultType,
-                        setType,
-                        tostring(overrideValue)
-                    )
+            Logger:Warn(
+                ("Issue with Setting %s:%s. Expected type %q, got %q. New value: %q"):format(
+                    settingName,
+                    tostring(setValue),
+                    defaultType,
+                    setType,
+                    tostring(overrideValue)
                 )
-                settings[settingName] = overrideValue
-            end
+            )
+            settings[settingName] = overrideValue
         end
 
         -- ISSUE: Bad validation
@@ -121,15 +101,28 @@ function SocketSettings:SaveSettings(settings)
     -- Clean
     SocketSettings:CleanSettings(settings)
 
+    -- Serialize
+    local serializedSettings = SettingsUtil:Serialize(settings)
+
     -- Store
-    PluginHandler:SetSetting(PluginConstants.Setting, settings)
+    PluginHandler:SetSetting(PluginConstants.Setting, serializedSettings)
 end
 
 ---
 ---@return table
 ---
 function SocketSettings:LoadSettings()
-    return PluginHandler:GetSetting(PluginConstants.Setting) or {}
+    -- Deserialize
+    local serializedSettings = PluginHandler:GetSetting(PluginConstants.Setting) or {}
+    local deserializedSettings = SettingsUtil:Deserialize(serializedSettings)
+
+    -- Clean
+    SocketSettings:CleanSettings(deserializedSettings)
+
+    -- Cache
+    cachedLoadedSettings = deserializedSettings
+
+    return deserializedSettings
 end
 
 ---
@@ -137,12 +130,9 @@ end
 ---Usually called on startup.
 ---
 function SocketSettings:ValidateSettings()
-    -- Get Stored Settings
-    local storedSettings = SocketSettings:LoadSettings()
-    storedSettings = typeof(storedSettings) == "table" and storedSettings or {}
-
-    -- Save
-    SocketSettings:SaveSettings(storedSettings)
+    -- Load, then save incase anything happened during cleaning
+    local loadedSettings = SocketSettings:LoadSettings()
+    SocketSettings:SaveSettings(loadedSettings)
 
     -- Cache Action
     isValidated = true
@@ -159,8 +149,8 @@ function SocketSettings:GetSetting(settingName)
         task.wait()
     end
 
-    local storedSettings = PluginHandler:GetSetting(PluginConstants.Setting)
-    local settingValue = storedSettings[settingName]
+    local settings = cachedLoadedSettings or SocketSettings:LoadSettings()
+    local settingValue = settings[settingName]
 
     -- ERROR: Bad settingName
     if settingValue == nil then
@@ -280,6 +270,7 @@ function SocketSettings:FrameworkInit()
     SocketController = PluginFramework:Require("SocketController")
     WidgetHandler = PluginFramework:Require("WidgetHandler")
     StudioUtil = PluginFramework:Require("StudioUtil")
+    SettingsUtil = PluginFramework:Require("SettingsUtil")
 end
 
 ---
