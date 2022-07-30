@@ -16,16 +16,13 @@ local PluginConstants ---@type PluginConstants
 ---Creates a folder for our local macros, and creates module scripts
 ---
 function LocalMacros:Load()
-    -- Unload if needed
-    if LocalMacros:GetOurDirectory() then
-        -- Was not previously unloaded..
-        LocalMacros:Unload()
-    end
-
     -- Create directory
-    local studioUserLocalMacrosFolder = Instance.new("Configuration")
-    studioUserLocalMacrosFolder.Name = tostring(StudioUtil:GetUserIdentifier())
-    studioUserLocalMacrosFolder.Parent = StudioHandler.Folders.LocalMacros
+    local studioUserLocalMacrosFolder = LocalMacros:GetOurDirectory()
+    if not studioUserLocalMacrosFolder then
+        studioUserLocalMacrosFolder = Instance.new("Configuration")
+        studioUserLocalMacrosFolder.Name = tostring(StudioUtil:GetUserIdentifier())
+        studioUserLocalMacrosFolder.Parent = StudioHandler.Folders.LocalMacros
+    end
 
     -- Read stored macros
     local storedMacros = PluginHandler:GetSetting(PluginConstants.Setting.STORED_LOCAL_MACROS) or {}
@@ -44,7 +41,7 @@ function LocalMacros:Unload()
     -- Write stored macros
     -- Hello reader - I didn't fancy writing a whole Instance serializer/deserializer to load whatever structure the user wants inside their LocalMacros folder
     -- There weren't nice existing options at time of writing either.. :c
-    local storedMacros = PluginHandler:GetSetting(PluginConstants.Setting.STORED_LOCAL_MACROS) or {}
+    local storedMacros = {}
     for _, moduleScript in pairs(LocalMacros:GetOurDirectory():GetChildren()) do
         -- WARN: Can only do singular modulescripts
         if not moduleScript:IsA("ModuleScript") then

@@ -338,7 +338,6 @@ function MacroHelper:CleanMacroDefinition(macroScript, macro)
 
     -- IsLocalMacro
     macro.IsLocalMacro = macroScript:IsDescendantOf(LocalMacros:GetOurDirectory()) and true or false
-    print(macroScript, macro.IsLocalMacro)
 
     -- Keybind
     macro.Keybind = macro.Keybind or {}
