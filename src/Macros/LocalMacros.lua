@@ -42,6 +42,8 @@ end
 ---
 function LocalMacros:Unload()
     -- Write stored macros
+    -- Hello reader - I didn't fancy writing a whole Instance serializer/deserializer to load whatever structure the user wants inside their LocalMacros folder
+    -- There weren't nice existing options at time of writing either.. :c
     local storedMacros = PluginHandler:GetSetting(PluginConstants.Setting.STORED_LOCAL_MACROS) or {}
     for _, moduleScript in pairs(LocalMacros:GetOurDirectory():GetChildren()) do
         -- WARN: Can only do singular modulescripts
