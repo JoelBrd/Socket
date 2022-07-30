@@ -63,10 +63,10 @@ function PluginHandler:Load(passedPlugin)
     --------------------------------------------------
     -- Setup deactivation logic
     plugin.Deactivation:Connect(function()
-        SocketController:Stop()
+        PluginHandler:SetPluginActiveState(false)
     end)
     plugin.Unloading:Connect(function()
-        SocketController:Stop()
+        PluginHandler:SetPluginActiveState(false)
     end)
 
     --------------------------------------------------
@@ -188,17 +188,14 @@ end
 ---Destroy widget
 ---
 function PluginHandler:DestroyWidget()
-    -- ERROR: No widget
-    if not widget then
-        return
-    end
-
     -- Inform SocketController
     SocketController:Stop()
 
     -- Destroy widget
-    widget:Destroy()
-    widget = nil
+    if widget then
+        widget:Destroy()
+        widget = nil
+    end
 
     -- Debug Info
     Logger:Trace("Destroyed Widget")
