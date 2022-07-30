@@ -41,7 +41,7 @@ local isValidated = false
 ---
 function SocketSettings:CleanSettings(settings)
     -- Get Stored Settings
-    local storedSettings = PluginHandler:GetSetting(PluginConstants.Setting) or {}
+    local storedSettings = SocketSettings:LoadSettings()
 
     -- Validate settings
     for settingName, defaultValue in pairs(defaultSettings) do
@@ -115,19 +115,34 @@ function SocketSettings:CleanSettings(settings)
 end
 
 ---
+---Stores the passed settings into our plugin
+---
+function SocketSettings:SaveSettings(settings)
+    -- Clean
+    SocketSettings:CleanSettings(settings)
+
+    -- Store
+    PluginHandler:SetSetting(PluginConstants.Setting, settings)
+end
+
+---
+---@return table
+---
+function SocketSettings:LoadSettings()
+    return PluginHandler:GetSetting(PluginConstants.Setting) or {}
+end
+
+---
 ---Will ensure the stored settings on the plugin is in line with our template.
 ---Usually called on startup.
 ---
 function SocketSettings:ValidateSettings()
     -- Get Stored Settings
-    local storedSettings = PluginHandler:GetSetting(PluginConstants.Setting) or {}
+    local storedSettings = SocketSettings:LoadSettings()
     storedSettings = typeof(storedSettings) == "table" and storedSettings or {}
 
-    -- Clean
-    SocketSettings:CleanSettings(storedSettings)
-
-    -- Store
-    PluginHandler:SetSetting(PluginConstants.Setting, storedSettings)
+    -- Save
+    SocketSettings:SaveSettings(storedSettings)
 
     -- Cache Action
     isValidated = true
@@ -200,7 +215,7 @@ function SocketSettings:OpenSettings()
     PluginHandler:GetPlugin():OpenScript(settingsScript)
 
     --------------------------------------------------
-    local function saveSettings()
+    local function saveSettingsOnClose()
         -- Get Settings
         local newSettings ---@type SocketSettings
         local success, err = pcall(function()
@@ -209,15 +224,12 @@ function SocketSettings:OpenSettings()
         if not success then
             Logger:Warn(("Error occured when exiting settings, no changes were able to be saved (%s)"):format(err))
         else
-            -- Clean
-            SocketSettings:CleanSettings(storedSettings)
-
-            -- Update our cache
-            PluginHandler:SetSetting(PluginConstants.Setting, newSettings)
+            -- Save
+            SocketSettings:SaveSettings(newSettings)
 
             -- OVERRIDE: Has default settings been enabled?
             if SocketSettings:GetSetting("UseDefaultSettings") == true then
-                PluginHandler:SetSetting(PluginConstants.Setting, TableUtil:DeepCopy(defaultSettings))
+                SocketSettings:SaveSettings(TableUtil:DeepCopy(defaultSettings))
             end
 
             -- Refresh widget
@@ -233,7 +245,7 @@ function SocketSettings:OpenSettings()
     activeScriptConnection = StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
         local justClosedSettings = cachedActiveScript and cachedActiveScript == settingsScript
         if justClosedSettings then
-            saveSettings()
+            saveSettingsOnClose()
 
             -- Close up shop!
             settingsScript:Destroy()
@@ -247,7 +259,7 @@ function SocketSettings:OpenSettings()
     -- Cleanup incase plugin closes
     local runJanitor = SocketController:GetRunJanitor()
     runJanitor:Add(function()
-        saveSettings()
+        saveSettingsOnClose()
         settingsScript:Destroy()
         activeScriptConnection:Disconnect()
     end)
