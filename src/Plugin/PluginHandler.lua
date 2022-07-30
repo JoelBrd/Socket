@@ -136,7 +136,7 @@ function PluginHandler:SetPluginActiveState(isActive)
     if isPluginActive then
         StudioHandler:ValidateStructure()
         self:CreateWidget()
-        StudioHandler:ValidateMacros()
+        StudioHandler:ValidateBuiltInMacros()
     else
         self:DestroyWidget()
     end
