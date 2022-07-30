@@ -42,13 +42,10 @@ local isValidated = false
 ---@param settings SocketSettings
 ---
 function SocketSettings:CleanSettings(settings)
-    -- Get Stored Settings
-    local storedSettings = SocketSettings:LoadSettings()
-
     -- Validate settings
     for settingName, defaultValue in pairs(defaultSettings) do
         -- Get values
-        local storedValue = storedSettings[settingName]
+        local storedValue = cachedLoadedSettings and cachedLoadedSettings[settingName] or nil
         local setValue = settings[settingName]
         local overrideValue = ValueUtil:ReturnFirstNonNil(storedValue, defaultValue)
 
@@ -100,6 +97,9 @@ end
 function SocketSettings:SaveSettings(settings)
     -- Clean
     SocketSettings:CleanSettings(settings)
+
+    -- Cache
+    cachedLoadedSettings = settings
 
     -- Serialize
     local serializedSettings = SettingsUtil:Serialize(settings)
@@ -157,14 +157,14 @@ function SocketSettings:GetSetting(settingName)
         Logger:Error(("No Setting %q"):format(settingName))
     end
 
-    -- Handle UserData (bit magic)
-    local defaultSettingValue = defaultSettings[settingName]
-    local settingType = typeof(defaultSettingValue)
-    if settingType == "EnumItem" then
-        settingValue = Enum[tostring(defaultSettingValue.EnumType)][settingValue]
-    end
-
     return settingValue
+end
+
+---
+---@return SocketSettings
+---
+function SocketSettings:GetDefaultSettings()
+    return defaultSettings
 end
 
 ---
