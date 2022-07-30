@@ -7,8 +7,8 @@ local LocalMacros = {}
 
 -- Dependencies
 local PluginFramework = require(script:FindFirstAncestor("PluginFramework")) ---@type Framework
-local StudioService = game:GetService("StudioService") ---@type StudioService
 local StudioHandler ---@type StudioHandler
+local StudioUtil ---@type StudioUtil
 
 ---
 ---Creates a folder for our local macros, and creates module scripts
@@ -21,7 +21,7 @@ function LocalMacros:Load()
     end
 
     local studioUserLocalMacrosFolder = Instance.new("Configuration")
-    studioUserLocalMacrosFolder.Name = tostring(StudioService:GetUserId())
+    studioUserLocalMacrosFolder.Name = tostring(StudioUtil:GetUserIdentifier())
     studioUserLocalMacrosFolder.Parent = StudioHandler.Folders.LocalMacros
 end
 
@@ -39,11 +39,12 @@ end
 ---@return Folder
 ---
 function LocalMacros:GetOurDirectory()
-    return StudioHandler.Folders.LocalMacros:FindFirstChild(tostring(StudioService:GetUserId()))
+    return StudioHandler.Folders.LocalMacros:FindFirstChild(tostring(StudioUtil:GetUserIdentifier()))
 end
 
 ---@private
 function LocalMacros:FrameworkInit()
+    StudioUtil = PluginFramework:Require("StudioUtil")
     StudioHandler = PluginFramework:Require("StudioHandler")
 end
 

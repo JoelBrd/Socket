@@ -21,6 +21,7 @@ local ValueUtil ---@type ValueUtil
 local StudioHandler ---@type StudioHandler
 local SocketController ---@type SocketController
 local WidgetHandler ---@type WidgetHandler
+local StudioUtil ---@type StudioUtil
 
 --------------------------------------------------
 -- Constants
@@ -191,7 +192,7 @@ function SocketSettings:OpenSettings()
 
     -- Create module script to host the settings, with the new source
     local settingsScript = Instance.new("ModuleScript") ---@type ModuleScript
-    settingsScript.Name = ("Socket Settings (%d)"):format(StudioService:GetUserId())
+    settingsScript.Name = StudioUtil:GetUserIdentifier()
     settingsScript.Source = newSource
     settingsScript.Parent = StudioHandler.Folders.Directory
 
@@ -266,6 +267,7 @@ function SocketSettings:FrameworkInit()
     StudioHandler = PluginFramework:Require("StudioHandler")
     SocketController = PluginFramework:Require("SocketController")
     WidgetHandler = PluginFramework:Require("WidgetHandler")
+    StudioUtil = PluginFramework:Require("StudioUtil")
 end
 
 ---
