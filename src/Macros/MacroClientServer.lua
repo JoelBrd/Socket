@@ -41,11 +41,14 @@ function MacroClientServer:RunTransfer()
         directoryFolderClone.Name = CLONED_DIRECTORY_FOLDER_NAME
         directoryFolderClone.Parent = game.ReplicatedStorage
     elseif IS_CLIENT then
-        local clonedDirectoryFolder = InstanceUtil:WaitForChild(game.ReplicatedStorage, CLONED_DIRECTORY_FOLDER_NAME)
+        local clonedDirectoryFolder = InstanceUtil:WaitForChild(game.ReplicatedStorage, CLONED_DIRECTORY_FOLDER_NAME) ---@type Folder
 
         -- Clear client
         for _, macro in pairs(StudioHandler.Folders.Macros:GetChildren()) do
             macro:Destroy()
+        end
+        for _, localMacro in pairs(StudioHandler.Folders.LocalMacros:GetChildren()) do
+            localMacro:Destroy()
         end
         for _, util in pairs(StudioHandler.Folders.Utils:GetChildren()) do
             util:Destroy()
@@ -57,6 +60,9 @@ function MacroClientServer:RunTransfer()
         end
         for _, macro in pairs(clonedDirectoryFolder.Macros:GetChildren()) do
             macro.Parent = StudioHandler.Folders.Macros
+        end
+        for _, localMacro in pairs(clonedDirectoryFolder.LocalMacros:GetChildren()) do
+            localMacro.Parent = StudioHandler.Folders.LocalMacros
         end
         clonedDirectoryFolder:Destroy()
     end
