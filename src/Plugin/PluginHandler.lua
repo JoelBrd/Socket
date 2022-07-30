@@ -13,6 +13,7 @@ local Logger ---@type Logger
 local StudioHandler ---@type StudioHandler
 local SocketController ---@type SocketController
 local ImageUtil ---@type ImageUtil
+local LocalMacros ---@type LocalMacros
 
 --------------------------------------------------
 -- Types
@@ -135,10 +136,12 @@ function PluginHandler:SetPluginActiveState(isActive)
     -- Logic for when Plugin is Opened/Closed
     if isPluginActive then
         StudioHandler:ValidateStructure()
+        LocalMacros:Load()
         self:CreateWidget()
         StudioHandler:ValidateBuiltInMacros()
     else
         self:DestroyWidget()
+        LocalMacros:Unload()
     end
 
     -- Manage toolbar button state
@@ -230,6 +233,7 @@ function PluginHandler:FrameworkInit()
     StudioHandler = PluginFramework:Require("StudioHandler")
     SocketController = PluginFramework:Require("SocketController")
     ImageUtil = PluginFramework:Require("ImageUtil")
+    LocalMacros = PluginFramework:Require("LocalMacros")
 end
 
 ---

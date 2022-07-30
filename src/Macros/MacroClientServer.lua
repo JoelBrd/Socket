@@ -44,25 +44,25 @@ function MacroClientServer:RunTransfer()
         local clonedDirectoryFolder = InstanceUtil:WaitForChild(game.ReplicatedStorage, CLONED_DIRECTORY_FOLDER_NAME) ---@type Folder
 
         -- Clear client
-        for _, macro in pairs(StudioHandler.Folders.Macros:GetChildren()) do
-            macro:Destroy()
+        for _, child in pairs(StudioHandler.Folders.Macros:GetChildren()) do
+            child:Destroy()
         end
-        for _, localMacro in pairs(StudioHandler.Folders.LocalMacros:GetChildren()) do
-            localMacro:Destroy()
+        for _, child in pairs(StudioHandler.Folders.LocalMacros:GetChildren()) do
+            child:Destroy()
         end
-        for _, util in pairs(StudioHandler.Folders.Utils:GetChildren()) do
-            util:Destroy()
+        for _, child in pairs(StudioHandler.Folders.Utils:GetChildren()) do
+            child:Destroy()
         end
 
         -- Populate from server
-        for _, util in pairs(clonedDirectoryFolder.Utils:GetChildren()) do
-            util.Parent = StudioHandler.Folders.Utils
+        for _, child in pairs(clonedDirectoryFolder.Utils:GetChildren()) do
+            child.Parent = StudioHandler.Folders.Utils
         end
-        for _, macro in pairs(clonedDirectoryFolder.Macros:GetChildren()) do
-            macro.Parent = StudioHandler.Folders.Macros
+        for _, child in pairs(clonedDirectoryFolder.Macros:GetChildren()) do
+            child.Parent = StudioHandler.Folders.Macros
         end
-        for _, localMacro in pairs(clonedDirectoryFolder.LocalMacros:GetChildren()) do
-            localMacro.Parent = StudioHandler.Folders.LocalMacros
+        for _, child in pairs(clonedDirectoryFolder.LocalMacros:GetChildren()) do
+            child.Parent = StudioHandler.Folders.LocalMacros
         end
         clonedDirectoryFolder:Destroy()
     end
