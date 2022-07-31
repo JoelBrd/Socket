@@ -107,6 +107,7 @@
 
 --[=[
     @prop LocalMacroColor Color3
+    @tag v1.1.0
     @within SocketSettings
 
     This is the color used to make Local Macros stand out from other macros on the widget.
