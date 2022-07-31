@@ -91,7 +91,7 @@ When playtesting, you have the option to run your Macros on the *Server* or *Cli
 You may have macros that you want to keep across different Roblox places. You could copy + paste the relevant `ModuleScript` across all places, or
 store it as a Local Macro!
 
-See [LocalMacro](/api/MacroDefinition#LocalMacro)
+See [LocalMacro](/api/MacroDefinition#IsLocalMacro)
 
 
 
