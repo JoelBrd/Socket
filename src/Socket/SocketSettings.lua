@@ -21,6 +21,8 @@ local ValueUtil ---@type ValueUtil
 local StudioHandler ---@type StudioHandler
 local SocketController ---@type SocketController
 local WidgetHandler ---@type WidgetHandler
+local StudioUtil ---@type StudioUtil
+local SettingsUtil ---@type SettingsUtil
 
 --------------------------------------------------
 -- Constants
@@ -28,6 +30,7 @@ local TEMPLATE_SOURCE_SETTINGS_LINE = "local settings = {}"
 
 --------------------------------------------------
 -- Members
+local cachedLoadedSettings ---@type SocketSettings
 local defaultSettings ---@type SocketSettings
 local validationFunctions ---@type table
 local settingsTemplateFile ---@type ModuleScript
@@ -39,13 +42,10 @@ local isValidated = false
 ---@param settings SocketSettings
 ---
 function SocketSettings:CleanSettings(settings)
-    -- Get Stored Settings
-    local storedSettings = PluginHandler:GetSetting(PluginConstants.Setting) or {}
-
     -- Validate settings
     for settingName, defaultValue in pairs(defaultSettings) do
         -- Get values
-        local storedValue = storedSettings[settingName]
+        local storedValue = cachedLoadedSettings and cachedLoadedSettings[settingName] or nil
         local setValue = settings[settingName]
         local overrideValue = ValueUtil:ReturnFirstNonNil(storedValue, defaultValue)
 
@@ -59,38 +59,16 @@ function SocketSettings:CleanSettings(settings)
         local defaultType = typeof(defaultValue)
         local setType = typeof(setValue)
         if defaultType ~= setType then
-            -- SPECIAL CASE: Convert string to EnumType
-            local isEnumItem = defaultType == "EnumItem"
-            if isEnumItem then
-                local success, result = pcall(function()
-                    return Enum[tostring(defaultValue.EnumType)][setValue]
-                end)
-                if success then
-                    settings[settingName] = result
-                    setValue = result
-                else
-                    Logger:Warn(
-                        ("Issue with Setting %s:%s. Not a valid EnumType %q. New value: %q"):format(
-                            settingName,
-                            tostring(setValue),
-                            defaultValue.EnumType,
-                            tostring(overrideValue)
-                        )
-                    )
-                    settings[settingName] = overrideValue
-                end
-            else
-                Logger:Warn(
-                    ("Issue with Setting %s:%s. Expected type %q, got %q. New value: %q"):format(
-                        settingName,
-                        tostring(setValue),
-                        defaultType,
-                        setType,
-                        tostring(overrideValue)
-                    )
+            Logger:Warn(
+                ("Issue with Setting %s:%s. Expected type %q, got %q. New value: %q"):format(
+                    settingName,
+                    tostring(setValue),
+                    defaultType,
+                    setType,
+                    tostring(overrideValue)
                 )
-                settings[settingName] = overrideValue
-            end
+            )
+            settings[settingName] = overrideValue
         end
 
         -- ISSUE: Bad validation
@@ -114,19 +92,47 @@ function SocketSettings:CleanSettings(settings)
 end
 
 ---
+---Stores the passed settings into our plugin
+---
+function SocketSettings:SaveSettings(settings)
+    -- Clean
+    SocketSettings:CleanSettings(settings)
+
+    -- Cache
+    cachedLoadedSettings = settings
+
+    -- Serialize
+    local serializedSettings = SettingsUtil:Serialize(settings)
+
+    -- Store
+    PluginHandler:SetSetting(PluginConstants.Setting, serializedSettings)
+end
+
+---
+---@return table
+---
+function SocketSettings:LoadSettings()
+    -- Deserialize
+    local serializedSettings = PluginHandler:GetSetting(PluginConstants.Setting) or {}
+    local deserializedSettings = SettingsUtil:Deserialize(serializedSettings)
+
+    -- Clean
+    SocketSettings:CleanSettings(deserializedSettings)
+
+    -- Cache
+    cachedLoadedSettings = deserializedSettings
+
+    return deserializedSettings
+end
+
+---
 ---Will ensure the stored settings on the plugin is in line with our template.
 ---Usually called on startup.
 ---
 function SocketSettings:ValidateSettings()
-    -- Get Stored Settings
-    local storedSettings = PluginHandler:GetSetting(PluginConstants.Setting) or {}
-    storedSettings = typeof(storedSettings) == "table" and storedSettings or {}
-
-    -- Clean
-    SocketSettings:CleanSettings(storedSettings)
-
-    -- Store
-    PluginHandler:SetSetting(PluginConstants.Setting, storedSettings)
+    -- Load, then save incase anything happened during cleaning
+    local loadedSettings = SocketSettings:LoadSettings()
+    SocketSettings:SaveSettings(loadedSettings)
 
     -- Cache Action
     isValidated = true
@@ -143,22 +149,22 @@ function SocketSettings:GetSetting(settingName)
         task.wait()
     end
 
-    local storedSettings = PluginHandler:GetSetting(PluginConstants.Setting)
-    local settingValue = storedSettings[settingName]
+    local settings = cachedLoadedSettings or SocketSettings:LoadSettings()
+    local settingValue = settings[settingName]
 
     -- ERROR: Bad settingName
     if settingValue == nil then
         Logger:Error(("No Setting %q"):format(settingName))
     end
 
-    -- Handle UserData (bit magic)
-    local defaultSettingValue = defaultSettings[settingName]
-    local settingType = typeof(defaultSettingValue)
-    if settingType == "EnumItem" then
-        settingValue = Enum[tostring(defaultSettingValue.EnumType)][settingValue]
-    end
-
     return settingValue
+end
+
+---
+---@return SocketSettings
+---
+function SocketSettings:GetDefaultSettings()
+    return defaultSettings
 end
 
 ---
@@ -191,7 +197,7 @@ function SocketSettings:OpenSettings()
 
     -- Create module script to host the settings, with the new source
     local settingsScript = Instance.new("ModuleScript") ---@type ModuleScript
-    settingsScript.Name = ("Socket Settings (%d)"):format(StudioService:GetUserId())
+    settingsScript.Name = StudioUtil:GetUserIdentifier()
     settingsScript.Source = newSource
     settingsScript.Parent = StudioHandler.Folders.Directory
 
@@ -199,7 +205,7 @@ function SocketSettings:OpenSettings()
     PluginHandler:GetPlugin():OpenScript(settingsScript)
 
     --------------------------------------------------
-    local function saveSettings()
+    local function saveSettingsOnClose()
         -- Get Settings
         local newSettings ---@type SocketSettings
         local success, err = pcall(function()
@@ -208,15 +214,12 @@ function SocketSettings:OpenSettings()
         if not success then
             Logger:Warn(("Error occured when exiting settings, no changes were able to be saved (%s)"):format(err))
         else
-            -- Clean
-            SocketSettings:CleanSettings(storedSettings)
-
-            -- Update our cache
-            PluginHandler:SetSetting(PluginConstants.Setting, newSettings)
+            -- Save
+            SocketSettings:SaveSettings(newSettings)
 
             -- OVERRIDE: Has default settings been enabled?
             if SocketSettings:GetSetting("UseDefaultSettings") == true then
-                PluginHandler:SetSetting(PluginConstants.Setting, TableUtil:DeepCopy(defaultSettings))
+                SocketSettings:SaveSettings(TableUtil:DeepCopy(defaultSettings))
             end
 
             -- Refresh widget
@@ -232,7 +235,7 @@ function SocketSettings:OpenSettings()
     activeScriptConnection = StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
         local justClosedSettings = cachedActiveScript and cachedActiveScript == settingsScript
         if justClosedSettings then
-            saveSettings()
+            saveSettingsOnClose()
 
             -- Close up shop!
             settingsScript:Destroy()
@@ -246,7 +249,7 @@ function SocketSettings:OpenSettings()
     -- Cleanup incase plugin closes
     local runJanitor = SocketController:GetRunJanitor()
     runJanitor:Add(function()
-        saveSettings()
+        saveSettingsOnClose()
         settingsScript:Destroy()
         activeScriptConnection:Disconnect()
     end)
@@ -266,6 +269,8 @@ function SocketSettings:FrameworkInit()
     StudioHandler = PluginFramework:Require("StudioHandler")
     SocketController = PluginFramework:Require("SocketController")
     WidgetHandler = PluginFramework:Require("WidgetHandler")
+    StudioUtil = PluginFramework:Require("StudioUtil")
+    SettingsUtil = PluginFramework:Require("SettingsUtil")
 end
 
 ---

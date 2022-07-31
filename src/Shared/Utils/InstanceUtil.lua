@@ -15,6 +15,7 @@ local RunService = game:GetService("RunService") ---@type RunService
 local ChangeHistoryService = game:GetService("ChangeHistoryService") ---@type ChangeHistoryService
 local StudioService = game:GetService("StudioService") ---@type StudioService
 local Logger = require(script.Parent.Logger)
+local StudioUtil = require(script.Parent.StudioUtil)
 
 --------------------------------------------------
 -- Constants
@@ -78,11 +79,10 @@ function InstanceUtil:GetDirectory(doCreate)
         workspaceDirectory.Parent = game.Workspace
     end
 
-    local userId = tostring(StudioService:GetUserId())
-    local userDirectory = workspaceDirectory and workspaceDirectory:FindFirstChild(userId)
+    local userDirectory = workspaceDirectory and workspaceDirectory:FindFirstChild(StudioUtil:GetUserIdentifier())
     if not userDirectory and doCreate then
         userDirectory = Instance.new("Configuration") ---@type Configuration
-        userDirectory.Name = userId
+        userDirectory.Name = StudioUtil:GetUserIdentifier()
         userDirectory.Parent = workspaceDirectory
     end
 
@@ -93,9 +93,8 @@ end
 ---Cleans up as much as possible for this User
 ---
 function InstanceUtil:Cleanup()
-    local userId = tostring(StudioService:GetUserId())
     local workspaceDirectory = game.Workspace:FindFirstChild(WORKSPACE_DIRECTORY_NAME, true)
-    local userDirectory = workspaceDirectory and workspaceDirectory:FindFirstChild(userId)
+    local userDirectory = workspaceDirectory and workspaceDirectory:FindFirstChild(StudioUtil:GetUserIdentifier())
 
     if userDirectory then
         userDirectory:Destroy()

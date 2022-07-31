@@ -13,6 +13,7 @@ local Logger ---@type Logger
 local StudioHandler ---@type StudioHandler
 local SocketController ---@type SocketController
 local ImageUtil ---@type ImageUtil
+local LocalMacros ---@type LocalMacros
 
 --------------------------------------------------
 -- Types
@@ -62,10 +63,10 @@ function PluginHandler:Load(passedPlugin)
     --------------------------------------------------
     -- Setup deactivation logic
     plugin.Deactivation:Connect(function()
-        SocketController:Stop()
+        PluginHandler:SetPluginActiveState(false)
     end)
     plugin.Unloading:Connect(function()
-        SocketController:Stop()
+        PluginHandler:SetPluginActiveState(false)
     end)
 
     --------------------------------------------------
@@ -135,10 +136,12 @@ function PluginHandler:SetPluginActiveState(isActive)
     -- Logic for when Plugin is Opened/Closed
     if isPluginActive then
         StudioHandler:ValidateStructure()
+        LocalMacros:Load()
         self:CreateWidget()
-        StudioHandler:ValidateMacros()
+        StudioHandler:ValidateBuiltInMacros()
     else
         self:DestroyWidget()
+        LocalMacros:Unload()
     end
 
     -- Manage toolbar button state
@@ -185,17 +188,14 @@ end
 ---Destroy widget
 ---
 function PluginHandler:DestroyWidget()
-    -- ERROR: No widget
-    if not widget then
-        return
-    end
-
     -- Inform SocketController
     SocketController:Stop()
 
     -- Destroy widget
-    widget:Destroy()
-    widget = nil
+    if widget then
+        widget:Destroy()
+        widget = nil
+    end
 
     -- Debug Info
     Logger:Trace("Destroyed Widget")
@@ -230,6 +230,7 @@ function PluginHandler:FrameworkInit()
     StudioHandler = PluginFramework:Require("StudioHandler")
     SocketController = PluginFramework:Require("SocketController")
     ImageUtil = PluginFramework:Require("ImageUtil")
+    LocalMacros = PluginFramework:Require("LocalMacros")
 end
 
 ---

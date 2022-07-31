@@ -1,3 +1,5 @@
+gitSourceBranch = "main"
+
 classOrder = [
     "MacroDefinition",
     "MacroField",

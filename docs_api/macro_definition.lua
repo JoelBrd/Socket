@@ -208,6 +208,26 @@
 ]=]
 
 --[=[
+    @prop IsLocalMacro boolean
+    @tag Populated
+    @within MacroDefinition
+
+    If a macro is a "Local Macro", this value will be populated as true.
+
+    Local Macros replicate across different roblox places by being stored under the Socket `plugin`. You can add a Local Macro by placing it under
+    ```
+    game.ServerStorage.SocketPlugin.LocalMacros[userId] -- Where userId is your own userId
+    ```
+
+    :::tip
+    Don't know what your `userId` is? It's the number in the URL of your profile, or you can find it by running the following in the command line:
+    ```
+    print(game:GetService("StudioService"):GetUserId())
+    ```
+    :::
+]=]
+
+--[=[
     @prop Keybind {Enum.KeyCode}
     @tag Populated
     @within MacroDefinition
