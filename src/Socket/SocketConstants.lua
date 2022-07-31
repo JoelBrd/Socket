@@ -40,7 +40,7 @@ SocketConstants.RoduxActionType = {
     },
 } ---@type table<RoduxStoreKey, RoduxActionType[]>
 
-SocketConstants.Version = "v1.0.0"
+SocketConstants.Version = "v1.1.0"
 
 --------------------------------------------------
 -- Members

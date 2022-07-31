@@ -106,6 +106,15 @@
 ]=]
 
 --[=[
+    @prop LocalMacroColor Color3
+    @within SocketSettings
+
+    This is the color used to make Local Macros stand out from other macros on the widget.
+
+    Defaults to `Color3.fromRGB(0, 231, 193)`
+]=]
+
+--[=[
     @prop UseDefaultSettings boolean
     @within SocketSettings
 

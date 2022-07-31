@@ -48,6 +48,11 @@ function ValueUtil:ValueToSourceString(value)
         return ("Enum.%s.%s"):format(tostring(value.EnumType), tostring(value.Name))
     end
 
+    -- Color3
+    if valueType == "Color3" then
+        return ("Color3.fromRGB(%d, %d, %d)"):format(value.R * 255, value.G * 255, value.B * 255)
+    end
+
     error(("Don't know how to convert %q (%s) into a source string"):format(tostring(value), valueType))
 end
 

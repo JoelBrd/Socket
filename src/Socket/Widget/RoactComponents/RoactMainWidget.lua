@@ -166,6 +166,7 @@ function RoactMainWidget:Create()
                     isOpen = macroChild.UIState.IsOpen,
                     isFieldsOpen = macroChild.UIState.IsFieldsOpen,
                     isBroken = macro._isBroken and true or false,
+                    isLocalMacro = macro.IsLocalMacro and true or false,
                     isVisible = true,
                     macro = macro, ---@type MacroDefinition
                     moduleScript = macroModuleScript,

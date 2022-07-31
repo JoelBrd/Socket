@@ -29,6 +29,7 @@ local MacroClientServer ---@type MacroClientServer
 local SocketSettings ---@type SocketSettings
 local PluginHandler ---@type PluginHandler
 local InstanceUtil ---@type InstanceUtil
+local LocalMacros ---@type LocalMacros
 
 --------------------------------------------------
 -- Constants
@@ -256,6 +257,7 @@ function SocketController:SetupMacroActions()
     -- Variables for tracking macro scripts
     local cachedActiveScript ---@type Instance
     local macrosFolder = StudioHandler.Folders.Macros
+    local ourMacrosFolder = LocalMacros:GetOurDirectory()
 
     ---Had a new module script added that is likely a macro
     ---@param macroScript ModuleScript
@@ -287,9 +289,20 @@ function SocketController:SetupMacroActions()
             newMacroScript(descendant)
         end
     end
+    for _, descendant in pairs(ourMacrosFolder:GetDescendants()) do
+        if descendant:IsA("ModuleScript") then
+            newMacroScript(descendant)
+        end
+    end
 
     -- Hook up listener events for macro files being added/removed
     runJanitor:Add(macrosFolder.DescendantAdded:Connect(function(descendant)
+        if descendant:IsA("ModuleScript") then
+            task.wait() -- May have been added through a Rojo Sync
+            newMacroScript(descendant)
+        end
+    end))
+    runJanitor:Add(ourMacrosFolder.DescendantAdded:Connect(function(descendant)
         if descendant:IsA("ModuleScript") then
             task.wait() -- May have been added through a Rojo Sync
             newMacroScript(descendant)
@@ -303,6 +316,13 @@ function SocketController:SetupMacroActions()
             end
         end
     end))
+    runJanitor:Add(ourMacrosFolder.DescendantRemoving:Connect(function(descendant)
+        if descendant:IsA("ModuleScript") then
+            if isMacroScriptAdded(descendant) then
+                removedMacro(descendant)
+            end
+        end
+    end))
 
     -- Listener to the user viewing different scripts; used to trigger "macro changed" events
     runJanitor:Add(StudioService:GetPropertyChangedSignal("ActiveScript"):Connect(function()
@@ -310,7 +330,7 @@ function SocketController:SetupMacroActions()
 
         -- Have we just exited a script file?
         if cachedActiveScript then
-            local isMacroScript = cachedActiveScript:IsDescendantOf(macrosFolder)
+            local isMacroScript = cachedActiveScript:IsDescendantOf(StudioHandler.Folders.Directory)
             if isMacroScript then
                 if isMacroScriptAdded(cachedActiveScript) then
                     -- Changed
@@ -463,6 +483,7 @@ function SocketController:FrameworkInit()
     SocketSettings = PluginFramework:Require("SocketSettings")
     PluginHandler = PluginFramework:Require("PluginHandler")
     InstanceUtil = PluginFramework:Require("InstanceUtil")
+    LocalMacros = PluginFramework:Require("LocalMacros")
 end
 
 ---@private

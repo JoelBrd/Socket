@@ -29,6 +29,7 @@ local MacroConstants = {}
 ---@field RunJanitor Janitor
 ---@field ToggleIsRunning fun(macro:MacroDefinition)
 ---@field IsRunning fun(macro:MacroDefinition):boolean
+---@field IsLocalMacro boolean
 ---@field GetFieldValue fun(macro:MacroDefinition, fieldName:string)
 ---@field Function fun(macro:MacroDefinition)
 ---@field BindToClose fun(macro:MacroDefinition) Called when plugin is closed, or macro is removed from state

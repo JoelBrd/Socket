@@ -21,6 +21,7 @@ local settings = {
     EnableAutoRun = true,
     UseDefaultSettings = false,
     OSType = "Windows",
+    LocalMacroColor = Color3.fromRGB(0, 123, 180),
 }
 
 ---@type table<string, fun(value:any):string|nil>

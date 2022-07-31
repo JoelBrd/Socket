@@ -22,6 +22,7 @@ local SocketSettings ---@type SocketSettings
 local DIRECTORY_FOLDER_PARENT = game:GetService("ServerStorage")
 local DIRECTORY_FOLDER_NAME = "SocketPlugin"
 local MACROS_FOLDER_NAME = "Macros"
+local LOCAL_MACROS_FOLDER_NAME = "LocalMacros"
 local UTILS_FOLDER_NAME = "Utils"
 local IS_RUNNING = RunService:IsRunning()
 local IS_CLIENT = RunService:IsClient()
@@ -31,6 +32,7 @@ local IS_CLIENT = RunService:IsClient()
 StudioHandler.Folders = {
     Directory = nil, ---@type Configuration
     Macros = nil, ---@type Folder
+    LocalMacros = nil, ---@type Folder
     Utils = nil, ---@type Folder
 }
 
@@ -58,6 +60,15 @@ function StudioHandler:ValidateStructure()
         macrosFolder.Parent = directoryFolder
     end
     StudioHandler.Folders.Macros = macrosFolder
+
+    -- LocalMacros
+    local localMacrosFolder = directoryFolder:FindFirstChild(LOCAL_MACROS_FOLDER_NAME)
+    if not localMacrosFolder then
+        localMacrosFolder = Instance.new("Folder")
+        localMacrosFolder.Name = LOCAL_MACROS_FOLDER_NAME
+        localMacrosFolder.Parent = directoryFolder
+    end
+    StudioHandler.Folders.LocalMacros = localMacrosFolder
 
     -- Utils
     local utilsFolder = directoryFolder:FindFirstChild(UTILS_FOLDER_NAME)
@@ -106,7 +117,7 @@ end
 ---
 ---Ensures our core macros are initiated
 ---
-function StudioHandler:ValidateMacros()
+function StudioHandler:ValidateBuiltInMacros()
     local coreMacrosFolder = StudioHandler.Folders.Macros.Core
 
     -- Copy over core macros UNLESS we're running on client (`MacroClientServer` handles this) (or got something disabled)
