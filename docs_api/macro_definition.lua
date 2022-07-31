@@ -210,6 +210,7 @@
 --[=[
     @prop IsLocalMacro boolean
     @tag Populated
+    @tag v1.1.0
     @within MacroDefinition
 
     If a macro is a "Local Macro", this value will be populated as true.
