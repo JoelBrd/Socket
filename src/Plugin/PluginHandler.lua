@@ -63,10 +63,12 @@ function PluginHandler:Load(passedPlugin)
     --------------------------------------------------
     -- Setup deactivation logic
     plugin.Deactivation:Connect(function()
-        PluginHandler:SetPluginActiveState(false)
+        LocalMacros:Unload()
+        self:DestroyWidget()
     end)
     plugin.Unloading:Connect(function()
-        PluginHandler:SetPluginActiveState(false)
+        LocalMacros:Unload()
+        self:DestroyWidget()
     end)
 
     --------------------------------------------------
@@ -140,9 +142,12 @@ function PluginHandler:SetPluginActiveState(isActive)
         self:CreateWidget()
         StudioHandler:ValidateBuiltInMacros()
     else
-        self:DestroyWidget()
         LocalMacros:Unload()
+        self:DestroyWidget()
     end
+
+    -- Save as setting
+    self:SetSetting(PluginConstants.Setting.IS_PLUGIN_ACTIVE, isPluginActive)
 
     -- Manage toolbar button state
     -- SetActive() wouldn't visually update `toolbarButton`, so an ugly hack for an ugly feature :D
@@ -175,9 +180,6 @@ function PluginHandler:CreateWidget()
     -- Debug Info
     Logger:Trace("Created Widget")
 
-    -- Save as setting
-    self:SetSetting(PluginConstants.Setting.IS_PLUGIN_ACTIVE, true)
-
     -- Inform SocketController
     SocketController:Run()
 end
@@ -199,9 +201,6 @@ function PluginHandler:DestroyWidget()
 
     -- Debug Info
     Logger:Trace("Destroyed Widget")
-
-    -- Save as setting
-    self:SetSetting(PluginConstants.Setting.IS_PLUGIN_ACTIVE, false)
 end
 
 ---

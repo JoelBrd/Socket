@@ -38,11 +38,17 @@ end
 ---Unloads our LocalMacros by storing them in the plugin, and removing the directory
 ---
 function LocalMacros:Unload()
+    -- RETURN: No local macros directory stored
+    local ourDirectory = LocalMacros:GetOurDirectory()
+    if not ourDirectory then
+        return
+    end
+
     -- Write stored macros
     -- Hello reader - I didn't fancy writing a whole Instance serializer/deserializer to load whatever structure the user wants inside their LocalMacros folder
     -- There weren't nice existing options at time of writing either.. :c
     local storedMacros = {}
-    for _, moduleScript in pairs(LocalMacros:GetOurDirectory():GetChildren()) do
+    for _, moduleScript in pairs(ourDirectory:GetChildren()) do
         -- WARN: Can only do singular modulescripts
         if not moduleScript:IsA("ModuleScript") then
             warn(("LocalMacro instance %q is not a `ModuleScript`, so was not saved."):format(moduleScript:GetFullName()))
@@ -61,9 +67,8 @@ function LocalMacros:Unload()
     PluginHandler:SetSetting(PluginConstants.Setting.STORED_LOCAL_MACROS, storedMacros)
 
     -- Remove directory
-    local directory = LocalMacros:GetOurDirectory()
-    if directory then
-        directory:Destroy()
+    if ourDirectory then
+        ourDirectory:Destroy()
     end
 end
 
@@ -71,7 +76,9 @@ end
 ---@return Folder
 ---
 function LocalMacros:GetOurDirectory()
-    return StudioHandler.Folders.LocalMacros:FindFirstChild(tostring(StudioUtil:GetUserIdentifier()))
+    if StudioHandler.Folders.LocalMacros then
+        return StudioHandler.Folders.LocalMacros:FindFirstChild(tostring(StudioUtil:GetUserIdentifier()))
+    end
 end
 
 ---@private
