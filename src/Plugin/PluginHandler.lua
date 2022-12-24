@@ -173,8 +173,10 @@ function PluginHandler:CreateWidget()
     widget.Enabled = true
 
     -- Widget connections
-    widget:BindToClose(function()
-        self:SetPluginActiveState(false)
+    widget:GetPropertyChangedSignal("Enabled"):Connect(function()
+        if not widget.Enabled then
+            self:SetPluginActiveState(false)
+        end
     end)
 
     -- Debug Info
