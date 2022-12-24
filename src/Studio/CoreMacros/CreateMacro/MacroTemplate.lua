@@ -2,11 +2,11 @@
 
 local ServerStorage = game:GetService("ServerStorage")
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local LuauTypes = require(Utils.LuauTypes)
-local Logger = require(Utils.Logger) :: LuauTypes.Logger
+local SocketTypes = require(Utils.SocketTypes)
+local Logger = require(Utils.Logger) :: SocketTypes.Logger
 
-type MacroDefinition = LuauTypes.MacroDefinition
-type PopulatedMacroDefinition = LuauTypes.PopulatedMacroDefinition
+type MacroDefinition = SocketTypes.MacroDefinition
+type PopulatedMacroDefinition = SocketTypes.PopulatedMacroDefinition
 
 --------------------------------------------------
 -- Members
