@@ -8,8 +8,8 @@ export type InstanceUtil = {
 }
 
 export type Logger = {
-    MacroInfo: (self: Logger, macro: MacroDefinition, ...any) -> nil,
-    MacroWarn: (self: Logger, macro: MacroDefinition, ...any) -> nil,
+    MacroInfo: (self: Logger, macro: PopulatedMacroDefinition, ...any) -> nil,
+    MacroWarn: (self: Logger, macro: PopulatedMacroDefinition, ...any) -> nil,
 }
 
 export type RaycastUtil = {
@@ -28,8 +28,8 @@ export type MacroState = {
     FieldValues: { [string]: any }, -- Keys are FieldNames, Values are FieldValues
     IsRunning: boolean?,
     IsKeybindDisabled: boolean?,
-    _Server: MacroState,
-    _Client: MacroState,
+    _Server: MacroState?,
+    _Client: MacroState?,
 }
 
 export type MacroFieldTypeName = "string" | "number" | "boolean" | "Color3" | "Vector3"
@@ -37,7 +37,7 @@ export type MacroField = {
     Type: MacroFieldTypeName,
     Name: string,
     IsRequired: boolean?,
-    Validator: (value: any) -> string | nil,
+    Validator: ((value: any) -> string)?,
 }
 
 export type MacroDefinition = {

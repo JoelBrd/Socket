@@ -5,10 +5,10 @@ local ServerStorage = game:GetService("ServerStorage")
 local Macros = ServerStorage.SocketPlugin.Macros
 local Utils = ServerStorage.SocketPlugin.Utils
 local StudioUtil = require(Utils.StudioUtil)
-local LuauTypes = require(Utils.LuauTypes)
+local SocketTypes = require(Utils.SocketTypes)
 
-type MacroDefinition = LuauTypes.MacroDefinition
-type PopulatedMacroDefinition = LuauTypes.PopulatedMacroDefinition
+type MacroDefinition = SocketTypes.MacroDefinition
+type PopulatedMacroDefinition = SocketTypes.PopulatedMacroDefinition
 
 local OPEN_ON_LINE = 21
 

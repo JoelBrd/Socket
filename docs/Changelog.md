@@ -11,6 +11,9 @@ sidebar_position: 8
  - Add in luau type definitions
  - Update "Create Macro" macro to use luau type definitions for better UX
 
+### v1.2.1
+ - Fix typo with luau type `MacroField.Validator`
+
 ## v1.1.0
  - Added Local Macros (see [IsLocalMacro](/api/MacroDefinition#IsLocalMacro)), which allows replication of macros across multiple places via the `plugin` itself.
  - Added `LocalMacroColor` setting
