@@ -17,6 +17,8 @@ local function macroFunction(macro: PopulatedMacroDefinition, plugin: Plugin)
     else
         Logger:MacroWarn(macro, ("Uh oh %s!"):format(macro.Name))
     end
+
+    -- TODO
 end
 
 local macroDefinition: MacroDefinition = {

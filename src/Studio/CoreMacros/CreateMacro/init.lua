@@ -10,7 +10,7 @@ local LuauTypes = require(Utils.LuauTypes)
 type MacroDefinition = LuauTypes.MacroDefinition
 type PopulatedMacroDefinition = LuauTypes.PopulatedMacroDefinition
 
-local OPEN_ON_LINE = 24
+local OPEN_ON_LINE = 21
 
 local function getLocalMacrosDirectory()
     return ServerStorage.SocketPlugin.LocalMacros:FindFirstChild(tostring(StudioUtil:GetUserIdentifier()))
@@ -28,7 +28,7 @@ local function macroFunction(macro: PopulatedMacroDefinition, plugin: Plugin)
     -- Create macro
     local newMacro = Instance.new("ModuleScript") :: BaseScript
     newMacro.Name = name:gsub(" ", "") -- Remove whitespace
-    newMacro.Source = script.MacroTemplate.Source:format(name, icon, description, "%s")
+    newMacro.Source = script.MacroTemplate.Source:format("%s", "%s", name, icon, description)
     newMacro.Parent = isLocal and getLocalMacrosDirectory() or Macros
 
     -- Open
