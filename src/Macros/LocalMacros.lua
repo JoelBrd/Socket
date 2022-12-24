@@ -60,6 +60,19 @@ function LocalMacros:Unload()
                 warn(("LocalMacro instance %q has a child %q. This cannot be saved!"):format(moduleScript:GetFullName(), child.Name))
             end
 
+            -- Check for duplicate names
+            if storedMacros[moduleScript.Name] then
+                -- Count how many macros have this name
+                local totalDuplicateNames = 0
+                for _, instance in pairs(ourDirectory:GetChildren()) do
+                    if instance.Name == moduleScript.Name then
+                        totalDuplicateNames += 1
+                    end
+                end
+
+                moduleScript.Name = ("%s (%d)"):format(moduleScript.Name, totalDuplicateNames)
+            end
+
             -- Store!
             storedMacros[moduleScript.Name] = moduleScript.Source
         end

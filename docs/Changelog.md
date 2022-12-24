@@ -1,8 +1,15 @@
 ---
-sidebar_position: 7
+sidebar_position: 8
 ---
 
 # Changelog
+
+## v1.2.0
+ - Fix issues with docking from the recent Studio overhaul
+ - Fixed bug with Local Macros where `ModuleScripts` with duplicate names would silently not get saved
+ - Removed "Clone" built-in macro, as this behaviour mirrors `Ctrl+D`
+ - Add in luau type definitions
+ - Update "Create Macro" macro to use luau type definitions for better UX
 
 ## v1.1.0
  - Added Local Macros (see [IsLocalMacro](/api/MacroDefinition#IsLocalMacro)), which allows replication of macros across multiple places via the `plugin` itself.
