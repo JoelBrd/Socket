@@ -1,30 +1,30 @@
----
--- Macro
----
+-- Macro Template
 
---------------------------------------------------
--- Dependencies
 local ServerStorage = game:GetService("ServerStorage")
 local Utils = ServerStorage.SocketPlugin:FindFirstChild("Utils")
-local Logger = require(Utils.Logger)
+local LuauTypes = require(Utils.LuauTypes)
+local Logger = require(Utils.Logger) :: LuauTypes.Logger
+
+type MacroDefinition = LuauTypes.MacroDefinition
+type PopulatedMacroDefinition = LuauTypes.PopulatedMacroDefinition
 
 --------------------------------------------------
 -- Members
 
-local macroDefinition = {
+local function macroFunction(macro: PopulatedMacroDefinition, plugin: Plugin)
+    if true then
+        Logger:MacroInfo(macro, ("Hello %s!"):format(macro.Name))
+    else
+        Logger:MacroWarn(macro, ("Uh oh %s!"):format(macro.Name))
+    end
+end
+
+local macroDefinition: MacroDefinition = {
     Name = "%s",
     Group = "Macros",
     Icon = "%s",
     Description = "%s",
+    Function = macroFunction,
 }
-
-macroDefinition.Function = function(macro, plugin)
-    Logger:MacroInfo(macro, ("Hello %s!"):format(macro.Name))
-    --[[
-        ...
-        Your Logic Here
-        ...
-    ]]
-end
 
 return macroDefinition
