@@ -138,7 +138,10 @@ function PluginHandler:SetPluginActiveState(isActive)
     -- Logic for when Plugin is Opened/Closed
     if isPluginActive then
         StudioHandler:ValidateStructure()
+
+        LocalMacros:Unload() -- try unload now incase this was unsuccessful in the previous session
         LocalMacros:Load()
+
         self:CreateWidget()
         StudioHandler:ValidateBuiltInMacros()
     else

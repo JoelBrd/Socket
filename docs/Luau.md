@@ -10,7 +10,7 @@ ideal I realise, but this is plugin needs a fairly unconventional design to work
 
 ```lua
 export type Janitor = {
-    Add: (object: any, methodName: boolean | string | nil, index: any?) -> any,
+    Add: (self: Janitor, object: any, methodName: boolean | string | nil, index: any?) -> any,
 }
 
 export type InstanceUtil = {

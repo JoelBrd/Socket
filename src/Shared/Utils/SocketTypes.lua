@@ -1,5 +1,5 @@
 export type Janitor = {
-    Add: (object: any, methodName: boolean | string | nil, index: any?) -> any,
+    Add: (self: Janitor, object: any, methodName: boolean | string | nil, index: any?) -> any,
 }
 
 export type InstanceUtil = {
