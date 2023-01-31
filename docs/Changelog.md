@@ -18,6 +18,11 @@ sidebar_position: 8
  - Pass `self` in Janitor type
  - Fixed bug where `LocalMacros` would get duplicated
 
+
+### v1.2.3
+ - Fixed bug where `Vector3` field type would not accept any decimal or negative values
+ - Added `ClearFieldTextBoxOnFocus` setting; can now disable field text boxes automatically clearing on focus
+
 ## v1.1.0
  - Added Local Macros (see [IsLocalMacro](/api/MacroDefinition#IsLocalMacro)), which allows replication of macros across multiple places via the `plugin` itself.
  - Added `LocalMacroColor` setting
