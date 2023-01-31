@@ -20,6 +20,7 @@ local settings = {
     EnableSocketMacrosOverwrite = true,
     EnableAutoRun = true,
     UseDefaultSettings = false,
+    ClearFieldTextBoxOnFocus = true,
     OSType = "Windows",
     LocalMacroColor = Color3.fromRGB(0, 123, 180),
 }

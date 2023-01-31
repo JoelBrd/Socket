@@ -116,6 +116,16 @@
 ]=]
 
 --[=[
+    @prop ClearFieldTextBoxOnFocus Color3
+    @tag v1.2.3
+    @within SocketSettings
+
+    When you click a field value `TextBox`, it automatically clears the content. Set this to false to disable this behaviour.
+
+    Defaults to `true`
+]=]
+
+--[=[
     @prop UseDefaultSettings boolean
     @within SocketSettings
 
