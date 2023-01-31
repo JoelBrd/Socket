@@ -59,7 +59,7 @@ local MacroConstants = {}
 
 --------------------------------------------------
 -- Constants
-local PATTERN_3_VALUES = "%s*(%d+),%s*(%d+),%s*(%d+)%s*"
+local PATTERN_3_VALUES = "(.+),(.+),(.+)"
 
 ---@param number number
 ---@return string
@@ -71,6 +71,18 @@ local function commaValue(number)
     -- credit http://richard.warburton.it
     local left, num, right = string.match(tostring(number), "^([^%d]*%d)(%d*)(.-)$")
     return left .. (num:reverse():gsub("(%d%d%d)", "%1,"):reverse()) .. right
+end
+
+local function getNumbersFromPattern3(str: string)
+    local str1, str2, str3 = str:match(PATTERN_3_VALUES)
+    if str1 and str2 and str3 then
+        local num1, num2, num3 = tonumber(str1), tonumber(str2), tonumber(str3)
+        if num1 and num2 and num3 then
+            return num1, num2, num3
+        end
+    end
+
+    return nil
 end
 
 MacroConstants.FieldType = {
@@ -121,9 +133,13 @@ MacroConstants.FieldType = {
             end
             value = tostring(value)
 
-            local r, g, b = value:match(PATTERN_3_VALUES)
+            local r, g, b = getNumbersFromPattern3(value)
             if r and g and b then
-                return Color3.fromRGB(math.clamp(r, 0, 255), math.clamp(g, 0, 255), math.clamp(b, 0, 255))
+                return Color3.fromRGB(
+                    math.clamp(math.round(r), 0, 255),
+                    math.clamp(math.round(b), 0, 255),
+                    math.clamp(math.round(b), 0, 255)
+                )
             end
         end,
         ToString = function(value)
@@ -139,13 +155,21 @@ MacroConstants.FieldType = {
             end
             value = tostring(value)
 
-            local x, y, z = value:match(PATTERN_3_VALUES)
+            local x, y, z = getNumbersFromPattern3(value)
             if x and y and z then
                 return Vector3.new(x, y, z)
             end
         end,
         ToString = function(value)
-            return ("%d, %d, %d"):format(value.X, value.Y, value.Z)
+            local x: number = value.X
+            local y: number = value.Y
+            local z: number = value.Z
+
+            local strX = if math.round(x) == x then ("%d"):format(x) else ("%.3f"):format(x)
+            local strY = if math.round(y) == y then ("%d"):format(y) else ("%.3f"):format(y)
+            local strZ = if math.round(z) == z then ("%d"):format(z) else ("%.3f"):format(z)
+
+            return ("%s, %s, %s"):format(strX, strY, strZ)
         end,
     },
 } ---@type table<string, MacroFieldType>
