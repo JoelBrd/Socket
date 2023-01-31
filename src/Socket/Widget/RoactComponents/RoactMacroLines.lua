@@ -233,10 +233,10 @@ local function getMacro(props)
             local isServerRunning = macro.State._Server.IsRunning and true or false
             local isClientRunning = macro.State._Client.IsRunning and true or false
             local textLabelXOffset = -(
-                    WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth * 2
-                    + WidgetConstants.RoactWidgetLine.Pixel.MacroTextButtonPadding
-                    + WidgetConstants.RoactWidgetLine.Pixel.MacroRunButtonsPadding
-                )
+                WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth * 2
+                + WidgetConstants.RoactWidgetLine.Pixel.MacroTextButtonPadding
+                + WidgetConstants.RoactWidgetLine.Pixel.MacroRunButtonsPadding
+            )
 
             return Roact.createFragment({
                 TextLabel = Roact.createElement("TextLabel", {
@@ -261,9 +261,8 @@ local function getMacro(props)
                 }, {
                     RoactButton:Get({
                         text = "Server",
-                        color = isServerRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
-                            WidgetTheme.Indexes.MacroLines.Macro.RunButton
-                        ),
+                        color = isServerRunning and Color3.fromRGB(191, 255, 139)
+                            or WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Macro.RunButton),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
@@ -283,9 +282,8 @@ local function getMacro(props)
                 }, {
                     RoactButton:Get({
                         text = "Client",
-                        color = isClientRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
-                            WidgetTheme.Indexes.MacroLines.Macro.RunButton
-                        ),
+                        color = isClientRunning and Color3.fromRGB(191, 255, 139)
+                            or WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Macro.RunButton),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
@@ -298,8 +296,8 @@ local function getMacro(props)
             -- Get variables
             local isRunning = macro:IsRunning()
             local textLabelXOffset = -(
-                    WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth + WidgetConstants.RoactWidgetLine.Pixel.MacroTextButtonPadding
-                )
+                WidgetConstants.RoactWidgetLine.Pixel.RunButtonWidth + WidgetConstants.RoactWidgetLine.Pixel.MacroTextButtonPadding
+            )
 
             ---@return RoactElement
             local function getInteractionElement()
@@ -315,9 +313,8 @@ local function getMacro(props)
                 else
                     return RoactButton:Get({
                         text = isRunning and "Running" or "Run",
-                        color = isRunning and Color3.fromRGB(191, 255, 139) or WidgetTheme:GetColor(
-                            WidgetTheme.Indexes.MacroLines.Macro.RunButton
-                        ),
+                        color = isRunning and Color3.fromRGB(191, 255, 139)
+                            or WidgetTheme:GetColor(WidgetTheme.Indexes.MacroLines.Macro.RunButton),
                         strokeThickness = 1.5,
                         activatedDiscColor = Color3.fromRGB(48, 207, 0),
                         activatedCallback = function()
@@ -690,6 +687,7 @@ local function getField(props)
                 BackgroundTransparency = 1,
                 Size = UDim2.fromScale(1, 1),
                 ZIndex = 2,
+                ClearTextOnFocus = SocketSettings:GetSetting("ClearFieldTextBoxOnFocus"),
 
                 [Roact.Event.FocusLost] = onFocusLost,
             }),
