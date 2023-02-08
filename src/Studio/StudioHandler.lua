@@ -114,6 +114,11 @@ function StudioHandler:ValidateStructure()
     end
 end
 
+function StudioHandler:HasSocketDirectory()
+    local directoryFolder = DIRECTORY_FOLDER_PARENT:FindFirstChild(DIRECTORY_FOLDER_NAME)
+    return directoryFolder and true or false
+end
+
 ---
 ---Ensures our core macros are initiated
 ---

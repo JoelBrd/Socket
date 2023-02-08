@@ -23,6 +23,9 @@ sidebar_position: 8
  - Fixed bug where `Vector3` field type would not accept any decimal or negative values
  - Added `ClearFieldTextBoxOnFocus` setting; can now disable field text boxes automatically clearing on focus
 
+### v1.2.4
+ - Added `OnlyStartupIfSocketIsDetected` setting; Socket will only populate a place file when the user chooses to manually start up the plugin! (https://devforum.roblox.com/t/socket-a-macro-manager-plugin/1898339/10)
+
 ## v1.1.0
  - Added Local Macros (see [IsLocalMacro](/api/MacroDefinition#IsLocalMacro)), which allows replication of macros across multiple places via the `plugin` itself.
  - Added `LocalMacroColor` setting
