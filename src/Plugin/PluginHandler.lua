@@ -82,8 +82,10 @@ function PluginHandler:Load(passedPlugin)
 
     --------------------------------------------------
     -- Creating widget (if previously active)
+    local isSocketDetected = StudioHandler:HasSocketDirectory()
     local wasPluginActive = self:GetSetting(PluginConstants.Setting.IS_PLUGIN_ACTIVE) and true or false
-    if wasPluginActive then
+    local doSetActive = wasPluginActive and isSocketDetected
+    if doSetActive then
         self:SetPluginActiveState(true)
     end
 

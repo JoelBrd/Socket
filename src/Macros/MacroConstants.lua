@@ -137,7 +137,7 @@ MacroConstants.FieldType = {
             if r and g and b then
                 return Color3.fromRGB(
                     math.clamp(math.round(r), 0, 255),
-                    math.clamp(math.round(b), 0, 255),
+                    math.clamp(math.round(g), 0, 255),
                     math.clamp(math.round(b), 0, 255)
                 )
             end
