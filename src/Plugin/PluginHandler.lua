@@ -14,7 +14,6 @@ local StudioHandler ---@type StudioHandler
 local SocketController ---@type SocketController
 local ImageUtil ---@type ImageUtil
 local LocalMacros ---@type LocalMacros
-local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Types
@@ -84,9 +83,8 @@ function PluginHandler:Load(passedPlugin)
     --------------------------------------------------
     -- Creating widget (if previously active)
     local isSocketDetected = StudioHandler:HasSocketDirectory()
-    local onlyStartupIfSocketIsDetected = SocketSettings:GetSetting("OnlyStartupIfSocketIsDetected")
     local wasPluginActive = self:GetSetting(PluginConstants.Setting.IS_PLUGIN_ACTIVE) and true or false
-    local doSetActive = wasPluginActive and (isSocketDetected or not onlyStartupIfSocketIsDetected)
+    local doSetActive = wasPluginActive and isSocketDetected
     if doSetActive then
         self:SetPluginActiveState(true)
     end
@@ -239,7 +237,6 @@ function PluginHandler:FrameworkInit()
     SocketController = PluginFramework:Require("SocketController")
     ImageUtil = PluginFramework:Require("ImageUtil")
     LocalMacros = PluginFramework:Require("LocalMacros")
-    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---

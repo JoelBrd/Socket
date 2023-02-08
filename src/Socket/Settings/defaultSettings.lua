@@ -21,7 +21,6 @@ local settings = {
     EnableAutoRun = true,
     UseDefaultSettings = false,
     ClearFieldTextBoxOnFocus = true,
-    OnlyStartupIfSocketIsDetected = true,
     OSType = "Windows",
     LocalMacroColor = Color3.fromRGB(0, 123, 180),
 }

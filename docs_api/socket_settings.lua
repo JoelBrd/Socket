@@ -126,17 +126,6 @@
 ]=]
 
 --[=[
-    @prop OnlyStartupIfSocketIsDetected boolean
-    @tag v1.2.4
-    @within SocketSettings
-
-    Socket needs to place some instances under `ServerStorage` to run properly, and does this by default on startup. The plugin will only
-    startup if this folder is detected, so the user has control over Socket entering a place file.
-
-    Defaults to `true`
-]=]
-
---[=[
     @prop UseDefaultSettings boolean
     @within SocketSettings
 

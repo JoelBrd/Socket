@@ -24,7 +24,8 @@ sidebar_position: 8
  - Added `ClearFieldTextBoxOnFocus` setting; can now disable field text boxes automatically clearing on focus
 
 ### v1.2.4
- - Added `OnlyStartupIfSocketIsDetected` setting; Socket will only populate a place file when the user chooses to manually start up the plugin! (https://devforum.roblox.com/t/socket-a-macro-manager-plugin/1898339/10)
+ - Socket will only startup when the user chooses to manually start up the plugin, or when Socket has already been started up in that place file. (https://devforum.roblox.com/t/socket-a-macro-manager-plugin/1898339/10)
+ - Fixed bug where `Color3` completion would take `R,B,B` value instead of `R,G,B` defined by the user
 
 ## v1.1.0
  - Added Local Macros (see [IsLocalMacro](/api/MacroDefinition#IsLocalMacro)), which allows replication of macros across multiple places via the `plugin` itself.
