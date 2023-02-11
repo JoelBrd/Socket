@@ -5,8 +5,8 @@
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <meta name="generator" content="Docusaurus v2.0.0-beta.21">
 <title data-rh="true">SocketSettings | Socket</title><meta data-rh="true" name="twitter:card" content="summary_large_image"><meta data-rh="true" property="og:url" content="https://JoelBrd.github.io/Socket/api/SocketSettings"><meta data-rh="true" name="docusaurus_locale" content="en"><meta data-rh="true" name="docusaurus_tag" content="default"><meta data-rh="true" name="docsearch:language" content="en"><meta data-rh="true" name="docsearch:docusaurus_tag" content="default"><meta data-rh="true" property="og:title" content="SocketSettings | Socket"><meta data-rh="true" name="description" content="Global settings for Socket that can be accessed + changed via the widget. This persists across Places, but is unique to a specific user."><meta data-rh="true" property="og:description" content="Global settings for Socket that can be accessed + changed via the widget. This persists across Places, but is unique to a specific user."><link data-rh="true" rel="icon" href="/Socket/square_logo_512.png"><link data-rh="true" rel="canonical" href="https://JoelBrd.github.io/Socket/api/SocketSettings"><link data-rh="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/SocketSettings" hreflang="en"><link data-rh="true" rel="alternate" href="https://JoelBrd.github.io/Socket/api/SocketSettings" hreflang="x-default"><link rel="stylesheet" href="/Socket/assets/css/styles.b66543fc.css">
-<link rel="preload" href="/Socket/assets/js/runtime~main.e7ad8353.js" as="script">
-<link rel="preload" href="/Socket/assets/js/main.f42d1d55.js" as="script">
+<link rel="preload" href="/Socket/assets/js/runtime~main.db649f65.js" as="script">
+<link rel="preload" href="/Socket/assets/js/main.4a655006.js" as="script">
 </head>
 <body class="navigation-with-keyboard">
 <script>!function(){function e(e){document.documentElement.setAttribute("data-theme",e)}var t=function(){var e=null;try{e=localStorage.getItem("theme")}catch(e){}return e}();null!==t?e(t):window.matchMedia("(prefers-color-scheme: dark)").matches?e("dark"):(window.matchMedia("(prefers-color-scheme: light)").matches,e("light"))}()</script><div id="__docusaurus">
@@ -76,7 +76,10 @@
 </div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="ClearFieldTextBoxOnFocus"><code style="text-decoration:none">ClearFieldTextBoxOnFocus</code><a class="hash-link" href="#ClearFieldTextBoxOnFocus" title="Direct link to heading">​</a></h3><span class="docTag__6UZ" style="border-color:#dc0073;color:#dc0073">v1.2.3</span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/JoelBrd/Socket/blob/main/docs_api/socket_settings.lua#L127"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SocketSettings<!-- -->.<!-- -->ClearFieldTextBoxOnFocus<!-- -->:<!-- --> </code> <code class="blue_P4bS"><a style="text-decoration:underline;color:inherit" href="https://developer.roblox.com/en-us/api-reference/datatype/Color3" target="_blank" rel="noopener noreferrer">Color3<svg xmlns="http://www.w3.org/2000/svg" aria-hidden="true" x="0px" y="0px" viewBox="0 0 100 100" width="15" height="15" class="icon outbound" style="color:gray;vertical-align:middle;margin-left:2px"><path fill="currentColor" d="M18.8,85.1h56l0,0c2.2,0,4-1.8,4-4v-32h-8v28h-48v-48h28v-8h-32l0,0c-2.2,0-4,1.8-4,4v56C14.8,83.3,16.6,85.1,18.8,85.1z"></path> <polygon fill="currentColor" points="45.7,48.7 51.3,54.3 77.2,28.5 77.2,37.2 85.2,37.2 85.2,14.9 62.8,14.9 62.8,22.9 71.5,22.9"></polygon></svg></a></code></div><div>
 <p>When you click a field value <code>TextBox</code>, it automatically clears the content. Set this to false to disable this behaviour.</p>
 <p>Defaults to <code>true</code></p>
-</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="UseDefaultSettings"><code style="text-decoration:none">UseDefaultSettings</code><a class="hash-link" href="#UseDefaultSettings" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/JoelBrd/Socket/blob/main/docs_api/socket_settings.lua#L134"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SocketSettings<!-- -->.<!-- -->UseDefaultSettings<!-- -->:<!-- --> </code> <code class="blue_P4bS">boolean</code></div><div>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="HideUnusedFieldsAndKeybind"><code style="text-decoration:none">HideUnusedFieldsAndKeybind</code><a class="hash-link" href="#HideUnusedFieldsAndKeybind" title="Direct link to heading">​</a></h3><span class="docTag__6UZ" style="border-color:#ff793f;color:#ff793f">v1.2.5</span><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/JoelBrd/Socket/blob/main/docs_api/socket_settings.lua#L137"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SocketSettings<!-- -->.<!-- -->HideUnusedFieldsAndKeybind<!-- -->:<!-- --> </code> <code class="blue_P4bS">boolean</code></div><div>
+<p>If <code>true</code>, will only display <code>Fields</code> and <code>Keybind</code> for a macro if they are defined. This can make the UI look cleaner + clean up some real estate.</p>
+<p>Defaults to <code>false</code></p>
+</div><div class="divider_rE5g"></div><h3 class="anchor anchorWithStickyNavbar_LWe7" id="UseDefaultSettings"><code style="text-decoration:none">UseDefaultSettings</code><a class="hash-link" href="#UseDefaultSettings" title="Direct link to heading">​</a></h3><div class="repositoryDetailsContainer_BPdw"><a class="sourceButton_sEho" href="https://github.com/JoelBrd/Socket/blob/main/docs_api/socket_settings.lua#L144"><div class="sourceButtonText_Vh0m">&lt;/&gt;</div></a></div><div class="memberString_GwaU"><code>SocketSettings<!-- -->.<!-- -->UseDefaultSettings<!-- -->:<!-- --> </code> <code class="blue_P4bS">boolean</code></div><div>
 <p>If <code>true</code>, will reset ALL settings back to their default value (including <code>UseDefaultSettings=false</code>)</p>
 </div></div></article></div><details><summary>Show raw api</summary><pre style="max-width:100%;white-space:pre-wrap">{
     &quot;functions&quot;: [],
@@ -187,11 +190,23 @@
             }
         },
         {
+            &quot;name&quot;: &quot;HideUnusedFieldsAndKeybind&quot;,
+            &quot;desc&quot;: &quot;If `true`, will only display `Fields` and `Keybind` for a macro if they are defined. This can make the UI look cleaner + clean up some real estate.\n\nDefaults to `false`&quot;,
+            &quot;lua_type&quot;: &quot;boolean&quot;,
+            &quot;tags&quot;: [
+                &quot;v1.2.5&quot;
+            ],
+            &quot;source&quot;: {
+                &quot;line&quot;: 137,
+                &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
+            }
+        },
+        {
             &quot;name&quot;: &quot;UseDefaultSettings&quot;,
             &quot;desc&quot;: &quot;If `true`, will reset ALL settings back to their default value (including `UseDefaultSettings=false`)&quot;,
             &quot;lua_type&quot;: &quot;boolean&quot;,
             &quot;source&quot;: {
-                &quot;line&quot;: 134,
+                &quot;line&quot;: 144,
                 &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
             }
         }
@@ -203,8 +218,8 @@
         &quot;line&quot;: 6,
         &quot;path&quot;: &quot;docs_api/socket_settings.lua&quot;
     }
-}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#ClearFieldTextBoxOnFocus" class="table-of-contents__link toc-highlight">ClearFieldTextBoxOnFocus</a></li><li><a href="#EnableAutoRun" class="table-of-contents__link toc-highlight">EnableAutoRun</a></li><li><a href="#EnableSocketMacros" class="table-of-contents__link toc-highlight">EnableSocketMacros</a></li><li><a href="#EnableSocketMacrosOverwrite" class="table-of-contents__link toc-highlight">EnableSocketMacrosOverwrite</a></li><li><a href="#Font" class="table-of-contents__link toc-highlight">Font</a></li><li><a href="#IgnoreGameProcessedKeybinds" class="table-of-contents__link toc-highlight">IgnoreGameProcessedKeybinds</a></li><li><a href="#LocalMacroColor" class="table-of-contents__link toc-highlight">LocalMacroColor</a></li><li><a href="#OpenFieldsByDefault" class="table-of-contents__link toc-highlight">OpenFieldsByDefault</a></li><li><a href="#OSType" class="table-of-contents__link toc-highlight">OSType</a></li><li><a href="#SortType" class="table-of-contents__link toc-highlight">SortType</a></li><li><a href="#UIScale" class="table-of-contents__link toc-highlight">UIScale</a></li><li><a href="#UseDefaultSettings" class="table-of-contents__link toc-highlight">UseDefaultSettings</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 JoelBrd. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
-<script src="/Socket/assets/js/runtime~main.e7ad8353.js"></script>
-<script src="/Socket/assets/js/main.f42d1d55.js"></script>
+}</pre></details></div><div class="col col--3"><div class="tableOfContents_bqdL thin-scrollbar"><ul class="table-of-contents table-of-contents__left-border"><li><a href="#types" class="table-of-contents__link toc-highlight">Types</a></li><li><a href="#properties" class="table-of-contents__link toc-highlight">Properties</a><ul><li><a href="#ClearFieldTextBoxOnFocus" class="table-of-contents__link toc-highlight">ClearFieldTextBoxOnFocus</a></li><li><a href="#EnableAutoRun" class="table-of-contents__link toc-highlight">EnableAutoRun</a></li><li><a href="#EnableSocketMacros" class="table-of-contents__link toc-highlight">EnableSocketMacros</a></li><li><a href="#EnableSocketMacrosOverwrite" class="table-of-contents__link toc-highlight">EnableSocketMacrosOverwrite</a></li><li><a href="#Font" class="table-of-contents__link toc-highlight">Font</a></li><li><a href="#HideUnusedFieldsAndKeybind" class="table-of-contents__link toc-highlight">HideUnusedFieldsAndKeybind</a></li><li><a href="#IgnoreGameProcessedKeybinds" class="table-of-contents__link toc-highlight">IgnoreGameProcessedKeybinds</a></li><li><a href="#LocalMacroColor" class="table-of-contents__link toc-highlight">LocalMacroColor</a></li><li><a href="#OpenFieldsByDefault" class="table-of-contents__link toc-highlight">OpenFieldsByDefault</a></li><li><a href="#OSType" class="table-of-contents__link toc-highlight">OSType</a></li><li><a href="#SortType" class="table-of-contents__link toc-highlight">SortType</a></li><li><a href="#UIScale" class="table-of-contents__link toc-highlight">UIScale</a></li><li><a href="#UseDefaultSettings" class="table-of-contents__link toc-highlight">UseDefaultSettings</a></li></ul></li><li><a href="#functions" class="table-of-contents__link toc-highlight">Functions</a></li></ul></div></div></div></div></main></div></div><footer class="footer footer--dark"><div class="container container-fluid"><div class="footer__bottom text--center"><div class="footer__copyright">Copyright © 2023 JoelBrd. Built with Moonwave and Docusaurus.</div></div></div></footer></div>
+<script src="/Socket/assets/js/runtime~main.db649f65.js"></script>
+<script src="/Socket/assets/js/main.4a655006.js"></script>
 </body>
 </html>
