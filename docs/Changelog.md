@@ -27,6 +27,10 @@ sidebar_position: 8
  - Socket will only startup when the user chooses to manually start up the plugin, or when Socket has already been started up in that place file. (https://devforum.roblox.com/t/socket-a-macro-manager-plugin/1898339/10)
  - Fixed bug where `Color3` completion would take `R,B,B` value instead of `R,G,B` defined by the user
 
+### v1.2.5
+ - Fixed `string.format` typo for yielding thread error
+ - Added `HideUnusedFieldsAndKeybind` setting; can hide fields and keybind UI elements if they are not used for any given macro
+
 ## v1.1.0
  - Added Local Macros (see [IsLocalMacro](/api/MacroDefinition#IsLocalMacro)), which allows replication of macros across multiple places via the `plugin` itself.
  - Added `LocalMacroColor` setting
