@@ -92,7 +92,7 @@ function MacroHelper:RunMacro(macro)
         if not threadIsGood then
             Logger:MacroWarn(
                 macro,
-                ("Macro has been yielding for more than %d seconds.. will cause unintended behaviour."):format(macro.Name, YIELD_TIME)
+                ("Macro has been yielding for more than %d seconds.. will cause unintended behaviour."):format(YIELD_TIME)
             )
         end
     end)
