@@ -126,6 +126,16 @@
 ]=]
 
 --[=[
+    @prop HideUnusedFieldsAndKeybind boolean
+    @tag v1.2.5
+    @within SocketSettings
+
+    If `true`, will only display `Fields` and `Keybind` for a macro if they are defined. This can make the UI look cleaner + clean up some real estate.
+
+    Defaults to `false`
+]=]
+
+--[=[
     @prop UseDefaultSettings boolean
     @within SocketSettings
 

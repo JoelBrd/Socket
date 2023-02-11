@@ -17,6 +17,7 @@ local RoactRodux ---@type RoactRodux
 local SocketConstants ---@type SocketConstants
 local RoactMacroLines ---@type RoactMacroLines
 local WidgetConstants ---@type WidgetConstants
+local SocketSettings ---@type SocketSettings
 
 --------------------------------------------------
 -- Constants
@@ -89,44 +90,49 @@ local function createLinesFragment(props)
                         -- Create child lines
                         if macroInfo.isOpen then
                             -- Create fields line
-                            increaseLayoutOrder()
                             local hasFields = #macroInfo.macro.Fields > 0
-                            local fieldsElementName = ("Group_%s_Macro_%s_Fields"):format(groupInfo.name, macroInfo.name)
-                            elements[fieldsElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Fields, {
-                                isOpen = macroInfo.isFieldsOpen,
-                                macroScript = macroInfo.moduleScript,
-                                hasFields = hasFields,
-                                layoutOrder = layoutOrderCount,
-                                scale = scale,
-                            })
+                            if hasFields or not SocketSettings:GetSetting("HideUnusedFieldsAndKeybind") then
+                                increaseLayoutOrder()
+                                local fieldsElementName = ("Group_%s_Macro_%s_Fields"):format(groupInfo.name, macroInfo.name)
+                                elements[fieldsElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Fields, {
+                                    isOpen = macroInfo.isFieldsOpen,
+                                    macroScript = macroInfo.moduleScript,
+                                    hasFields = hasFields,
+                                    layoutOrder = layoutOrderCount,
+                                    scale = scale,
+                                })
 
-                            -- Create individual fields
-                            if hasFields and macroInfo.isFieldsOpen then
-                                for _, field in pairs(macroInfo.macro.Fields) do
-                                    increaseLayoutOrder()
-                                    local fieldElementName = ("Group_%s_Macro_%s_Field_%s"):format(
-                                        groupInfo.name,
-                                        macroInfo.name,
-                                        field.Name
-                                    )
-                                    elements[fieldElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Field, {
-                                        field = field,
-                                        macro = macroInfo.macro,
-                                        layoutOrder = layoutOrderCount,
-                                        scale = scale,
-                                    })
+                                -- Create individual fields
+                                if hasFields and macroInfo.isFieldsOpen then
+                                    for _, field in pairs(macroInfo.macro.Fields) do
+                                        increaseLayoutOrder()
+                                        local fieldElementName = ("Group_%s_Macro_%s_Field_%s"):format(
+                                            groupInfo.name,
+                                            macroInfo.name,
+                                            field.Name
+                                        )
+                                        elements[fieldElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Field, {
+                                            field = field,
+                                            macro = macroInfo.macro,
+                                            layoutOrder = layoutOrderCount,
+                                            scale = scale,
+                                        })
+                                    end
                                 end
                             end
 
                             -- Create keybind line
-                            increaseLayoutOrder()
-                            local keybindElementName = ("Group_%s_Macro_%s_Keybind"):format(groupInfo.name, macroInfo.name)
-                            elements[keybindElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
-                                keybind = macroInfo.macro.Keybind or {},
-                                isDisabled = macroInfo.macro.State.IsKeybindDisabled,
-                                layoutOrder = layoutOrderCount,
-                                scale = scale,
-                            })
+                            local keybindTuple = macroInfo.macro.Keybind or {}
+                            if #keybindTuple > 0 or not SocketSettings:GetSetting("HideUnusedFieldsAndKeybind") then
+                                increaseLayoutOrder()
+                                local keybindElementName = ("Group_%s_Macro_%s_Keybind"):format(groupInfo.name, macroInfo.name)
+                                elements[keybindElementName] = RoactMacroLines:Get(WidgetConstants.RoactWidgetLine.Type.Keybind, {
+                                    keybind = keybindTuple,
+                                    isDisabled = macroInfo.macro.State.IsKeybindDisabled,
+                                    layoutOrder = layoutOrderCount,
+                                    scale = scale,
+                                })
+                            end
 
                             -- Create setting line
                             increaseLayoutOrder()
@@ -194,6 +200,7 @@ function RoactMacroContainer:FrameworkInit()
     SocketConstants = PluginFramework:Require("SocketConstants")
     RoactMacroLines = PluginFramework:Require("RoactMacroLines")
     WidgetConstants = PluginFramework:Require("WidgetConstants")
+    SocketSettings = PluginFramework:Require("SocketSettings")
 end
 
 ---

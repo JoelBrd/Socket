@@ -30,7 +30,7 @@ local LocalMacros ---@type LocalMacros
 
 --------------------------------------------------
 -- Constants
-local YIELD_TIME = 3
+local YIELD_TIME = 2
 local IS_SERVER = RunService:IsServer()
 local IS_CLIENT = RunService:IsClient()
 local IS_RUNNING = RunService:IsRunning()
@@ -92,7 +92,9 @@ function MacroHelper:RunMacro(macro)
         if not threadIsGood then
             Logger:MacroWarn(
                 macro,
-                ("Macro has been yielding for more than %d seconds.. will cause unintended behaviour."):format(macro.Name, YIELD_TIME)
+                ("Macro has been yielding for more than %d seconds.. will cause unintended behaviour. If you must yield, use something like task.defer()"):format(
+                    YIELD_TIME
+                )
             )
         end
     end)
