@@ -132,7 +132,7 @@ end
 ---@return number
 local function setupCollisionGroup(macro)
     -- Get Collision groups
-    local collisionGroups = PhysicsService:GetCollisionGroups()
+    local collisionGroups = PhysicsService:GetRegisteredCollisionGroups()
     local names = {}
     local groupAlreadyCreated = false
     for _, collisionGroupData in pairs(collisionGroups) do
@@ -145,8 +145,10 @@ local function setupCollisionGroup(macro)
     end
 
     -- Create
-    local id = groupAlreadyCreated and PhysicsService:GetCollisionGroupId(COLLISION_GROUP_NAME)
-        or PhysicsService:CreateCollisionGroup(COLLISION_GROUP_NAME)
+    local id = COLLISION_GROUP_NAME
+    if not groupAlreadyCreated then
+        PhysicsService:RegisterCollisionGroup(COLLISION_GROUP_NAME)
+    end
 
     -- Define collisions
     for _, name in pairs(names) do
