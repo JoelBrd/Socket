@@ -49,13 +49,32 @@ local function refreshState()
     SocketController:GetStore():dispatch(action)
 end
 
-local function getMessageAndTracebackOnError(func, ...) -- similar to "tpcall" below
+local function getMessageAndTracebackOnError(func, enableUndo, ...) -- similar to "tpcall" below
+    local args = { ... }
+
     local traceback
     local errMsg
-    local result = table.pack(xpcall(func, function(err)
+    local recording
+    local result = table.pack(xpcall(function()
+        recording = enableUndo and ChangeHistoryService:TryBeginRecording("Macro") or nil
+
+        func(table.unpack(args))
+
+        if enableUndo then
+            if recording then
+                ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Commit)
+            else
+                Logger:Warn("Recording Failed")
+            end
+        end
+    end, function(err)
         traceback = debug.traceback()
         errMsg = err
-    end, ...))
+
+        if recording then
+            ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Cancel)
+        end
+    end))
 
     if result[1] then
         return true, nil, nil
@@ -99,24 +118,14 @@ function MacroHelper:RunMacro(macro)
         end
     end)
 
-    -- Set waypoint (undo/redo)
-    local doSetWaypoint = macro.EnableAutomaticUndo
-    if doSetWaypoint then
-        ChangeHistoryService:SetWaypoint(("Macro %s Before"):format(macro.Name))
-    end
-
     -- Run Macro
-    local success, err, traceback = getMessageAndTracebackOnError(macro.Function, macro, PluginHandler:GetPlugin())
+    local success, err, traceback =
+        getMessageAndTracebackOnError(macro.Function, macro.EnableAutomaticUndo, macro, PluginHandler:GetPlugin())
     threadIsGood = true
 
     -- Show error
     if not success then
         Logger:MacroWarn(macro, ("ERROR: %s\n%s"):format(err, traceback))
-    end
-
-    -- Set waypoint
-    if doSetWaypoint then
-        ChangeHistoryService:SetWaypoint(("Macro %s After"):format(macro.Name))
     end
 
     -- Macro has `isRunning` enabled, so ensure to refresh the state!

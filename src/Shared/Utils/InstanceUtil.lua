@@ -34,10 +34,19 @@ local WORKSPACE_DIRECTORY_NAME = "_SocketInstances"
 ---
 function InstanceUtil:IntroduceInstance(instance, dontSetWaypoint)
     local directory = InstanceUtil:GetDirectory(true)
-    instance.Parent = directory
 
-    if not dontSetWaypoint then
-        ChangeHistoryService:SetWaypoint("Toggled Locked")
+    if dontSetWaypoint then
+        instance.Parent = directory
+        return
+    end
+
+    local recording = ChangeHistoryService:TryBeginRecording("InstanceUtil:IntroduceInstance")
+    if recording then
+        instance.Parent = directory
+
+        ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Commit)
+    else
+        Logger:Warn("Recording Failed", a, b, c)
     end
 end
 

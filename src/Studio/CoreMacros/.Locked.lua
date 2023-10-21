@@ -356,6 +356,8 @@ end
 
 ---@param macro MacroDefinition
 local function toggle(macro)
+    local recording = ChangeHistoryService:TryBeginRecording("Toggled Locked", macro.Name)
+
     if not macro.State.IsToggled then
         macro.State.IsToggled = true
         for _, lockedPart in pairs(macro.State.LockedParts) do
@@ -370,8 +372,11 @@ local function toggle(macro)
         macro.State.IsToggled = false
     end
 
-    ChangeHistoryService:SetWaypoint("Toggled Locked")
-    trace(macro, ("Toggled Locked Parts: %s"):format(tostring(macro.State.IsToggled)))
+    if recording then
+        ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Commit)
+    else
+        Logger:Warn("Recording Failed")
+    end
 end
 
 ---@param macro MacroDefinition
