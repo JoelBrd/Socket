@@ -64,7 +64,7 @@ function RaycastUtil:Raycast(origin, direction, distance, raycastParams, checkAl
     if checkAllCollisionGroups then
         -- Get groups that don't collide with default
         local groupNames = {}
-        for _, groupInfo in pairs(PhysicsService:GetCollisionGroups()) do
+        for _, groupInfo in pairs(PhysicsService:GetRegisteredCollisionGroups()) do
             local name = groupInfo.name
             if not PhysicsService:CollisionGroupsAreCollidable("Default", name) then
                 table.insert(groupNames, name)

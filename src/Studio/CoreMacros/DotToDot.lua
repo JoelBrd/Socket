@@ -97,7 +97,7 @@ local function init(macro)
     -- Create node directory
     local nodeDirectory = Instance.new("Folder") ---@type Folder
     nodeDirectory.Name = "DrawLinesNodes"
-    InstanceUtil:IntroduceInstance(nodeDirectory)
+    InstanceUtil:IntroduceInstance(nodeDirectory, true)
     macro.State.NodeDirectory = nodeDirectory
 end
 
@@ -228,8 +228,13 @@ macroDefinition.Function = function(macro, plugin)
     local placeKeybind = macro.State.FieldValues["Place Keybind"]
 
     if isRunning then
+        local recordingInit = ChangeHistoryService:TryBeginRecording("DrawLines Init")
         init(macro)
-        ChangeHistoryService:SetWaypoint("DrawLines Init")
+        if recordingInit then
+            ChangeHistoryService:FinishRecording(recordingInit, Enum.FinishRecordingOperation.Commit)
+        else
+            Logger:Warn("Recording Failed")
+        end
 
         -- Listen to User Input
         macro.RunJanitor:Add(UserInputService.InputBegan:Connect(function(inputObject, gameProcessedEvent)
@@ -241,16 +246,26 @@ macroDefinition.Function = function(macro, plugin)
             -- Place
             local isPlaceKeybind = inputObject.KeyCode.Name == placeKeybind
             if isPlaceKeybind then
+                local recordingPlace = ChangeHistoryService:TryBeginRecording("DrawLines Place")
                 placeNode(macro)
-                ChangeHistoryService:SetWaypoint("DrawLines Node 1")
+                if recordingPlace then
+                    ChangeHistoryService:FinishRecording(recordingPlace, Enum.FinishRecordingOperation.Commit)
+                else
+                    Logger:Warn("Recording Failed")
+                end
                 return
             end
 
             -- Place
             local isConfirmKeybind = inputObject.KeyCode.Name == confirmKeybind
             if isConfirmKeybind then
+                local recordingDraw = ChangeHistoryService:TryBeginRecording("DrawLines Draw")
                 drawLines(macro)
-                ChangeHistoryService:SetWaypoint("DrawLines Lines 1")
+                if recordingDraw then
+                    ChangeHistoryService:FinishRecording(recordingDraw, Enum.FinishRecordingOperation.Commit)
+                else
+                    Logger:Warn("Recording Failed")
+                end
                 return
             end
         end))

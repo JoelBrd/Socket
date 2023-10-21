@@ -132,7 +132,7 @@ end
 ---@return number
 local function setupCollisionGroup(macro)
     -- Get Collision groups
-    local collisionGroups = PhysicsService:GetCollisionGroups()
+    local collisionGroups = PhysicsService:GetRegisteredCollisionGroups()
     local names = {}
     local groupAlreadyCreated = false
     for _, collisionGroupData in pairs(collisionGroups) do
@@ -145,8 +145,10 @@ local function setupCollisionGroup(macro)
     end
 
     -- Create
-    local id = groupAlreadyCreated and PhysicsService:GetCollisionGroupId(COLLISION_GROUP_NAME)
-        or PhysicsService:CreateCollisionGroup(COLLISION_GROUP_NAME)
+    local id = COLLISION_GROUP_NAME
+    if not groupAlreadyCreated then
+        PhysicsService:RegisterCollisionGroup(COLLISION_GROUP_NAME)
+    end
 
     -- Define collisions
     for _, name in pairs(names) do
@@ -354,6 +356,8 @@ end
 
 ---@param macro MacroDefinition
 local function toggle(macro)
+    local recording = ChangeHistoryService:TryBeginRecording("Toggled Locked", macro.Name)
+
     if not macro.State.IsToggled then
         macro.State.IsToggled = true
         for _, lockedPart in pairs(macro.State.LockedParts) do
@@ -368,8 +372,11 @@ local function toggle(macro)
         macro.State.IsToggled = false
     end
 
-    ChangeHistoryService:SetWaypoint("Toggled Locked")
-    trace(macro, ("Toggled Locked Parts: %s"):format(tostring(macro.State.IsToggled)))
+    if recording then
+        ChangeHistoryService:FinishRecording(recording, Enum.FinishRecordingOperation.Commit)
+    else
+        Logger:Warn("Recording Failed")
+    end
 end
 
 ---@param macro MacroDefinition

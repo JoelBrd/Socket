@@ -23,8 +23,8 @@ local LocalMacros ---@type LocalMacros
 -- Constants
 local PLUGIN_NAME = "Socket"
 local TOOLBAR_NAME = PLUGIN_NAME
-local TOOLBAR_BUTTON_TITLE = "Open"
-local TOOLBAR_BUTTON_DESCRIPTION = "Opens the Socket widget"
+local TOOLBAR_BUTTON_TITLE = "Socket"
+local TOOLBAR_BUTTON_DESCRIPTION = "Open Socket"
 
 local WIDGET_NAME = PLUGIN_NAME
 local WIDGET_INFO = DockWidgetPluginGuiInfo.new(
